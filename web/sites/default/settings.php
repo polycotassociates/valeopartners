@@ -1,33 +1,5 @@
 <?php
 /**
- * Local D6 database
- */
-// Note the key 'migrate' here is important.
-$databases['migrate']['default'] = array (
-  // The database that contains the source data we're going to import.
-  'database' => 'reports',
-  'username' => 'pantheon',
-  'password' => 'pantheon',
-  'prefix' => '',
-  'host' => 'database',
-  'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'driver' => 'mysql',
-);
-
-// Database entry for `drush migrate-upgrade --configure-only`
-$databases['upgrade']['default'] = array (
-'database' => 'reports',
-'username' => 'pantheon',
-'password' => 'pantheon',
-'prefix' => '',
-'host' => 'database',
-'port' => '3306',
-'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-'driver' => 'mysql',
-);
-
-/**
  * @file
  * Drupal site-specific configuration file.
  *
