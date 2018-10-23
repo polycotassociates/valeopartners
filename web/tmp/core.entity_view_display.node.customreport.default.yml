@@ -1,0 +1,28 @@
+uuid: 6c594bc4-0d24-4198-9fd5-44fd67323b1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.customreport.body
+    - node.type.customreport
+  module:
+    - text
+    - user
+id: node.customreport.default
+targetEntityType: node
+bundle: customreport
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

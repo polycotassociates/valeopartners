@@ -1,0 +1,11 @@
+uuid: 3aa70452-82e6-4266-bb74-986d11a52457
+langcode: en
+status: true
+dependencies: {  }
+name: 'Custom Report'
+type: customreport
+description: 'Custom reports are used to create a report that can then be viewed in different formats.'
+help: 'Enter the code to generate the rows of the report. Be sure to select the corresponding input format.'
+new_revision: false
+preview_mode: 1
+display_submitted: false

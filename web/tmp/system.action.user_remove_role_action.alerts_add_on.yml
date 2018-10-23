@@ -1,0 +1,14 @@
+uuid: 71fd0639-6ee6-4554-b4eb-29e6bfab0826
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.alerts_add_on
+  module:
+    - user
+id: user_remove_role_action.alerts_add_on
+label: 'Remove the Alerts Add-On role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: alerts_add_on

@@ -1,0 +1,11 @@
+uuid: 49138e8b-1cdc-48a8-982a-1ede2d7410da
+langcode: en
+status: true
+dependencies: {  }
+name: Company
+type: company
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

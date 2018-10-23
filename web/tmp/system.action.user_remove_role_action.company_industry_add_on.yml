@@ -1,0 +1,14 @@
+uuid: 2ee0f369-6a75-4467-bc65-04a8662a168b
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.company_industry_add_on
+  module:
+    - user
+id: user_remove_role_action.company_industry_add_on
+label: 'Remove the Company/Industry Add-On role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: company_industry_add_on

@@ -1,0 +1,14 @@
+uuid: 69d46a46-2b80-4031-ad9f-157a7697afd6
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.firm_rate_profile_add_on
+  module:
+    - user
+id: user_remove_role_action.firm_rate_profile_add_on
+label: 'Remove the Firm Rate Profile Add-On role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: firm_rate_profile_add_on

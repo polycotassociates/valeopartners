@@ -1,0 +1,14 @@
+uuid: b9fae512-f542-4ba5-a1e0-80b094879253
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.rate_report_user
+  module:
+    - user
+id: user_add_role_action.rate_report_user
+label: 'Add the Rate Report User role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: rate_report_user

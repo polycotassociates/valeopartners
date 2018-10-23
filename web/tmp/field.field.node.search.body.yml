@@ -1,0 +1,22 @@
+uuid: f3dd2a9b-ab3f-4051-bcf5-5e72d9be54bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.search
+  module:
+    - text
+id: node.search.body
+field_name: body
+entity_type: node
+bundle: search
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

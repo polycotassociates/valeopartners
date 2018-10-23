@@ -1,0 +1,14 @@
+uuid: e6a95e2a-343b-4156-9d5e-cef9e58aed0d
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.firm_rate_profile_add_on
+  module:
+    - user
+id: user_add_role_action.firm_rate_profile_add_on
+label: 'Add the Firm Rate Profile Add-On role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: firm_rate_profile_add_on

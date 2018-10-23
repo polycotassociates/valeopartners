@@ -1,0 +1,19 @@
+uuid: dd8b8e79-e6ec-43ff-b077-63574889487b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_backref_individual_firm
+    - node.type.vp_firm
+id: node.vp_firm.field_vp_backref_individual_firm
+field_name: field_vp_backref_individual_firm
+entity_type: node
+bundle: vp_firm
+label: vp_backref_individual_firm
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

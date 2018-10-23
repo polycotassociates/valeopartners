@@ -1,0 +1,11 @@
+uuid: f6382830-5a19-40bc-97c5-83a0c290584c
+langcode: en
+status: true
+dependencies: {  }
+name: 'Rate and Fees'
+type: rate
+description: 'Attorney and Consultant Rates'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

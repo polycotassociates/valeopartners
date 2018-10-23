@@ -1,0 +1,14 @@
+uuid: f98cd45e-1e01-4e08-a569-381b2a779d51
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.rate_report_user
+  module:
+    - user
+id: user_remove_role_action.rate_report_user
+label: 'Remove the Rate Report User role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: rate_report_user

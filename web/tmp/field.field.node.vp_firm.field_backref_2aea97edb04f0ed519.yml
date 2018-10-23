@@ -1,0 +1,19 @@
+uuid: c8158525-824e-4bd4-89f0-1da27fb299c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_backref_2aea97edb04f0ed519
+    - node.type.vp_firm
+id: node.vp_firm.field_backref_2aea97edb04f0ed519
+field_name: field_backref_2aea97edb04f0ed519
+entity_type: node
+bundle: vp_firm
+label: field_backref_2aea97edb04f0ed519
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,28 @@
+uuid: 2918a05f-94a6-48a5-817c-d06645f5add2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.search.body
+    - node.type.search
+  module:
+    - text
+    - user
+id: node.search.default
+targetEntityType: node
+bundle: search
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

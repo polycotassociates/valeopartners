@@ -1,0 +1,14 @@
+uuid: ceffdfc3-9372-4fb4-ab0d-a4f61fae5f62
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.data_entry
+  module:
+    - user
+id: user_add_role_action.data_entry
+label: 'Add the Data Entry role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: data_entry

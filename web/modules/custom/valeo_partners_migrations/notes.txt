@@ -1,0 +1,31 @@
+Import steps
+
+lando db-import dump.zip --host db2
+
+
+Generated the import scripts
+
+Put in settings.php the right database
+##settings
+
+
+lando drush migrate-upgrade --configure-only --legacy-db-key=reports --legacy-root=http://valeod6.lndo.site --debug
+
+
+lando drush migrate-import d6_filter_format
+lando drush migrate-import d6_user_role
+lando drush migrate-import d6_user
+
+Taxonomies
+vocabularies:
+lando drush migrate-import d6_taxonomy_vocabulary
+
+Types:
+lando drush migrate-import d6_node_type
+
+
+  Default (default)                        d6_field                                 Idle           95       0          95
+  Default (default)                        d6_field_instance                        Idle           95       0          95
+  Default (default)                        d6_field_instance_widget_settings        Idle           95       0          95
+  Default (default)                        d6_view_modes                            Idle           4        0          4
+  Default (default)                        d6_field_formatter_settings

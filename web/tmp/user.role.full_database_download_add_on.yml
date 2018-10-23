@@ -1,0 +1,9 @@
+uuid: bba4e686-e74f-4e48-afcb-5508dce82b98
+langcode: en
+status: true
+dependencies: {  }
+id: full_database_download_add_on
+label: 'Full Database Download Add-On'
+weight: 9
+is_admin: null
+permissions: {  }

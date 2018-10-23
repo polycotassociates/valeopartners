@@ -1,0 +1,10 @@
+uuid: c96aecff-40ef-406b-972b-59690d406af2
+langcode: en
+status: true
+dependencies: {  }
+id: vp_migration_group
+label: 'Valeo Migrations'
+description: 'Valeo Partners Migrations'
+source_type: 'Drupal 6'
+module: null
+shared_configuration: null

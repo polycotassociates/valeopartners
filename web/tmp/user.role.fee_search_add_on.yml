@@ -1,0 +1,14 @@
+uuid: 3922cbfa-d223-46a7-a204-59a2df59c0a1
+langcode: en
+status: true
+dependencies: {  }
+id: fee_search_add_on
+label: 'Fee Search Add-On'
+weight: 11
+is_admin: null
+permissions:
+  - 'view field_rate_primaryfee_calc'
+  - 'view field_rate_primaryfeetype_calc'
+  - 'view field_rate_recordtype'
+  - 'view field_rate_transactionamount'
+  - 'view field_rate_transactiontype'

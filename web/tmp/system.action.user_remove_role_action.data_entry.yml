@@ -1,0 +1,14 @@
+uuid: fa170a54-3c52-437b-94f3-da27b5044592
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.data_entry
+  module:
+    - user
+id: user_remove_role_action.data_entry
+label: 'Remove the Data Entry role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: data_entry

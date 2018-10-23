@@ -1,0 +1,22 @@
+uuid: 55478a84-6999-4979-a2c5-7b8389197d2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.vp_firm.field_vp_user
+    - node.type.vp_firm
+  module:
+    - user
+id: node.vp_firm.teaser
+targetEntityType: node
+bundle: vp_firm
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_vp_user: true

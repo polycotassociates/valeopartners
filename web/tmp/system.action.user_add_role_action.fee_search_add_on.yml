@@ -1,0 +1,14 @@
+uuid: 78e7dd9d-8cef-4592-9f6b-9909958e0e8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.fee_search_add_on
+  module:
+    - user
+id: user_add_role_action.fee_search_add_on
+label: 'Add the Fee Search Add-On role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: fee_search_add_on

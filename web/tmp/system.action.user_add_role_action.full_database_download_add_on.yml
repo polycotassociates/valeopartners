@@ -1,0 +1,14 @@
+uuid: ee97a8af-bfdd-4bba-bae6-2055cf3b5814
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.full_database_download_add_on
+  module:
+    - user
+id: user_add_role_action.full_database_download_add_on
+label: 'Add the Full Database Download Add-On role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: full_database_download_add_on
