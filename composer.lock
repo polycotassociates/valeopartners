@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95505f290ce81c3df34777de9ca337c5",
+    "content-hash": "947ea773ce687bf5f4b8182d974efbc9",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3565,6 +3565,69 @@
             }
         },
         {
+            "name": "drupal/entity_usage",
+            "version": "2.0.0-alpha7",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/entity_usage",
+                "reference": "8.x-2.0-alpha7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_usage-8.x-2.0-alpha7.zip",
+                "reference": "8.x-2.0-alpha7",
+                "shasum": "51eedb66750488bcbe9368377a0826273b2819d5"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "require-dev": {
+                "drupal/block_field": "~1.0",
+                "drupal/dynamic_entity_reference": "~1.0",
+                "drupal/entity_embed": "~1.0",
+                "drupal/entity_reference_revisions": "~1.0",
+                "drupal/paragraphs": "~1.0",
+                "drupal/webform": "~5.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.0-alpha7",
+                    "datestamp": "1531387725",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "marcoscano",
+                    "homepage": "https://www.drupal.org/user/1288796"
+                },
+                {
+                    "name": "seanB",
+                    "homepage": "https://www.drupal.org/user/545912"
+                }
+            ],
+            "description": "Track usage of entities referenced by other entities",
+            "homepage": "https://www.drupal.org/project/entity_usage",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/entity_usage",
+                "issues": "http://drupal.org/project/issues/entity_usage"
+            }
+        },
+        {
             "name": "drupal/features",
             "version": "3.8.0",
             "source": {
@@ -3639,69 +3702,6 @@
             "homepage": "https://www.drupal.org/project/features",
             "support": {
                 "source": "http://cgit.drupalcode.org/features"
-            }
-        },
-        {
-            "name": "drupal/field_collection",
-            "version": "1.0.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/field_collection",
-                "reference": "8.x-1.0-alpha1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/field_collection-8.x-1.0-alpha1.zip",
-                "reference": "8.x-1.0-alpha1",
-                "shasum": "4d529021cf113e3026b3fd88ac2571dc72e70e8d"
-            },
-            "require": {
-                "drupal/core": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-alpha1",
-                    "datestamp": "1460462939",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "RenatoG",
-                    "homepage": "https://www.drupal.org/user/3326031"
-                },
-                {
-                    "name": "fago",
-                    "homepage": "https://www.drupal.org/user/16747"
-                },
-                {
-                    "name": "jmuzz",
-                    "homepage": "https://www.drupal.org/user/2607886"
-                },
-                {
-                    "name": "larowlan",
-                    "homepage": "https://www.drupal.org/user/395439"
-                },
-                {
-                    "name": "ram4nd",
-                    "homepage": "https://www.drupal.org/user/601534"
-                }
-            ],
-            "description": "Provides a field collection field, to which any number of fields can be attached.",
-            "homepage": "https://www.drupal.org/project/field_collection",
-            "support": {
-                "source": "http://cgit.drupalcode.org/field_collection"
             }
         },
         {
