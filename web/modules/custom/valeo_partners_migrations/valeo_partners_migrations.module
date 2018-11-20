@@ -1,0 +1,37 @@
+<?php
+
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\Plugin\MigrateSourceInterface;
+use Drupal\migrate\Row;
+
+/**
+ * Implements hook_migrate_prepare_row().
+ */
+function valeo_partners_migrations_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
+  switch ($migration->id()) {
+    case 'valeo_filing':
+      // Use your source id from the range you are trying to migrate form the yml.
+      if ($values = $row->getSourceProperty('field_case_feeappdates')) {
+
+        $start_date = $values[0]['value'];
+        print "Start Date: $start_date\n";
+
+        $end_date = $values[0]['value2'];
+        print "End Date: $end_date";
+
+
+        $dates = [
+          [
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+          ],
+        ];
+        $row->setSourceProperty('dates', $dates);
+        $row->setSourceProperty('date_range', [['start_date' => $start_date, 'end_date' => $end_date]]);    
+        $row->setSourceProperty('date_start', $values[0]['value']);
+        $row->setSourceProperty('date_end', $values[0]['value2']);
+      }
+
+      break;
+  }
+}

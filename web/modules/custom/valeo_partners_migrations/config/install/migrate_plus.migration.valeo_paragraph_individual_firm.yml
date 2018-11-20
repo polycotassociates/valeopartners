@@ -1,0 +1,87 @@
+id: valeo_paragraph_individual_firm
+label: Import d6 field to paragraph
+# langcode: en
+# status: true
+# dependencies:
+#   enforced:
+#     module:
+#       - valeo_partners_migrations
+
+migration_group: valeomiggroup
+
+source:
+  plugin: d6_node
+  node_type: individual
+
+process:
+  field_vp_employment_history:
+    plugin: para_firm
+    source: 
+      - field_individual_firm
+      - field_individual_partnerdate
+      - field_individual_firmdate
+
+destination:
+  plugin: noop
+  
+  # 'field_vp_employment_history/target_id':     
+  #   no_stub: true
+  #   plugin: extract
+  #   source: '@_field_vp_employment_history'
+  #   index:
+  #     - 0
+  #     - entity_id
+
+  # 'field_vp_employment_history/target_revision_id':
+  #   no_stub: true
+  #   plugin: extract
+  #   source: '@_field_vp_employment_history'
+  #   index:
+  #     - 0
+  #     - revision_id  
+
+# destination:
+#   plugin: 'entity_reference_revisions:paragraph'
+#   default_bundle: employment_history
+
+# process:
+#   field_firm: field_individual_firm
+#   field_partner_date:
+#     plugin: sub_process
+#     source: field_individual_partnerdate
+#     process:
+#       value:
+#         plugin: substr
+#         source: value
+#         start: 0
+#         length: 4
+#   field_firm_date:
+#     plugin: sub_process
+#     source: field_individual_firmdate
+#     process:
+#       value:
+#         plugin: substr
+#         source: value
+#         start: 0
+#         length: 4
+ 
+  # field_paragraph_type_content/value: _field_vp_employment_history
+  # 'field_vp_employment_history/target_id':     
+  #   no_stub: true
+  #   plugin: extract
+  #   source: '@_field_vp_employment_history'
+  #   index:
+  #     - 0
+  #     - entity_id
+
+  # 'field_vp_employment_history/target_revision_id':
+  #   no_stub: true
+  #   plugin: extract
+  #   source: '@_field_vp_employment_history'
+  #   index:
+  #     - 0
+  #     - revision_id  
+
+migration_dependencies:
+  required: {  }
+  optional: {  }

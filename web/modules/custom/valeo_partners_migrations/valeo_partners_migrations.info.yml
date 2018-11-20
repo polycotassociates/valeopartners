@@ -10,3 +10,8 @@ dependencies:
   - migrate_plus
   - migrate_tools
   - config_devel
+config_devel:
+  install:
+    - migrate_plus.migration.page_node
+    - migrate_plus.migration.menu_item
+    - migrate_plus.migration_group.liip

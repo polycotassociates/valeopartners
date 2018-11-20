@@ -15,10 +15,6 @@ migration_group: valeomiggroup
 # use.
 #
 # This is the extract phase of your migration.
-#
-# For our custom migration this should be the source plugin we wrote.
-# \Drupal\baseball_migration\Plugin\migrate\source\BaseballPlayer The value here is
-# the ID value from the source plugin's annotation.
 source:
   plugin: d6_node
   node_type: individual
@@ -30,6 +26,7 @@ source:
 # This is the load phase of your migration.
 destination:
   plugin: entity:node
+  default_bundle: vp_type_individual
 
 # Here's the meat of the migration - the processing pipeline. This describes how
 # each destination field is to be populated based on the source data. For each
@@ -37,65 +34,85 @@ destination:
 #
 # This is the transform phase of your migration.
 process:
-  # Hardcode the destination node type (bundle) as 'player' using the
-  # 'default_value' process plugin.
   type:
     plugin: default_value
-    default_value: individual
+    default_value: vp_type_individual
+  nid: nid
+  vid: vid
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  comment: comment
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
 
-  # Simple field mappings that require no extra processing can use the default
-  # 'get' process plugin. This just copies the value from the source to the
-  # destination. 'get' is the default when no plugin is defined, so you can just
-  # do destination_field: source_field.
-  #
-  # Our player content type in Drupal has a field named, 'field_player_weight'
-  # and our Source plugin defines a 'weight' field in its ::getFields() method.
-  # The destination field (or property) name goes on the left and the source
-  # field goes on the right.
-  field_player_weight: weight
-  field_player_height: height
-  field_player_bats: bats
-  field_player_throws: throws
-  field_player_given_name: nameGiven
+  field_vp_first_name: field_individual_firstname
+  field_vp_middle_name: field_individual_middlename
+  field_vp_last_name: field_individual_lastname
+  field_vp_email: field_individual_email
 
-  # We generate the node.title (which we treat as the name) by concatenating
-  # two soure fields together and putting a space between them using the
-  # 'concat' process plugin.
-  title:
-    plugin: concat
-    source:
-      - nameFirst
-      - nameLast
-    delimiter: " "
+# Graduation and bar date are 4 digit year fields
+# imported into the special "Year Only" contributed field
+  field_vp_graduation:
+    plugin: sub_process
+    source: field_individual_graddate
+    process:
+      value:
+        plugin: substr
+        source: value
+        start: 0
+        length: 4
 
-  # Same thing with the birthday, concat these fields together using the
-  # 'concat' process plugin.
-  field_player_birth:
-    plugin: concat
-    source:
-      - birthMonth
-      - birthDay
-      - birthYear
-    delimiter: /
+  field_vp_bar_date:
+    plugin: sub_process
+    source: field_individual_bardate
+    process:
+      value:
+        plugin: substr
+        source: value
+        start: 0
+        length: 4
 
-  # For death day we need to provide a default value in the case where the
-  # player hasn't died yet. Also provides an example of using multiple process
-  # plugins together. In this case we first use the 'concat' plugin to combine
-  # three fields from the source data, and then use the 'default_value' plugin
-  # to provide a default value for the field in the case that the previous step
-  # resulted in an empty value.
-  field_player_birthday:
-    -
-      plugin: concat
-      source:
-        - deathMonth
-        - deathDay
-        - deathYear
-      delimiter: /
-    -
-      plugin: default_value
-      default_value: ""
+  field_vp_individual_location:
+    plugin: individual_taxonomy_location
+    source: field_individual_city
+
+  field_vp_position:
+    plugin: individual_taxonomy_position
+
+  field_vp_law_school:
+    plugin: individual_taxonomy_law_school
+    
+  # field_vp_location‎:
+  #   plugin: individual_taxonomy_location
+  #   source: field_individual_city
+
+  field_vp_state_bar:
+    plugin: individual_state_bar
+    source: field_individual_statebar
+
+  field_vp_practice_area_1:
+    plugin: individual_practice_area_1
+    source: field_individual_pa1
+
+  field_vp_practice_area_2:
+    plugin: individual_practice_area_2
+    source: field_individual_pa2
+
+  field_vp_practice_area_3:
+    plugin: individual_practice_area_3
+    source: field_individual_pa3
+
+
 
 # Declare optional dependencies on another migration for this migration.
 # This one has none.
-migration_dependencies: {}
+# migration_dependencies:
+#   required:
+#     - valeo_paragraph_individual_firm
+

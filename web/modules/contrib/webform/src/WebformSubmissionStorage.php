@@ -19,6 +19,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
 use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
+use Drupal\webform\Plugin\WebformElement\WebformManagedFileBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -551,6 +552,7 @@ class WebformSubmissionStorage extends SqlContentEntityStorage implements Webfor
    */
   public function getDefaultColumns(WebformInterface $webform = NULL, EntityInterface $source_entity = NULL, AccountInterface $account = NULL, $include_elements = TRUE) {
     $columns = $this->getColumns($webform, $source_entity, $account, $include_elements);
+
     // Unset columns.
     unset(
       // Admin columns.
@@ -561,6 +563,14 @@ class WebformSubmissionStorage extends SqlContentEntityStorage implements Webfor
       $columns['completed'],
       $columns['changed']
     );
+
+    // Hide certain unnecessary columns, that have default set to FALSE.
+    foreach ($columns as $column_name => $column) {
+      if (isset($column['default']) && $column['default'] === FALSE) {
+        unset($columns[$column_name]);
+      }
+    }
+
     return $columns;
   }
 
@@ -1037,6 +1047,8 @@ class WebformSubmissionStorage extends SqlContentEntityStorage implements Webfor
     foreach ($entities as $entity) {
       $this->invokeWebformElements('postDelete', $entity);
       $this->invokeWebformHandlers('postDelete', $entity);
+
+      WebformManagedFileBase::deleteFiles($entity);
     }
 
     // Remove empty webform submission specific file directory
