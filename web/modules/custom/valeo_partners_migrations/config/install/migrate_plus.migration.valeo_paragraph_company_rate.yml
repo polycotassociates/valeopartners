@@ -1,0 +1,17 @@
+id: valeo_paragraph_company_rate
+label: Import d6 field to paragraph
+migration_group: valeomiggroup
+
+source:
+  plugin: d6_node
+  node_type: rate
+
+process:
+  field_vp_employment_history:
+    plugin: para_rate
+    source: 
+      - field_rate_refcompany
+      - field_rate_refcompattorney
+
+destination:
+  plugin: noop
