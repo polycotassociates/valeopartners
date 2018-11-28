@@ -30,8 +30,15 @@ use Drupal\migrate\Row;
 class GenericTaxonomyItem extends ProcessPluginBase {
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
 
-    // Value is nested in an array, value[''], delta['']
-    return $value['value'];
+    // Value is nested in an array, value[''] (or nid['']), delta['']
+
+    if ($value['value']) {
+      return $value['value'];
+    }
+    if ($value['nid']) {
+      return $value['nid'];
+    }
+
 
   }
 }

@@ -28,19 +28,12 @@ use Drupal\migrate\Row;
 
 class FirmFeeDatesEnd extends ProcessPluginBase {
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
-    $dates = [];
 
     $values = $row->getSourceProperty('field_case_feeappdates');
 
-    if (count($values)) {
-      $date_end = $values[0]['value2'];
-    }
+    $end_date = substr($values[0]['value'], 0, 10);
 
-
-    print "Date End: $date_end\n";
-    
-    // return $date_end;
-    return "2011-01-31T00:00:00";
+    return $end_date;
 
   }
 }

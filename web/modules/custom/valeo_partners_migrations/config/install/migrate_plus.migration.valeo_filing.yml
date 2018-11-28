@@ -43,47 +43,19 @@ process:
   field_vp_filing_description: field_case_filingdescription
   field_vp_filing_number: field_case_filingnumber
 
-  # field_vp_filing_fee_dates:
-  #   plugin: sub_process
-  #   source: date_range
-  #   process:
-  #     value: date_range/start_date
-  #     end_value: date_range/end_date
+  field_vp_filing_fee_dates/value:
+    plugin: firm_fee_dates
 
-  #field_vp_filing_fee_dates/value: 'date_range/start_date'
+  field_vp_filing_fee_dates/end_value:
+    plugin: firm_fee_dates_end
 
-  field_vp_filing_fee_dates:
-    plugin: sub_process
-    source: dates
-    process:
-      value: start_date
-      end_value: end_date
-
-
-  #   plugin: firm_fee_dates
-  # field_vp_filing_fee_dates/end_value:
-  #   plugin: firm_fee_dates_end
-
-  # field_vp_filing_fee_dates/value:
-  #   plugin: format_date
-  #   from_format: 'Y-m-00\T00:00:00'
-  #   to_format: 'Y-m-d\TH:i:s'
-  #   source: 'date_start'
-
-  # field_vp_filing_fee_dates/end_value:
-  #   plugin: format_date
-  #   from_format: 'Y-m-00\T00:00:00'
-  #   to_format: 'Y-m-d\TH:i:s'
-  #   source: 'date_end'
-
-  # field_vp_filing_fee_dates/end_value:
-  #   plugin: firm_fee_dates_end
-  
   field_vp_filing_case:
     plugin: generic_taxonomy_item
     source: field_filing_case
 
-# lando drush config-devel-export valeo_partners_migrations; lando drush migrate-rollback valeo_contact; lando drush migrate-import valeo_contact --feedback="100 items"; lando drush migrate-messages valeo_contact
 
-
+# lando drush config-devel-export valeo_partners_migrations;
+# lando drush migrate-rollback valeo_contact;
+# lando drush migrate-import valeo_contact --feedback="100 items";
+# lando drush migrate-messages valeo_contact
 # 13062,87264,102786
