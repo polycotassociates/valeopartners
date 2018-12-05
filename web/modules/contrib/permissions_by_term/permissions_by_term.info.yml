@@ -7,12 +7,12 @@ dependencies:
   - 'drupal:taxonomy'
 type: module
 # core: '8.x'
-# version: '8.x-2.0'
+# version: '8.x-2.5'
 package: 'Permissions by Term'
 configure: permissions_by_term.settings
 
-# Information added by Drupal.org packaging script on 2018-10-23
-version: '8.x-2.3'
+# Information added by Drupal.org packaging script on 2018-11-27
+version: '8.x-2.5'
 core: '8.x'
 project: 'permissions_by_term'
-datestamp: 1540301893
+datestamp: 1543325593

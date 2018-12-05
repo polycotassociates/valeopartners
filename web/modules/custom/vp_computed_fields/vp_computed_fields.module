@@ -1,205 +1,205 @@
 <?php
 
 
-// /**
-//  * Implements computed field hook().
-//  * 
-//  * $entity_type_manager: The entity type manager.
-//  * $entity: The entity the field belongs to.
-//  * $fields: The list of fields available in this entity.
-//  * $delta: Current index of the field in case of multi-value computed fields (counting from 0).
-//  * $value: The resulting value to be set above, or returned in your hook implementation).
-//  * 
-//  * Code copied from original calculated field, modified to use object oriented syntax
-//  * 
-//  */
+/**
+ * Implements computed field hook().
+ * 
+ * $entity_type_manager: The entity type manager.
+ * $entity: The entity the field belongs to.
+ * $fields: The list of fields available in this entity.
+ * $delta: Current index of the field in case of multi-value computed fields (counting from 0).
+ * $value: The resulting value to be set above, or returned in your hook implementation).
+ * 
+ * Code copied from original calculated field, modified to use object oriented syntax
+ * 
+ */
 
-// setlocale(LC_MONETARY, 'en_US');
+setlocale(LC_MONETARY, 'en_US');
 
-// /**
-//  * Total
-//  * field_vp_rate_total
-//  * 
-//  * @return decimal $value
-//  */
-// function computed_field_field_vp_rate_total_compute($entity_type_manager, $entity, $fields, $delta) {
+/**
+ * Total
+ * field_vp_rate_total
+ * 
+ * @return decimal $value
+ */
+function computed_field_field_vp_rate_total_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   if ($entity->field_vp_rate_hourly->value && $entity->field_vp_rate_hours->value) {
-//     $value = $entity->field_vp_rate_hourly->value * $entity->field_vp_rate_hours->value;
-//     return money_format('%n', $value);
-//   }
-//   return 0;
-// }
+  if ($entity->field_vp_rate_hourly->value && $entity->field_vp_rate_hours->value) {
+    $value = $entity->field_vp_rate_hourly->value * $entity->field_vp_rate_hours->value;
+    return money_format('%n', $value);
+  }
+  return 0;
+}
 
-// /**
-//  * Primary Fee
-//  * field_vp_rate_primaryfee_calc
-//  * 
-//  * @return decimal $value
-//  */
+/**
+ * Primary Fee
+ * field_vp_rate_primaryfee_calc
+ * 
+ * @return decimal $value
+ */
 
-// function computed_field_field_vp_rate_primaryfee_calc_compute($entity_type_manager, $entity, $fields, $delta) {
+function computed_field_field_vp_rate_primaryfee_calc_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   if ($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) {
-//     $value = $entity->field_vp_rate_flat_fee->value;
-//   } elseif ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) {
-//     $value = $entity->field_vp_rate_retainer->value;
-//   } elseif ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) {
-//     $value = $entity->field_vp_rate_transactional_fee->value;
-//   } elseif ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) {
-//     $value = $entity->field_vp_rate_success_fee->value;
-//   } elseif ($entity->field_vp_rate_total_fees->value && $entity->field_vp_rate_total_fees->value > 0) {
-//     $value = $entity->field_vp_rate_total_fees->value;
-//   } else {
-//     $value = 0;
-//   }
+  if ($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) {
+    $value = $entity->field_vp_rate_flat_fee->value;
+  } elseif ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) {
+    $value = $entity->field_vp_rate_retainer->value;
+  } elseif ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) {
+    $value = $entity->field_vp_rate_transactional_fee->value;
+  } elseif ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) {
+    $value = $entity->field_vp_rate_success_fee->value;
+  } elseif ($entity->field_vp_rate_total_fees->value && $entity->field_vp_rate_total_fees->value > 0) {
+    $value = $entity->field_vp_rate_total_fees->value;
+  } else {
+    $value = 0;
+  }
 
-//   return $value;
-// }
+  return $value;
+}
 
-// /**
-//  * Total Fees (Calculated)
-//  * field_vp_rate_total_fees_calc
-//  * 
-//  * @return decimal $value
-//  */
-// function computed_field_field_vp_rate_total_fees_calc_compute($entity_type_manager, $entity, $fields, $delta) {
+/**
+ * Total Fees (Calculated)
+ * field_vp_rate_total_fees_calc
+ * 
+ * @return decimal $value
+ */
+function computed_field_field_vp_rate_total_fees_calc_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   if ($entity->field_vp_rate_flat_fee->value || 
-//       $entity->field_vp_rate_retainer->value || 
-//       $entity->field_vp_rate_transactional_fee->value ||
-//       $entity->field_vp_rate_success_fee->value) {
+  if ($entity->field_vp_rate_flat_fee->value || 
+      $entity->field_vp_rate_retainer->value || 
+      $entity->field_vp_rate_transactional_fee->value ||
+      $entity->field_vp_rate_success_fee->value) {
 
-//     $value = $entity->field_vp_rate_flat_fee->value + 
-//              $entity->field_vp_rate_retainer->value + 
-//              $entity->field_vp_rate_transactional_fee->value + 
-//              $entity->field_vp_rate_success_fee->value;
-//   } else {
-//     $value = 0;
-//   }
+    $value = $entity->field_vp_rate_flat_fee->value + 
+             $entity->field_vp_rate_retainer->value + 
+             $entity->field_vp_rate_transactional_fee->value + 
+             $entity->field_vp_rate_success_fee->value;
+  } else {
+    $value = 0;
+  }
 
-//   return money_format('%n',$value);
-// }
+  return money_format('%n',$value);
+}
 
-// /**
-//  * Standard Rate
-//  * field_vp_rate_standard
-//  * 
-//  * @return decimal $value
-//  */
-// function computed_field_field_vp_rate_standard_compute($entity_type_manager, $entity, $fields, $delta) {
+/**
+ * Standard Rate
+ * field_vp_rate_standard
+ * 
+ * @return decimal $value
+ */
+function computed_field_field_vp_rate_standard_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   if ($entity->field_vp_rate_hourly->value) {
+  if ($entity->field_vp_rate_hourly->value) {
 
-//     if ($entity->field_vp_rate_discount->value) {
+    if ($entity->field_vp_rate_discount->value) {
 
-//       if (is_numeric($entity->field_vp_rate_discount->value) && $entity->field_vp_rate_discount->value > 0) {
-//         $discount = 1 - ($entity->field_vp_rate_discount->value / 100);
-//         return $entity->field_vp_rate_hourly->value / $discount;
-//       }
+      if (is_numeric($entity->field_vp_rate_discount->value) && $entity->field_vp_rate_discount->value > 0) {
+        $discount = 1 - ($entity->field_vp_rate_discount->value / 100);
+        return $entity->field_vp_rate_hourly->value / $discount;
+      }
 
-//     }
+    }
 
-//     else {
-//       if (is_numeric($entity->field_vp_rate_discount->value)) {
-//         return $entity->field_vp_rate_hourly->value;
-//       }
-//     }
+    else {
+      if (is_numeric($entity->field_vp_rate_discount->value)) {
+        return $entity->field_vp_rate_hourly->value;
+      }
+    }
 
-//   }
+  }
 
-//   return 0;
+  return 0;
 
-// }
+}
 
-// /**
-//  * Primary Fee Type
-//  * field_vp_rate_primaryfeetypecalc
-//  * 
-//  * @return string $value
-//  */
-// function computed_field_field_vp_rate_primaryfeetypecalc_compute($entity_type_manager, $entity, $fields, $delta) {
+/**
+ * Primary Fee Type
+ * field_vp_rate_primaryfeetypecalc
+ * 
+ * @return string $value
+ */
+function computed_field_field_vp_rate_primaryfeetypecalc_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   if ($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) {
-//     $value= 'Flat Fee';
-//   } elseif ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) {
-//     $value = 'Retainer';
-//   } elseif ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) {
-//     $value = 'Transaction Fee';
-//   } elseif ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) {
-//     $value= 'Success Fee';
-//   } elseif ($entity->field_vp_rate_total_fees->value && $entity->field_vp_rate_total_fees->value > 0) {
-//     $value = 'Total Fee';
-//   } else {
-//     $value= '';
-//   }
-//   return $value;
+  if ($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) {
+    $value= 'Flat Fee';
+  } elseif ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) {
+    $value = 'Retainer';
+  } elseif ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) {
+    $value = 'Transaction Fee';
+  } elseif ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) {
+    $value= 'Success Fee';
+  } elseif ($entity->field_vp_rate_total_fees->value && $entity->field_vp_rate_total_fees->value > 0) {
+    $value = 'Total Fee';
+  } else {
+    $value= '';
+  }
+  return $value;
 
-// }
+}
 
-// /**
-//  * Record Type
-//  * field_vp_rate_record_type
-//  * 
-//  * @return string $value
-//  */
-// function computed_field_field_vp_rate_record_type_compute($entity_type_manager, $entity, $fields, $delta) {
+/**
+ * Record Type
+ * field_vp_rate_record_type
+ * 
+ * @return string $value
+ */
+function computed_field_field_vp_rate_record_type_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   $value = [];
+  $value = [];
 
-//   if ($entity->field_vp_rate_hourly->value && $entity->field_vp_rate_hourly->value > 0) {
-//     $value[] = 'Rate';
-//   }
+  if ($entity->field_vp_rate_hourly->value && $entity->field_vp_rate_hourly->value > 0) {
+    $value[] = 'Rate';
+  }
 
-//   if (($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) ||
-//       ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) ||
-//       ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) ||
-//       ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) ||
-//       ($entity->field_vp_rate_total_fees->value && $entity->field_vp_rate_total_fees->value > 0)) {
-//       $value[] = 'Fee';
-//   }
-//   if (count($value)) {
-//       $value = implode(' and ',$value);
-//   } else {
-//       $value = '';
-//   }
+  if (($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) ||
+      ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) ||
+      ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) ||
+      ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) ||
+      ($entity->field_vp_rate_total_fees->value && $entity->field_vp_rate_total_fees->value > 0)) {
+      $value[] = 'Fee';
+  }
+  if (count($value)) {
+      $value = implode(' and ',$value);
+  } else {
+      $value = '';
+  }
 
-//   return $value;
-// }
+  return $value;
+}
 
-// /**
-//  * Fees Listed
-//  * field_vp_rate_fees_listed_calc
-//  * 
-//  * @return string $value
-//  */
-// function computed_field_field_vp_rate_fees_listed_calc_compute($entity_type_manager, $entity, $fields, $delta) {
+/**
+ * Fees Listed
+ * field_vp_rate_fees_listed_calc
+ * 
+ * @return string $value
+ */
+function computed_field_field_vp_rate_fees_listed_calc_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//   $list = [];
+  $list = [];
 
-//   if ($entity->field_vp_rate_flat_fee->value || 
-//       $entity->field_vp_rate_retainer->value || 
-//       $entity->field_vp_rate_transactional_fee->value || 
-//       $entity->field_vp_rate_success_fee->value) {
+  if ($entity->field_vp_rate_flat_fee->value || 
+      $entity->field_vp_rate_retainer->value || 
+      $entity->field_vp_rate_transactional_fee->value || 
+      $entity->field_vp_rate_success_fee->value) {
 
-//       if ($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) {
-//           $list[] = 'Flat Fee';
-//       }
-//       if ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) {
-//           $list[] = 'Retainer';
-//       }
-//       if ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) {
-//           $list[] = 'Transactional Fee';
-//       }
-//       if ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) {
-//           $list[] = 'Success Fee';
-//       }
-//   }
+      if ($entity->field_vp_rate_flat_fee->value && $entity->field_vp_rate_flat_fee->value > 0) {
+          $list[] = 'Flat Fee';
+      }
+      if ($entity->field_vp_rate_retainer->value && $entity->field_vp_rate_retainer->value > 0) {
+          $list[] = 'Retainer';
+      }
+      if ($entity->field_vp_rate_transactional_fee->value && $entity->field_vp_rate_transactional_fee->value > 0) {
+          $list[] = 'Transactional Fee';
+      }
+      if ($entity->field_vp_rate_success_fee->value && $entity->field_vp_rate_success_fee->value > 0) {
+          $list[] = 'Success Fee';
+      }
+  }
 
-//   if (count($list)) {
-//     return implode(', ',$list);
-//   }
+  if (count($list)) {
+    return implode(', ',$list);
+  }
   
-//   return '';
+  return '';
 
-// }
+}

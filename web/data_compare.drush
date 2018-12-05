@@ -1,0 +1,51 @@
+#!/usr/local/bin/drush
+
+<?php
+
+use Drupal\Core\Database\Database;
+use Drupal\node\Entity\Node;
+
+
+drush_print("Rate Update");
+drush_print();
+// Get a connection going
+$db = Database::getConnection();
+$find_rates_sql = "SELECT entity_id
+                   FROM node__field_vp_rate_transaction_tmp
+                   WHERE field_vp_rate_transaction_tmp_value > 0";
+//field_vp_rate_transaction_amount
+
+$query = $db->query($find_rates_sql);
+$results = $query->fetchCol();
+
+foreach ($results as $result) {
+// drush_print($result);
+
+    $node = Node::load($result);
+
+//     drush_print_r($node);
+      
+    $rate = $node->field_vp_rate_transaction_tmp->value;
+    $node->field_vp_rate_transaction_amount = $rate;
+    drush_print("node: $result updated");
+    $node->save();
+    drush_print($rate);
+//     if (is_numeric($rate)) {
+//         drush_print($rate);
+//     }
+    
+
+}
+//$node = Node::load($nid);
+
+
+
+
+//     if ($node->field_vp_rate_referenced_company) {
+//       $node->field_vp_rate_referenced_company = $paragraphs;
+//       $node->save();
+//     }
+
+
+drush_print();
+//field_vp_rate_transaction_amount

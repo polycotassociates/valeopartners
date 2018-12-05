@@ -56,5 +56,9 @@ Thumbs.db
 # SASS #
 ##########
 .sass-cache
+
+# ETC #
+########
 .lando.yml
 ignored_files/
+*.drush

@@ -582,15 +582,7 @@ class AccessStorage {
         }
       }
 
-      try {
-        $nidsToTidsPairs[$node->id()] = $tids;
-        if (empty($tids)) {
-          throw new \Exception('No tids retrieved, but expected via taxonomy_index table.');
-        }
-      } catch(Exception $exception) {
-        $this->logger->error($exception->getMessage());
-      }
-
+      $nidsToTidsPairs[$node->id()] = $tids;
     }
 
     return $nidsToTidsPairs;
