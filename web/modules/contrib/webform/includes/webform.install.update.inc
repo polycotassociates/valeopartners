@@ -2768,7 +2768,7 @@ function webform_update_8150() {
 /******************************************************************************/
 
 /******************************************************************************/
-// Webform-8.x-5.0-rc27 - TBD.
+// Webform-8.x-5.0-rc27 - November 28, 2018.
 /******************************************************************************/
 
 /**
@@ -2844,4 +2844,97 @@ function webform_update_8153() {
  */
 function webform_update_8154() {
   _webform_update_webform_settings();
+}
+
+/******************************************************************************/
+// Webform-8.x-5.0-rc28 - TBD.
+/******************************************************************************/
+
+/**
+ * Issue #3017679: 2 different validation range modes for date/time field.
+ */
+function webform_update_8155() {
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('webform.webform.') as $webform_config_name) {
+    $webform_config = $config_factory->getEditable($webform_config_name);
+    $elements = $webform_config->get('elements');
+
+    // Try to decode elements.
+    try {
+      $elements = Yaml::decode($elements);
+    }
+    catch (\Exception $exception) {
+      continue;
+    }
+
+    // Make sure elements is an array.
+    if (!is_array($elements)) {
+      continue;
+    }
+
+    $has_date_element = FALSE;
+    $flattened_elements =& WebformFormHelper::flattenElements($elements);
+    foreach ($flattened_elements as &$element) {
+      // Convert #min/max property to #date_date_(min|max) property.
+      // @see \Drupal\webform\Entity\Webform::initElementsRecursive
+      if (isset($element['#type']) && in_array($element['#type'], ['date', 'datetime', 'datelist'])) {
+        $has_date_element = TRUE;
+        if (isset($element['#min']) && !isset($element['#date_date_min'])) {
+          $element['#date_date_min'] = $element['#min'];
+          unset($element['#min']);
+        }
+        if (isset($element['#max']) && !isset($element['#date_date_max'])) {
+          $element['#date_date_max'] = $element['#max'];
+          unset($element['#max']);
+        }
+      }
+    }
+    if ($has_date_element) {
+      $webform_config->set('elements', Yaml::encode($elements));
+      $webform_config->save(TRUE);
+    }
+  }
+}
+
+/**
+ * Issue #3015180: Add 'webform_submission_log' submodule.
+ */
+function webform_update_8156() {
+  $enable = \Drupal::config('webform.settings')->get('settings.default_submission_log');
+  if (!$enable) {
+    $query = \Drupal::entityQuery('webform')
+      ->condition('settings.submission_log', TRUE)
+      ->count();
+    $enable = $query->execute() > 0;
+  }
+
+  if ($enable) {
+    try {
+      \Drupal::service('module_installer')->install(['webform_submission_log']);
+    }
+    catch (\Drupal\Core\Database\SchemaObjectExistsException $exception) {
+      // This is actually expected. The table {webform_submission_log} would exist
+      // from webform submission entity schema.
+    }
+
+    // Because MySQL does not allow default value on blob/text column types and
+    // we want to add a not null blob column to a table that is likely to have
+    // existing rows, we are doing it in such a 3-step fashion.
+    \Drupal::database()->schema()->addField('webform_submission_log', 'variables', [
+      'type' => 'blob',
+      'size' => 'big',
+      'description' => 'Serialized array of variables that match the message string and that is passed into the t() function.',
+    ]);
+
+    \Drupal::database()->update('webform_submission_log')->fields([
+      'variables' => serialize([]),
+    ])->execute();
+
+    \Drupal::database()->schema()->changeField('webform_submission_log', 'variables', 'variables', [
+      'type' => 'blob',
+      'not null' => TRUE,
+      'size' => 'big',
+      'description' => 'Serialized array of variables that match the message string and that is passed into the t() function.',
+    ]);
+  }
 }

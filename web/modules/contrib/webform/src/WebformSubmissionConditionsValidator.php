@@ -155,7 +155,7 @@ class WebformSubmissionConditionsValidator implements WebformSubmissionCondition
 
   /**
    * Replace hidden cross page targets with hidden inputs.
-   * 
+   *
    * @param array $conditions
    *   An element's conditions.
    * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
@@ -172,7 +172,7 @@ class WebformSubmissionConditionsValidator implements WebformSubmissionCondition
     $cross_page_conditions = [];
     foreach ($conditions as $index => $value) {
       if (is_int($index) && is_array($value) && WebformArrayHelper::isSequential($value)) {
-        $cross_page_conditions[$index] = $this->replaceCrossPageTargets($conditions, $webform_submission, $cross_page_targets, $form);
+        $cross_page_conditions[$index] = $this->replaceCrossPageTargets($conditions, $webform_submission, $targets, $form);
       }
       else {
         $cross_page_conditions[$index] = $value;
@@ -470,10 +470,23 @@ class WebformSubmissionConditionsValidator implements WebformSubmissionCondition
    * {@inheritdoc}
    */
   public function validateConditions(array $conditions, WebformSubmissionInterface $webform_submission) {
-    $condition_logic = 'and';
+    // Determine condition logic.
+    // @see Drupal.states.Dependent.verifyConstraints
+    if (WebformArrayHelper::isSequential($conditions)) {
+      $condition_logic = (in_array('xor', $conditions)) ? 'xor' : 'or';
+    }
+    else {
+      $condition_logic = 'and';
+    }
+
     $condition_results = [];
 
     foreach ($conditions as $index => $value) {
+      // Skip and, or, and xor.
+      if (is_string($value) && in_array($value, ['and', 'or', 'xor'])) {
+        continue;
+      }
+
       if (is_int($index) && is_array($value)) {
         // Validate nested conditions.
         // NOTE: Nested conditions is not supported via the UI.
@@ -484,17 +497,7 @@ class WebformSubmissionConditionsValidator implements WebformSubmissionCondition
         $condition_results[] = $nested_result;
       }
       else {
-        // Validate condition.
-        if (is_string($value) && in_array($value, ['and', 'or', 'xor'])) {
-          $condition_logic = $value;
-          // If OR conditional logic operator, check current condition
-          // results.
-          if ($condition_logic === 'or' && array_sum($condition_results)) {
-            return TRUE;
-          }
-          continue;
-        }
-        elseif (is_int($index)) {
+        if (is_int($index)) {
           $selector = key($value);
           $condition = $value[$selector];
         }
@@ -546,7 +549,7 @@ class WebformSubmissionConditionsValidator implements WebformSubmissionCondition
    *   NULL is returned when there is invalid selector and missing element
    *   in the conditions.
    */
-  protected function validateCondition($selector, $condition, $webform_submission) {
+  protected function validateCondition($selector, array $condition, WebformSubmissionInterface $webform_submission) {
     // Ignore invalid selector and return NULL.
     $input_name = static::getSelectorInputName($selector);
     if (!$input_name) {

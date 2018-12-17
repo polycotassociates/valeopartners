@@ -325,6 +325,9 @@ function permissions_by_term_node_access_records(\Drupal\node\NodeInterface $nod
   $has_term_access_restrictions = FALSE;
   /* @var \Drupal\permissions_by_term\Service\AccessStorage $access_storage */
   $access_storage = \Drupal::service('permissions_by_term.access_storage');
+
+  taxonomy_node_update($node);
+
   foreach ($access_storage->getTidsByNid($node->id()) as $tid) {
     /* @var \Drupal\permissions_by_term\Service\AccessCheck $access_check_service */
     $access_check_service = \Drupal::service('permissions_by_term.access_check');

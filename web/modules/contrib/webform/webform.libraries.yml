@@ -320,6 +320,7 @@ webform.form.submit_once:
     js/webform.form.submit_once.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.progress
     - core/jquery.once
     - system/base
 
@@ -521,11 +522,20 @@ webform.element.counter:
 
 webform.element.date:
   version: VERSION
+  css:
+    component:
+      css/webform.element.date.css: {}
   js:
     js/webform.element.date.js: {}
   dependencies:
     - core/drupal.date
     - core/drupalSettings
+
+webform.element.datelist:
+  version: VERSION
+  css:
+    component:
+      css/webform.element.datelist.css: {}
 
 webform.element.details.save:
   version: VERSION
@@ -668,6 +678,9 @@ webform.element.location.places:
 
 webform.element.managed_file:
   version: VERSION
+  css:
+    component:
+      css/webform.element.managed_file.css: {}
   js:
     js/webform.element.managed_file.js: {}
   dependencies:
