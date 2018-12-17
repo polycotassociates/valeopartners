@@ -1,0 +1,6 @@
+name: Valeo Partners Menu Customizations
+description: Hooks for menus, callbacks, migrated from D6 code
+package: Valeo Partners
+type: module
+version: 1.0
+core: 8.x

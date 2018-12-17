@@ -1,0 +1,6 @@
+name: Stats By Time Module
+description: A module for calculating and storing summary statistics for set time intervals (From D6 module)
+package: Valeo Partners
+type: module
+version: 1.0
+core: 8.x

@@ -17,11 +17,14 @@ use Drupal\paragraphs\Entity\Paragraph;
   *  id = "para_rate",
   * )
   * *
-  * To do create a paragraph type field_stories_text_formatted:
+  * To do create a paragraph type field_vp_employment_history:
   *
   * @code
-  * field_stories_text_formatted:
+  * field_vp_employment_history:
   *   plugin: para_rate
+  *   source: 
+  *   - field_rate_refcompany
+  *   - field_rate_refcompattorney
   * @endcode
   *
   */
@@ -52,7 +55,7 @@ public function transform($value, MigrateExecutableInterface $migrate_executable
     }
 
     print "Number of companies: $number_of_companies\n";
-    // Create new paragraphs for employment history
+    // Create new paragraphs for company/attorney
     for ($x=0; $x < $number_of_companies; $x++) {
         $field_company = $row->getSourceProperty("field_rate_refcompany")[$x]["nid"];
         $field_attorney = $row->getSourceProperty("field_rate_refcompattorney")[$x]["nid"];
@@ -67,7 +70,7 @@ public function transform($value, MigrateExecutableInterface $migrate_executable
             //$paragraph->save();
             $paragraphs[] = ['target_id' => $paragraph->Id(),'target_revision_id' => $paragraph->getRevisionId()];
        
-            print "Processed node: $nid\n";
+            print "Added paragraph $x to node $nid\n";
         }
 
     }

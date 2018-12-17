@@ -1,0 +1,8 @@
+name: Valeo Partners Blocks
+description: Custom Blocks
+package: Valeo Partners
+type: module
+version: 1.0
+core: 8.x
+dependencies:
+  - vp_api

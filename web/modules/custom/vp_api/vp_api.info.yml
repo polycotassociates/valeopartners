@@ -1,0 +1,7 @@
+name: Valeo Partners API
+description: Various functions used by Valeo Partners modules.
+package: Valeo Partners
+type: module
+version: 1.0
+core: 8.x
+dependencies:

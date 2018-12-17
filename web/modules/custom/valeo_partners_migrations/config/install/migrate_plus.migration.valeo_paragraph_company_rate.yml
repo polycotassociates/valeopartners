@@ -7,7 +7,7 @@ source:
   node_type: rate
 
 process:
-  field_vp_employment_history:
+  field_vp_rate_referenced_company:
     plugin: para_rate
     source: 
       - field_rate_refcompany

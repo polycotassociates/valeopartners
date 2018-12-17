@@ -1,0 +1,61 @@
+<?php
+
+
+/**
+ *   Alter the display of Firm form
+ */
+function vp_forms_form_alter(&$form, $form_state, $form_id) {
+	switch ($form_id) {
+		// User Profile form
+		case 'firm_node_form':
+			$form['buttons']['reviewed'] = array(
+				'#type' => 'submit',
+				'#access' => 1,
+				'#value' => t('Reviewed - No Changes'),
+				'#weight' => 20,
+				'#return_value' => t('Save'),
+				'#submit' => array('node_form_submit'),
+			);
+    break;
+
+
+	}
+}
+
+function vp_forms_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+
+
+  $form['my_test'] = array(
+      '#type' => 'select',
+      '#options' => ["A","B","C","D"],
+      '#default_value' => "",
+      '#title' => t('Practice Area'),
+    );
+
+}
+
+// function MODULENAME_views_query_alter(&$view, &$query) {
+
+//   // Uncomment the below line to get the query object via devel module debug
+//   // dpm($query); 
+
+//   // If the checkbox is checked, then we want to use the exposed primary key also as the secondary key
+// if ($view->name == 'VIEWNAME' && ($view->exposed_raw_input['togglecheckbox'] == '1')) {
+
+//       // Set variable to primary key
+//       $primary_key = ($view->exposed_raw_input['field_LIST_A']);
+
+//       // Add table to query, since it doesn't seem to automatically be done to exposed filters unless their value has been changed from the default (ALL for selection lists etc.)
+
+//       $query->add_table('field_data_field_LIST_B', 'users');
+
+//       $view->query->set_group_operator('OR'); // Show results that match group 1 (normal) or group 2 (added)
+
+//       // Add secondary filter to search query
+//       $query->add_where(2,'field_data_field_LIST_B.field_LIST_B_value',$primary_key,'=');
+
+//       // Fill in other filters, e.g. Must be valid member, must be ok for directory
+//       // User must be valid
+//       $query->add_where(2,'users.status',0,'<>');
+//       // The below key name is mine, you'll need to change to yours or delete this line.
+//       $query->add_where(2,'field_data_field_list_in_directory.field_list_in_directory_value',1,'=');

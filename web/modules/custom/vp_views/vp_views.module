@@ -1,0 +1,111 @@
+<?php
+
+
+
+/**
+ * Implements hook_views_api
+ */
+function vp_views_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'vp_views') . '/views',
+  );
+}
+
+/**
+ * Implements hook_views_data_alter
+ * 
+ * Creates a custom view filter to filter on three 
+ * practice areas at once
+ */
+
+
+function vp_views_views_data_alter(&$data) {
+  if ( isset($data['users']) && !isset($data['users']['practiceareas']) ) {
+   $data['users']['practiceareas'] = array(
+     'real field' => 'uid', // name of entity field to which filter applies
+     'title' => t('HUMAN READABLE NAME OF FILTER'),
+     'help' => t('HELP TEXT'),
+     'filter' => array(
+       'handler' => 'vp_views_handler_filter_practiceareas',
+     ),
+   );
+ }
+}
+
+/**
+ * Override view output to join the search for all Practice Areas to one variable
+ */
+function vp_views_views_pre_build(&$view) {
+	switch ($view->name) {
+		case 'fees_by_firm':
+		case 'rates_fees_by_firm':
+		case 'fees_by_company':
+		case 'rates_by_reportbuilder':
+		case 'stats_ms3y':
+			$display_id = array('default','page_1');
+			if (in_array($view->current_display, $display_id)) {
+				$practice_area2 = $view->get_item($view->current_display, 'filter', 'field_individual_pa2_value');
+				if (isset($practice_area2)) {
+					$practice_area2['expose']['identifier'] = 'practice_area';
+					$view->set_item($view->current_display, 'filter', 'field_individual_pa2_value', $practice_area2);
+				}
+				$practice_area3 = $view->get_item($view->current_display, 'filter', 'field_individual_pa3_value');
+				if (isset($practice_area3)) {
+					$practice_area3['expose']['identifier'] = 'practice_area';
+					$view->set_item($view->current_display, 'filter', 'field_individual_pa3_value', $practice_area3);
+				}
+				$view->is_cacheable = FALSE;
+			}
+			break;
+	}
+}
+
+
+/**
+ * Remove the display of the extra Practice Area dropdown filters
+ */
+function vp_views_form_views_exposed_form_alter(&$form, &$form_state) {
+	switch ($form_state['view']->name) {
+		case 'fees_by_firm':
+		case 'rates_fees_by_firm':
+		case 'fees_by_company':
+		case 'rates_by_reportbuilder':
+		case 'stats_ms3y':
+			$display_id = array('default','page_1');
+			if (in_array($form_state['view']->current_display, $display_id)) {
+				if (isset($form['#info']['filter-field_individual_pa2_value'])) {
+					unset($form['#info']['filter-field_individual_pa2_value']);
+				}
+				if (isset($form['#info']['filter-field_individual_pa3_value'])) {
+					unset($form['#info']['filter-field_individual_pa3_value']);
+				}
+			}
+			break;
+	}
+}
+
+/**
+ * Format calculated field output
+ */
+function vp_views_views_pre_render(&$view) {
+	if((strstr($view->name,'fees_by_firm')) || 
+		(strstr($view->name,'rates_fees_by_firm')) || 
+		(strstr($view->name,'fees_by_company')) || 
+		(strstr($view->name,'fees_by_individual')) ||
+		(strstr($view->name,'rate_manage'))
+		) {
+		setlocale(LC_MONETARY, 'en_US');
+		foreach($view->result as $index) {
+			foreach($index as $key => $data) {
+				if (strstr($key,'primaryfee_calc')) {
+					if ($data == '0.00') {
+						$index->$key = '';
+					} else {
+						$index->$key = money_format('%n',$data);
+					}
+				}
+			}
+		}
+	}
+}
