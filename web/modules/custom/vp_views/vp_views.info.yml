@@ -1,10 +1,8 @@
 name: Valeo Partners View Customizations
-description: Hooks for views, migrated from D6 code
+description: Views customizations
 package: Valeo Partners
 type: module
 version: 1.0
 core: 8.x
 dependencies:
   - vp_api
-files:
-- views/vp_views_handler_filter_practicearea.inc
