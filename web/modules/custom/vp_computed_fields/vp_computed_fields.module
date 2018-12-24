@@ -203,3 +203,69 @@ function computed_field_field_vp_rate_fees_listed_calc_compute($entity_type_mana
   return '';
 
 }
+
+
+
+/**
+ * Previous year's rate
+ * field_vp_rate_previous
+ * 
+ * Previous year's rate calculated from a view 
+ * 
+ * @return float $value
+ */
+function computed_field_field_vp_rate_previous_compute($entity_type_manager, $entity, $fields, $delta) {
+
+  $individual = $fields['field_vp_rate_individual'][0]['target_id'];
+
+  $filing = $fields['field_vp_rate_filing'][0]['target_id'];
+
+
+  $sql = 'SELECT field_vp_filing_fee_dates_value
+          FROM node__field_vp_filing_fee_dates
+          WHERE entity_id = :eid';
+
+  $params = [':eid' => $filing];
+  $results = db_query($sql, $params)->fetchCol();
+
+
+  // Get only the year from the result string, first 4 characters
+  $year = substr($results[0], 0, 4);
+
+
+  return vp_computed_fields_previous_rate($year, $individual);
+
+
+}
+
+  /**
+   * Get the latest rate from a user from last year
+   */
+  function vp_computed_fields_previous_rate($year, $individual) {
+
+   // Get the last year
+   $year = $year - 1;
+
+   // Set the view arguments, the year and individual id
+   $args = [$year, $individual];
+
+   // Get the specific view
+   $view = \Drupal\views\Views::getView('search_rates_by_single_individual');
+
+   // Pass the arguments
+   $view->setArguments($args);
+
+   // Execute
+   $view->execute();
+
+   // If there are results, return the hourly rate
+   if ($view->result) {
+     $node = $view->result[0]->_entity;
+     $rate = $node->get('field_vp_rate_hourly')->getValue()[0]['value'];
+     return $rate;
+   }
+
+   // Else, return default value
+   return 0;
+
+ }
