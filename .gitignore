@@ -44,7 +44,7 @@ web/sites/simpletest
 ######################
 .DS_Store*
 ehthumbs.db
-Icon
+#Icon
 
 Thumbs.db
 ._*
