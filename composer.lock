@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a49b9013936c3ad5940ed51d77115138",
+    "content-hash": "bc34bf116dc7af5b4857db1c208a2723",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2121,17 +2121,17 @@
         },
         {
             "name": "drupal/config_update",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/config_update",
-                "reference": "8.x-1.5"
+                "reference": "8.x-1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/config_update-8.x-1.5.zip",
-                "reference": "8.x-1.5",
-                "shasum": "2f7ae5f90b1c0ab8edf84680d2651e81fab6a126"
+                "url": "https://ftp.drupal.org/files/projects/config_update-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "04bbd0fc440017fd0129dceae240a8bba409a450"
             },
             "require": {
                 "drupal/core": "*"
@@ -2142,8 +2142,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.5",
-                    "datestamp": "1512587912",
+                    "version": "8.x-1.6",
+                    "datestamp": "1545090480",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4089,14 +4089,14 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/migrate_upgrade",
-                "reference": "5b8c1143c34edc1ec715ae3cb8569473c05141b4"
+                "reference": "08ec20bcd0ceba38ff788487a211476cae6f8bd1"
             },
             "require": {
                 "drupal/core": "*",
-                "drupal/migrate_plus": "*"
+                "drupal/migrate_plus": "^4"
             },
             "require-dev": {
-                "drupal/coder": "^8"
+                "drupal/migrate_plus": "4.x-dev"
             },
             "type": "drupal-module",
             "extra": {
@@ -4104,8 +4104,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0-rc5+2-dev",
-                    "datestamp": "1540219980",
+                    "version": "8.x-3.0-rc5+5-dev",
+                    "datestamp": "1545238980",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -4114,7 +4114,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -4147,7 +4147,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/migrate_upgrade"
             },
-            "time": "2018-10-22T15:00:15+00:00"
+            "time": "2018-12-19T17:13:38+00:00"
         },
         {
             "name": "drupal/module_filter",
@@ -5550,17 +5550,17 @@
         },
         {
             "name": "drupal/webform",
-            "version": "5.0.0-rc30",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/webform",
-                "reference": "8.x-5.0-rc30"
+                "reference": "8.x-5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webform-8.x-5.0-rc30.zip",
-                "reference": "8.x-5.0-rc30",
-                "shasum": "0bbc516a1b525fb5c955495c592ab783cff64924"
+                "url": "https://ftp.drupal.org/files/projects/webform-8.x-5.0.zip",
+                "reference": "8.x-5.0",
+                "shasum": "bcd62f539a58549c2323b9d17d47a73e8a8e0917"
             },
             "require": {
                 "drupal/core": "*"
@@ -5583,11 +5583,11 @@
                     "dev-5.x": "5.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-5.0-rc30",
-                    "datestamp": "1544990880",
+                    "version": "8.x-5.0",
+                    "datestamp": "1545656285",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 },
                 "drush": {
@@ -6568,16 +6568,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "d0230c5c77a7e3cfa69446febf340978540958c0"
+                "reference": "8aae5b59b83bb4d0dbf07b0a835f2680a658f610"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/d0230c5c77a7e3cfa69446febf340978540958c0",
-                "reference": "d0230c5c77a7e3cfa69446febf340978540958c0",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8aae5b59b83bb4d0dbf07b0a835f2680a658f610",
+                "reference": "8aae5b59b83bb4d0dbf07b0a835f2680a658f610",
                 "shasum": ""
             },
             "require": {
@@ -6615,7 +6615,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-10-10T09:24:14+00:00"
+            "time": "2018-12-26T11:32:39+00:00"
         },
         {
             "name": "pantheon-systems/quicksilver-pushback",
@@ -9027,20 +9027,21 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "0df1908962e7a3071564e857d86874dad1ef204a"
+                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/0df1908962e7a3071564e857d86874dad1ef204a",
-                "reference": "0df1908962e7a3071564e857d86874dad1ef204a",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
+                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.3 || ^7.0"
+                "php": "^5.3.3 || ^7.0",
+                "symfony/polyfill-ctype": "^1.8"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.6",
@@ -9073,7 +9074,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2018-01-29T19:49:41+00:00"
+            "time": "2018-12-25T11:19:39+00:00"
         },
         {
             "name": "webmozart/path-util",

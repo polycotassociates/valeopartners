@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\config_update_ui\Tests;
+namespace Drupal\Tests\config_update_ui\Functional;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Verify config reports, reverts, and diffs with profile overrides.
  *
- * @group config
+ * @group config_update
  */
-class ConfigProfileOverridesTest extends WebTestBase {
+class ConfigProfileOverridesTest extends BrowserTestBase {
 
   /**
    * Use the Standard profile, so that there are profile config overrides.
@@ -43,7 +43,7 @@ class ConfigProfileOverridesTest extends WebTestBase {
     parent::setUp();
 
     // Create user and log in.
-    $this->adminUser = $this->drupalCreateUser([
+    $this->adminUser = $this->createUser([
       'access administration pages',
       'administer themes',
       'view config updates report',
@@ -68,7 +68,8 @@ class ConfigProfileOverridesTest extends WebTestBase {
     // that system.theme is not shown (it should not be missing, or added,
     // or overridden).
     $this->drupalGet('admin/config/development/configuration/report/type/system.simple');
-    $this->assertNoRaw('system.theme');
+    $session = $this->assertSession();
+    $session->responseNotContains('system.theme');
 
     // Go to the Appearance page and change the theme to whatever is currently
     // disabled. Return to the report and verify that system.theme is there,
@@ -76,22 +77,25 @@ class ConfigProfileOverridesTest extends WebTestBase {
     $this->drupalGet('admin/appearance');
     $this->clickLink('Install and set as default');
     $this->drupalGet('admin/config/development/configuration/report/type/system.simple');
-    $this->assertText('system.theme');
+    $session = $this->assertSession();
+    $session->pageTextContains('system.theme');
 
     // Look at the differences for system.theme and verify it's against
     // the standard profile version, not default version. The line for
     // default should show bartik as the source; if it's against the system
     // version, the word bartik would not be there.
     $this->drupalGet('admin/config/development/configuration/report/diff/system.simple/system.theme');
-    $this->assertText('bartik');
+    $session = $this->assertSession();
+    $session->pageTextContains('bartik');
 
     // Revert and verify that it reverted to the profile version, not the
     // system module version.
     $this->drupalGet('admin/config/development/configuration/report/revert/system.simple/system.theme');
     $this->drupalPostForm(NULL, [], 'Revert');
     $this->drupalGet('admin/config/development/configuration/single/export/system.simple/system.theme');
-    $this->assertText('admin: seven');
-    $this->assertText('default: bartik');
+    $session = $this->assertSession();
+    $session->pageTextContains('admin: seven');
+    $session->pageTextContains('default: bartik');
   }
 
 }

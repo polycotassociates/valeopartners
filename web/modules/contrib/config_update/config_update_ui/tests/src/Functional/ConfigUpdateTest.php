@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\config_update_ui\Tests;
+namespace Drupal\Tests\config_update_ui\Functional;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Verify the config revert report and its links.
  *
- * @group config
+ * @group config_update
  */
-class ConfigUpdateTest extends WebTestBase {
+class ConfigUpdateTest extends BrowserTestBase {
 
   /**
    * Modules to enable.
@@ -46,7 +46,7 @@ class ConfigUpdateTest extends WebTestBase {
     parent::setUp();
 
     // Create user and log in.
-    $this->adminUser = $this->drupalCreateUser([
+    $this->adminUser = $this->createUser([
       'access administration pages',
       'administer search',
       'view config updates report',
@@ -60,8 +60,8 @@ class ConfigUpdateTest extends WebTestBase {
     $this->drupalLogin($this->adminUser);
 
     // Make sure local tasks and page title are showing.
-    $this->drupalPlaceBlock('local_tasks_block');
-    $this->drupalPlaceBlock('page_title_block');
+    $this->placeBlock('local_tasks_block');
+    $this->placeBlock('page_title_block');
 
     // Load the Drush include file so that its functions can be tested, plus
     // the Drush testing include file.
@@ -103,13 +103,15 @@ class ConfigUpdateTest extends WebTestBase {
     $this->assertReport('Testing profile', [], [], [], $inactive, ['added']);
     // The locale.settings line should show that the Testing profile is the
     // provider.
-    $this->assertText('Testing profile');
+    $session = $this->assertSession();
+    $session->pageTextContains('Testing profile');
     $this->assertDrushReports('profile', '', [], [], [], array_keys($inactive));
 
     // Verify that the user search page cannot be imported (because it already
     // exists).
     $this->drupalGet('admin/config/development/configuration/report/import/search_page/user_search');
-    $this->assertResponse(404);
+    $session = $this->assertSession();
+    $session->statusCodeEquals(404);
 
     // Delete the user search page from the search UI and verify report for
     // both the search page config type and user module.
@@ -121,7 +123,8 @@ class ConfigUpdateTest extends WebTestBase {
     $this->assertReport('Search page', [], [], [], $inactive);
     // The search.page.user_search line should show that the User module is the
     // provider.
-    $this->assertText('User module');
+    $session = $this->assertSession();
+    $session->pageTextContains('User module');
     $this->assertDrushReports('type', 'search_page', [], [], [], array_keys($inactive));
 
     $this->drupalGet('admin/config/development/configuration/report/module/user');
@@ -138,17 +141,20 @@ class ConfigUpdateTest extends WebTestBase {
     // Verify that the user search page cannot be reverted (because it does
     // not already exist).
     $this->drupalGet('admin/config/development/configuration/report/revert/search_page/user_search');
-    $this->assertResponse(404);
+    $session = $this->assertSession();
+    $session->statusCodeEquals(404);
     // Verify that the delete URL doesn't work either.
     $this->drupalGet('admin/config/development/configuration/report/delete/search_page/user_search');
-    $this->assertResponse(404);
+    $session = $this->assertSession();
+    $session->statusCodeEquals(404);
 
     // Use the import link to get it back. Do this from the search page
     // report to make sure we are importing the right config.
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
     $this->clickLink('Import from source');
     $this->drupalPostForm(NULL, [], 'Import');
-    $this->assertText('The configuration was imported');
+    $session = $this->assertSession();
+    $session->pageTextContains('has been imported');
     $this->assertNoReport();
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
     $this->assertReport('Search page', [], [], [], []);
@@ -156,8 +162,9 @@ class ConfigUpdateTest extends WebTestBase {
 
     // Verify that after import, there is no config hash generated.
     $this->drupalGet('admin/config/development/configuration/single/export/search_page/user_search');
-    $this->assertText('id: user_search');
-    $this->assertNoText('default_config_hash:');
+    $session = $this->assertSession();
+    $session->pageTextContains('id: user_search');
+    $session->pageTextNotContains('default_config_hash:');
 
     // Test importing again, this time using the Drush import command.
     $this->drupalGet('admin/config/search/pages');
@@ -184,10 +191,11 @@ class ConfigUpdateTest extends WebTestBase {
 
     // Test the show differences link.
     $this->clickLink('Show differences');
-    $this->assertText('Content');
-    $this->assertText('New label');
-    $this->assertText('node');
-    $this->assertText('new_path');
+    $session = $this->assertSession();
+    $session->pageTextContains('Content');
+    $session->pageTextContains('New label');
+    $session->pageTextContains('node');
+    $session->pageTextContains('new_path');
 
     // Test the show differences Drush command.
     $output = drush_config_update_ui_config_diff('search.page.node_search');
@@ -203,36 +211,39 @@ class ConfigUpdateTest extends WebTestBase {
     // Test the export link.
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
     $this->clickLink('Export');
-    $this->assertText('Here is your configuration:');
-    $this->assertText('id: node_search');
-    $this->assertText('New label');
-    $this->assertText('path: new_path');
-    $this->assertText('search.page.node_search.yml');
+    $session = $this->assertSession();
+    $session->pageTextContains('Here is your configuration:');
+    $session->pageTextContains('id: node_search');
+    $session->pageTextContains('New label');
+    $session->pageTextContains('path: new_path');
+    $session->pageTextContains('search.page.node_search.yml');
 
-    // Grab the uuid and hash lines for the next test.
-    $text = $this->getTextContent();
+    // Grab the uuid and hash lines from the exported config for the next test.
+    $text = strip_tags($this->getSession()->getPage()->find('css', 'textarea')->getHtml());
     $matches = [];
     preg_match('|^.*uuid:.*$|m', $text, $matches);
-    $uuid_line = $matches[0];
+    $uuid_line = trim($matches[0]);
     preg_match('|^.*default_config_hash:.*$|m', $text, $matches);
-    $hash_line = $matches[0];
+    $hash_line = trim($matches[0]);
 
     // Test reverting.
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
     $this->clickLink('Revert to source');
-    $this->assertText('Are you sure you want to revert');
-    $this->assertText('Search page');
-    $this->assertText('node_search');
-    $this->assertText('Customizations will be lost. This action cannot be undone');
+    $session = $this->assertSession();
+    $session->pageTextContains('Are you sure you want to revert');
+    $session->pageTextContains('Search page');
+    $session->pageTextContains('node_search');
+    $session->pageTextContains('Customizations will be lost. This action cannot be undone');
     $this->drupalPostForm(NULL, [], 'Revert');
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
     $this->assertReport('Search page', [], [], [], []);
 
     // Verify that the uuid and hash keys were retained in the revert.
     $this->drupalGet('admin/config/development/configuration/single/export/search_page/node_search');
-    $this->assertText('id: node_search');
-    $this->assertText($uuid_line);
-    $this->assertText($hash_line);
+    $session = $this->assertSession();
+    $session->pageTextContains('id: node_search');
+    $session->pageTextContains($uuid_line);
+    $session->pageTextContains($hash_line);
 
     // Test reverting again, this time using Drush single revert command.
     $this->drupalGet('admin/config/search/pages');
@@ -278,19 +289,22 @@ class ConfigUpdateTest extends WebTestBase {
 
     // Test the export link.
     $this->clickLink('Export');
-    $this->assertText('Here is your configuration:');
-    $this->assertText('id: test');
-    $this->assertText('label: test');
-    $this->assertText('path: test');
-    $this->assertText('search.page.test.yml');
+    $session = $this->assertSession();
+    $session->pageTextContains('Here is your configuration:');
+    $session->pageTextContains('id: test');
+    $session->pageTextContains('label: test');
+    $session->pageTextContains('path: test');
+    $session->pageTextContains('search.page.test.yml');
 
     // Test the delete link.
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
     $this->clickLink('Delete');
-    $this->assertText('Are you sure');
-    $this->assertText('cannot be undone');
+    $session = $this->assertSession();
+    $session->pageTextContains('Are you sure');
+    $session->pageTextContains('cannot be undone');
     $this->drupalPostForm(NULL, [], 'Delete');
-    $this->assertText('The configuration was deleted');
+    $session = $this->assertSession();
+    $session->pageTextContains('has been deleted');
 
     // And verify the report again.
     $this->drupalGet('admin/config/development/configuration/report/type/search_page');
@@ -306,18 +320,20 @@ class ConfigUpdateTest extends WebTestBase {
     $this->assertReport('Search module', [], [], $changed, [], ['added']);
 
     $this->clickLink('Show differences');
-    $this->assertText('Config difference for Simple configuration search.settings');
-    $this->assertText('index::minimum_word_size');
-    $this->assertText('4');
+    $session = $this->assertSession();
+    $session->pageTextContains('Config difference for Simple configuration search.settings');
+    $session->pageTextContains('index::minimum_word_size');
+    $session->pageTextContains('4');
 
     $this->drupalGet('admin/config/development/configuration/report/module/search');
     $this->clickLink('Export');
-    $this->assertText('minimum_word_size: 4');
+    $session = $this->assertSession();
+    $session->pageTextContains('minimum_word_size: 4');
     // Grab the hash line for the next test.
-    $text = $this->getTextContent();
+    $text = strip_tags($this->getSession()->getPage()->find('css', 'textarea')->getHtml());
     $matches = [];
     preg_match('|^.*default_config_hash:.*$|m', $text, $matches);
-    $hash_line = $matches[0];
+    $hash_line = trim($matches[0]);
 
     $this->drupalGet('admin/config/development/configuration/report/module/search');
     $this->clickLink('Revert to source');
@@ -325,7 +341,8 @@ class ConfigUpdateTest extends WebTestBase {
 
     // Verify that the hash was retained in the revert.
     $this->drupalGet('admin/config/development/configuration/single/export/system.simple/search.settings');
-    $this->assertText($hash_line);
+    $session = $this->assertSession();
+    $session->pageTextContains($hash_line);
 
     $this->drupalGet('admin/config/development/configuration/report/module/search');
     $this->assertReport('Search module', [], [], [], [], ['added']);
@@ -338,6 +355,10 @@ class ConfigUpdateTest extends WebTestBase {
     $changed = ['filter.format.plain_text' => 'New label'];
     $this->drupalGet('admin/config/development/configuration/report/type/filter_format');
     $this->assertReport('Text format', [], [], $changed, []);
+
+    // Verify that we can revert non-entity configuration in Drush. Issue:
+    // https://www.drupal.org/project/config_update/issues/2935395
+    drush_config_update_ui_config_revert('system.date');
   }
 
   /**
@@ -359,62 +380,63 @@ class ConfigUpdateTest extends WebTestBase {
    *   Array of report sections to skip checking.
    */
   protected function assertReport($title, array $missing, array $added, array $changed, array $inactive, array $skip = []) {
-    $this->assertText('Configuration updates report for ' . $title);
-    $this->assertText('Generate new report');
+    $session = $this->assertSession();
+    $session->pageTextContains('Configuration updates report for ' . $title);
+    $session->pageTextContains('Generate new report');
 
     if (!in_array('missing', $skip)) {
-      $this->assertText('Missing configuration items');
+      $session->pageTextContains('Missing configuration items');
       if (count($missing)) {
         foreach ($missing as $name => $label) {
-          $this->assertText($name);
-          $this->assertText($label);
+          $session->pageTextContains($name);
+          $session->pageTextContains($label);
         }
-        $this->assertNoText('None: all provided configuration items are in your active configuration.');
+        $session->pageTextNotContains('None: all provided configuration items are in your active configuration.');
       }
       else {
-        $this->assertText('None: all provided configuration items are in your active configuration.');
+        $session->pageTextContains('None: all provided configuration items are in your active configuration.');
       }
     }
 
     if (!in_array('inactive', $skip)) {
-      $this->assertText('Inactive optional items');
+      $session->pageTextContains('Inactive optional items');
       if (count($inactive)) {
         foreach ($inactive as $name => $label) {
-          $this->assertText($name);
-          $this->assertText($label);
+          $session->pageTextContains($name);
+          $session->pageTextContains($label);
         }
-        $this->assertNoText('None: all optional configuration items are in your active configuration.');
+        $session->pageTextNotContains('None: all optional configuration items are in your active configuration.');
       }
       else {
-        $this->assertText('None: all optional configuration items are in your active configuration.');
+        $session->pageTextContains('None: all optional configuration items are in your active configuration.');
       }
     }
 
     if (!in_array('added', $skip)) {
-      $this->assertText('Added configuration items');
+      $session->pageTextContains('Added configuration items');
       if (count($added)) {
         foreach ($added as $name => $label) {
-          $this->assertText($name);
-          $this->assertText($label);
+          $session->pageTextContains($name);
+          $session->pageTextContains($label);
         }
-        $this->assertNoText('None: all active configuration items of this type were provided by modules, themes, or install profile.');
+        $session->pageTextNotContains('None: all active configuration items of this type were provided by modules, themes, or install profile.');
       }
       else {
-        $this->assertText('None: all active configuration items of this type were provided by modules, themes, or install profile.');
+        $session->pageTextContains('None: all active configuration items of this type were provided by modules, themes, or install profile.');
       }
     }
 
     if (!in_array('changed', $skip)) {
-      $this->assertText('Changed configuration items');
+      $session->pageTextContains('Changed configuration items');
       if (count($changed)) {
         foreach ($changed as $name => $label) {
-          $this->assertText($name);
-          $this->assertText($label);
+          $session->pageTextContains($name);
+          $session->pageTextContains($label);
         }
-        $this->assertNoText('None: no active configuration items differ from their current provided versions.');
+        $session->pageTextNotContains('None: no active configuration items differ from their current provided versions.');
       }
       else {
-        $this->assertText('None: no active configuration items differ from their current provided versions.');
+        $session->pageTextContains('None: no active configuration items differ from their current provided versions.');
       }
     }
   }
@@ -440,7 +462,7 @@ class ConfigUpdateTest extends WebTestBase {
   protected function assertDrushReports($type, $name, array $missing, array $added, array $changed, array $inactive, array $skip = []) {
     if (!in_array('missing', $skip)) {
       $output = drush_config_update_ui_config_missing_report($type, $name);
-      $this->assertEqual(count($output), count($missing), 'Drush missing report has correct number of items');
+      $this->assertEquals(count($output), count($missing), 'Drush missing report has correct number of items');
       if (count($missing)) {
         foreach ($missing as $item) {
           $this->assertTrue(in_array($item, $output), "Item $item is in the Drush missing report");
@@ -450,7 +472,7 @@ class ConfigUpdateTest extends WebTestBase {
 
     if (!in_array('added', $skip) && $type == 'type') {
       $output = drush_config_update_ui_config_added_report($name);
-      $this->assertEqual(count($output), count($added), 'Drush added report has correct number of items');
+      $this->assertEquals(count($output), count($added), 'Drush added report has correct number of items');
       if (count($added)) {
         foreach ($added as $item) {
           $this->assertTrue(in_array($item, $output), "Item $item is in the Drush added report");
@@ -460,7 +482,7 @@ class ConfigUpdateTest extends WebTestBase {
 
     if (!in_array('changed', $skip)) {
       $output = drush_config_update_ui_config_different_report($type, $name);
-      $this->assertEqual(count($output), count($changed), 'Drush changed report has correct number of items');
+      $this->assertEquals(count($output), count($changed), 'Drush changed report has correct number of items');
       if (count($changed)) {
         foreach ($changed as $item) {
           $this->assertTrue(in_array($item, $output), "Item $item is in the Drush changed report");
@@ -470,7 +492,7 @@ class ConfigUpdateTest extends WebTestBase {
 
     if (!in_array('inactive', $skip)) {
       $output = drush_config_update_ui_config_inactive_report($type, $name);
-      $this->assertEqual(count($output), count($inactive), 'Drush inactive report has correct number of items');
+      $this->assertEquals(count($output), count($inactive), 'Drush inactive report has correct number of items');
       if (count($inactive)) {
         foreach ($inactive as $item) {
           $this->assertTrue(in_array($item, $output), "Item $item is in the Drush inactive report");
@@ -485,37 +507,38 @@ class ConfigUpdateTest extends WebTestBase {
    * Assumes you are already on the report form page.
    */
   protected function assertNoReport() {
-    $this->assertText('Report type');
-    $this->assertText('Full report');
-    $this->assertText('Single configuration type');
-    $this->assertText('Single module');
-    $this->assertText('Single theme');
-    $this->assertText('Installation profile');
-    $this->assertText('Updates report');
-    $this->assertNoText('Missing configuration items');
-    $this->assertNoText('Added configuration items');
-    $this->assertNoText('Changed configuration items');
-    $this->assertNoText('Unchanged configuration items');
+    $session = $this->assertSession();
+    $session->pageTextContains('Report type');
+    $session->pageTextContains('Full report');
+    $session->pageTextContains('Single configuration type');
+    $session->pageTextContains('Single module');
+    $session->pageTextContains('Single theme');
+    $session->pageTextContains('Installation profile');
+    $session->pageTextContains('Updates report');
+    $session->pageTextNotContains('Missing configuration items');
+    $session->pageTextNotContains('Added configuration items');
+    $session->pageTextNotContains('Changed configuration items');
+    $session->pageTextNotContains('Unchanged configuration items');
 
     // Verify that certain report links are shown or not shown. For extensions,
     // only extensions that have configuration should be shown.
     // Modules.
-    $this->assertLink('Search');
-    $this->assertLink('Field');
-    $this->assertNoLink('Configuration Update Base');
-    $this->assertNoLink('Configuration Update Reports');
+    $session->linkExists('Search');
+    $session->linkExists('Field');
+    $session->linkNotExists('Configuration Update Base');
+    $session->linkNotExists('Configuration Update Reports');
 
     // Themes.
-    $this->assertNoLink('Stark');
-    $this->assertNoLink('Classy');
+    $session->linkNotExists('Stark');
+    $session->linkNotExists('Classy');
 
     // Profiles.
-    $this->assertLink('Testing');
+    $session->linkExists('Testing');
 
     // Configuration types.
-    $this->assertLink('Everything');
-    $this->assertLink('Simple configuration');
-    $this->assertLink('Search page');
+    $session->linkExists('Everything');
+    $session->linkExists('Simple configuration');
+    $session->linkExists('Search page');
   }
 
 }
