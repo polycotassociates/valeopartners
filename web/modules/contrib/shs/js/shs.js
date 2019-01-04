@@ -19,7 +19,7 @@
     attach: function (context) {
       var settingsDefault = {
         display: {
-          animationSpeed: 400,
+          animationSpeed: 20,
           labelsOnEveryLevel: false
         },
         labels: []
