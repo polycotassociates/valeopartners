@@ -1,0 +1,269 @@
+{#
+/**
+ * @file
+ * Bartik's theme implementation to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+ *   Only method names starting with "get", "has", or "is" and a few common
+ *   methods such as "id", "label", and "bundle" are available. For example:
+ *   - node.getCreatedTime() will return the node creation timestamp.
+ *   - node.hasField('field_example') returns TRUE if the node bundle includes
+ *     field_example. (This does not indicate the presence of a value in this
+ *     field.)
+ *   - node.isPublished() will return whether the node is published or not.
+ *   Calling other methods, such as node.delete(), will result in an exception.
+ *   See \Drupal\node\Entity\Node for a full list of public properties and
+ *   methods for the node object.
+ * - label: The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: Themed creation date field.
+ * - author_name: Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+{{ attach_library('classy/node') }}
+<article{{ attributes.addClass(classes) }}>
+  <header>
+    {{ title_prefix }}
+    {% if not page %}
+      <h2{{ title_attributes.addClass('node__title') }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h2>
+    {% endif %}
+    {{ title_suffix }}
+    {% if display_submitted %}
+      <div class="node__meta">
+        {{ author_picture }}
+        <span{{ author_attributes }}>
+          {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+        </span>
+        {{ metadata }}
+      </div>
+    {% endif %}
+  </header>
+  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+    {{ content }}
+  </div>
+</article>
+
+<div>
+
+{% set page_id = node.id|number_format %}
+Page ID: {{ page_id }}
+
+
+field_vp_search_bar_year
+partner year
+rate year
+<p>
+{# {{ kint(content.field_vp_search_firm) }}#}
+</p>
+
+
+{# Create a list of firm ids to pass to the view from field_vp_search_firm #}
+{% set firms = [] %}
+{% for key,value in content.field_vp_search_firm %}
+  {% if content.field_vp_search_firm[key]['#options']['entity'].id() %}
+    {% set firms = firms|merge([value['#options']['entity'].id()]) %}
+  {% endif %}
+{% endfor %}
+{% set firms = firms|join(',') %}
+{% if firms is empty %}
+  {% set firms = 'all' %}
+{% endif %}
+
+
+{# Create a list of position ids to pass to the view from field_vp_search_firm #}
+{% set positions = [] %}
+{% for key,value in content.field_vp_search_position %}
+  {% if content.field_vp_search_position[key]['#options']['entity'].id() %}
+    {% set positions = positions|merge([value['#options']['entity'].id()]) %}
+  {% endif %}
+{% endfor %}
+{% set positions = positions|join('+') %}
+
+{% if positions is empty %}
+  {% set positions = 'all' %}
+{% endif %}
+
+{# Create a list of industry ids to pass to the view from field_vp_search_firm #}
+{% set industries = [] %}
+{% for key,value in content.field_vp_search_industry %}
+  {% if content.field_vp_search_industry[key]['#options']['entity'].id() %}
+    {% set industries = industries|merge([value['#options']['entity'].id()]) %}
+  {% endif %}
+{% endfor %}
+{% set industries = industries|join('+') %}
+
+{% if industries is empty %}
+  {% set industries = 'all' %}
+{% endif %}
+
+{{ industries }}
+
+{# Create a list of industry ids to pass to the view from field_vp_search_firm #}
+{% set cities = [] %}
+{% for key,value in content.field_vp_search_region_city %}
+  {% if content.field_vp_search_region_city[key]['#options']['entity'].id() %}
+    {% set cities = cities|merge([value['#options']['entity'].id()]) %}
+  {% endif %}
+{% endfor %}
+{% set cities = cities|join('+') %}
+
+{% if cities is empty %}
+  {% set cities = 'all' %}
+{% endif %}
+
+
+{# Create a list of industry ids to pass to the view from field_vp_search_firm #}
+{% set practice_areas = [] %}
+{% for key,value in content.field_vp_search_practice_area %}
+  {% if content.field_vp_search_practice_area[key]['#options']['entity'].id() %}
+    {% set practice_areas = practice_areas|merge([value['#options']['entity'].id()]) %}
+  {% endif %}
+{% endfor %}
+{% set practice_areas = practice_areas|join('+') %}
+
+{% if practice_areas is empty %}
+  {% set practice_areas = 'all' %}
+{% endif %}
+
+{# {{ kint(content.field_vp_search_grad_date) }} #}
+
+
+{% set grad_start = content.field_vp_search_grad_date['0']['#markup']|slice(0,4) %}
+{% set grad_end = content.field_vp_search_grad_date['0']['#markup']|slice(5,10) %}
+
+{% set grad_range = [] %}
+{% for year in grad_start..grad_end %}
+  {% set grad_range = grad_range|merge([year]) %}
+{% endfor %}
+{% set grad_range = grad_range|join(',') %}
+
+{% if grad_range == 0  %}
+  {% set grad_range = 'all' %}
+{% endif %}
+
+
+{{ content.field_vp_search_partner_year }}
+
+{% set partner_start = content.field_vp_search_partner_year['0']['#markup']|slice(0,4) %}
+{% set partner_end = content.field_vp_search_partner_year['0']['#markup']|slice(5,10) %}
+
+{% set partner_range = [] %}
+{% for year in partner_start..partner_end %}
+  {% set partner_range = partner_range|merge([year]) %}
+{% endfor %}
+{% set partner_range = partner_range|join(',') %}
+
+{% if partner_range == 0  %}
+  {% set partner_range = 'all' %}
+{% endif %}
+
+
+{% set bar_start = content.field_vp_search_bar_year['0']['#markup']|slice(0,4) %}
+{% set bar_end = content.field_vp_search_bar_year['0']['#markup']|slice(5,10) %}
+
+{% set bar_range = [] %}
+{% for year in bar_start..bar_end %}
+  {% set bar_range = bar_range|merge([year]) %}
+{% endfor %}
+{% set bar_range = bar_range|join(',') %}
+
+{% if bar_range == 0  %}
+  {% set bar_range = 'all' %}
+{% endif %}
+
+
+{% set rate_start = content.field_vp_search_rate_year['0']['#markup']|slice(0,4) %}
+{% set rate_end = content.field_vp_search_rate_year['0']['#markup']|slice(5,10) %}
+
+{% set rate_range = [] %}
+{% for year in rate_start..rate_end %}
+  {% set rate_range = rate_range|merge([year]) %}
+{% endfor %}
+{% set rate_range = rate_range|join(',') %}
+
+{% if rate_range == 0  %}
+  {% set rate_range = 'all' %}
+{% endif %}
+
+all/all/all/all/all/all/all/all/all/
+{{ content.field_vp_search_rate_year }}
+
+{# Call the view with the arguments #}
+{# {{ drupal_view('test_search', 'page_1', firms ) }} #}
+
+{# {% set grad_range = "#{grad_range}" %}  #}
+<label>vars: </label>
+Firm IDs: {{ firms }}<br>
+Position IDs: {{ positions }}<br>
+Industry IDs: {{ industries }}<br>
+Location IDs: {{ cities }}<br>
+Practice IDs: {{ practice_areas }}<br>
+Grad Date: {{ grad_range }}<br>
+Partner Date: {{ partner_range }}<br>
+Bar Date: {{ bar_range }}<br>
+Rate Date: {{ rate_range }}<br>
+
+{# all/all/all/all/all/all/all/all/1980--1989 #}
+{# Call the view with the arguments using Twig Tweaks drupal_view() #}
+{{ drupal_view('saved_search_detail', 'saved_search_detail_page', firms, positions, industries, cities, practice_areas, grad_range, partner_range, bar_range, rate_range) }}
+
+</div>
