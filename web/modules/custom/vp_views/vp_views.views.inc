@@ -6,6 +6,103 @@
  *   Hooks for Valeo Partners Views
  */
 use Drupal\views\Views;
+use Drupal\node\Entity\Node;
+
+
+/**
+ * Implements template_preprocess_views_view_table().
+ */
+function vp_views_preprocess_views_view_table(&$variables) {
+  // @TODO: You should use $variables['view']->name and $variables['view']->current_display to apply this only one specific view.
+
+  print "<pre>";
+  print_r($variables);
+  print "</pre>";
+
+  // unset($variables['rows'][0]);
+  // unset($variables);
+  // Let's assume your field name is node status.
+  // Remove header label.
+  // print_r($variables['rows']['title']);
+
+
+  // You can always print_r($variables['rows']) to know what is exact field name that you need to delete.
+  // print_r($variables['result']).
+  // print_r($variables['header']).
+}
+
+
+// function vp_views_views_query_alter (&$view, &$query) {
+
+
+// }
+
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function vp_views_views_pre_view($view, $display_id, array &$args) {
+  // if ($view->id() !== 'saved_search_detail') {
+  //   return;
+  // }
+
+  // print "<pre>";
+  // print "FUCK";
+  // print($display_id);
+
+  // print "</pre>";
+
+  $view->removeHandler($display_id, 'field', 'title_1');
+  $view->removeHandler($display_id, 'field', 'field_vp_rate_position');
+
+  // unset($view->fields['title']);
+  // $user_roles = \Drupal::currentUser()->getRoles();
+  // if (!in_array('my-special-role', $user_roles)) {
+  //   $view->removeHandler($display_id, 'field', 'name');
+  // }
+}
+
+/**
+ * Implements hook_pre_build().
+ * @param $variables
+ */
+function vp_views_views_pre_build($view) {
+
+  $route = \Drupal::routeMatch()->getRouteObject();
+
+
+  if (!\Drupal::service('router.admin_context')->isAdminRoute($route)){
+    unset($view->field['title']);
+
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof \Drupal\node\NodeInterface) {
+      // You can get nid and anything else you need from the node object.
+      $nid = $node->id();
+    }
+  
+    print($nid);
+
+  }
+
+
+
+  // if ($view->name == 'saved_search_detail'
+  //     && $view->current_display == 'saved_search_detail_page') {
+
+  //       $node = menu_get_object();
+
+  //       \Drupal::service()->getPath();
+
+
+  //   // // You'll have your own list of fields to remove that you create somehow...
+  //   // $fields_to_remove = array('field_name_to_remove_1','field_name_to_remove_2');
+
+  //   // foreach ($fields_to_remove as $field_name) {
+  //   //   unset($view->field[$field_name]);            
+  //   //   unset($view->display_handler->handlers['field'][$field_name]);  
+  //   // }
+  // }
+}
 
 /**
  * Implements hook_preprocess_views_view_field().

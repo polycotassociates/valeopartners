@@ -269,3 +269,39 @@ function computed_field_field_vp_rate_previous_compute($entity_type_manager, $en
    return 0;
 
  }
+
+
+/**
+ * Filing Year (for search purposes)
+ * field_vp_filing_year
+ * 
+ * @return decimal $value
+ */
+function computed_field_field_vp_filing_year_compute($entity_type_manager, $entity, $fields, $delta) {
+
+  if ($entity->field_vp_filing_fee_dates) {
+   
+    $year = $entity->field_vp_filing_fee_dates->value;
+    $year = substr($year, 0, 4);
+    return $year;
+  }
+
+}
+
+
+/**
+ * Filing Year End(for search purposes)
+ * field_vp_filing_year_end
+ * 
+ * @return decimal $value
+ */
+function computed_field_field_vp_filing_year_end_compute($entity_type_manager, $entity, $fields, $delta) {
+
+  if ($entity->field_vp_filing_fee_dates) {
+   
+    $year = $entity->field_vp_filing_fee_dates->end_value;
+    $year = substr($year, 0, 4);
+    return $year;
+  }
+
+}

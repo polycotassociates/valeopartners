@@ -104,22 +104,11 @@
 
 <div>
 
-{% set page_id = node.id|number_format %}
-Page ID: {{ page_id }}
-
-
-field_vp_search_bar_year
-partner year
-rate year
-<p>
-{# {{ kint(content.field_vp_search_firm) }}#}
-</p>
-
 
 {# Create a list of firm ids to pass to the view from field_vp_search_firm #}
 {% set firms = [] %}
-{% for key,value in content.field_vp_search_firm %}
-  {% if content.field_vp_search_firm[key]['#options']['entity'].id() %}
+{% for key,value in content.field_vp_search_firms %}
+  {% if content.field_vp_search_firms[key]['#options']['entity'].id() %}
     {% set firms = firms|merge([value['#options']['entity'].id()]) %}
   {% endif %}
 {% endfor %}
@@ -155,9 +144,8 @@ rate year
   {% set industries = 'all' %}
 {% endif %}
 
-{{ industries }}
 
-{# Create a list of industry ids to pass to the view from field_vp_search_firm #}
+{# Create a list of location ids to pass to the view from field_vp_search_firm #}
 {% set cities = [] %}
 {% for key,value in content.field_vp_search_region_city %}
   {% if content.field_vp_search_region_city[key]['#options']['entity'].id() %}
@@ -234,6 +222,10 @@ rate year
 {% set rate_start = content.field_vp_search_rate_year['0']['#markup']|slice(0,4) %}
 {% set rate_end = content.field_vp_search_rate_year['0']['#markup']|slice(5,10) %}
 
+{% if rate_end == 0  %}
+  {% set rate_end = rate_start %}
+{% endif %}
+
 {% set rate_range = [] %}
 {% for year in rate_start..rate_end %}
   {% set rate_range = rate_range|merge([year]) %}
@@ -244,26 +236,16 @@ rate year
   {% set rate_range = 'all' %}
 {% endif %}
 
-all/all/all/all/all/all/all/all/all/
-{{ content.field_vp_search_rate_year }}
+{% if rate_start == 0  %}
+  {% set rate_start = 'all' %}
+{% endif %}
 
-{# Call the view with the arguments #}
-{# {{ drupal_view('test_search', 'page_1', firms ) }} #}
+{% if rate_end == 0  %}
+  {% set rate_end = 'all' %}
+{% endif %}
 
-{# {% set grad_range = "#{grad_range}" %}  #}
-<label>vars: </label>
-Firm IDs: {{ firms }}<br>
-Position IDs: {{ positions }}<br>
-Industry IDs: {{ industries }}<br>
-Location IDs: {{ cities }}<br>
-Practice IDs: {{ practice_areas }}<br>
-Grad Date: {{ grad_range }}<br>
-Partner Date: {{ partner_range }}<br>
-Bar Date: {{ bar_range }}<br>
-Rate Date: {{ rate_range }}<br>
 
-{# all/all/all/all/all/all/all/all/1980--1989 #}
 {# Call the view with the arguments using Twig Tweaks drupal_view() #}
-{{ drupal_view('saved_search_detail', 'saved_search_detail_page', firms, positions, industries, cities, practice_areas, grad_range, partner_range, bar_range, rate_range) }}
+{{ drupal_view('saved_search_detail', 'saved_search_detail_page', firms, positions, industries, cities, practice_areas, grad_range, partner_range, bar_range, rate_start, rate_range) }}
 
 </div>
