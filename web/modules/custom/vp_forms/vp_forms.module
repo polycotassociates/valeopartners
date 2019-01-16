@@ -1,6 +1,6 @@
 <?php
 
-
+use \Drupal\Core\Url;
 /**
  *   Alter the display of Firm form
  */
@@ -25,14 +25,38 @@ function vp_forms_form_alter(&$form, $form_state, $form_id) {
 function vp_forms_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
 
 
-  $form['my_test'] = array(
-      '#type' => 'select',
-      '#options' => ["A","B","C","D"],
-      '#default_value' => "",
-      '#title' => t('Practice Area'),
-    );
+	//kint($form);
+	// kint($form_state);
+
+	// if ($form['#id'] == "views-exposed-form-search-by-firm-master-search-by-firm-page") {
+
+
+	// 	$form['#action'] = '/combined/firm/export';
+	// 	// $form['actions']['submit']['#submit'][] = '_export_to_xls';
+
+	// 	// $form['export_as_xls'] = [
+	// 	// '#id' => 'export-submit-search-by-firm',
+	// 	// '#type' => 'submit',
+	// 	// '#value' => t('Export Results to XLS'),
+	// 	// '#submit' => ['_export_to_xls'],
+	// 	// ];
+
+
+	// }
+
 
 }
+
+
+function _export_to_xls($form, &$form_state) {
+	kint($form_state);
+
+	// $form_state->setRedirectUrl(Url::fromRoute('/combined/firm/export'));
+	dump($form_state->getValues());
+	// $form_state->setRedirect($route_name, array $route_parameters = array(), array $options = array());
+
+	drupal_set_message(t('Your form has been saved.'));
+  }
 
 // function MODULENAME_views_query_alter(&$view, &$query) {
 

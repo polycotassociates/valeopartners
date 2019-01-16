@@ -1,0 +1,106 @@
+id: valeo_search
+label: Migrate Saved Searches
+
+migration_group: valeomiggroup
+
+# Every migration must have a source plugin. Set this to the ID of the plugin to
+# use.
+#
+# This is the extract phase of your migration.
+source:
+  plugin: d6_node
+  node_type: search
+
+# Every migration must also have a destination plugin, which handles writing
+# the migrated data in the appropriate form for that particular kind of data.
+# This value should be the ID of the destination plugin to use.
+#
+# This is the load phase of your migration.
+destination:
+  plugin: entity:node
+  default_bundle: vp_type_saved_search
+
+#
+# This is the transform phase of your migration.
+process:
+  type:
+    plugin: default_value
+    default_value: vp_type_saved_search
+  nid: nid
+  vid: vid
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  comment: comment
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_vp_search_type: field_search_detail
+
+  field_vp_search_display_columns: 
+    plugin: generic_taxonomy_item
+    source: field_search_columns
+
+  field_vp_search_firms: 
+    plugin: generic_taxonomy_item
+    source: field_search_firms
+
+  field_vp_search_industry: 
+    plugin: generic_taxonomy_item
+    source: field_search_industry
+
+  field_vp_search_region_city: 
+    plugin: generic_taxonomy_item
+    source: field_search_city
+
+  field_vp_search_practice_area: 
+    plugin: generic_taxonomy_item
+    source: field_search_practicearea
+
+  field_vp_search_position: 
+    plugin: generic_taxonomy_item
+    source: field_search_position
+
+  field_vp_search_rate_year/from:
+    plugin: search_rate_year
+    source: field_search_rateyear
+
+  field_vp_search_rate_year/to:
+    plugin: search_rate_year_to
+    source: field_search_rateyear
+
+  field_vp_search_grad_date/from:
+    plugin: search_grad_year
+    source: field_search_gradyear
+
+  field_vp_search_grad_date/to:
+    plugin: search_grad_year_to
+    source: field_search_gradyear
+
+  field_vp_search_bar_year/from:
+    plugin: search_bar_year
+    source: field_search_baryear
+
+  field_vp_search_bar_year/to:
+    plugin: search_bar_year_to
+    source: field_search_baryear
+
+  field_vp_search_partner_year/from:
+    plugin: search_partner_year
+    source: field_search_partneryear
+
+  field_vp_search_partner_year/to:
+    plugin: search_partner_year_to
+    source: field_search_partneryear
+
+# lando drush config-devel-export valeo_partners_migrations;
+# lando drush migrate-rollback valeo_search;
+# lando drush migrate-import valeo_search --limit=5 --feedback="1 items";
+# lando drush migrate-messages valeo_search
+# 13062,87264,102786
+# lando drush migrate-import valeo_search --idlist=444983,434391,457225

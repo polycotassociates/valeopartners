@@ -1,0 +1,7 @@
+vp_pages.saved_search
+  path: '/ssearch/page'
+  defaults: 
+    _controller: 'Drupal\vp_pages\Controller\SavedSearchController::search'
+    _title: 'Saved Search'
+  requirements:
+    _permission: 'access content'

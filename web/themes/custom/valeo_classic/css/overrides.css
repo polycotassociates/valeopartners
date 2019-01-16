@@ -1,0 +1,10 @@
+/* Various additional css items */
+
+#export-xls-link, #export-csv-link {
+    float: right;
+}
+
+.xls-icon {
+
+    background: url('/themes/custom/valeo_classic/images/xls-24.png') repeat 0 0;
+}

@@ -1,0 +1,4 @@
+views.area.export_header:
+  type: views_area
+  label: 'Export Header Links'
+  category: 'Valeo Partners'
