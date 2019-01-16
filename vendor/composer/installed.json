@@ -5629,6 +5629,62 @@
         }
     },
     {
+        "name": "drupal/vefl",
+        "version": "2.0.0-alpha1",
+        "version_normalized": "2.0.0.0-alpha1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/vefl",
+            "reference": "8.x-2.0-alpha1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/vefl-8.x-2.0-alpha1.zip",
+            "reference": "8.x-2.0-alpha1",
+            "shasum": "8981ba53f2d3fffc5d3b47b82d8785e36f47c7c9"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "require-dev": {
+            "drupal/better_exposed_filters": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.0-alpha1",
+                "datestamp": "1533147480",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Alpha releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "dima.iluschenko",
+                "homepage": "https://www.drupal.org/user/3181949"
+            },
+            {
+                "name": "skorzh",
+                "homepage": "https://www.drupal.org/user/813560"
+            }
+        ],
+        "description": "Provides functionality to output Views exposed filters in layout.",
+        "homepage": "https://www.drupal.org/project/vefl",
+        "support": {
+            "source": "http://cgit.drupalcode.org/vefl"
+        }
+    },
+    {
         "name": "drupal/verf",
         "version": "1.0.0-beta6",
         "version_normalized": "1.0.0.0-beta6",

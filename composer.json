@@ -73,6 +73,7 @@
         "drupal/token_filter": "1.0",
         "drupal/twig_tweak": "^2.1",
         "drupal/vbo_export": "^2.1",
+        "drupal/vefl": "^2.0",
         "drupal/verf": "^1.0",
         "drupal/views_bulk_edit": "^2.2",
         "drupal/views_bulk_operations": "2.4",
