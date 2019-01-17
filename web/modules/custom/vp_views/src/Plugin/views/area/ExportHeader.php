@@ -43,7 +43,7 @@ class ExportHeader extends AreaPluginBase {
     $export_xls = "$path/export?$query=&_format=xls";
     $export_csv = "$path/export?$query=&_format=csv";
     // html for link
-    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export XLS</a></span>";
+    // $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export XLS</a></span>";
     $export_csv_link = "<span id='export-csv-link'><span class='csv-icon'>&nbsp;</span><a href='$export_csv'><img src='/themes/custom/valeo_classic/images/csv-24.png' />Export CSV</a></span>";
 
     // return link
