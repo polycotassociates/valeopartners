@@ -68,24 +68,47 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
       unset($csv[0]);
       foreach ($csv as $index => $data) {
         foreach ($data as $key => $content) {
-          if ($content) {
+          if ($content && isset($csv_fields[$key])) {
             $content = Unicode::convertToUtf8($content, mb_detect_encoding($content));
             $fields = explode('|', $csv_fields[$key]);
 
-            if (count($fields) > 1) {
-              $field = $fields[0];
-              foreach ($fields as $in) {
-                $return[$index][$field][$in] = $content;
+            if ($fields[0] == 'translation') {
+              if (count($fields) > 3) {
+                $return['translations'][$index][$fields[3]][$fields[1]][$fields[2]] = $content;
+              }
+              else {
+                $return['translations'][$index][$fields[2]][$fields[1]] = $content;
               }
             }
             else {
-              $return[$index][current($fields)] = $content;
+              $field = $fields[0];
+              if (count($fields) > 1) {
+                foreach ($fields as $key => $in) {
+                  $return['content'][$index][$field][$in] = $content;
+                }
+              }
+              else if (isset($return['content'][$index][$field])) {
+                $prev = $return['content'][$index][$field];
+                $return['content'][$index][$field] = [];
+
+                if (is_array($prev)) {
+                  $prev[] = $content;
+                  $return['content'][$index][$field] = $prev;
+                }
+                else {
+                  $return['content'][$index][$field][] = $prev;
+                  $return['content'][$index][$field][] = $content;
+                }
+              }
+              else {
+                $return['content'][$index][current($fields)] = $content;
+              }
             }
           }
         }
 
         if (isset($return[$index])) {
-          $return[$index] = array_intersect_key($return[$index], array_flip($this->configuration['fields']));
+          $return['content'][$index] = array_intersect_key($return[$index], array_flip($this->configuration['fields']));
         }
       }
     }
@@ -105,36 +128,75 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
     $entity_type_bundle = $this->configuration['entity_type_bundle'];
     $entity_definition = $this->entityTypeManager->getDefinition($entity_type);
 
-    if ($entity_definition->hasKey('bundle') && $entity_type_bundle) {
-      $content[$entity_definition->getKey('bundle')] = $this->configuration['entity_type_bundle'];
-    }
-
     $added = 0;
-    $entity = $this->entityTypeManager->getStorage($this->configuration['entity_type'], $this->configuration['entity_type_bundle'])->create($content);
-    $this->preSave($entity, $content, $context);
+    $updated = 0;
 
-    try {
-      $added = $entity->save();
-    }
-    catch (\Exception $e) {
+    foreach ($content['content'] as $key => $data) {
+      if ($entity_definition->hasKey('bundle') && $entity_type_bundle) {
+        $data[$entity_definition->getKey('bundle')] = $this->configuration['entity_type_bundle'];
+      }
+      
+      /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $entity_storage  */
+      $entity_storage = $this->entityTypeManager->getStorage($this->configuration['entity_type']);
+      
+      try {
+        if (isset($data[$entity_definition->getKeys()['id']]) && $entity = $entity_storage->load($data[$entity_definition->getKeys()['id']])) {
+          /** @var \Drupal\Core\Entity\ContentEntityInterface $entity  */
+          foreach ($data as $id => $set) {
+            $entity->set($id, $set);
+          }
+
+          $this->preSave($entity, $data, $context);
+  
+          if ($entity->save()) {
+            $updated++;
+          }
+        }
+        else {
+          /** @var \Drupal\Core\Entity\ContentEntityInterface $entity  */
+          $entity = $this->entityTypeManager->getStorage($this->configuration['entity_type'])->create($data);
+          
+          $this->preSave($entity, $data, $context);
+
+          if ($entity->save()) {
+            $added++;
+          }
+        }
+
+        if (isset($content['translations'][$key]) && is_array($content['translations'][$key])) {
+          foreach ($content['translations'][$key] as $code => $translations) {
+            $entity_data = array_replace($translations, $translations);
+
+            if ($entity->hasTranslation($code)) {
+              $entity_translation = $entity->getTranslation($code);
+
+              foreach ($entity_data as $key => $translation_data) {
+                $entity_translation->set($key, $translation_data);
+              } 
+            }
+            else {
+              $entity_translation = $entity->addTranslation($code, $entity_data);
+            }
+
+            $entity_translation->save();
+          }
+        }
+      }
+      catch (\Exception $e) {
+      }
     }
 
-    if ($added) {
-      $context['results'][] = $entity;
-    }
+    $context['results'] = [$added, $updated];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getOperations() {
-    $operations = [];
-    foreach ($this->data() as $content) {
-      $operations[] = [
-        [$this, 'add'],
-        [$content],
-      ];
-    }
+    $operations[] = [
+      [$this, 'add'],
+      [$this->data()],
+    ];
 
     return $operations;
   }
@@ -142,11 +204,11 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
   /**
    * {@inheritdoc}
    */
-  public function finished($success, array $contents, array $operations) {
+  public function finished($success, $results, array $operations) {
     $message = '';
 
     if ($success) {
-      $message = $this->t('@count content added.', ['@count' => count($contents)]);
+      $message = $this->t('@count_added content added and @count_updated updated', ['@count_added' => isset($results[0]) ? $results[0] : 0, '@count_updated' => isset($results[1]) ? $results[1] : 0]);
     }
 
     drupal_set_message($message);

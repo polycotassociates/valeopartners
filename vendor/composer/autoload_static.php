@@ -70,6 +70,22 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         '883af48563631547925fa4c3b48ead07' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/multiply.php',
         'f190e3308e6ca23234a2875edc985c03' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideby.php',
         'ac9e33ce6841aa5bf5d16d465a2f03a7' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideinto.php',
+        '9d8e013a5160a09477beb8e44f8ae97b' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/adjoint.php',
+        '6e78d1bdea6248d6aa117229efae50f2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/antidiagonal.php',
+        '4623d87924d94f5412fe5afbf1cef31d' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/cofactors.php',
+        '901fd1f6950a637ca85f66b701a45e13' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/determinant.php',
+        '83057abc0e4acc99ba80154ee5d02a49' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/diagonal.php',
+        '07b7fd7a434451149b4fd477fca0ce06' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/identity.php',
+        'c8d43b340583e07ae89f2a3baef2cf89' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/inverse.php',
+        '499bb10ed7a3aee2ba4c09a31a85e8d1' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/minors.php',
+        '1cad2e6414d652e8b1c64e8967f6f37d' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/trace.php',
+        '95a7f134ac17161d07def442b3b737e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/functions/transpose.php',
+        'b3a6bc628377118d4b4b8ba08d1eb949' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/add.php',
+        '5fef6d0e407f3f8887266dfa4a6c534c' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/directsum.php',
+        '684ba247e1385946e3babdaa054119de' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/subtract.php',
+        'aa53dcba601214d17ad405b7c291b7e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/multiply.php',
+        '75c79eb1b25749b05a47976f32b0d8a2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideby.php',
+        '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
         '5a12a5271c58108e0aa33355e6ac54ea' => __DIR__ . '/..' . '/drupal/console-core/src/functions.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
     );
@@ -102,6 +118,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'T' => 
         array (
             'Twig\\' => 5,
+            'TYPO3\\PharStreamWrapper\\' => 24,
         ),
         'S' => 
         array (
@@ -145,6 +162,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'M' => 
         array (
             'Michelf\\' => 8,
+            'Matrix\\' => 7,
             'Masterminds\\' => 12,
         ),
         'L' => 
@@ -230,6 +248,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'TYPO3\\PharStreamWrapper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src',
         ),
         'Symfony\\Polyfill\\Php70\\' => 
         array (
@@ -367,6 +389,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         array (
             0 => __DIR__ . '/..' . '/michelf/php-markdown/Michelf',
         ),
+        'Matrix\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+        ),
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
@@ -475,10 +501,6 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         ),
         'S' => 
         array (
-            'Sunra\\PhpSimple\\HtmlDomParser' => 
-            array (
-                0 => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src',
-            ),
             'Stack' => 
             array (
                 0 => __DIR__ . '/..' . '/stack/builder/src',
@@ -489,6 +511,13 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'PHPExcel' => 
             array (
                 0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
+        ),
+        'K' => 
+        array (
+            'KubAT\\PhpSimple\\HtmlDomParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/kub-at/php-simple-html-dom-parser/src',
             ),
         ),
         'H' => 
@@ -2711,6 +2740,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Drupal\\Core\\Routing\\UrlGeneratorInterface' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Routing/UrlGeneratorInterface.php',
         'Drupal\\Core\\Routing\\UrlGeneratorTrait' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Routing/UrlGeneratorTrait.php',
         'Drupal\\Core\\Routing\\UrlMatcher' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Routing/UrlMatcher.php',
+        'Drupal\\Core\\Security\\PharExtensionInterceptor' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Security/PharExtensionInterceptor.php',
         'Drupal\\Core\\Security\\RequestSanitizer' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Security/RequestSanitizer.php',
         'Drupal\\Core\\Serialization\\Yaml' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Serialization/Yaml.php',
         'Drupal\\Core\\Session\\AccountInterface' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Session/AccountInterface.php',
@@ -3272,6 +3302,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',
+        'KubAT\\PhpSimple\\HtmlDomParser' => __DIR__ . '/..' . '/kub-at/php-simple-html-dom-parser/src/KubAT/PhpSimple/HtmlDomParser.php',
         'League\\Csv\\AbstractCsv' => __DIR__ . '/..' . '/league/csv/src/AbstractCsv.php',
         'League\\Csv\\Config\\Controls' => __DIR__ . '/..' . '/league/csv/src/Config/Controls.php',
         'League\\Csv\\Config\\Output' => __DIR__ . '/..' . '/league/csv/src/Config/Output.php',
@@ -3306,6 +3337,16 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Masterminds\\HTML5\\Serializer\\OutputRules' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/OutputRules.php',
         'Masterminds\\HTML5\\Serializer\\RulesInterface' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/RulesInterface.php',
         'Masterminds\\HTML5\\Serializer\\Traverser' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/Traverser.php',
+        'Matrix\\Builder' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Builder.php',
+        'Matrix\\Exception' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Exception.php',
+        'Matrix\\Functions' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Functions.php',
+        'Matrix\\Matrix' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Matrix.php',
+        'Matrix\\Operators\\Addition' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Addition.php',
+        'Matrix\\Operators\\DirectSum' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/DirectSum.php',
+        'Matrix\\Operators\\Division' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Division.php',
+        'Matrix\\Operators\\Multiplication' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Multiplication.php',
+        'Matrix\\Operators\\Operator' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Operator.php',
+        'Matrix\\Operators\\Subtraction' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
         'Michelf\\Markdown' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/Markdown.php',
         'Michelf\\MarkdownExtra' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownExtra.php',
         'Michelf\\MarkdownInterface' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownInterface.php',
@@ -4084,7 +4125,6 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Stecman\\Component\\Symfony\\Console\\BashCompletion\\Completion\\ShellPathCompletion' => __DIR__ . '/..' . '/stecman/symfony-console-completion/src/Completion/ShellPathCompletion.php',
         'Stecman\\Component\\Symfony\\Console\\BashCompletion\\EnvironmentCompletionContext' => __DIR__ . '/..' . '/stecman/symfony-console-completion/src/EnvironmentCompletionContext.php',
         'Stecman\\Component\\Symfony\\Console\\BashCompletion\\HookFactory' => __DIR__ . '/..' . '/stecman/symfony-console-completion/src/HookFactory.php',
-        'Sunra\\PhpSimple\\HtmlDomParser' => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src/Sunra/PhpSimple/HtmlDomParser.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\DiactorosFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/DiactorosFactory.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\HttpFoundationFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/HttpFoundationFactory.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\PsrHttpFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/PsrHttpFactory.php',
@@ -5202,6 +5242,13 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Symfony\\Polyfill\\Iconv\\Iconv' => __DIR__ . '/..' . '/symfony/polyfill-iconv/Iconv.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
         'Symfony\\Polyfill\\Php70\\Php70' => __DIR__ . '/..' . '/symfony/polyfill-php70/Php70.php',
+        'TYPO3\\PharStreamWrapper\\Assertable' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Assertable.php',
+        'TYPO3\\PharStreamWrapper\\Behavior' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Behavior.php',
+        'TYPO3\\PharStreamWrapper\\Exception' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Exception.php',
+        'TYPO3\\PharStreamWrapper\\Helper' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Helper.php',
+        'TYPO3\\PharStreamWrapper\\Interceptor\\PharExtensionInterceptor' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Interceptor/PharExtensionInterceptor.php',
+        'TYPO3\\PharStreamWrapper\\Manager' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Manager.php',
+        'TYPO3\\PharStreamWrapper\\PharStreamWrapper' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/PharStreamWrapper.php',
         'Twig\\Cache\\CacheInterface' => __DIR__ . '/..' . '/twig/twig/src/Cache/CacheInterface.php',
         'Twig\\Cache\\FilesystemCache' => __DIR__ . '/..' . '/twig/twig/src/Cache/FilesystemCache.php',
         'Twig\\Cache\\NullCache' => __DIR__ . '/..' . '/twig/twig/src/Cache/NullCache.php',
