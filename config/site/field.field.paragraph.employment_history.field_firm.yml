@@ -1,0 +1,29 @@
+uuid: a36ffcf6-1ca3-4f4a-a92f-76ddeae1ac78
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_firm
+    - node.type.vp_type_firm
+    - paragraphs.paragraphs_type.employment_history
+id: paragraph.employment_history.field_firm
+field_name: field_firm
+entity_type: paragraph
+bundle: employment_history
+label: Firm
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      vp_type_firm: vp_type_firm
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,20 @@
+uuid: 255ad87f-04d3-4a65-9292-56d5b868a081
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_vp_case_attorneys_fee
+field_name: field_vp_case_attorneys_fee
+entity_type: node
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,22 @@
+uuid: 418f6a5c-302d-4cad-a636-6a4491423082
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: NIKBt6kw_uPhNI0qtR2DnRf7mSOgAQdx7Q94SKMjXbQ
+name: 'Plain Text'
+format: plain_text
+weight: 10
+filters:
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings: {  }
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }

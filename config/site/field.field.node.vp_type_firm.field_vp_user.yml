@@ -1,0 +1,28 @@
+uuid: f4f7fc8e-5e42-496b-ba23-e3d38bba02c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_user
+    - node.type.vp_type_firm
+id: node.vp_type_firm.field_vp_user
+field_name: field_vp_user
+entity_type: node
+bundle: vp_type_firm
+label: 'Research Associate'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

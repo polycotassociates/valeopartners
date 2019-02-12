@@ -1,0 +1,28 @@
+uuid: 5c228fee-42f4-4031-8010-b4e003487531
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_rate_firm
+    - node.type.vp_type_firm
+    - node.type.vp_type_rate
+id: node.vp_type_rate.field_vp_rate_firm
+field_name: field_vp_rate_firm
+entity_type: node
+bundle: vp_type_rate
+label: Firm
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      vp_type_firm: vp_type_firm
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

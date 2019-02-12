@@ -1,0 +1,14 @@
+uuid: d7f0d8af-f524-4b7d-acfc-4f38d830dde2
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.alerts_add_on
+  module:
+    - user
+id: user_add_role_action.alerts_add_on
+label: 'Add the Alerts Add-On role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: alerts_add_on

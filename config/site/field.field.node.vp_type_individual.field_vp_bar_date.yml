@@ -1,0 +1,23 @@
+uuid: cc6d644d-d984-4d04-ac62-df9de209f3c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_bar_date
+    - node.type.vp_type_individual
+  module:
+    - yearonly
+id: node.vp_type_individual.field_vp_bar_date
+field_name: field_vp_bar_date
+entity_type: node
+bundle: vp_type_individual
+label: 'Year Of Bar'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  yearonly_from: '1950'
+  yearonly_to: now
+field_type: yearonly

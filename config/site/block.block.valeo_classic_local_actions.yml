@@ -1,0 +1,20 @@
+uuid: c61bf9b2-a440-4b56-9d60-1d29e6c3ecbb
+langcode: en
+status: true
+dependencies:
+  theme:
+    - valeo_classic
+_core:
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: valeo_classic_local_actions
+theme: valeo_classic
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,48 @@
+uuid: 0d8349e6-6c29-41af-b813-1009d7071a1f
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_individual.field_vp_bar_date
+    - field.field.node.vp_type_individual.field_vp_email
+    - field.field.node.vp_type_individual.field_vp_employment_history
+    - field.field.node.vp_type_individual.field_vp_first_name
+    - field.field.node.vp_type_individual.field_vp_graduation
+    - field.field.node.vp_type_individual.field_vp_individual_location
+    - field.field.node.vp_type_individual.field_vp_last_name
+    - field.field.node.vp_type_individual.field_vp_law_school
+    - field.field.node.vp_type_individual.field_vp_middle_name
+    - field.field.node.vp_type_individual.field_vp_position
+    - field.field.node.vp_type_individual.field_vp_practice_area_1
+    - field.field.node.vp_type_individual.field_vp_practice_area_2
+    - field.field.node.vp_type_individual.field_vp_practice_area_3
+    - field.field.node.vp_type_individual.field_vp_state_bar
+    - node.type.vp_type_individual
+  module:
+    - user
+id: node.vp_type_individual.teaser
+targetEntityType: node
+bundle: vp_type_individual
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_vp_bar_date: true
+  field_vp_email: true
+  field_vp_employment_history: true
+  field_vp_first_name: true
+  field_vp_graduation: true
+  field_vp_individual_location: true
+  field_vp_last_name: true
+  field_vp_law_school: true
+  field_vp_middle_name: true
+  field_vp_position: true
+  field_vp_practice_area_1: true
+  field_vp_practice_area_2: true
+  field_vp_practice_area_3: true
+  field_vp_state_bar: true

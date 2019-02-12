@@ -1,0 +1,26 @@
+uuid: 4d5b80d6-aa8e-4c9e-bcf6-78929352ae47
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_filing_year_end
+    - node.type.vp_type_filing
+  module:
+    - computed_field
+id: node.vp_type_filing.field_vp_filing_year_end
+field_name: field_vp_filing_year_end
+entity_type: node
+bundle: vp_type_filing
+label: 'Filing Year End'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: ''
+  suffix: ''
+field_type: computed_integer

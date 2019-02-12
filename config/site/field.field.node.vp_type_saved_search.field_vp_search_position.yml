@@ -1,0 +1,29 @@
+uuid: 231097b3-8592-44a9-a409-cbb0c2ed4aff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_search_position
+    - node.type.vp_type_saved_search
+    - taxonomy.vocabulary.position
+id: node.vp_type_saved_search.field_vp_search_position
+field_name: field_vp_search_position
+entity_type: node
+bundle: vp_type_saved_search
+label: Position
+description: 'Position of the Attorney'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      position: position
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

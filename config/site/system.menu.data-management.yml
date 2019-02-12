@@ -1,0 +1,8 @@
+uuid: ed6d8b38-baea-4c4f-9c34-d2c8deebe12d
+langcode: en
+status: true
+dependencies: {  }
+id: data-management
+label: 'Data Management'
+description: 'Manage data'
+locked: false

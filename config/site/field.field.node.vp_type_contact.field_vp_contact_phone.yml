@@ -1,0 +1,21 @@
+uuid: c5ad6905-7a6e-45d1-b0e4-3d54fda5cf81
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_contact_phone
+    - node.type.vp_type_contact
+  module:
+    - telephone
+id: node.vp_type_contact.field_vp_contact_phone
+field_name: field_vp_contact_phone
+entity_type: node
+bundle: vp_type_contact
+label: Phone
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: telephone

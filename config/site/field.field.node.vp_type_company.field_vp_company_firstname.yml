@@ -1,0 +1,19 @@
+uuid: 29e6c368-cd25-4e89-88e3-028cd0c5e7c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_company_firstname
+    - node.type.vp_type_company
+id: node.vp_type_company.field_vp_company_firstname
+field_name: field_vp_company_firstname
+entity_type: node
+bundle: vp_type_company
+label: 'First Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

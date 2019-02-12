@@ -1,0 +1,23 @@
+uuid: f05b352b-e34e-4b7f-9c95-099028b9c314
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_rate_retainer
+    - node.type.vp_type_rate
+id: node.vp_type_rate.field_vp_rate_retainer
+field_name: field_vp_rate_retainer
+entity_type: node
+bundle: vp_type_rate
+label: Retainer
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: $
+  suffix: ''
+field_type: decimal

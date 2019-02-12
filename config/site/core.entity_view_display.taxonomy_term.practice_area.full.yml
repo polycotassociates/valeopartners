@@ -1,0 +1,22 @@
+uuid: 9f63ebf7-c7f2-4b80-a665-6ff9fcbe460d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.taxonomy_term.full
+    - taxonomy.vocabulary.practice_area
+  module:
+    - text
+id: taxonomy_term.practice_area.full
+targetEntityType: taxonomy_term
+bundle: practice_area
+mode: full
+content:
+  description:
+    label: inline
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

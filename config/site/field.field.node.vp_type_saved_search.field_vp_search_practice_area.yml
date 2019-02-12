@@ -1,0 +1,29 @@
+uuid: f4a8667d-86ec-468c-aadb-25f30587b210
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_search_practice_area
+    - node.type.vp_type_saved_search
+    - taxonomy.vocabulary.practice_area
+id: node.vp_type_saved_search.field_vp_search_practice_area
+field_name: field_vp_search_practice_area
+entity_type: node
+bundle: vp_type_saved_search
+label: 'Practice Area'
+description: 'Limit your search to only the selected attorney practice areas.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      practice_area: practice_area
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

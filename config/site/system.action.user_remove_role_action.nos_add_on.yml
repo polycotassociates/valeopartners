@@ -1,0 +1,14 @@
+uuid: 8a60c193-069d-4c90-975d-e587d7e5c078
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.nos_add_on
+  module:
+    - user
+id: user_remove_role_action.nos_add_on
+label: 'Remove the NOS Add-on role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: nos_add_on

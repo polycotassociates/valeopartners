@@ -1,0 +1,20 @@
+uuid: e7956497-1a65-4e79-acb5-06056d641c07
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.vp_type_company
+  module:
+    - user
+id: node.vp_type_company.teaser
+targetEntityType: node
+bundle: vp_type_company
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

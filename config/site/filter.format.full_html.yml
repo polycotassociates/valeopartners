@@ -1,0 +1,28 @@
+uuid: 88010314-b106-4f86-a0a0-87b00168320a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: hewPmBgni9jlDK_IjLxUx1HsTbinK-hdl0lOwjbteIY
+name: 'Full HTML'
+format: full_html
+weight: 1
+filters:
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }
+  filter_autop:
+    id: filter_autop
+    provider: filter
+    status: true
+    weight: 0
+    settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: true
+    weight: 0
+    settings: {  }

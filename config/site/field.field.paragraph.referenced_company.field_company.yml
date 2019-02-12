@@ -1,0 +1,28 @@
+uuid: eb1e7cf2-507a-44aa-b22f-95f124724bf0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_company
+    - node.type.vp_type_company
+    - paragraphs.paragraphs_type.referenced_company
+id: paragraph.referenced_company.field_company
+field_name: field_company
+entity_type: paragraph
+bundle: referenced_company
+label: 'Referenced Company'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      vp_type_company: vp_type_company
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

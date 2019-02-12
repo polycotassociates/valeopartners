@@ -1,0 +1,33 @@
+uuid: 0e1706aa-532f-4402-b0ea-9d98928d8de5
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.my_saved_searches
+  module:
+    - user
+    - views
+  theme:
+    - bartik
+id: views_block__my_saved_searches_block_1
+theme: bartik
+region: sidebar_first
+weight: -5
+provider: null
+plugin: 'views_block:my_saved_searches-block_1'
+settings:
+  id: 'views_block:my_saved_searches-block_1'
+  label: 'Saved Searches'
+  provider: views
+  label_display: visible
+  views_label: 'Saved Searches'
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      authenticated: authenticated
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

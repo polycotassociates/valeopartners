@@ -1,0 +1,24 @@
+uuid: d35f1f2a-9552-45ba-894a-b4f8d7cd2c3a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_rate_primaryfeetypecalc
+    - node.type.vp_type_rate
+  module:
+    - computed_field
+id: node.vp_type_rate.field_vp_rate_primaryfeetypecalc
+field_name: field_vp_rate_primaryfeetypecalc
+entity_type: node
+bundle: vp_type_rate
+label: 'Primary Fee Type'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings:
+  code: '$value = '''';'
+field_type: computed_string

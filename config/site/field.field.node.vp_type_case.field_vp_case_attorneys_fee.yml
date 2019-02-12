@@ -1,0 +1,23 @@
+uuid: f1d9ca2f-65c5-42c6-bb8f-524fd53afd5c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_case_attorneys_fee
+    - node.type.vp_type_case
+id: node.vp_type_case.field_vp_case_attorneys_fee
+field_name: field_vp_case_attorneys_fee
+entity_type: node
+bundle: vp_type_case
+label: 'Attorneys'' Fees Disclosed'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: $
+  suffix: ''
+field_type: decimal

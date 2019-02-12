@@ -1,0 +1,14 @@
+uuid: 12043b1d-a000-4cfc-88fa-0774bd3ef984
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.download_add_on
+  module:
+    - user
+id: user_remove_role_action.download_add_on
+label: 'Remove the Download Add-On role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: download_add_on

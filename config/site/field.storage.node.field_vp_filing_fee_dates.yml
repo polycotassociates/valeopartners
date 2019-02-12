@@ -1,0 +1,20 @@
+uuid: a1ee96ef-fe94-4bc7-a7e1-6943089fba99
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime_range
+    - node
+id: node.field_vp_filing_fee_dates
+field_name: field_vp_filing_fee_dates
+entity_type: node
+type: daterange
+settings:
+  datetime_type: date
+module: datetime_range
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

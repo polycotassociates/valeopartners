@@ -1,0 +1,22 @@
+uuid: 30296164-b880-4709-9e31-bb6de2af937c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - valeo_classic
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: valeo_classic_content
+theme: valeo_classic
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

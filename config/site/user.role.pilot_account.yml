@@ -1,0 +1,16 @@
+uuid: 7e291c79-03d0-4bf5-b8d1-7cf1bf502b35
+langcode: en
+status: true
+dependencies: {  }
+id: pilot_account
+label: 'Pilot Account'
+weight: 5
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'create search content'
+  - 'delete own search content'
+  - 'download saved searches'
+  - 'edit own search content'
+  - 'use text format plain_text'

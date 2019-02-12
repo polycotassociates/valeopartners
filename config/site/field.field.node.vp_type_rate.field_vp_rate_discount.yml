@@ -1,0 +1,23 @@
+uuid: 12f32cf3-e66b-4f43-ab96-a86dcbee5a68
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_rate_discount
+    - node.type.vp_type_rate
+id: node.vp_type_rate.field_vp_rate_discount
+field_name: field_vp_rate_discount
+entity_type: node
+bundle: vp_type_rate
+label: Discount
+description: 'Enter the percentage the Standard Rate is discounted to create the Market Rate.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: '%'
+field_type: decimal

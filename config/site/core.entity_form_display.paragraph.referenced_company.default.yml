@@ -1,0 +1,35 @@
+uuid: f21ac1b7-b020-4bea-8730-e53c6f5718df
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.referenced_company.field_attorney
+    - field.field.paragraph.referenced_company.field_company
+    - paragraphs.paragraphs_type.referenced_company
+id: paragraph.referenced_company.default
+targetEntityType: paragraph
+bundle: referenced_company
+mode: default
+content:
+  field_attorney:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_company:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

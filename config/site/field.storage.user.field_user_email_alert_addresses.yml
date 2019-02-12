@@ -1,0 +1,18 @@
+uuid: decdde26-789d-44e7-8328-6a611dd5389c
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_user_email_alert_addresses
+field_name: field_user_email_alert_addresses
+entity_type: user
+type: email
+settings: {  }
+module: core
+locked: false
+cardinality: 5
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

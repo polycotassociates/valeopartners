@@ -1,0 +1,30 @@
+uuid: 4f3d43c0-92e8-4272-a436-b0d7b8483df4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.referenced_company.field_attorney
+    - field.field.paragraph.referenced_company.field_company
+    - paragraphs.paragraphs_type.referenced_company
+id: paragraph.referenced_company.default
+targetEntityType: paragraph
+bundle: referenced_company
+mode: default
+content:
+  field_attorney:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_company:
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden: {  }

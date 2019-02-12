@@ -1,0 +1,14 @@
+uuid: 4a5fc9dd-e827-4a92-8670-d07405528710
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.full_database_download_add_on
+  module:
+    - user
+id: user_remove_role_action.full_database_download_add_on
+label: 'Remove the Full Database Download Add-On role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: full_database_download_add_on
