@@ -3,20 +3,23 @@
 
 /**
  * @file
- *   Valeo functions
+ * Common Valeo Partners methods used by modules in the site.
+ */
+
+/**
+ * Function to render a saved search.
+ *
+ * (Currently unused --ACE).
  */
   function vp_api_saved_search($vars) {
-
-	$args = [$tid];
-	$view = Views::getView('test_view');
-	if (is_object($view)) {
-	  $view->setArguments($args);
-	  $view->setDisplay('block');
-	  $view->preExecute();
-	  $view->execute();
-	  $content = $view->buildRenderable('block', $args);
-	}
-
-	return $content;
-
+  $args = [$tid];
+  $view = Views::getView('test_view');
+  if (is_object($view)) {
+    $view->setArguments($args);
+    $view->setDisplay('block');
+    $view->preExecute();
+    $view->execute();
+    $content = $view->buildRenderable('block', $args);
+  }
+  return $content;
   }
