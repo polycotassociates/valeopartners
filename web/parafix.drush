@@ -21,8 +21,8 @@ $db = \Drupal\Core\Database\Database::getConnection();
 
 
 
-$sql='SELECT * 
-      FROM paragraphs_item_field_data 
+$sql='SELECT *
+      FROM paragraphs_item_field_data
       WHERE parent_field_name != :field';
 
 $sql_field_attorney = "select * from paragraph__field_attorney";
