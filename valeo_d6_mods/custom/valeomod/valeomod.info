@@ -1,0 +1,5 @@
+; $Id$
+name = Valeo Partners Module
+description = Additional functions and settings required by the Valeo website
+core = 6.x
+package = Valeo Partners

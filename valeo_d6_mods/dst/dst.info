@@ -1,0 +1,13 @@
+name = DST
+description = Daylight Savings Time
+core = "6.x"
+version = 6.1
+dependencies[] = user
+
+
+; Information added by drupal.org packaging script on 2011-03-24
+version = "6.x-2.7"
+core = "6.x"
+project = "dst"
+datestamp = "1300984568"
+

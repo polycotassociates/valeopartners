@@ -1,0 +1,3 @@
+<?php
+
+include_once('valeo_content_types.features.inc');

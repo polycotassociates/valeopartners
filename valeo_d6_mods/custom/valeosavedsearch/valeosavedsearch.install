@@ -1,0 +1,19 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ *   Installs the schema for the Valeo Saved Search module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function valeosavedsearch_install() {
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function valeosavedsearch_uninstall() {
+}

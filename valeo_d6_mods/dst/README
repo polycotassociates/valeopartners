@@ -1,0 +1,11 @@
+This module is intended to make drupal work correctly with local timezones instead of standart drupal time offsets.
+To use them just apply patch common.inc.diff to includes/common.inc.
+After that turn in DST in /admin/settings/dst and that's all.
+
+Instructions on how to patch drupal core for correct work:
+ 1. Open a shell 
+ 2. cd /includes
+ 3. patch < ../sites/all/modules/dst/common.inc.diff (path to module may differ)
+
+
+Authors: Ilya V. Azarov, brainstorm@brainstorm.name, Andrey Postnykov, andypost@drupal.org.

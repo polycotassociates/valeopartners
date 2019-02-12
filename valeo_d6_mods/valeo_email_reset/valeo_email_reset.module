@@ -1,0 +1,195 @@
+<?php
+
+function valeo_email_reset_menu(){
+	// path location (<a href="http://www.url.com/foo/bar" title="http://www.url.com/foo/bar">http://www.url.com/foo/bar</a> )
+	$items['admin/user/emailreset'] = array(
+		// page title
+		'title' => 'Valeo Email Reset',
+		// describe the page for the menu system.  site visitors will not see this
+		'description' => 'Valeo Email Reset.',
+		// function that is called when visiting the new path
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('valeo_email_reset_form'),
+		// permissions required to view page
+		'access arguments' => array('access administration pages'),
+		'weight' => 1,
+	);
+	return $items;
+}
+
+function valeo_email_reset_form(){
+	$currentEmail = variable_get('valeo_email_cc');
+	if (empty($currentEmail)){
+		$currentEmail = "";
+	}
+
+	$form = array();
+	$form['email'] = array(
+		'#title' => 'Email Address',
+		'#type' => 'textfield',
+		'#size' => '128',
+		'#default_value' => $currentEmail,
+	);
+
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Submit',
+	);
+
+	return $form;
+}
+
+function valeo_email_reset_form_validate($form,$form_state){
+	$email = $form_state['values']['email'];
+	if (empty($email)){
+		form_set_error('email','Email Cannot Be Blank');
+	}
+
+	if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+		form_set_error('email','Invalid Email Address');
+	}
+}
+
+function valeo_email_reset_form_submit($form,$form_state){
+	$email = trim($form_state['values']['email']);
+	variable_set('valeo_email_cc', $email);
+	drupal_set_message('email saved successfully.');
+}
+
+function 	valeo_email_reset_form_alter(&$form, $form_state, $form_id){
+	switch ($form_id){
+		case 'user_pass':
+			$form['#submit'][] = "valeo_email_reset_form_submit_handler";
+			break;
+	}
+}
+
+function valeo_email_reset_form_submit_handler($form, &$form_state) {
+	//We get our cc variable
+	$name = trim($form_state['values']['name']);
+
+	if (empty($name)){
+		return;
+	}
+
+	//We check the usernames first
+	$account = user_load(array('name' => check_plain($name)));
+	if (empty($account->uid)){
+		//Let's try by email address
+		$email = filter_var($name, FILTER_SANITIZE_EMAIL);
+		if (empty($email)){
+			return;
+		}
+
+		$account = user_load(array('mail' => $email));
+	}
+
+	if (empty($account->uid)){
+		return;
+	}
+
+	if (empty($account->mail)){
+		$message = $account->name . " has no email address but requested a new password";
+		valeo_email_reset_admin_problem($message);
+		return;
+	}
+	valeo_email_reset_email_link($account);
+	valeo_email_reset_admin_email($account);
+}
+
+function valeo_email_reset_admin_problem($message){
+	$currentEmail = variable_get('valeo_email_cc');
+	$fromEmail = "valeopartners@valeopartners.com";
+
+	$adminEmails = array(
+		'pdesai@synergies.co',
+		'ayodele.smithjackson@gmail.com',
+	);
+
+	if (!empty($currentEmail)){
+		$adminEmails[] = $currentEmail;
+	}
+
+	$to = implode(',',$adminEmails);
+	$subject = 'Password Reset Problem';
+
+	$headers = "From: Valeo Partners" . strip_tags($fromEmail) . "\r\n";
+	$headers .= "Reply-To: ". strip_tags($fromEmail) . "\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+	$message = '<html><body>';
+	$message .= '<p>' . $message . '</p>';
+	$message .= '</body></html>';
+
+	mail($to, $subject, $message, $headers);
+}
+
+function valeo_email_reset_admin_email($account){
+	$adminEmails = array(
+		'pdesai@synergies.co',
+		'ayodele.smithjackson@gmail.com',
+	);
+
+	$site_email = variable_get('site_mail', ini_get('sendmail_from'));
+	$currentEmail = variable_get('valeo_email_cc');
+
+	if (!empty($currentEmail)){
+		$adminEmails[] = $currentEmail;
+	}
+
+	$to = implode(',',$adminEmails);
+	$subject = 'Valeo Partners: Password Reset Requested';
+
+	$headers = "From: valeopartners@valeopartners.com\r\n";
+	$headers .= "Reply-To: ". strip_tags($site_email) . "\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+	$message = '<html><body>';
+	$message .= '<p style="margin: 1em 0;">' . $account->name . ' has requested a password reset. An email was sent to ' . $account->mail . ' with the reset link.</p>';
+	$message .= '</body></html>';
+
+	mail($to, $subject, $message, $headers);
+}
+
+function valeo_email_reset_email_link($account){
+	global $base_url,$language;
+
+	$siteName = variable_get('site_name','Drupal');
+	$site_email = variable_get('site_mail', ini_get('sendmail_from'));
+
+	$uri_brief = preg_replace('!^https?://!', '', $base_url);
+	$edit_uri = url('user/' . $account->uid . '/edit', array('absolute' => TRUE, 'language' => $language));
+
+	$link = user_pass_reset_url($account);
+
+	if (empty($account->mail)){
+		return;
+	}
+
+	if (empty($link)){
+		return;
+	}
+
+	$to = $account->mail;
+	$subject = 'Valeo Partners Password Reset';
+
+	$headers = "From: valeopartners@valeopartners.com\r\n";
+	$headers .= "Reply-To: ". strip_tags($site_email) . "\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+	$message = '<html><body>';
+	$message .= '<p style="margin: 1em 0;">' . $account->name . ',</p>';
+	$message .= '<p style="margin: 1em 0;">A request to reset the password for your account has been made at ' . $siteName . '</p>';
+	$message .= '<p style="margin: 1em 0;">You may now log in to <a href="' . $uri_brief . '">' . $uri_brief . '</a> by clicking on this link or copying and pasting it in your browser:</p>';
+	$message .= '<p style="margin: 1em 0;"><a href="' . $link . '">' . $link . '</a></p>';
+	$message .= '<p style="margin: 1em 0;">This is a one-time login, so it can be used only once. It expires after one day and nothing will happen if it\'s not used.</p>';
+	$message .= '<p style="margin: 1em 0;">After logging in, you will be redirected to <a href="' . $edit_uri . '">' . $edit_uri . '</a> so you can change your password.</p>';
+	$message .= '<p style="margin: 1em 0;">Thank You,<br>Valeo Partners</p>';
+	$message .= '</body></html>';
+
+	mail($to, $subject, $message, $headers);
+}
+?>

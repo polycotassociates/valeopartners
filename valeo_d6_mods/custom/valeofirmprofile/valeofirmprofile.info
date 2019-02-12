@@ -1,0 +1,7 @@
+; $Id$
+name = Valeo Firm Profile Module
+description = Adds features for Firm Profile data
+core = 6.x
+package = Valeo Partners
+dependencies[] = "statsbytime"
+dependencies[] = "lineage"

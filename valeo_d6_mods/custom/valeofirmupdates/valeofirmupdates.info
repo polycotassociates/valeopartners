@@ -1,0 +1,6 @@
+; $Id$
+name = Valeo Firm Updates Module
+description = Adds features for Firm Updated data
+core = 6.x
+package = Valeo Partners
+dependencies[] = "statsbytime"

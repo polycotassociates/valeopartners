@@ -1,0 +1,51 @@
+<?php
+// $Id: dst.install,v 1.4 2011/02/24 13:28:56 ilya1st Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function dst_install() {
+  $ret = array();
+  drupal_install_schema('dst');
+  drupal_set_message(t('DST module installed succesfully.'));
+  return $ret;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function dst_uninstall() {
+  drupal_uninstall_schema('dst');
+  variable_del('dst_used');
+  variable_del('dst_default');
+  variable_del('dst_default_timezone');
+}
+function dst_schema(){
+  $schema['users_dst'] = array(
+    'fields' => array(
+      'uid' => array('type' =>'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+      'dst' =>  array('type' => 'varchar', 'length' => 128, 'not null' => FALSE, 'default' => 'NULL'),
+    ),
+    'primary key' => array('uid'),
+  );
+  return $schema;
+}
+function dst_requirements($phase){
+  $requirements = array();
+  $t = get_t();
+  if($phase == 'runtime'){
+    if(!_dst_core_patched() ) $requirements['dst'] = array(
+      'title' => $t('DST module'),
+      'description' => $t('DST module installation was unsuccessfull. Please check if drupal core file includes/common.inc was patched as described in the module readme file'),
+      'severity' => REQUIREMENT_ERROR,
+      'value' => $t(''),
+    );
+    else $requirements['dst'] =  array(
+      'title' => $t('DST module'),
+      'description' => $t('Core patched and module was successfully installed'),
+      'severity' => REQUIREMENT_OK,
+      'value' => $t(''),
+    );
+  }
+  return $requirements;
+}

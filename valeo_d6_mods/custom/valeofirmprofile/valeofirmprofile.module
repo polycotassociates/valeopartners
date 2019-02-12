@@ -1,0 +1,126 @@
+<?php
+
+// $Id$
+
+/**
+ * @file
+ *   Firm Profile functions
+ */
+
+/**
+ * Get module to call views file
+ */
+function valeofirmprofile_views_api() {
+	return array('api' => 2.0);
+}
+
+
+/**
+ * Format statistic output with the proper currency format
+ */
+function valeofirmprofile_views_pre_render(&$view) {
+	switch ($view->name) {
+		case 'profile_firm_position':
+			foreach($view->result as $index) {
+				foreach($index as $key => $data) {
+					switch ($key) {
+						case 'vw_rate_firm_position_actual_avg_market_rate':
+						case 'vw_rate_firm_position_actual_min_market_rate':
+						case 'vw_rate_firm_position_actual_max_market_rate':
+//						case 'vw_rate_firm_position_standard_avg_standard_rate':
+//						case 'vw_rate_firm_position_standard_min_standard_rate':
+//						case 'vw_rate_firm_position_standard_max_standard_rate':
+							if ($data == 0) {
+								$index->$key = '';
+							} else {
+								$index->$key = '$' . number_format($data, 2, '.', ',');
+							}
+							break;
+					}
+				}
+			}
+			break;
+		case 'profile_firm_position_parents':
+			// Add sub-positions to view results by running new views and building a new result set
+			$orig_result_len = count($view->result);
+			$x = $orig_result_len;
+			$nid = 0;
+			$results = $view->result;
+			for($i=0;$i < $orig_result_len;$i++) {
+				if ($results[$i]->nid > 0) {
+					$nid = $results[$i]->nid;
+					if ($results[$i]->vw_rate_firm_position_actual_parent_feeappdate) {
+						$vars = array($nid, $results[$i]->vw_rate_firm_position_actual_parent_feeappdate, $results[$i]->vw_rate_firm_position_actual_parent_position_tid);
+						$subview = views_get_view('profile_firm_position_children');
+						$subview->execute_display('default', $vars);
+						foreach($subview->result as $this_result){
+							$results[$x]->nid = $nid;
+							$results[$x]->vw_rate_firm_position_actual_parent_position_name = '--- ' . $this_result->vw_rate_firm_position_actual_position_name;
+							$results[$x]->vw_rate_firm_position_actual_parent_feeappdate = $this_result->vw_rate_firm_position_actual_feeappdate;
+							$results[$x]->vw_rate_firm_position_actual_parent_min_market_rate = $this_result->vw_rate_firm_position_actual_min_market_rate;
+							$results[$x]->vw_rate_firm_position_actual_parent_avg_market_rate = $this_result->vw_rate_firm_position_actual_avg_market_rate;
+							$results[$x]->vw_rate_firm_position_actual_parent_max_market_rate = $this_result->vw_rate_firm_position_actual_max_market_rate;
+//							$results[$x]->vw_rate_firm_position_standard_parent_min_standard_rate = $this_result->vw_rate_firm_position_standard_min_standard_rate;
+//							$results[$x]->vw_rate_firm_position_standard_parent_avg_standard_rate = $this_result->vw_rate_firm_position_standard_avg_standard_rate;
+//							$results[$x]->vw_rate_firm_position_standard_parent_max_standard_rate = $this_result->vw_rate_firm_position_standard_max_standard_rate;
+							$results[$x]->vw_rate_firm_position_actual_parent_count_rate = $this_result->vw_rate_firm_position_actual_count_rate;
+							$results[$x]->vw_rate_firm_position_actual_parent_position_tid = '';
+							$results[$x]->vw_rate_firm_position_actual_parent_position_lineage = $this_result->vw_rate_firm_position_actual_position_lineage;
+		 					$x++;
+						}
+					} else {
+						unset($results[$i]); // remove this result if there is on rate year info.
+					}
+				}
+			}
+			// add the non-nested positions at the top level
+			$vars = array($nid);
+			$extraview = views_get_view('profile_firm_position_nochildren');
+			$extraview->execute_display('default', $vars);
+			foreach($extraview->result as $this_result){
+				$results[$x]->nid = $this_result->nid;
+				$results[$x]->vw_rate_firm_position_actual_parent_position_name = $this_result->vw_rate_firm_position_actual_position_name;
+				$results[$x]->vw_rate_firm_position_actual_parent_feeappdate = $this_result->vw_rate_firm_position_actual_feeappdate;
+				$results[$x]->vw_rate_firm_position_actual_parent_min_market_rate = $this_result->vw_rate_firm_position_actual_min_market_rate;
+				$results[$x]->vw_rate_firm_position_actual_parent_avg_market_rate = $this_result->vw_rate_firm_position_actual_avg_market_rate;
+				$results[$x]->vw_rate_firm_position_actual_parent_max_market_rate = $this_result->vw_rate_firm_position_actual_max_market_rate;
+//				$results[$x]->vw_rate_firm_position_standard_parent_min_standard_rate = $this_result->vw_rate_firm_position_standard_min_standard_rate;
+//				$results[$x]->vw_rate_firm_position_standard_parent_avg_standard_rate = $this_result->vw_rate_firm_position_standard_avg_standard_rate;
+//				$results[$x]->vw_rate_firm_position_standard_parent_max_standard_rate = $this_result->vw_rate_firm_position_standard_max_standard_rate;
+				$results[$x]->vw_rate_firm_position_actual_parent_count_rate = $this_result->vw_rate_firm_position_actual_count_rate;
+				$results[$x]->vw_rate_firm_position_actual_parent_position_tid = '';
+				$results[$x]->vw_rate_firm_position_actual_parent_position_lineage = $this_result->vw_rate_firm_position_actual_position_lineage;
+				$x++;
+			}
+			// sort the array by rate year desc and lineage asc
+			$tmp_year = Array(); 
+			$tmp_lineage = Array(); 
+			foreach($results as &$year) {
+				$tmp_year[] = &$year->vw_rate_firm_position_actual_parent_feeappdate;
+			}
+			foreach($results as &$lin) {
+				$tmp_lineage[] = &$lin->vw_rate_firm_position_actual_parent_position_lineage;
+			}
+			array_multisort($tmp_year, SORT_DESC, $tmp_lineage, SORT_ASC, $results);
+			foreach($results as $index) {
+				foreach($index as $key => $data) {
+					switch ($key) {
+						case 'vw_rate_firm_position_actual_parent_avg_market_rate':
+						case 'vw_rate_firm_position_actual_parent_min_market_rate':
+						case 'vw_rate_firm_position_actual_parent_max_market_rate':
+//						case 'vw_rate_firm_position_standard_parent_avg_standard_rate':
+//						case 'vw_rate_firm_position_standard_parent_min_standard_rate':
+//						case 'vw_rate_firm_position_standard_parent_max_standard_rate':
+							if ($data == 0) {
+								$index->$key = '';
+							} else {
+								$index->$key = '$' . number_format($data, 2, '.', ',');
+							}
+							break;
+					}
+				}
+			}
+			$view->result = $results;
+			break;
+	}
+}
