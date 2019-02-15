@@ -1,0 +1,22 @@
+uuid: 0bc9e9a3-e0d6-4203-81e9-f72ac8c692b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vp_type_filing
+id: node.vp_type_filing.status
+field_name: status
+entity_type: node
+bundle: vp_type_filing
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,22 @@
+uuid: 6914b676-b2ce-45a1-b693-61e029838e3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vp_type_rate
+id: node.vp_type_rate.status
+field_name: status
+entity_type: node
+bundle: vp_type_rate
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

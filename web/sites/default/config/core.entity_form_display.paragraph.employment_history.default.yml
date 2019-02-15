@@ -1,0 +1,48 @@
+uuid: 746db499-e8f0-49dc-82a4-bebf0b9ea28a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.employment_history.field_firm
+    - field.field.paragraph.employment_history.field_firm_date
+    - field.field.paragraph.employment_history.field_partner_date
+    - paragraphs.paragraphs_type.employment_history
+  module:
+    - content_moderation
+    - yearonly
+id: paragraph.employment_history.default
+targetEntityType: paragraph
+bundle: employment_history
+mode: default
+content:
+  field_firm:
+    weight: 101
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_firm_date:
+    weight: 102
+    settings: {  }
+    third_party_settings: {  }
+    type: yearonly_default
+    region: content
+  field_partner_date:
+    weight: 103
+    settings: {  }
+    third_party_settings: {  }
+    type: yearonly_default
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

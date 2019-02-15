@@ -1,0 +1,19 @@
+uuid: 3f9ea329-e324-4ab1-a224-731ca8ffdf47
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_company_middleinitial
+    - node.type.vp_type_company
+id: node.vp_type_company.field_vp_company_middleinitial
+field_name: field_vp_company_middleinitial
+entity_type: node
+bundle: vp_type_company
+label: 'Middle Initial'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

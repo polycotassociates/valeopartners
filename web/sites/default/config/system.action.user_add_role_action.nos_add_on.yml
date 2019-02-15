@@ -1,0 +1,14 @@
+uuid: 77834844-63a5-4715-aee7-259c33f0ac61
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.nos_add_on
+  module:
+    - user
+id: user_add_role_action.nos_add_on
+label: 'Add the NOS Add-on role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: nos_add_on

@@ -1,0 +1,23 @@
+uuid: f237c9af-d826-470a-899b-3c3616c4724c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_graduation
+    - node.type.vp_type_individual
+  module:
+    - yearonly
+id: node.vp_type_individual.field_vp_graduation
+field_name: field_vp_graduation
+entity_type: node
+bundle: vp_type_individual
+label: 'Year Of Graduation'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  yearonly_from: '1950'
+  yearonly_to: now
+field_type: yearonly

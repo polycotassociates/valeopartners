@@ -1,0 +1,19 @@
+uuid: 6b83bbd9-3a00-49de-a056-cae765f6aa41
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - yearonly
+id: paragraph.field_firm_date
+field_name: field_firm_date
+entity_type: paragraph
+type: yearonly
+settings: {  }
+module: yearonly
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

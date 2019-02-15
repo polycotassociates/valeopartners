@@ -1,0 +1,34 @@
+uuid: bb7a4ebf-b8ac-460e-a718-09b9e4169a39
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.data-management
+  module:
+    - system
+    - user
+  theme:
+    - bartik
+id: datamanagement
+theme: bartik
+region: sidebar_first
+weight: -7
+provider: null
+plugin: 'system_menu_block:data-management'
+settings:
+  id: 'system_menu_block:data-management'
+  label: Manage
+  provider: system
+  label_display: visible
+  level: 1
+  depth: 0
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+      superuser: superuser
+      data_entry: data_entry
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

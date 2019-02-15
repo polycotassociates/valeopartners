@@ -1,0 +1,22 @@
+uuid: 379f934c-3d6d-4373-9f3b-1e14ca3a6173
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - node
+id: node.field_vp_rate_record_type
+field_name: field_vp_rate_record_type
+entity_type: node
+type: computed_string
+settings:
+  max_length: '255'
+  is_ascii: false
+  case_sensitive: false
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

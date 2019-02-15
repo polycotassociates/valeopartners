@@ -1,0 +1,28 @@
+uuid: cab797c4-3555-44f3-a499-4ab30e0f8333
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_attorney
+    - node.type.vp_type_individual
+    - paragraphs.paragraphs_type.referenced_company
+id: paragraph.referenced_company.field_attorney
+field_name: field_attorney
+entity_type: paragraph
+bundle: referenced_company
+label: 'Referenced Attorney'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      vp_type_individual: vp_type_individual
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

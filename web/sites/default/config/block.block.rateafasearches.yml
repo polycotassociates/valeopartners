@@ -1,0 +1,35 @@
+uuid: 18c905f7-7e55-4246-adc3-8813b317dc10
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.rate-afa-searches
+  module:
+    - system
+    - user
+  theme:
+    - bartik
+id: rateafasearches
+theme: bartik
+region: sidebar_first
+weight: -6
+provider: null
+plugin: 'system_menu_block:rate-afa-searches'
+settings:
+  id: 'system_menu_block:rate-afa-searches'
+  label: 'Rate & AFA Searches'
+  provider: system
+  label_display: visible
+  level: 1
+  depth: 0
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+      superuser: superuser
+      data_entry: data_entry
+      fee_search_add_on: fee_search_add_on
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

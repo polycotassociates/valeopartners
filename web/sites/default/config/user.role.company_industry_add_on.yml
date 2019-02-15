@@ -1,0 +1,9 @@
+uuid: bf446bdf-8d48-4c8e-a244-6dafac00909d
+langcode: en
+status: true
+dependencies: {  }
+id: company_industry_add_on
+label: 'Company/Industry Add-On'
+weight: 8
+is_admin: null
+permissions: {  }

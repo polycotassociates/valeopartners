@@ -1,0 +1,26 @@
+uuid: 39faa188-ba37-4603-99ca-91cc75fe4d56
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_filing_year
+    - node.type.vp_type_filing
+  module:
+    - computed_field
+id: node.vp_type_filing.field_vp_filing_year
+field_name: field_vp_filing_year
+entity_type: node
+bundle: vp_type_filing
+label: 'Filing Year'
+description: 'Year of this filing (for searching purposes)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: ''
+  suffix: ''
+field_type: computed_integer

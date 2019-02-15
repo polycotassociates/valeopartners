@@ -1,0 +1,23 @@
+uuid: 58792c03-f741-489b-9128-94f80c5a960f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_rate_total_fees
+    - node.type.vp_type_rate
+id: node.vp_type_rate.field_vp_rate_total_fees
+field_name: field_vp_rate_total_fees
+entity_type: node
+bundle: vp_type_rate
+label: 'Total Fees'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: $
+  suffix: ''
+field_type: decimal

@@ -1,4 +1,4 @@
-uuid: 233021d8-285c-4083-94cd-d4f4a2dbe3da
+uuid: 38c7a0bd-6fab-4cdd-8a52-8a691f941a5a
 langcode: en
 status: true
 dependencies:
@@ -27,8 +27,12 @@ display:
         options:
           perm: 'access site reports'
       cache:
-        type: none
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 0
+          results_lifespan_custom: 0
+          output_lifespan: 60
+          output_lifespan_custom: 0
       query:
         type: views_query
         options:

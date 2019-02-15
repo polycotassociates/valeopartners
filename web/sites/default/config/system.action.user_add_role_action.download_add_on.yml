@@ -1,0 +1,14 @@
+uuid: eec5f431-9758-42a5-8b03-775faa80dece
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.download_add_on
+  module:
+    - user
+id: user_add_role_action.download_add_on
+label: 'Add the Download Add-On role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: download_add_on

@@ -1,0 +1,22 @@
+uuid: 46d3ba19-16cb-4bbc-af9f-317ab89bf0f4
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - node
+id: node.field_vp_rate_fees_listed_calc
+field_name: field_vp_rate_fees_listed_calc
+entity_type: node
+type: computed_string
+settings:
+  max_length: '255'
+  is_ascii: false
+  case_sensitive: false
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

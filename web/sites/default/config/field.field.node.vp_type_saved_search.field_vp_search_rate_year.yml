@@ -1,0 +1,29 @@
+uuid: cb0b6148-c40a-4ff2-b4a1-9aaa65abfc45
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_search_rate_year
+    - node.type.vp_type_saved_search
+  module:
+    - range
+id: node.vp_type_saved_search.field_vp_search_rate_year
+field_name: field_vp_search_rate_year
+entity_type: node
+bundle: vp_type_saved_search
+label: 'Rate Year'
+description: 'Limit your search to rates recorded during the date range selected. Empty ''To date'' values will use the ''From date'' values. Note: this filter only applies to Detail search results; Summary results always display the 3 most recent years'' rate data. Empty ''To date'' values will use the ''From date'' values.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  from:
+    prefix: ''
+    suffix: ''
+  to:
+    prefix: ''
+    suffix: ''
+field_type: range_integer

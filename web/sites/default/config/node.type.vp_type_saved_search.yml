@@ -1,0 +1,17 @@
+uuid: 7e5d6268-91f7-47c5-bc59-a596bffc4bfc
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Saved Search'
+type: vp_type_saved_search
+description: 'Saved Search'
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: true

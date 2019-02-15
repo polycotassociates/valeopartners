@@ -1,0 +1,23 @@
+uuid: 589428da-296f-4a5b-a3ba-79d56233bdcd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standard_rate_tmp
+    - node.type.vp_type_rate
+id: node.vp_type_rate.field_standard_rate_tmp
+field_name: field_standard_rate_tmp
+entity_type: node
+bundle: vp_type_rate
+label: 'Standard Rate Tmp'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

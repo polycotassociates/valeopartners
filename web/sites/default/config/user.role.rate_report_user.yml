@@ -1,0 +1,17 @@
+uuid: 59ecc3f1-b93a-4e44-be7a-97f6b21a7b5c
+langcode: en
+status: true
+dependencies: {  }
+id: rate_report_user
+label: 'Rate Report User'
+weight: 3
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'create search content'
+  - 'delete own search content'
+  - 'download saved searches'
+  - 'edit own search content'
+  - 'use text format plain_text'
+  - 'view custom reports'

@@ -1,0 +1,23 @@
+uuid: f3d48e24-57f0-4d0b-9139-21f55d5827d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_search_type
+    - node.type.vp_type_saved_search
+  module:
+    - options
+id: node.vp_type_saved_search.field_vp_search_type
+field_name: field_vp_search_type
+entity_type: node
+bundle: vp_type_saved_search
+label: 'Detail or Summary Data'
+description: 'Select the data you wish to display: individual rates (Detail) or rates summarized by attorney (Summary).'
+required: false
+translatable: false
+default_value:
+  -
+    value: '0'
+default_value_callback: ''
+settings: {  }
+field_type: list_string

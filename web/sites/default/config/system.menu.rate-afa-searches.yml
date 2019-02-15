@@ -1,0 +1,8 @@
+uuid: b2eba7d4-23b5-4a4d-bc69-c25baafd67a5
+langcode: en
+status: true
+dependencies: {  }
+id: rate-afa-searches
+label: 'Rate & AFA Searches'
+description: Searches
+locked: false

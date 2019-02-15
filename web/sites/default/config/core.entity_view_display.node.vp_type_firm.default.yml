@@ -1,0 +1,55 @@
+uuid: f5941749-ff19-4c8b-8e81-595eaf66fa7d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.vp_type_firm.field_vp_firm_type
+    - field.field.node.vp_type_firm.field_vp_headquarters
+    - field.field.node.vp_type_firm.field_vp_location
+    - field.field.node.vp_type_firm.field_vp_user
+    - node.type.vp_type_firm
+  module:
+    - user
+id: node.vp_type_firm.default
+targetEntityType: node
+bundle: vp_type_firm
+mode: default
+content:
+  field_vp_firm_type:
+    weight: 102
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_vp_headquarters:
+    weight: 101
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_vp_location:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_vp_user:
+    weight: 103
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

@@ -1,0 +1,9 @@
+uuid: 3fdc7edd-75d4-4dfd-abcc-f7fc97e04389
+langcode: en
+status: true
+dependencies: {  }
+id: firm_rate_profile_add_on
+label: 'Firm Rate Profile Add-On'
+weight: 10
+is_admin: null
+permissions: {  }

@@ -1,0 +1,20 @@
+uuid: 95ebd372-5173-408b-a24c-effa3bfc2e6e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_vp_position
+field_name: field_vp_position
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

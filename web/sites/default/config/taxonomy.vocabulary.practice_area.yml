@@ -1,0 +1,9 @@
+uuid: 32d86595-1f8c-453d-9848-6425def44049
+langcode: en
+status: true
+dependencies: {  }
+name: 'Practice Area'
+vid: practice_area
+description: ''
+hierarchy: 0
+weight: -10

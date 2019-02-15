@@ -1,0 +1,29 @@
+uuid: 5ecca469-68c7-4830-b956-a00941e3987a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_vp_contact_position
+    - node.type.vp_type_contact
+    - taxonomy.vocabulary.position
+id: node.vp_type_contact.field_vp_contact_position
+field_name: field_vp_contact_position
+entity_type: node
+bundle: vp_type_contact
+label: Position
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      position: position
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,20 @@
+uuid: ba2afb5a-7f9f-472e-ac2d-59d3444283b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_user_email_alert_addresses
+  module:
+    - user
+id: user.user.field_user_email_alert_addresses
+field_name: field_user_email_alert_addresses
+entity_type: user
+bundle: user
+label: 'Email Alert Addresses'
+description: 'Enter the email addresses here (up to 5) that will receive the bi-weekly Rate Change Alerts'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

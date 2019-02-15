@@ -1,0 +1,20 @@
+uuid: 79fd90b2-b0bb-40db-9fcd-a1fbcc0141b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.vp_type_firm
+  module:
+    - user
+id: node.vp_type_firm.teaser
+targetEntityType: node
+bundle: vp_type_firm
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

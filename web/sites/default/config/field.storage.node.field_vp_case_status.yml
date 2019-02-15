@@ -1,0 +1,30 @@
+uuid: b76b3000-08be-4590-b141-30a1c9fb182c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_vp_case_status
+field_name: field_vp_case_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Won by Plaintiff'
+      label: 'Won by Plaintiff'
+    -
+      value: 'Won by Defendant'
+      label: 'Won by Defendant'
+    -
+      value: 'Case Settled'
+      label: 'Case Settled'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

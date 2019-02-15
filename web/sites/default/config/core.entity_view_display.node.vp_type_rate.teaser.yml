@@ -1,0 +1,20 @@
+uuid: f6971241-b7c2-493a-95c7-ea40fd1e21e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.vp_type_rate
+  module:
+    - user
+id: node.vp_type_rate.teaser
+targetEntityType: node
+bundle: vp_type_rate
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

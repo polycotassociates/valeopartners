@@ -1,0 +1,19 @@
+uuid: 6866772c-43e6-4c41-82cd-6f6211dfe419
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_vp_rate_attorneys
+field_name: field_vp_rate_attorneys
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,15 @@
+login_redirection:
+  anonymous: null
+  authenticated: /
+  administrator: /
+  rate_report_user: /
+  superuser: /
+  pilot_account: /
+  data_entry: /
+  alerts_add_on: /
+  company_industry_add_on: /
+  full_database_download_add_on: /
+  firm_rate_profile_add_on: /
+  fee_search_add_on: /
+  nos_add_on: /
+  download_add_on: /

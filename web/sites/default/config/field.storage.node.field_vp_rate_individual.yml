@@ -1,0 +1,19 @@
+uuid: 2957285d-ed1a-4cfe-a38c-f89fb24a9ac2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_vp_rate_individual
+field_name: field_vp_rate_individual
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

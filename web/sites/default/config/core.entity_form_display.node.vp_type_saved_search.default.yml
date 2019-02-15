@@ -1,0 +1,265 @@
+uuid: 174d6567-6029-461d-8249-712500f39c10
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.vp_type_saved_search.field_vp_search_bar_year
+    - field.field.node.vp_type_saved_search.field_vp_search_display_columns
+    - field.field.node.vp_type_saved_search.field_vp_search_firms
+    - field.field.node.vp_type_saved_search.field_vp_search_grad_date
+    - field.field.node.vp_type_saved_search.field_vp_search_industry
+    - field.field.node.vp_type_saved_search.field_vp_search_partner_year
+    - field.field.node.vp_type_saved_search.field_vp_search_position
+    - field.field.node.vp_type_saved_search.field_vp_search_practice_area
+    - field.field.node.vp_type_saved_search.field_vp_search_rate_year
+    - field.field.node.vp_type_saved_search.field_vp_search_region_city
+    - field.field.node.vp_type_saved_search.field_vp_search_type
+    - node.type.vp_type_saved_search
+  module:
+    - content_moderation
+    - field_group
+    - multiselect
+    - path
+    - publication_date
+    - range
+    - shs
+third_party_settings:
+  field_group:
+    group_display:
+      children:
+        - title
+        - field_vp_search_display_columns
+        - field_vp_search_type
+      parent_name: ''
+      weight: 8
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: Display
+      region: content
+    group_firm_selection:
+      children:
+        - field_vp_search_firms
+      parent_name: ''
+      weight: 9
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Firm Selection'
+      region: content
+    group_position_selection:
+      children:
+        - field_vp_search_position
+      parent_name: ''
+      weight: 12
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Position Selection'
+      region: content
+    group_industry_selection:
+      children:
+        - field_vp_search_industry
+      parent_name: ''
+      weight: 10
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Industry Selection'
+      region: content
+    group_location_selection:
+      children:
+        - field_vp_search_region_city
+      parent_name: ''
+      weight: 13
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Location Selection'
+      region: content
+    group_practice_area_selection:
+      children:
+        - field_vp_search_practice_area
+      parent_name: ''
+      weight: 11
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Practice Area Selection'
+      region: content
+    group_dates:
+      children:
+        - field_vp_search_grad_date
+        - field_vp_search_bar_year
+        - field_vp_search_partner_year
+        - field_vp_search_rate_year
+      parent_name: ''
+      weight: 14
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: Dates
+      region: content
+id: node.vp_type_saved_search.default
+targetEntityType: node
+bundle: vp_type_saved_search
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_vp_search_bar_year:
+    weight: 16
+    settings: {  }
+    third_party_settings: {  }
+    type: range
+    region: content
+  field_vp_search_display_columns:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+  field_vp_search_firms:
+    weight: 17
+    settings: {  }
+    third_party_settings: {  }
+    type: multiselect
+    region: content
+  field_vp_search_grad_date:
+    weight: 15
+    settings: {  }
+    third_party_settings: {  }
+    type: range
+    region: content
+  field_vp_search_industry:
+    weight: 12
+    settings: {  }
+    third_party_settings: {  }
+    type: multiselect
+    region: content
+  field_vp_search_partner_year:
+    weight: 17
+    settings: {  }
+    third_party_settings: {  }
+    type: range
+    region: content
+  field_vp_search_position:
+    weight: 28
+    settings:
+      display_node_count: false
+      create_new_items: false
+      create_new_levels: false
+      force_deepest: false
+    third_party_settings: {  }
+    type: options_shs
+    region: content
+  field_vp_search_practice_area:
+    weight: 14
+    settings: {  }
+    third_party_settings: {  }
+    type: multiselect
+    region: content
+  field_vp_search_rate_year:
+    weight: 18
+    settings: {  }
+    third_party_settings: {  }
+    type: range
+    region: content
+  field_vp_search_region_city:
+    weight: 13
+    settings:
+      display_node_count: false
+      create_new_items: false
+      create_new_levels: false
+      force_deepest: false
+    third_party_settings: {  }
+    type: options_shs
+    region: content
+  field_vp_search_type:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 6
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 7
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }

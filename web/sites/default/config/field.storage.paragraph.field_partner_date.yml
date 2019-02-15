@@ -1,0 +1,19 @@
+uuid: 867fa339-f629-42a7-bebc-2a822344cc08
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - yearonly
+id: paragraph.field_partner_date
+field_name: field_partner_date
+entity_type: paragraph
+type: yearonly
+settings: {  }
+module: yearonly
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
