@@ -77,7 +77,7 @@
         "drupal/verf": "^1.0",
         "drupal/views_bulk_edit": "^2.2",
         "drupal/views_bulk_operations": "2.4",
-        "drupal/views_data_export": "^1.0",
+        "drupal/views_data_export": "1.x-dev",
         "drupal/webform": "^5.0",
         "drupal/xls_serialization": "^1.0",
         "drupal/yearonly": "^1.3",
@@ -129,7 +129,10 @@
         },
     "patches": {
         "drupal/verf": {
-            "VERF Performance Problem": "https://www.drupal.org/files/issues/2018-09-11/performance-problem-2998697-7.patch"     
+            "VERF Performance Problem": "https://www.drupal.org/files/issues/2018-09-11/performance-problem-2998697-7.patch"
+        },
+        "drupal/views_data_export": {
+            "Support for batch operations patch 192": "https://www.drupal.org/files/issues/2019-02-06/2789531-192_0.patch"
         }
     },
     "build-env": {
