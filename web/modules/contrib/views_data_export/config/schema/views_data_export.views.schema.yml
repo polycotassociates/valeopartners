@@ -1,7 +1,7 @@
 # Schema for the views plugins of the Views Data Export module.
 
 views.display.data_export:
-  type: views_display_path
+  type: views.display.rest_export
   label: 'Data export display options'
   mapping:
     displays:
@@ -13,6 +13,21 @@ views.display.data_export:
     filename:
       type: string
       label: 'Downloaded filename'
+    automatic_download:
+      type: boolean
+      label: 'Download instantly'
+    redirect_path:
+      type: string
+      label: 'Redirect path'
+    export_method:
+      type: string
+      label: 'Export method'
+    export_batch_size:
+      type: integer
+      label: 'Batch size'
+    export_limit:
+      type: integer
+      label: 'Limit'
 
 views.style.data_export:
   type: views_style
@@ -46,6 +61,9 @@ views.style.data_export:
         encoding:
           type: string
           label: 'Encoding'
+        utf8_bom:
+          type: string
+          label: 'Include unicode signature (BOM)'
     xls_settings:
       type: mapping
       label: 'XLS settings'

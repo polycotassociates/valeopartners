@@ -4,6 +4,7 @@ namespace Drupal\views_data_export\Plugin\views\style;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RedirectDestinationTrait;
 use Drupal\Core\Url;
 use Drupal\rest\Plugin\views\style\Serializer;
 
@@ -21,6 +22,8 @@ use Drupal\rest\Plugin\views\style\Serializer;
  */
 class DataExport extends Serializer {
 
+  use RedirectDestinationTrait;
+
   /**
    * {@inheritdoc}
    */
@@ -36,6 +39,7 @@ class DataExport extends Serializer {
       'strip_tags' => ['default' => TRUE],
       'trim' => ['default' => TRUE],
       'encoding' => ['default' => 'utf8'],
+      'utf8_bom' => ['default' => FALSE],
     ];
 
     // XLS options.
@@ -64,13 +68,6 @@ class DataExport extends Serializer {
   /**
    * {@inheritdoc}
    */
-  public function optionsSummary(&$categories, &$options) {
-    parent::optionsSummary($categories, $options);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
 
@@ -82,132 +79,131 @@ class DataExport extends Serializer {
         $form['formats']['#type'] = 'radios';
         $form['formats']['#default_value'] = reset($this->options['formats']);
 
-        // CSV options.
-        // @todo Can these be moved to a plugin?
-        $csv_options = $this->options['csv_settings'];
-        $form['csv_settings'] = [
-          '#type' => 'details',
-          '#open' => FALSE,
-          '#title' => $this->t('CSV settings'),
-          '#tree' => TRUE,
-          '#states' => [
-            'visible' => [':input[name="style_options[formats]"]' => ['value' => 'csv']],
-          ],
-          'delimiter' => [
-            '#type' => 'textfield',
-            '#title' => $this->t('Delimiter'),
-            '#description' => $this->t('Indicates the character used to delimit fields. Defaults to a comma (<code>,</code>). For tab-separation use <code>\t</code> characters.'),
-            '#default_value' => $csv_options['delimiter'],
-          ],
-          'enclosure' => [
-            '#type' => 'textfield',
-            '#title' => $this->t('Enclosure'),
-            '#description' => $this->t('Indicates the character used for field enclosure. Defaults to a double quote (<code>"</code>).'),
-            '#default_value' => $csv_options['enclosure'],
-          ],
-          'escape_char' => [
-            '#type' => 'textfield',
-            '#title' => $this->t('Escape character'),
-            '#description' => $this->t('Indicates the character used for escaping. Defaults to a backslash (<code>\</code>).'),
-            '#default_value' => $csv_options['escape_char'],
-          ],
-          'strip_tags' => [
-            '#type' => 'checkbox',
-            '#title' => $this->t('Strip HTML'),
-            '#description' => $this->t('Strips HTML tags from CSV cell values.'),
-            '#default_value' => $csv_options['strip_tags'],
-          ],
-          'trim' => [
-            '#type' => 'checkbox',
-            '#title' => $this->t('Trim whitespace'),
-            '#description' => $this->t('Trims whitespace from beginning and end of CSV cell values.'),
-            '#default_value' => $csv_options['trim'],
-          ],
-          'encoding' => [
-            '#type' => 'radios',
-            '#title' => $this->t('Encoding'),
-            '#description' => $this->t('Determines the encoding used for CSV cell values.'),
-            '#options' => [
-              'utf8' => $this->t('UTF-8'),
-            ],
-            '#default_value' => $csv_options['encoding'],
-          ],
-        ];
+        $format_options = $this->getFormatOptions();
 
-        // XLS options.
-        // @todo Can these be moved to a plugin?
-        $xls_options = $this->options['xls_settings'];
-        $form['xls_settings'] = [
-          '#type' => 'details',
-          '#open' => FALSE,
-          '#title' => $this->t('XLS settings'),
-          '#tree' => TRUE,
-          '#states' => [
-            'visible' => [':input[name="style_options[formats]"]' => ['value' => 'xls']],
-          ],
-          'xls_format' => [
-            '#type' => 'select',
-            '#title' => $this->t('Format'),
-            '#options' => [
-              // @todo Add all PHPExcel supported formats.
-              'Excel2007' => $this->t('Excel 2007'),
-              'Excel5' => $this->t('Excel 5'),
+        if (in_array('csv', $format_options)) {
+          // CSV options.
+          // @todo Can these be moved to a plugin?
+          $csv_options = $this->options['csv_settings'];
+          $form['csv_settings'] = [
+            '#type' => 'details',
+            '#open' => FALSE,
+            '#title' => $this->t('CSV settings'),
+            '#tree' => TRUE,
+            '#states' => [
+              'visible' => [':input[name="style_options[formats]"]' => ['value' => 'csv']],
             ],
-            '#default_value' => $xls_options['xls_format'],
-          ],
-        ];
-        // XLS metadata.
-        $metadata = $xls_options['metadata'];
-        $form['xls_settings']['metadata'] = [
-          '#type' => 'details',
-          '#title' => $this->t('Document metadata'),
-          '#open' => !empty(array_filter($metadata)),
-        ];
-        $form['xls_settings']['metadata']['creator'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Author/creator name'),
-          '#default_value' => $metadata['creator'],
-        ];
-        $form['xls_settings']['metadata']['last_modified_by'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Last modified by'),
-          '#default_value' => $metadata['last_modified_by'],
-        ];
-        $form['xls_settings']['metadata']['title'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Title'),
-          '#default_value' => $metadata['title'],
-        ];
-        $form['xls_settings']['metadata']['description'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Description'),
-          '#default_value' => $metadata['description'],
-        ];
-        $form['xls_settings']['metadata']['subject'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Subject'),
-          '#default_value' => $metadata['subject'],
-        ];
-        $form['xls_settings']['metadata']['keywords'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Keywords'),
-          '#default_value' => $metadata['keywords'],
-        ];
-        $form['xls_settings']['metadata']['category'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Category'),
-          '#default_value' => $metadata['category'],
-        ];
-        $form['xls_settings']['metadata']['manager'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Manager'),
-          '#default_value' => $metadata['manager'],
-        ];
-        $form['xls_settings']['metadata']['company'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('Company'),
-          '#default_value' => $metadata['company'],
-        ];
+            'delimiter' => [
+              '#type' => 'textfield',
+              '#title' => $this->t('Delimiter'),
+              '#description' => $this->t('Indicates the character used to delimit fields. Defaults to a comma (<code>,</code>). For tab-separation use <code>\t</code> characters.'),
+              '#default_value' => $csv_options['delimiter'],
+            ],
+            'enclosure' => [
+              '#type' => 'textfield',
+              '#title' => $this->t('Enclosure'),
+              '#description' => $this->t('Indicates the character used for field enclosure. Defaults to a double quote (<code>"</code>).'),
+              '#default_value' => $csv_options['enclosure'],
+            ],
+            'escape_char' => [
+              '#type' => 'textfield',
+              '#title' => $this->t('Escape character'),
+              '#description' => $this->t('Indicates the character used for escaping. Defaults to a backslash (<code>\</code>).'),
+              '#default_value' => $csv_options['escape_char'],
+            ],
+            'strip_tags' => [
+              '#type' => 'checkbox',
+              '#title' => $this->t('Strip HTML'),
+              '#description' => $this->t('Strips HTML tags from CSV cell values.'),
+              '#default_value' => $csv_options['strip_tags'],
+            ],
+            'trim' => [
+              '#type' => 'checkbox',
+              '#title' => $this->t('Trim whitespace'),
+              '#description' => $this->t('Trims whitespace from beginning and end of CSV cell values.'),
+              '#default_value' => $csv_options['trim'],
+            ],
+            'encoding' => [
+              '#type' => 'radios',
+              '#title' => $this->t('Encoding'),
+              '#description' => $this->t('Determines the encoding used for CSV cell values.'),
+              '#options' => [
+                'utf8' => $this->t('UTF-8'),
+              ],
+              '#default_value' => $csv_options['encoding'],
+            ],
+            'utf8_bom' => [
+              '#type' => 'checkbox',
+              '#title' => $this->t('Include unicode signature (<a href="@bom" target="_blank">BOM</a>).', [
+                '@bom' => 'https://www.w3.org/International/questions/qa-byte-order-mark'
+              ]),
+              '#default_value' => $csv_options['utf8_bom'],
+            ],
+          ];
+        }
+
+        if (in_array('xls', $format_options)) {
+          // XLS options.
+          // @todo Can these be moved to a plugin?
+          $xls_options = $this->options['xls_settings'];
+          $form['xls_settings'] = [
+            '#type' => 'details',
+            '#open' => TRUE,
+            '#title' => $this->t('XLS settings'),
+            '#tree' => TRUE,
+            '#states' => [
+              'visible' => [
+                ':input[name="style_options[formats]"]' => [
+                  ['value' => 'xls'],
+                  ['value' => 'xlsx'],
+                ],
+              ],
+            ],
+            'xls_format' => [
+              '#type' => 'select',
+              '#title' => $this->t('Format'),
+              '#options' => [
+                // @todo Add all PHPExcel supported formats.
+                'Excel2007' => $this->t('Excel 2007'),
+                'Excel5' => $this->t('Excel 5'),
+              ],
+              '#default_value' => $xls_options['xls_format'],
+            ],
+          ];
+
+          $metadata = !empty($xls_options['metadata']) ? array_filter($xls_options['metadata']) : [];
+
+          // XLS metadata.
+          $form['xls_settings']['metadata'] = [
+            '#type' => 'details',
+            '#title' => $this->t('Document metadata'),
+            '#open' => TRUE,
+          ];
+
+          $xls_fields = [
+            'creator' => $this->t('Author/creator name'),
+            'last_modified_by' => $this->t('Last modified by'),
+            'title' => $this->t('Title'),
+            'description' => $this->t('Description'),
+            'subject' => $this->t('Subject'),
+            'keywords' => $this->t('Keywords'),
+            'category' => $this->t('Category'),
+            'manager' => $this->t('Manager'),
+            'company' => $this->t('Company'),
+          ];
+
+          foreach ($xls_fields as $xls_field_key => $xls_field_title) {
+            $form['xls_settings']['metadata'][$xls_field_key] = [
+              '#type' => 'textfield',
+              '#title' => $xls_field_title,
+            ];
+
+            if (isset($xls_options['metadata'][$xls_field_key])) {
+              $form['xls_settings']['metadata']['#default_value'] = $xls_options['metadata'][$xls_field_key];
+            }
+          }
+        }
+
         break;
     }
   }
@@ -273,6 +269,32 @@ class DataExport extends Serializer {
       'title' => $title,
       'href' => $url,
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function render() {
+    // This is pretty close to the parent implementation.
+    // Difference (noted below) stems from not being able to get anything other
+    // than json rendered even when the display was set to export csv or xml.
+    $rows = [];
+
+    foreach ($this->view->result as $row_index => $row) {
+      $this->view->row_index = $row_index;
+      $rows[] = $this->view->rowPlugin->render($row);
+    }
+    unset($this->view->row_index);
+
+    // Get the format configured in the display or fallback to json.
+    // We intentionally implement this different from the parent method because
+    // $this->displayHandler->getContentType() will always return json due to
+    // the request's header (i.e. "accept:application/json") and
+    // we want to be able to render csv or xml data as well in accordance with
+    // the data export format configured in the display.
+    $content_type = !empty($this->options['formats']) ? reset($this->options['formats']) : 'json';
+
+    return $this->serializer->serialize($rows, $content_type, ['views_style_plugin' => $this]);
   }
 
 }
