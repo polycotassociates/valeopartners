@@ -23,7 +23,6 @@ dependencies:
     - user.role.superuser
   module:
     - computed_field
-    - csv_serialization
     - datetime_range
     - node
     - rest
@@ -31,6 +30,7 @@ dependencies:
     - user
     - views_data_export
     - vp_views
+    - xls_serialization
     - yearonly
 id: search_fees_by_individual
 label: 'Search Fees By Individual'
@@ -1620,18 +1620,18 @@ display:
         - 'config:field.storage.node.field_vp_rate_primaryfee_calc'
         - 'config:field.storage.node.field_vp_rate_primaryfeetypecalc'
         - 'config:field.storage.node.field_vp_state_bar'
-  data_export_1:
+  data_export_xls:
     display_plugin: data_export
-    id: data_export_1
-    display_title: 'Data export'
-    position: 2
+    id: data_export_xls
+    display_title: 'XLS Data export'
+    position: 3
     display_options:
       display_extenders: {  }
       style:
         type: data_export
         options:
           formats:
-            csv: csv
+            xls: xls
           csv_settings:
             delimiter: ','
             enclosure: '"'
@@ -1639,6 +1639,7 @@ display:
             strip_tags: true
             trim: true
             encoding: utf8
+            utf8_bom: '0'
           xls_settings:
             xls_format: Excel2007
             metadata:
@@ -1651,62 +1652,14 @@ display:
               category: ''
               manager: ''
               company: ''
+      display_description: ''
       path: fees/individual/export
-      filename: individuals.csv
-      displays:
-        search_fees_by_individual_page: search_fees_by_individual_page
-        default: '0'
+      filename: '[view:title].xls'
+      automatic_download: false
+      redirect_path: ''
+      export_method: batch
+      export_batch_size: 1000
       fields:
-        counter:
-          id: counter
-          table: views
-          field: counter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: '#'
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          counter_start: 1
-          plugin_id: counter
         title:
           id: title
           table: node_field_data
@@ -2706,6 +2659,18 @@ display:
         context: '0'
         menu_name: rate-afa-searches
       display_description: 'Search Fees By Individual'
+      footer:
+        export_header:
+          id: export_header
+          table: views
+          field: export_header
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          plugin_id: export_header
+      defaults:
+        footer: false
     cache_metadata:
       max-age: -1
       contexts:

@@ -22,7 +22,6 @@ dependencies:
     - user.role.superuser
   module:
     - computed_field
-    - csv_serialization
     - datetime_range
     - node
     - rest
@@ -30,6 +29,7 @@ dependencies:
     - user
     - views_data_export
     - vp_views
+    - xls_serialization
     - yearonly
 id: search_rates_by_individual
 label: 'Search Rates by Individual'
@@ -70,10 +70,10 @@ display:
         type: basic
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
+          expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
@@ -1231,7 +1231,16 @@ display:
           table: views
           field: export_header
           plugin_id: export_header
-      footer: {  }
+      footer:
+        export_header:
+          id: export_header
+          table: views
+          field: export_header
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          plugin_id: export_header
       empty: {  }
       relationships:
         field_vp_rate_individual:
@@ -1283,90 +1292,15 @@ display:
         - 'config:field.storage.node.field_vp_rate_hourly'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_rate_standard'
-  data_export_1:
+  data_export_xls:
     display_plugin: data_export
-    id: data_export_1
-    display_title: 'Data export'
-    position: 2
+    id: data_export_xls
+    display_title: 'XLS Data export'
+    position: 3
     display_options:
       display_extenders: {  }
-      style:
-        type: data_export
-        options:
-          formats:
-            csv: csv
-          csv_settings:
-            delimiter: ','
-            enclosure: '"'
-            escape_char: \
-            strip_tags: true
-            trim: true
-            encoding: utf8
-          xls_settings:
-            xls_format: Excel2007
-            metadata:
-              creator: ''
-              last_modified_by: ''
-              title: ''
-              description: ''
-              subject: ''
-              keywords: ''
-              category: ''
-              manager: ''
-              company: ''
-      path: rates/individual/export
-      filename: rates-individual-export.csv
+      display_description: ''
       fields:
-        counter:
-          id: counter
-          table: views
-          field: counter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: '#'
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          counter_start: 1
-          plugin_id: counter
         title_1:
           id: title_1
           table: node_field_data
@@ -1419,7 +1353,7 @@ display:
           type: string
           settings:
             link_to_entity: true
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -2135,16 +2069,46 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
       defaults:
         fields: false
-      pager:
-        type: some
+      style:
+        type: data_export
         options:
-          items_per_page: 100
-          offset: 0
-      displays:
-        search_rates_by_individual_page: search_rates_by_individual_page
-        default: '0'
+          formats:
+            xls: xls
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+          xls_settings:
+            xls_format: Excel2007
+            metadata:
+              creator: ''
+              last_modified_by: ''
+              title: ''
+              description: ''
+              subject: ''
+              keywords: ''
+              category: ''
+              manager: ''
+              company: ''
+      path: rates/individual/export
+      filename: '[view:title].xls'
+      automatic_download: false
+      redirect_path: ''
+      export_method: batch
+      export_batch_size: 1000
     cache_metadata:
       max-age: -1
       contexts:

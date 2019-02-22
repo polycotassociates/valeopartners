@@ -22,6 +22,7 @@ dependencies:
   module:
     - node
     - user
+    - verf
     - yearonly
 id: search_rates_by_firm_summary
 label: 'Search Rates By Firm - Summary'
@@ -806,6 +807,119 @@ display:
           entity_type: node
           entity_field: type
           plugin_id: bundle
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: word
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: Attorney
+            description: ''
+            use_operator: false
+            operator: title_op
+            identifier: title
+            required: false
+            remember: true
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+        field_vp_rate_firm_target_id_verf:
+          id: field_vp_rate_firm_target_id_verf
+          table: node__field_vp_rate_firm
+          field: field_vp_rate_firm_target_id_verf
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_rate_firm_target_id_verf_op
+            label: Firm
+            description: ''
+            use_operator: false
+            operator: field_vp_rate_firm_target_id_verf_op
+            identifier: field_vp_rate_firm_target_id_verf
+            required: false
+            remember: true
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          verf_target_bundles:
+            vp_type_firm: vp_type_firm
+            article: '0'
+            page: '0'
+            vp_type_case: '0'
+            vp_type_company: '0'
+            vp_type_contact: '0'
+            vp_type_filing: '0'
+            vp_type_individual: '0'
+            vp_type_rate: '0'
+            vp_type_saved_search: '0'
+          plugin_id: verf
       sorts: {  }
       title: 'Search Rates By Firm - Summary'
       header: {  }
@@ -820,6 +934,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.roles
@@ -833,6 +948,8 @@ display:
         - 'config:field.storage.node.field_vp_rate_firm'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
+        - 'config:views.view.search_rates_by_firm_summary'
+        - node_list
   search_rates_by_firm_summary_page:
     display_plugin: page
     id: search_rates_by_firm_summary_page
@@ -857,6 +974,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.roles
@@ -870,3 +988,5 @@ display:
         - 'config:field.storage.node.field_vp_rate_firm'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
+        - 'config:views.view.search_rates_by_firm_summary'
+        - node_list
