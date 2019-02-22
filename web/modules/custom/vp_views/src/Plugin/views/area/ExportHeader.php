@@ -1,9 +1,5 @@
 <?php
 
-/**
- * A plugin to add some header export-to-xls links to a view
- */
-
 namespace Drupal\vp_views\Plugin\views\area;
 
 use Drupal\views\Plugin\views\area\AreaPluginBase;
@@ -39,11 +35,11 @@ class ExportHeader extends AreaPluginBase {
     $path = \Drupal::request()->getpathInfo();
     // Put them together with /export added to the path and format=xls at the end.
     $export_xls = "$path/export?$query&_format=xls";
-    // $export_csv = "$path/export?$query&_format=csv";
-    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export XLS</a></span>";
-    //$export_csv_link = "<span id='export-csv-link'><span class='csv-icon'>&nbsp;</span><a href='$export_csv'><img src='/themes/custom/valeo_classic/images/csv-24.png' />Export CSV</a></span>";
-
+    // Create the html for the link.
+    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
     // Return the link.
-    return " $export_xls_link";
+    return "$export_xls_link";
+
   }
+
 }
