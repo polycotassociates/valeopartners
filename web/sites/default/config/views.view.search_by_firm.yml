@@ -26,7 +26,6 @@ dependencies:
     - user.role.superuser
   module:
     - computed_field
-    - csv_serialization
     - datetime
     - datetime_range
     - node
@@ -43,7 +42,7 @@ dependencies:
 id: search_by_firm
 label: 'Search By Firm'
 module: views
-description: 'Master search by firm'
+description: 'Master Search (Rates and Fees) by Firm'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -1748,7 +1747,7 @@ display:
           table: node__field_vp_rate_transaction_amount
           field: field_vp_rate_transaction_amount_value
           plugin_id: standard
-      title: 'Master Search by Firm'
+      title: 'Master Search (Rates and Fees) by Firm'
       header:
         result:
           id: result
@@ -2855,7 +2854,7 @@ display:
   master_search_by_firm_page:
     display_plugin: page
     id: master_search_by_firm_page
-    display_title: 'Master Search By Firm Page'
+    display_title: 'Master Search (Rates and Fees) by Firm'
     position: 1
     display_options:
       display_extenders: {  }
@@ -2863,7 +2862,7 @@ display:
       display_description: ''
       menu:
         type: normal
-        title: 'Master Search by Firm'
+        title: 'Master Search (Rates and Fees) by Firm'
         description: ''
         expanded: false
         parent: ''
