@@ -2579,7 +2579,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'AFA Amount'
+          label: 'Fee Amount'
           exclude: false
           alter:
             alter_text: false
@@ -2647,7 +2647,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'AFA Type'
+          label: 'Fee Type'
           exclude: false
           alter:
             alter_text: false
