@@ -1552,7 +1552,7 @@ display:
           exposed: true
           expose:
             operator_id: field_vp_graduation_value_op
-            label: 'Grad Date:'
+            label: 'Grad Date From'
             description: ''
             use_operator: false
             operator: field_vp_graduation_value_op
@@ -1607,7 +1607,7 @@ display:
           exposed: true
           expose:
             operator_id: field_vp_bar_date_value_op
-            label: 'Bar Date'
+            label: 'Bar Date From'
             description: ''
             use_operator: false
             operator: field_vp_bar_date_value_op
@@ -1663,7 +1663,7 @@ display:
           exposed: true
           expose:
             operator_id: field_vp_filing_fee_dates_value_op
-            label: 'Fee Date Range'
+            label: 'Fee Date Range From'
             description: ''
             use_operator: false
             operator: field_vp_filing_fee_dates_value_op
