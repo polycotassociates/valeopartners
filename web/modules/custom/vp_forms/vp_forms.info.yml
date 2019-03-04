@@ -1,0 +1,7 @@
+name: 'vp_forms'
+type: module
+description: 'Valeo Partners Form Customizations'
+core: 8.x
+package: 'Valeo Partners'
+dependencies:
+  - vp_api

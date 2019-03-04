@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Contains vp_forms.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+
+  $form['field_vp_graduation_value']['max']['#title'] = t('Grad Date To'); //Instead of "And".
+  $form['field_vp_bar_date_value']['max']['#title'] = t('Bar Date To'); //Instead of "And".
+  $form['field_vp_filing_fee_dates_value']['max']['#title'] = t('Fee Date Range To'); //Instead of "And".
+
+  switch ($form['#id']) {
+    case 'views-exposed-form-search-by-firm-master-search-by-firm-page':
+      break;
+  }
+}
