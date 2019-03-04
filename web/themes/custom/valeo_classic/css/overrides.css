@@ -8,3 +8,20 @@
 
     background: url('/themes/custom/valeo_classic/images/xls-24.png') repeat 0 0;
 }
+
+
+/* VIEWS */
+
+.form-item-field-vp-graduation-value-min,
+.form-item-field-vp-bar-date-value-min,
+.form-item-field-vp-filing-fee-dates-value-min {
+  clear: left;
+  float: none;
+  margin: 0.5em 0 0 0;
+}
+
+.form-item-field-vp-graduation-value-max,
+.form-item-field-vp-bar-date-value-max,
+.form-item-field-vp-filing-fee-dates-value-max {
+  margin: 0.5em 0 0 0;
+}
