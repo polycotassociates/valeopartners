@@ -17,7 +17,7 @@ provider: null
 plugin: 'system_menu_block:rate-afa-searches'
 settings:
   id: 'system_menu_block:rate-afa-searches'
-  label: 'Rate & Fee Searches'
+  label: 'Rate & AFA Searches'
   provider: system
   label_display: visible
   level: 1

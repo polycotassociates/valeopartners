@@ -3,6 +3,6 @@ langcode: en
 status: true
 dependencies: {  }
 id: rate-afa-searches
-label: 'Rate & Fee Searches'
+label: 'Rate & AFA Searches'
 description: Searches
 locked: false

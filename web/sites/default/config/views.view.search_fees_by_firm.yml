@@ -2789,7 +2789,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Fee Amount'
+          label: 'AFA Amount'
           exclude: false
           alter:
             alter_text: false
@@ -2857,7 +2857,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Fee Type'
+          label: 'AFA Type'
           exclude: false
           alter:
             alter_text: false
@@ -2922,7 +2922,7 @@ display:
           relationship: field_vp_rate_filing
           group_type: group
           admin_label: ''
-          label: 'Rate or Fee Year'
+          label: 'AFA Year'
           exclude: false
           alter:
             alter_text: true
@@ -3021,7 +3021,7 @@ display:
       path: fees/firm
       menu:
         type: normal
-        title: 'Fee by Firm'
+        title: 'AFA by Firm'
         description: ''
         expanded: false
         parent: 'menu_link_content:7733bc3d-69f6-484c-92a9-08c32e0bc792'
