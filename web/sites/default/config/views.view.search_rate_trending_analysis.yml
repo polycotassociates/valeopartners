@@ -788,7 +788,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Previous Rate'
+          label: '2017 Rate'
           exclude: false
           alter:
             alter_text: false
@@ -852,7 +852,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Rate
+          label: '2018 Rate'
           exclude: false
           alter:
             alter_text: false
@@ -919,7 +919,7 @@ display:
           group_type: group
           admin_label: ''
           label: 'Rate Year'
-          exclude: false
+          exclude: true
           alter:
             alter_text: true
             text: '{{ field_vp_filing_fee_dates__value }} '

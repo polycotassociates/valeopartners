@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Implements hook_preprocess_HOOK()
+ */
+function vp_views_preprocess_views_view_table(&$variables) {
+  if (isset($_GET['year'])) {
+    $year = $_GET['year'];
+    $last_year = $year -1;
+    $variables['header']['field_vp_rate_hourly']['content'] = $year . ' Rate';
+    $variables['header']['field_vp_rate_previous']['content'] = $last_year . ' Rate';
+  }
+}
+
+
