@@ -239,8 +239,21 @@
   {% set rate_end = 'all' %}
 {% endif %}
 
-
+<span id='export-xls-link'>
+  <span class='xls-icon'>&nbsp;</span>
+  <a href='/saved/search/export/{{ firms }}/{{ positions }}/{{ industries }}/{{ cities }}/{{ practice_areas }}/{{ grad_range }}/{{ partner_range }}/{{ bar_range }}/{{rate_start}}/{{ rate_range }}?_format=xls'>
+    <img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS
+  </a>
+</span>
+<br>
 {# Call the view with the arguments using Twig Tweaks drupal_view() #}
 {{ drupal_view('saved_search_detail', 'saved_search_detail_page', firms, positions, industries, cities, practice_areas, grad_range, partner_range, bar_range, rate_start, rate_range) }}
+<br>
+<span id='export-xls-link'>
+  <span class='xls-icon'>&nbsp;</span>
+  <a href='/saved/search/export/{{ firms }}/{{ positions }}/{{ industries }}/{{ cities }}/{{ practice_areas }}/{{ grad_range }}/{{ partner_range }}/{{ bar_range }}/{{rate_start}}/{{ rate_range }}?_format=xls'>
+    <img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS
+  </a>
+</span>
 
 </div>
