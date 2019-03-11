@@ -22,7 +22,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
   switch ($view_id) {
 
     case 'saved_search_detail':
-      // $node = Drupal::request()->attributes->get('node');
+      $node = Drupal::request()->attributes->get('node');
 
       // kint($node);
 
@@ -86,8 +86,8 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
 
       // // If this view is saved_search_detail,
       // // Remove columns from the view based on taxonomy selected in node.
-      // $term_data = [];
-      // $display_term_data = [];
+      $term_data = [];
+      $display_term_data = [];
 
       // Get the vocabulary name.
       $vid = 'search_columns';
