@@ -1,0 +1,7 @@
+vp_forms_library:
+  version: 1.x
+  js:
+    libraries/js/vp_forms.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once

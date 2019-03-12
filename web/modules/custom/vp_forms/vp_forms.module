@@ -21,3 +21,21 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       break;
   }
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function vp_forms_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+  /* @var Drupal\Core\Entity\FieldableEntityInterface $entity */
+  $formObject = $form_state->getFormObject();
+  if ($formObject instanceof \Drupal\Core\Entity\EntityFormInterface) {
+    $entity = $formObject->getEntity();
+    if (
+      $entity->getEntityTypeId() === 'node'
+      && in_array($entity->bundle(), ['vp_type_saved_search'])
+    ) {
+      $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
+    }
+  }
+}
