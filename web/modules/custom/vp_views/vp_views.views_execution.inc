@@ -26,35 +26,44 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
 
       //kint($node);
 
-      $firms = [];
-      $positions = [];
-      $industries = [];
-      $cities = [];
-      $practice_areas = [];
-
-      $search_firms = $node->get('field_vp_search_firms')->getValue();
-      foreach ($search_firms as $firm) {
-        $firms[] = $firm['target_id'];
+      $firms = FALSE;
+      if ($node->get('field_vp_search_firms')) {
+        $search_firms = $node->get('field_vp_search_firms')->getValue();
+        foreach ($search_firms as $firm) {
+          $firms[] = $firm['target_id'];
+        }
       }
 
-      $search_positions = $node->get('field_vp_search_position')->getValue();
-      foreach ($search_positions as $position) {
-        $positions[] = $position['target_id'];
+      $positions = FALSE;
+      if ($node->get('field_vp_search_position')) {
+        $search_positions = $node->get('field_vp_search_position')->getValue();
+        foreach ($search_positions as $position) {
+          $positions[] = $position['target_id'];
+        }
       }
 
-      $search_industries = $node->get('field_vp_search_industry')->getValue();
-      foreach ($search_industries as $industry) {
-        $industries[] = $industry['target_id'];
+      $industries = FALSE;
+      if ($node->get('field_vp_search_industry')) {
+        $search_industries = $node->get('field_vp_search_industry')->getValue();
+        foreach ($search_industries as $industry) {
+          $industries[] = $industry['target_id'];
+        }
       }
 
-      $search_cities = $node->get('field_vp_search_region_city')->getValue();
-      foreach ($search_cities as $city) {
-        $cities[] = $city['target_id'];
+      $cities = FALSE;
+      if ($node->get('field_vp_search_region_city')) {
+        $search_cities = $node->get('field_vp_search_region_city')->getValue();
+        foreach ($search_cities as $city) {
+          $cities[] = $city['target_id'];
+        }
       }
 
-      $search_practice_areas = $node->get('field_vp_search_practice_area')->getValue();
-      foreach ($search_practice_areas as $practice_area) {
-        $practice_areas[] = $practice_area['target_id'];
+      $practice_areas = FALSE;
+      if ($node->get('field_vp_search_practice_area')) {
+        $search_practice_areas = $node->get('field_vp_search_practice_area')->getValue();
+        foreach ($search_practice_areas as $practice_area) {
+          $practice_areas[] = $practice_area['target_id'];
+        }
       }
 
       $grad_date_from = FALSE;
