@@ -22,9 +22,9 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
   switch ($view_id) {
 
     case 'saved_search_detail':
-      $node = Drupal::request()->attributes->get('node');
 
-      //kint($node);
+      // Get the current node.
+      $node = Drupal::request()->attributes->get('node');
 
       $firms = FALSE;
       if ($node->get('field_vp_search_firms')) {
@@ -157,7 +157,6 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           $view->removeHandler($display_id, 'field', $v);
         }
       }
-
       break;
 
     case 'search_rate_trending_analysis':
