@@ -196,7 +196,10 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       // Get the current node.
       $node = Drupal::request()->attributes->get('node');
       // Assign the node id to the contextual filter argument.
-      $args[0] = $node->id();
+
+      if ($node) {
+        $args[0] = $node->id();
+      }
 
       break;
   }
