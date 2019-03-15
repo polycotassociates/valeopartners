@@ -1,0 +1,30 @@
+uuid: a6fb3911-ad4b-4f6a-8097-49b14624f224
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.search_columns.field_search_column_key
+    - taxonomy.vocabulary.search_columns
+  module:
+    - text
+id: taxonomy_term.search_columns.default
+targetEntityType: taxonomy_term
+bundle: search_columns
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_search_column_key:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

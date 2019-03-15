@@ -1057,7 +1057,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Fee Amount'
+          label: 'AFA Amount'
           exclude: false
           alter:
             alter_text: false
@@ -1125,7 +1125,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Fee Type'
+          label: 'AFA Type'
           exclude: false
           alter:
             alter_text: false
@@ -1190,7 +1190,7 @@ display:
           relationship: field_vp_rate_filing
           group_type: group
           admin_label: ''
-          label: 'Rate or Fee Year'
+          label: 'AFA Year'
           exclude: false
           alter:
             alter_text: true
@@ -1529,7 +1529,19 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: string
-      sorts: {  }
+      sorts:
+        field_vp_rate_primaryfee_calc_value:
+          id: field_vp_rate_primaryfee_calc_value
+          table: node__field_vp_rate_primaryfee_calc
+          field: field_vp_rate_primaryfee_calc_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
       title: 'Search Fees By Individual'
       header:
         result:

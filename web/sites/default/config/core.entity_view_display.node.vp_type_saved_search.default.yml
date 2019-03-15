@@ -16,121 +16,27 @@ dependencies:
     - field.field.node.vp_type_saved_search.field_vp_search_type
     - node.type.vp_type_saved_search
   module:
-    - options
-    - range
     - user
 id: node.vp_type_saved_search.default
 targetEntityType: node
 bundle: vp_type_saved_search
 mode: default
 content:
-  field_vp_search_bar_year:
-    weight: 108
-    label: above
-    settings:
-      range_separator: '-'
-      thousand_separator: ''
-      range_combine: true
-      from_prefix_suffix: false
-      to_prefix_suffix: false
-    third_party_settings: {  }
-    type: range_integer
-    region: content
-  field_vp_search_display_columns:
-    weight: 112
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_search_firms:
-    weight: 113
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_search_grad_date:
-    weight: 107
-    label: above
-    settings:
-      range_separator: '-'
-      thousand_separator: ''
-      range_combine: true
-      from_prefix_suffix: false
-      to_prefix_suffix: false
-    third_party_settings: {  }
-    type: range_integer
-    region: content
-  field_vp_search_industry:
-    weight: 104
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_search_partner_year:
-    weight: 109
-    label: above
-    settings:
-      range_separator: '-'
-      thousand_separator: ''
-      range_combine: true
-      from_prefix_suffix: false
-      to_prefix_suffix: false
-    third_party_settings: {  }
-    type: range_integer
-    region: content
-  field_vp_search_position:
-    weight: 103
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_search_practice_area:
-    weight: 106
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_search_rate_year:
-    weight: 114
-    label: above
-    settings:
-      range_separator: '-'
-      thousand_separator: ''
-      range_combine: true
-      from_prefix_suffix: false
-      to_prefix_suffix: false
-    third_party_settings: {  }
-    type: range_integer
-    region: content
-  field_vp_search_region_city:
-    weight: 105
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_search_type:
-    weight: 111
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
+  field_vp_search_bar_year: true
+  field_vp_search_display_columns: true
+  field_vp_search_firms: true
+  field_vp_search_grad_date: true
+  field_vp_search_industry: true
+  field_vp_search_partner_year: true
+  field_vp_search_position: true
+  field_vp_search_practice_area: true
+  field_vp_search_rate_year: true
+  field_vp_search_region_city: true
+  field_vp_search_type: true
   published_at: true

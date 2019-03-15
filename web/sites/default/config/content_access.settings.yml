@@ -15,3 +15,5 @@ content_access_roles_gids:
   download_add_on: 14
 _core:
   default_config_hash: 7LkiviGITIpniIOOIzpuxR7r4XzqqYN_cwu0fb0kx1M
+content_access_node_type:
+  vp_type_saved_search: 'a:2:{s:8:"view_own";a:1:{i:0;s:13:"authenticated";}s:4:"view";a:0:{}}'

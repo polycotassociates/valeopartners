@@ -1,0 +1,46 @@
+uuid: 227b9b11-2b74-470b-aed3-333e19b5d2ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.search_columns.field_search_column_key
+    - taxonomy.vocabulary.search_columns
+  module:
+    - path
+    - text
+id: taxonomy_term.search_columns.default
+targetEntityType: taxonomy_term
+bundle: search_columns
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_search_column_key:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

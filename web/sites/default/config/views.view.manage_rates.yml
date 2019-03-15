@@ -1582,7 +1582,19 @@ display:
           entity_type: node
           entity_field: uid
           plugin_id: user_name
-      sorts: {  }
+      sorts:
+        field_vp_rate_primaryfee_calc_value:
+          id: field_vp_rate_primaryfee_calc_value
+          table: node__field_vp_rate_primaryfee_calc
+          field: field_vp_rate_primaryfee_calc_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
       title: 'Manage Rates'
       header: {  }
       footer: {  }

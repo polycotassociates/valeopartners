@@ -28,6 +28,7 @@ module:
   datetime: 0
   datetime_range: 0
   dblog: 0
+  devel: 0
   draggableviews: 0
   dynamic_page_cache: 0
   editor: 0
@@ -43,6 +44,7 @@ module:
   history: 0
   image: 0
   inline_form_errors: 0
+  kint: 0
   layout_discovery: 0
   link: 0
   menu_token: 0
@@ -53,6 +55,7 @@ module:
   module_filter: 0
   multiselect: 0
   node: 0
+  node_access_rebuild_progressive: 0
   options: 0
   page_cache: 0
   paragraphs_library: 0

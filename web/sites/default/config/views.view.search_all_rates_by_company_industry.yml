@@ -1425,7 +1425,19 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: string
-      sorts: {  }
+      sorts:
+        field_vp_rate_hourly_value:
+          id: field_vp_rate_hourly_value
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
       title: 'Search All Rates by Company / Industry'
       header:
         result:
@@ -1484,6 +1496,15 @@ display:
           relationship: none
           group_type: group
           admin_label: Filing
+          required: false
+          plugin_id: standard
+        field_vp_filing_case:
+          id: field_vp_filing_case
+          table: node__field_vp_filing_case
+          field: field_vp_filing_case
+          relationship: none
+          group_type: group
+          admin_label: Case
           required: false
           plugin_id: standard
       arguments: {  }

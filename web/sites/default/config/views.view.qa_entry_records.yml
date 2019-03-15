@@ -709,7 +709,7 @@ display:
           expose:
             label: ''
           granularity: second
-      title: 'Approve Records for Publication'
+      title: 'Data Entry Details'
       header: {  }
       footer: {  }
       empty:

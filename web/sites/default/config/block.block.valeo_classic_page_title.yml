@@ -9,7 +9,7 @@ _core:
 id: valeo_classic_page_title
 theme: valeo_classic
 region: content
-weight: -50
+weight: -9
 provider: null
 plugin: page_title_block
 settings:

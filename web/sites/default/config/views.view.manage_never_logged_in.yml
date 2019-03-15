@@ -787,7 +787,22 @@ display:
           entity_type: user
           entity_field: status
           plugin_id: boolean
-      sorts: {  }
+      sorts:
+        created:
+          id: created
+          table: users_field_data
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+          entity_type: user
+          entity_field: created
+          plugin_id: date
       title: 'New User Accounts That Have Never Logged In'
       header:
         result:
