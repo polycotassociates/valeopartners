@@ -1,0 +1,4 @@
+saved_search:
+  version: 1.x
+  js:
+    libraries/js/valeo_common.js: {}
