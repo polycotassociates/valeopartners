@@ -187,6 +187,18 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       $args[1] = $firm_list;
 
       break;
+
+    case 'search_rates_by_individual':
+
+      /* Submit the node id as a contextual filter argument.
+       */
+
+      // Get the current node.
+      $node = Drupal::request()->attributes->get('node');
+      // Assign the node id to the contextual filter argument.
+      $args[0] = $node->id();
+
+      break;
   }
 
 }
