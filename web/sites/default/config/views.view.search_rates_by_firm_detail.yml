@@ -19,6 +19,7 @@ dependencies:
     - field.storage.node.field_vp_state_bar
     - node.type.vp_type_rate
     - system.menu.rate-afa-searches
+    - taxonomy.vocabulary.position
     - taxonomy.vocabulary.practice_area
     - user.role.administrator
     - user.role.company_industry_add_on
@@ -1573,6 +1574,62 @@ display:
             transaction_type: '0'
             type: '0'
           plugin_id: verf
+        field_vp_position_target_id:
+          id: field_vp_position_target_id
+          table: node__field_vp_position
+          field: field_vp_position_target_id
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_position_target_id_op
+            label: 'Position (field_vp_position)'
+            description: ''
+            use_operator: false
+            operator: field_vp_position_target_id_op
+            identifier: field_vp_position_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: position
+          hierarchy: true
+          error_message: true
+          plugin_id: taxonomy_index_tid
         field_vp_practice_area_1_target_id:
           id: field_vp_practice_area_1_target_id
           table: node__field_vp_practice_area_1

@@ -2986,6 +2986,10 @@ display:
       display_description: ''
       export_method: batch
       export_batch_size: 1000
+      pager:
+        type: none
+        options:
+          offset: 0
     cache_metadata:
       max-age: -1
       contexts:

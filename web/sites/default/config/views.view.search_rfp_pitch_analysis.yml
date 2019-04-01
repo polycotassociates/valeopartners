@@ -78,7 +78,11 @@ display:
             previous: ‹‹
             next: ››
       style:
-        type: table
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
       row:
         type: fields
       fields:
