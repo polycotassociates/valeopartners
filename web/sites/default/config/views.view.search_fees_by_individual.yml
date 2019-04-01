@@ -2663,13 +2663,14 @@ display:
       path: fees/individual
       menu:
         type: normal
-        title: 'AFA by Individual'
+        title: 'Transactions by Individual'
         description: ''
         expanded: false
         parent: 'menu_link_content:7733bc3d-69f6-484c-92a9-08c32e0bc792'
         weight: -48
         context: '0'
         menu_name: rate-afa-searches
+        enabled: true
       display_description: 'Search Fees By Individual'
       footer:
         export_header:

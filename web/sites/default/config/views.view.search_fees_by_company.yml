@@ -3035,10 +3035,13 @@ display:
       path: fees/company
       menu:
         type: normal
-        title: 'AFA by Company'
+        title: 'Transactions by Company'
         menu_name: rate-afa-searches
         weight: -49
         parent: 'menu_link_content:7733bc3d-69f6-484c-92a9-08c32e0bc792'
+        description: ''
+        expanded: false
+        enabled: true
       display_description: 'Search Fees By Company'
       header:
         result:
