@@ -11,7 +11,7 @@ _core:
 id: valeo_classic_help
 theme: valeo_classic
 region: content
-weight: -7
+weight: -8
 provider: null
 plugin: help_block
 settings:

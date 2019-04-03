@@ -1,25 +1,25 @@
-uuid: e8f7e274-ff73-4802-b511-1282b0ca6a8f
+uuid: eb518352-b420-425f-a531-3e8e6fd05e66
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.search_rates_by_individual
+    - views.view.firm_history
   module:
     - ctools
     - views
   theme:
     - valeo_classic
-id: views_block__related_rates_by_individual
+id: views_block__firm_history_rates_for_firm_block
 theme: valeo_classic
 region: content
-weight: -3
+weight: 0
 provider: null
-plugin: 'views_block:search_rates_by_individual-related_rates_by_individual'
+plugin: 'views_block:firm_history-rates_for_firm_block'
 settings:
-  id: 'views_block:search_rates_by_individual-related_rates_by_individual'
+  id: 'views_block:firm_history-rates_for_firm_block'
   label: ''
   provider: views
-  label_display: visible
+  label_display: '0'
   views_label: ''
   items_per_page: none
   context_mapping: {  }
@@ -27,7 +27,7 @@ visibility:
   'entity_bundle:node':
     id: 'entity_bundle:node'
     bundles:
-      vp_type_individual: vp_type_individual
+      vp_type_firm: vp_type_firm
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'

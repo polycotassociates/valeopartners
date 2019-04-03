@@ -1,22 +1,22 @@
-uuid: e8f7e274-ff73-4802-b511-1282b0ca6a8f
+uuid: c8e387d8-41b4-4691-aa52-3ecf48c66f9b
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.search_rates_by_individual
+    - views.view.filing_history
   module:
     - ctools
     - views
   theme:
     - valeo_classic
-id: views_block__related_rates_by_individual
+id: views_block__filing_history_rates_for_filing_block
 theme: valeo_classic
 region: content
-weight: -3
+weight: 0
 provider: null
-plugin: 'views_block:search_rates_by_individual-related_rates_by_individual'
+plugin: 'views_block:filing_history-rates_for_filing_block'
 settings:
-  id: 'views_block:search_rates_by_individual-related_rates_by_individual'
+  id: 'views_block:filing_history-rates_for_filing_block'
   label: ''
   provider: views
   label_display: visible
@@ -27,7 +27,7 @@ visibility:
   'entity_bundle:node':
     id: 'entity_bundle:node'
     bundles:
-      vp_type_individual: vp_type_individual
+      vp_type_filing: vp_type_filing
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'

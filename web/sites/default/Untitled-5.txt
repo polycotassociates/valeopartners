@@ -1,0 +1,39 @@
+RATES BY FIRM-DETAIL
+
+http://reports.valeopartners.com/rates/report
+
+Make dates say from date: to date:
+
+Fix position/City to indented select
+
+Fee date range should only be years not selector
+
+
+RATES BY FIRM
+Needs last three years of actual/standard rates as columns
+-create handler for search on rate for this year -0, this year -1, this year -2
+
+EDIT PAGE
+Pricing alerts sort by title
+create custom form for this that redirects after being filled
+
+
+Data export: download directly if less than 1000 records
+
+RATE TRENDING ANALYSIS
+Fix xls export
+
+CI Database
+Fix fee date range to use only years
+add "No rates match your criteria."
+
+remove master search by firm link
+
+widen theme to 100%
+
+INDIVIDUAL RATE search
+/rates/individual
+RATE YEAR not showing up
+
+Transaction searches, AFA SEARCH:
+Change dates to be in line with live site

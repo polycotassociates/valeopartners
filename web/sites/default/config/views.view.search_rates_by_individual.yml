@@ -1280,6 +1280,7 @@ display:
           entity_field: nid
           plugin_id: node_nid
       display_extenders: {  }
+      group_by: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -3033,9 +3034,8 @@ display:
           plugin_id: export_header
       defaults:
         header: false
-        group_by: false
+        group_by: true
         fields: false
-      group_by: true
       fields:
         counter:
           id: counter

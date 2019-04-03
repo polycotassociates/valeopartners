@@ -287,12 +287,13 @@ display:
       menu:
         type: normal
         title: 'RFP / Pitch Analysis'
-        description: ''
+        description: 'RFP / Pitch Analysis'
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
         weight: -50
         context: '0'
         menu_name: rate-afa-searches
+        enabled: true
       display_description: 'Search on RFP / Pitch Analysis'
     cache_metadata:
       max-age: -1

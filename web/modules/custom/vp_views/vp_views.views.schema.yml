@@ -2,3 +2,7 @@ views.area.export_header:
   type: views_area
   label: 'Export Header Links'
   category: 'Valeo Partners'
+views.field.actual_rate_by_year:
+  type: views_field
+  label: 'Actual Rate By Year'
+  category: 'Valeo Partners'

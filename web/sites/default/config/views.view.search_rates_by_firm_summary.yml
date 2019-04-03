@@ -1,33 +1,47 @@
-uuid: 2db1e664-7315-43e0-bc9f-ca66e81b2a71
+uuid: 65154e96-5670-4871-b4b2-4693fecf13fd
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_vp_bar_date
+    - field.storage.node.field_vp_company_industry
+    - field.storage.node.field_vp_filing_fee_dates
     - field.storage.node.field_vp_graduation
     - field.storage.node.field_vp_individual_location
     - field.storage.node.field_vp_practice_area_1
     - field.storage.node.field_vp_practice_area_2
     - field.storage.node.field_vp_practice_area_3
-    - field.storage.node.field_vp_rate_firm
+    - field.storage.node.field_vp_rate_company
+    - field.storage.node.field_vp_rate_hourly
     - field.storage.node.field_vp_rate_position
+    - field.storage.node.field_vp_rate_standard
     - field.storage.node.field_vp_state_bar
-    - node.type.vp_type_individual
+    - node.type.vp_type_rate
     - system.menu.rate-afa-searches
+    - taxonomy.vocabulary.position
+    - taxonomy.vocabulary.practice_area
     - user.role.administrator
+    - user.role.company_industry_add_on
     - user.role.data_entry
-    - user.role.pilot_account
-    - user.role.rate_report_user
     - user.role.superuser
   module:
+    - computed_field
+    - datetime
+    - datetime_range
     - node
+    - rest
+    - serialization
+    - taxonomy
     - user
     - verf
+    - views_data_export
+    - vp_views
+    - xls_serialization
     - yearonly
 id: search_rates_by_firm_summary
 label: 'Search Rates By Firm - Summary'
 module: views
-description: 'The base statistics view.'
+description: 'Search Rates By Firm, Summary View'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -44,10 +58,9 @@ display:
         options:
           role:
             administrator: administrator
-            rate_report_user: rate_report_user
             superuser: superuser
-            pilot_account: pilot_account
             data_entry: data_entry
+            company_industry_add_on: company_industry_add_on
       cache:
         type: tag
         options: {  }
@@ -102,13 +115,32 @@ display:
           summary: ''
           description: ''
           columns:
+            counter: counter
             title: title
+            title_1: title_1
             field_vp_rate_position: field_vp_rate_position
             field_vp_individual_location: field_vp_individual_location
+            field_vp_rate_company: field_vp_rate_company
+            field_vp_company_industry: field_vp_company_industry
             field_vp_practice_area_1: field_vp_practice_area_1
             field_vp_practice_area_2: field_vp_practice_area_1
             field_vp_practice_area_3: field_vp_practice_area_1
+            field_vp_graduation: field_vp_graduation
+            field_vp_state_bar: field_vp_state_bar
+            field_vp_bar_date: field_vp_bar_date
+            field_vp_rate_hourly: field_vp_rate_hourly
+            field_vp_rate_standard: field_vp_rate_standard
+            view_node: view_node
+            field_vp_filing_fee_dates: field_vp_filing_fee_dates
+            field_vp_case_nature_of_suit: field_vp_case_nature_of_suit
           info:
+            counter:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             title:
               sortable: true
               default_sort_order: asc
@@ -116,15 +148,36 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            title_1:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             field_vp_rate_position:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             field_vp_individual_location:
-              sortable: false
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_company:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_company_industry:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -151,19 +204,125 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: title
+            field_vp_graduation:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_state_bar:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_bar_date:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_hourly:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_standard:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            view_node:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_filing_fee_dates:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_case_nature_of_suit:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          default: '-1'
           empty_table: false
       row:
         type: fields
       fields:
+        counter:
+          id: counter
+          table: views
+          field: counter
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '#'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          counter_start: 1
+          plugin_id: counter
         title:
           id: title
           table: node_field_data
           field: title
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Attorney Name'
+          label: Name
           exclude: false
           alter:
             alter_text: false
@@ -221,11 +380,11 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-        field_vp_rate_firm:
-          id: field_vp_rate_firm
-          table: node__field_vp_rate_firm
-          field: field_vp_rate_firm
-          relationship: none
+        title_1:
+          id: title_1
+          table: node_field_data
+          field: title
+          relationship: field_vp_rate_firm
           group_type: group
           admin_label: ''
           label: Firm
@@ -269,11 +428,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: string
           settings:
-            link: true
-          group_column: target_id
+            link_to_entity: true
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -283,6 +442,8 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+          entity_type: node
+          entity_field: title
           plugin_id: field
         field_vp_rate_position:
           id: field_vp_rate_position
@@ -351,7 +512,7 @@ display:
           id: field_vp_individual_location
           table: node__field_vp_individual_location
           field: field_vp_individual_location
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
           label: City
@@ -414,7 +575,7 @@ display:
           id: field_vp_practice_area_1
           table: node__field_vp_practice_area_1
           field: field_vp_practice_area_1
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
           label: 'Practice Area'
@@ -477,7 +638,7 @@ display:
           id: field_vp_practice_area_2
           table: node__field_vp_practice_area_2
           field: field_vp_practice_area_2
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
           label: 'Practice Area 2'
@@ -540,7 +701,7 @@ display:
           id: field_vp_practice_area_3
           table: node__field_vp_practice_area_3
           field: field_vp_practice_area_3
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
           label: 'Practice Area 3'
@@ -603,10 +764,10 @@ display:
           id: field_vp_graduation
           table: node__field_vp_graduation
           field: field_vp_graduation
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Year Of Graduation'
+          label: 'Grad Date'
           exclude: false
           alter:
             alter_text: false
@@ -665,7 +826,7 @@ display:
           id: field_vp_state_bar
           table: node__field_vp_state_bar
           field: field_vp_state_bar
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
           label: 'Bar State'
@@ -728,10 +889,10 @@ display:
           id: field_vp_bar_date
           table: node__field_vp_bar_date
           field: field_vp_bar_date
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Bar Year'
+          label: 'Bar Yr'
           exclude: false
           alter:
             alter_text: false
@@ -803,46 +964,34 @@ display:
           table: node_field_data
           field: type
           value:
-            vp_type_individual: vp_type_individual
+            vp_type_rate: vp_type_rate
           entity_type: node
           entity_field: type
           plugin_id: bundle
+          group: 1
         title:
           id: title
           table: node_field_data
           field: title
-          relationship: none
+          relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          operator: word
+          operator: 'not empty'
           value: ''
           group: 1
-          exposed: true
+          exposed: false
           expose:
-            operator_id: title_op
-            label: Attorney
+            operator_id: ''
+            label: ''
             description: ''
             use_operator: false
-            operator: title_op
-            identifier: title
+            operator: ''
+            identifier: ''
             required: false
-            remember: true
+            remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              rate_report_user: '0'
-              superuser: '0'
-              pilot_account: '0'
-              data_entry: '0'
-              alerts_add_on: '0'
-              company_industry_add_on: '0'
-              full_database_download_add_on: '0'
-              firm_rate_profile_add_on: '0'
-              fee_search_add_on: '0'
-              nos_add_on: '0'
-              download_add_on: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -863,7 +1012,7 @@ display:
           id: field_vp_rate_firm_target_id_verf
           table: node__field_vp_rate_firm
           field: field_vp_rate_firm_target_id_verf
-          relationship: none
+          relationship: field_vp_rate_firm
           group_type: group
           admin_label: ''
           operator: in
@@ -878,8 +1027,8 @@ display:
             operator: field_vp_rate_firm_target_id_verf_op
             identifier: field_vp_rate_firm_target_id_verf
             required: false
-            remember: true
-            multiple: false
+            remember: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -920,15 +1069,594 @@ display:
             vp_type_rate: '0'
             vp_type_saved_search: '0'
           plugin_id: verf
-      sorts: {  }
-      title: 'Search Rates By Firm - Summary'
-      header: {  }
+        field_vp_rate_position_target_id_verf:
+          id: field_vp_rate_position_target_id_verf
+          table: node__field_vp_rate_position
+          field: field_vp_rate_position_target_id_verf
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_rate_position_target_id_verf_op
+            label: Position
+            description: ''
+            use_operator: false
+            operator: field_vp_rate_position_target_id_verf_op
+            identifier: field_vp_rate_position_target_id_verf
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          verf_target_bundles:
+            position: position
+            city: '0'
+            industry: '0'
+            law_school: '0'
+            nature_of_suit: '0'
+            practice_area: '0'
+            search_columns: '0'
+            source_court: '0'
+            state: '0'
+            tags: '0'
+            transaction_type: '0'
+            type: '0'
+          plugin_id: verf
+        field_vp_position_target_id:
+          id: field_vp_position_target_id
+          table: node__field_vp_position
+          field: field_vp_position_target_id
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_position_target_id_op
+            label: 'Position (field_vp_position)'
+            description: ''
+            use_operator: false
+            operator: field_vp_position_target_id_op
+            identifier: field_vp_position_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: position
+          hierarchy: true
+          error_message: true
+          plugin_id: taxonomy_index_tid
+        field_vp_practice_area_1_target_id:
+          id: field_vp_practice_area_1_target_id
+          table: node__field_vp_practice_area_1
+          field: field_vp_practice_area_1_target_id
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_practice_area_1_target_id_op
+            label: 'Practice Area'
+            description: ''
+            use_operator: false
+            operator: field_vp_practice_area_1_target_id_op
+            identifier: field_vp_practice_area_1_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: practice_area
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
+        field_vp_location_target_id_verf:
+          id: field_vp_location_target_id_verf
+          table: node__field_vp_location
+          field: field_vp_location_target_id_verf
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_location_target_id_verf_op
+            label: Country/City
+            description: ''
+            use_operator: false
+            operator: field_vp_location_target_id_verf_op
+            identifier: field_vp_location_target_id_verf
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          verf_target_bundles:
+            city: city
+            industry: '0'
+            law_school: '0'
+            nature_of_suit: '0'
+            position: '0'
+            practice_area: '0'
+            search_columns: '0'
+            source_court: '0'
+            state: '0'
+            tags: '0'
+            transaction_type: '0'
+            type: '0'
+          plugin_id: verf
+        field_vp_filing_fee_dates_value:
+          id: field_vp_filing_fee_dates_value
+          table: node__field_vp_filing_fee_dates
+          field: field_vp_filing_fee_dates_value
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+            type: date
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_filing_fee_dates_value_op
+            label: 'Fee Date Range From'
+            description: ''
+            use_operator: false
+            operator: field_vp_filing_fee_dates_value_op
+            identifier: field_vp_filing_fee_dates_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: datetime
+        field_vp_graduation_value:
+          id: field_vp_graduation_value
+          table: node__field_vp_graduation
+          field: field_vp_graduation_value
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_graduation_value_op
+            label: 'Grad Date:'
+            description: ''
+            use_operator: false
+            operator: field_vp_graduation_value_op
+            identifier: field_vp_graduation_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
+        field_vp_bar_date_value:
+          id: field_vp_bar_date_value
+          table: node__field_vp_bar_date
+          field: field_vp_bar_date_value
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_bar_date_value_op
+            label: 'Bar Year'
+            description: ''
+            use_operator: false
+            operator: field_vp_bar_date_value_op
+            identifier: field_vp_bar_date_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
+        field_vp_case_nature_of_suit_target_id_verf:
+          id: field_vp_case_nature_of_suit_target_id_verf
+          table: node__field_vp_case_nature_of_suit
+          field: field_vp_case_nature_of_suit_target_id_verf
+          relationship: field_vp_filing_case
+          group_type: group
+          admin_label: ''
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_case_nature_of_suit_target_id_verf_op
+            label: 'Nature of Suit'
+            description: ''
+            use_operator: false
+            operator: field_vp_case_nature_of_suit_target_id_verf_op
+            identifier: field_vp_case_nature_of_suit_target_id_verf
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          verf_target_bundles:
+            nature_of_suit: nature_of_suit
+            city: '0'
+            industry: '0'
+            law_school: '0'
+            position: '0'
+            practice_area: '0'
+            search_columns: '0'
+            source_court: '0'
+            state: '0'
+            tags: '0'
+            transaction_type: '0'
+            type: '0'
+          plugin_id: verf
+        field_vp_rate_hourly_value:
+          id: field_vp_rate_hourly_value
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
+      sorts:
+        field_vp_rate_hourly_value:
+          id: field_vp_rate_hourly_value
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
+      title: 'Rates By Firm - Summary'
+      header:
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          content: 'Displaying @start - @end of @total'
+          plugin_id: result
       footer: {  }
       empty: {  }
-      relationships: {  }
+      relationships:
+        field_vp_rate_individual:
+          id: field_vp_rate_individual
+          table: node__field_vp_rate_individual
+          field: field_vp_rate_individual
+          relationship: none
+          group_type: group
+          admin_label: Individual
+          required: false
+          plugin_id: standard
+        field_vp_rate_firm:
+          id: field_vp_rate_firm
+          table: node__field_vp_rate_firm
+          field: field_vp_rate_firm
+          relationship: none
+          group_type: group
+          admin_label: Firm
+          required: false
+          plugin_id: standard
+        field_vp_rate_company:
+          id: field_vp_rate_company
+          table: node__field_vp_rate_company
+          field: field_vp_rate_company
+          relationship: none
+          group_type: group
+          admin_label: Company
+          required: false
+          plugin_id: standard
+        field_vp_rate_filing:
+          id: field_vp_rate_filing
+          table: node__field_vp_rate_filing
+          field: field_vp_rate_filing
+          relationship: none
+          group_type: group
+          admin_label: Filing
+          required: false
+          plugin_id: standard
+        field_vp_filing_case:
+          id: field_vp_filing_case
+          table: node__field_vp_filing_case
+          field: field_vp_filing_case
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: Case
+          required: false
+          plugin_id: standard
       arguments: {  }
       display_extenders: {  }
-      group_by: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
     cache_metadata:
       max-age: -1
       contexts:
@@ -936,6 +1664,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -945,14 +1674,1095 @@ display:
         - 'config:field.storage.node.field_vp_practice_area_1'
         - 'config:field.storage.node.field_vp_practice_area_2'
         - 'config:field.storage.node.field_vp_practice_area_3'
-        - 'config:field.storage.node.field_vp_rate_firm'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
         - 'config:views.view.search_rates_by_firm_summary'
         - node_list
-  search_rates_by_firm_summary_page:
+        - taxonomy_term_list
+  data_export_xls:
+    display_plugin: data_export
+    id: data_export_xls
+    display_title: 'XLS Data export'
+    position: 3
+    display_options:
+      display_extenders: {  }
+      path: rates/report/export
+      filename: rates-by-firm-detail.xls
+      automatic_download: false
+      redirect_path: ''
+      export_method: batch
+      export_batch_size: 1000
+      display_description: ''
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: Name
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: false
+            ellipsis: false
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+        title_1:
+          id: title_1
+          table: node_field_data
+          field: title
+          relationship: field_vp_rate_firm
+          group_type: group
+          admin_label: ''
+          label: Firm
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+        field_vp_rate_position:
+          id: field_vp_rate_position
+          table: node__field_vp_rate_position
+          field: field_vp_rate_position
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Position
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_individual_location:
+          id: field_vp_individual_location
+          table: node__field_vp_individual_location
+          field: field_vp_individual_location
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: City
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_rate_company:
+          id: field_vp_rate_company
+          table: node__field_vp_rate_company
+          field: field_vp_rate_company
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Company Represented'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_company_industry:
+          id: field_vp_company_industry
+          table: node__field_vp_company_industry
+          field: field_vp_company_industry
+          relationship: field_vp_rate_company
+          group_type: group
+          admin_label: ''
+          label: Industry
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_practice_area_1:
+          id: field_vp_practice_area_1
+          table: node__field_vp_practice_area_1
+          field: field_vp_practice_area_1
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Practice Area'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_practice_area_2:
+          id: field_vp_practice_area_2
+          table: node__field_vp_practice_area_2
+          field: field_vp_practice_area_2
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Practice Area 2'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_practice_area_3:
+          id: field_vp_practice_area_3
+          table: node__field_vp_practice_area_3
+          field: field_vp_practice_area_3
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Practice Area 3'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_graduation:
+          id: field_vp_graduation
+          table: node__field_vp_graduation
+          field: field_vp_graduation
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Grad Date'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: yearonly_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_state_bar:
+          id: field_vp_state_bar
+          table: node__field_vp_state_bar
+          field: field_vp_state_bar
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Bar State'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_bar_date:
+          id: field_vp_bar_date
+          table: node__field_vp_bar_date
+          field: field_vp_bar_date
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Bar Yr'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: yearonly_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_rate_hourly:
+          id: field_vp_rate_hourly
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_decimal
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+            decimal_separator: .
+            scale: 2
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_rate_standard:
+          id: field_vp_rate_standard
+          table: node__field_vp_rate_standard
+          field: field_vp_rate_standard
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        view_node:
+          id: view_node
+          table: node
+          field: view_node
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          label: 'Link to Filing'
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: view
+          output_url_as_text: true
+          absolute: false
+          entity_type: node
+          plugin_id: entity_link
+        field_vp_filing_fee_dates:
+          id: field_vp_filing_fee_dates
+          table: node__field_vp_filing_fee_dates
+          field: field_vp_filing_fee_dates
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          label: 'Rate Year'
+          exclude: false
+          alter:
+            alter_text: true
+            text: ' {{ field_vp_filing_fee_dates__value }} '
+            make_link: true
+            path: '{{ view_node }} '
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 5
+            word_boundary: false
+            ellipsis: false
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: true
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: daterange_default
+          settings:
+            timezone_override: ''
+            format_type: html_year
+            separator: '-'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      defaults:
+        fields: false
+        title: false
+      style:
+        type: data_export
+        options:
+          formats:
+            xls: xls
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+          xls_settings:
+            xls_format: Excel2007
+            metadata:
+              creator: ''
+              last_modified_by: ''
+              title: ''
+              description: ''
+              subject: ''
+              keywords: ''
+              category: ''
+              manager: ''
+              company: ''
+      title: 'Rates By Firm - Detail'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
+        - user
+        - 'user.node_grants:view'
+        - user.roles
+      tags:
+        - 'config:field.storage.node.field_vp_bar_date'
+        - 'config:field.storage.node.field_vp_company_industry'
+        - 'config:field.storage.node.field_vp_filing_fee_dates'
+        - 'config:field.storage.node.field_vp_graduation'
+        - 'config:field.storage.node.field_vp_individual_location'
+        - 'config:field.storage.node.field_vp_practice_area_1'
+        - 'config:field.storage.node.field_vp_practice_area_2'
+        - 'config:field.storage.node.field_vp_practice_area_3'
+        - 'config:field.storage.node.field_vp_rate_company'
+        - 'config:field.storage.node.field_vp_rate_hourly'
+        - 'config:field.storage.node.field_vp_rate_position'
+        - 'config:field.storage.node.field_vp_rate_standard'
+        - 'config:field.storage.node.field_vp_state_bar'
+        - 'config:views.view.search_rates_by_firm_summary'
+        - node_list
+        - taxonomy_term_list
+  search_rates_by_firm_summary:
     display_plugin: page
-    id: search_rates_by_firm_summary_page
+    id: search_rates_by_firm_summary
     display_title: 'Search Rates By Firm Summary Page'
     position: 1
     display_options:
@@ -960,15 +2770,47 @@ display:
       path: rates/summary_search
       menu:
         type: normal
-        title: 'Rates By Firm - Summary'
+        title: 'Rates by Firm - Summary'
         description: ''
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
-        weight: -49
+        weight: -48
         context: '0'
         menu_name: rate-afa-searches
-        enabled: true
-      display_description: 'Search Rates by firm summary'
+      display_description: 'Search Rates By Firm Summary'
+      header:
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          content: 'Displaying @start - @end of @total'
+          plugin_id: result
+        export_header:
+          id: export_header
+          table: views
+          field: export_header
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          plugin_id: export_header
+      defaults:
+        header: false
+        footer: false
+      footer:
+        export_header:
+          id: export_header
+          table: views
+          field: export_header
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          plugin_id: export_header
     cache_metadata:
       max-age: -1
       contexts:
@@ -976,6 +2818,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -985,8 +2828,8 @@ display:
         - 'config:field.storage.node.field_vp_practice_area_1'
         - 'config:field.storage.node.field_vp_practice_area_2'
         - 'config:field.storage.node.field_vp_practice_area_3'
-        - 'config:field.storage.node.field_vp_rate_firm'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
         - 'config:views.view.search_rates_by_firm_summary'
         - node_list
+        - taxonomy_term_list

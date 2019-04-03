@@ -11,7 +11,7 @@ _core:
 id: valeo_classic_content
 theme: valeo_classic
 region: content
-weight: -5
+weight: -6
 provider: null
 plugin: system_main_block
 settings:

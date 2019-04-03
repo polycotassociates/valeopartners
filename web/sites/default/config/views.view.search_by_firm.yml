@@ -300,7 +300,7 @@ display:
           batch_size: 10
           form_step: true
           buttons: false
-          clear_on_exposed: 0
+          clear_on_exposed: false
           action_title: Action
           selected_actions:
             comment_delete_action: 0
@@ -2869,6 +2869,7 @@ display:
         weight: -50
         context: '0'
         menu_name: rate-afa-searches
+        enabled: false
       sorts:
         field_vp_rate_primaryfee_calc_value:
           id: field_vp_rate_primaryfee_calc_value
