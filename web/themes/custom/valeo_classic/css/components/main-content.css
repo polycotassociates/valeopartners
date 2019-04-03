@@ -21,31 +21,31 @@
     float: right;
   }
   .layout-two-sidebars .main-content {
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-left: 15%;
+    margin-right: 15%;
     width: 50%;
   }
   .layout-one-sidebar .main-content {
-    width: 75%;
+    width: 85%;
   }
   .layout-no-sidebars .main-content {
     width: 100%;
   }
   .layout-sidebar-first .main-content {
-    margin-left: 25%; /* LTR */
+    margin-left: 15%; /* LTR */
     margin-right: 0; /* LTR */
   }
   [dir="rtl"] .layout-sidebar-first .main-content {
     margin-left: 0;
-    margin-right: 25%;
+    margin-right: 15%;
   }
   .layout-sidebar-second .main-content {
-    margin-right: 25%; /* LTR */
+    margin-right: 15%; /* LTR */
     margin-left: 0; /* LTR */
   }
   [dir="rtl"] .layout-sidebar-second .main-content {
     margin-right: 0;
-    margin-left: 25%;
+    margin-left: 15%;
   }
 }
 

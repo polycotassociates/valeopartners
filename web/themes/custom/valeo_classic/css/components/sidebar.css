@@ -16,10 +16,10 @@
 
 @media all and (min-width: 851px) {
   .layout-one-sidebar .sidebar {
-    width: 25%;
+    width: 15%;
   }
   #sidebar-first {
-    width: 25%;
+    width: 15%;
     margin-left: -100%; /* LTR */
   }
   [dir="rtl"] #sidebar-first {
@@ -27,12 +27,12 @@
     margin-left: 0;
   }
   #sidebar-second {
-    width: 25%;
-    margin-left: -25%; /* LTR */
+    width: 15%;
+    margin-left: -15%; /* LTR */
     clear: none;
   }
   [dir="rtl"] #sidebar-second {
-    margin-right: -25%;
+    margin-right: -15%;
     margin-left: 0;
   }
 }
