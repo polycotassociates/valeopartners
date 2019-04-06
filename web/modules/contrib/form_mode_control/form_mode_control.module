@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\Role;
 
@@ -8,21 +10,25 @@ use Drupal\user\Entity\Role;
  */
 
 function form_mode_control_entity_form_display_alter(&$form_display, $context) {
-
   $request = \Drupal::request();
   $display_name = $request->query->get('display');
   // Load the right entity form display. Works for any entity / bundle.
   $id = $context['entity_type'] . '.' . $context['bundle'] . '.' . $display_name;
-  $storage = \Drupal::entityManager()->getStorage('entity_form_display');
+  $storage = \Drupal::entityTypeManager()->getStorage('entity_form_display');
   $configuration = \Drupal::configFactory()
     ->getEditable('form_mode_control.settings')->getRawData();
   switch ($context['form_mode']) {
     case "default":
-      $mode = "creation_";
+    case "add":
+      $mode = 'creation';
       controlAccessFormMode($configuration, $mode, $display_name, $storage, $id, $form_display, $context);
       break;
-    case "edit" :
-      $mode = "modification_";
+    case "edit":
+      $mode = 'modification';
+      controlAccessFormMode($configuration, $mode, $display_name, $storage, $id, $form_display, $context);
+      break;
+    case 'register':
+      $mode = 'default';
       controlAccessFormMode($configuration, $mode, $display_name, $storage, $id, $form_display, $context);
       break;
   }
@@ -36,7 +42,7 @@ function form_mode_control_form_alter(&$form, FormStateInterface $form_state, $f
   if ($form_id == "entity_form_mode_add_form" || $form_id == "entity_form_mode_edit_form") {
     $form['markup'] = array(
       '#type' => "markup",
-      '#markup' => t('If you want to change to another form mode , add <b style="color: #ff0000">?display=machine_name_form_mode.<b/> ')
+      '#markup' => t('If you want to change to another form mode , add <strong style="color: #ff0000">?display=machine_name_form_mode.</strong> ')
     );
   }
 }
@@ -45,10 +51,26 @@ function form_mode_control_form_alter(&$form, FormStateInterface $form_state, $f
  * @param $configurations
  * @return array
  */
-function extractConfigFormStates($configurations, $mode = "creation_", $id_role = "authenticated") {
-  $configuration_form_state = array();
+function extractConfigFormStates($configurations, $mode = 'creation', $id_role = "authenticated") {
+  $configuration_form_state = [];
   foreach ($configurations as $form_state_key => $display) {
-    if (substr_count($form_state_key, $mode) != 0 && $display != NULL && substr_count($form_state_key, $id_role) != 0) {
+    if (empty($display)) {
+      continue;
+    }
+
+    $form_state_key_parts = explode('+', $form_state_key);
+
+    if (empty($form_state_key_parts)) {
+      // Should not be an empty array.
+      continue;
+    }
+
+    if (count($form_state_key_parts) != 4) {
+      // Not a valid form state key.
+      continue;
+    }
+
+    if ($form_state_key_parts[0] === $mode && $form_state_key_parts[1] === $id_role) {
       $configuration_form_state[$form_state_key] = $display;
     }
   }
@@ -80,7 +102,7 @@ function getPermissionByModeAndRole($display_query, $configuration, $context) {
   $entity_type = $context['entity_type'];
   $bundle = $context['bundle'];
   $id = "$entity_type.$bundle.$display_query";
-  if ($extractConfigPermissionByDisplay[$id] != NULL && \Drupal\Core\Entity\Entity\EntityFormDisplay::load($id)
+  if (!empty($extractConfigPermissionByDisplay[$id]) && EntityFormDisplay::load($id)
       ->status() == TRUE
   ) {
     return $extractConfigPermissionByDisplay[$id];
@@ -91,17 +113,21 @@ function getPermissionByModeAndRole($display_query, $configuration, $context) {
  * @param $configuration
  * @param $mode
  * @param $display_name
- * @param $storage
- * @param $id
+ * @param \Drupal\Core\Entity\EntityStorageInterface $storage
+ *   Storage interface for entity_form_display.
+ * @param string $id
+ *   Full display id in the form of entity_type.bundle.display_name.
  * @param $form_display
+ * @param $context
  */
-function controlAccessFormMode($configuration, $mode, $display_name, $storage, $id, &$form_display, $context) {
-  $current_id = $id;
+function controlAccessFormMode($configuration, $mode, $display_name, EntityStorageInterface $storage, $id, &$form_display, $context) {
   // The role which has a maximum weight.
   $id_role = getRoleIdWithMaxWeight();
   $permission_access_all = "access_all_form_modes";
-  //Get the right permission by mode( creation or edit), the role and display name used( ?display_name = display )
+
+  // Get the right permission by mode( creation or edit), the role and display name used( ?display_name = display )
   $permission = getPermissionByModeAndRole($display_name, $configuration, $context);
+
   /**
    * Control the access to the form mode.
    * We have 3 conditions:
@@ -116,42 +142,71 @@ function controlAccessFormMode($configuration, $mode, $display_name, $storage, $
    * form mode configured.
    *
    */
-  $form_mode_id = explode('.',$current_id)[2];
-  $default_id = explode('.',getTheRightDisplay($configuration, $mode, $id_role, $context))[2];
-  if($form_mode_id == "" && $default_id !=  $form_mode_id){
-    $current_id = getTheRightDisplay($configuration, $mode, $id_role, $context);
+  // Default display id is a backup when a specified display was not found.
+  $default_display_id = getTheRightDisplay($configuration, $mode, $id_role, $context);
+  $default_display_id_parts = explode('.', $default_display_id);
+
+  $form_mode_id = explode('.', $id)[2];
+
+  $current_id = $id;
+
+  if (empty($form_mode_id)) {
+    // The form mode is not specified.
+    // Try to retrieve at least the default form mode for the current user.
+    if (!empty($default_display_id_parts[2])) {
+      // The form mode is not specified and there is a default form mode for the
+      // current user.
+      $current_id = $default_display_id;
+    }
   }
+
   if (\Drupal::currentUser()->hasPermission($permission_access_all)) {
+    // Load and replace the form display.
+    /* @var \Drupal\Core\Entity\Entity\EntityFormDisplay $change_display */
     $change_display = $storage->load($current_id);
+
     if ($change_display) {
+      // The form mode exists and will be used instead.
       $form_display = $change_display;
+      return;
+    }
+
+    // The form mode likely does not exist.
+    if ($current_id === $default_display_id) {
+      // We already tried to load the default display. Nothing more to be done.
+      return;
     }
   }
-  else {
-    if (\Drupal::currentUser()
-      ->hasPermission($permission)
-    ) {
-      $change_display = $storage->load($current_id);
-      if ($change_display) {
-        $form_display = $change_display;
-      }
-      \Drupal::logger('form.control')
-        ->info("You haven't the permission to  access to use the form mode %display (role  %role ), you redirected to the form mode configured", array(
-          "%display" => $display_name,
-          "%role" => $id_role
-        ));
+  elseif (\Drupal::currentUser()->hasPermission($permission)) {
+    $change_display = $storage->load($current_id);
+
+    if ($change_display) {
+      // The form mode exists.
+      $form_display = $change_display;
+      return;
     }
-    else {
-      $current_id = getTheRightDisplay($configuration, $mode, $id_role, $context);
-      //print('permission with display '.$current_id);
-      $change_display = $storage->load($current_id);
-      if ($change_display && \Drupal\Core\Entity\Entity\EntityFormDisplay::load($current_id)
-          ->status()
-      ) {
-        $form_display = $change_display;
-      }
+
+    // The user has permission but the display does not exist (anymore).
+    if ($current_id === $default_display_id) {
+      // We already tried to load the default display. Nothing more to be done.
+      return;
     }
   }
+
+  // At least try to use a default one.
+  if (empty($default_display_id_parts[2])) {
+    // There is no default display for the current user. Abort.
+    return;
+  }
+
+  $change_display = $storage->load($default_display_id);
+
+  if (empty($change_display) || !$change_display->status()) {
+    // Couldn't get anything. Abort.
+    return;
+  }
+
+  $form_display = $change_display;
 }
 
 /**
@@ -159,20 +214,29 @@ function controlAccessFormMode($configuration, $mode, $display_name, $storage, $
  * @return int|string
  */
 function getRoleIdWithMaxWeight() {
-  //Get all roles.
-  $all_id_roles = array_keys(Role::loadMultiple());
-  // Get role of current user logged.
+  // Get all roles.
+  /* @var \Drupal\user\Entity\Role[] $all_role_entities */
+  $all_role_entities = Role::loadMultiple();
+
+  $all_id_roles = array_keys($all_role_entities);
+
+  // Get roles of current user.
   $roles_current_user = \Drupal::currentUser()->getRoles();
-  $roles_intersect = array_intersect($all_id_roles, $roles_current_user);
-  $max_weight = 0;
-  $id_role_max_weight = "role";
+  $roles_intersect = array_values(array_intersect($all_id_roles, $roles_current_user));
+
+  // Get weight and id of the first role.
+  $first_role = $roles_intersect[0];
+  $max_weight = $all_role_entities[$first_role]->getWeight();
+  $id_role_max_weight = $first_role;
+
   foreach ($roles_intersect as $id_role) {
-    if (Role::loadMultiple()[$id_role]->getWeight() > $max_weight) {
-      //
-      $max_weight = Role::loadMultiple()[$id_role]->getWeight();
+    if ($all_role_entities[$id_role]->getWeight() > $max_weight) {
+      // Use this role instead.
+      $max_weight = $all_role_entities[$id_role]->getWeight();
       $id_role_max_weight = $id_role;
     }
   }
+
   return $id_role_max_weight;
 }
 
@@ -190,17 +254,13 @@ function getRoleIdWithMaxWeight() {
 function getTheRightDisplay($configuration, $mode, $id_role, $context) {
   $extractConfigFormStates = extractConfigFormStates($configuration, $mode, $id_role);
   foreach ($extractConfigFormStates as $form_state_key => $form_mode_id) {
-    $display_name = explode(".", $form_mode_id)[2];
-    $config = explode('_', $form_state_key);
-    // Extract the default form mode configured in the page of the
-    // configuration
-    $role = $config[1];
-    $entity_type = $config[2];
-    $bundle = $config[3];
-    if ($context['entity_type'] == $entity_type && $context['bundle'] == $bundle && $id_role == $role) {
-      // verify if the configuration(entity type and the bundle)  is the same
-      //as the configuration  loaded with context variable, so we extract
-      // the right display.
+    $display_settings = explode('.', $form_mode_id);
+    $entity_type = $display_settings[0];
+    $bundle = $display_settings[1];
+    if ($context['entity_type'] == $entity_type && $context['bundle'] == $bundle) {
+      // Build the display id to use for the given entity type, bundle, role and
+      // mode.
+      $display_name = $display_settings[2];
       $id = $context['entity_type'] . '.' . $context['bundle'] . '.' . $display_name;
       return $id;
     }
@@ -214,7 +274,7 @@ function getTheRightDisplay($configuration, $mode, $id_role, $context) {
  * @return mixed
  */
 function getLabelFormModeFromMachineName($entity_type, $bundle, $display_searched) {
-  $displays = \Drupal::entityManager()
+  $displays = \Drupal::service('entity_display.repository')
     ->getFormModeOptionsByBundle($entity_type, $bundle);
   foreach ($displays as $machine_name_display => $label_display) {
     if (is_object($label_display) && $display_searched == $machine_name_display) {
@@ -236,7 +296,7 @@ function getLabelFormModeFromMachineName($entity_type, $bundle, $display_searche
  * @return mixed
  */
 function getLabelBundle($entity_type, $bundle_searched) {
-  $bundles = \Drupal::entityManager()->getBundleInfo($entity_type);
+  $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
   foreach ($bundles as $bundle => $label_bundle) {
     if ($bundle_searched == $bundle) {
       return $label_bundle['label'];
@@ -251,6 +311,9 @@ function getLabelBundle($entity_type, $bundle_searched) {
  * @return mixed
  */
 function getLabelEntityType($entity_type) {
-  return \Drupal::entityManager()
-    ->getEntityTypeLabels()[$entity_type]->render();
+  $label = \Drupal::service('entity_type.repository')->getEntityTypeLabels()[$entity_type];
+  if (is_object($label)) {
+    return $label->render();
+  }
+  return $label;
 }

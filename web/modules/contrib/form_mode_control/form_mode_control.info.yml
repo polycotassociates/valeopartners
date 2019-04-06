@@ -1,4 +1,4 @@
-name: Form mode control
+name: Form Mode Control
 # core: 8.x
 description: Allow you to use the form modes per role and per bundle / Entity.
 package: Administration
@@ -6,10 +6,10 @@ type: module
 configure: form_mode_control.configuration
 # version: 1.0
 dependencies:
-  - field_ui
+  - drupal:field
 
-# Information added by Drupal.org packaging script on 2017-01-04
-version: '8.x-2.0-rc2'
+# Information added by Drupal.org packaging script on 2019-03-26
+version: '8.x-2.0-rc5'
 core: '8.x'
 project: 'form_mode_control'
-datestamp: 1483541950
+datestamp: 1553624585

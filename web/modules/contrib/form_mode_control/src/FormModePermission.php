@@ -1,15 +1,11 @@
 <?php
-/**
- * @file
- * Contains \Drupal\form_mode_control\FormModesPermission.
- */
 
 namespace Drupal\form_mode_control;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -39,16 +35,16 @@ class FormModePermission implements ContainerInjectionInterface {
    *   The service container this instance should use.
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('entity.manager'));
+    return new static($container->get('entity_type.manager'));
   }
 
   /**
    * Constructs a new FormModePermission instance.
    *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManager $entity_manager
    *   The entity manager.
    */
-  public function __construct(EntityManagerInterface $entity_manager) {
+  public function __construct(EntityTypeManager $entity_manager) {
     $this->entityManager = $entity_manager;
   }
 

@@ -2,8 +2,6 @@
 
 /**
  * @author Anis Taktak <anis@emerya.fr>
- * @file
- * Contains \Drupal\form_mode_control\Form\FormModeConfigForm.
  */
 
 namespace Drupal\form_mode_control\Form;
@@ -90,9 +88,9 @@ class FormModeConfigForm extends ConfigFormBase {
 
                     $options = ($this->filterFormModeByEntityType($machine_name_entity, $id_bundle, $role));
                     if (count($options) > 0) {
-                        $id_creation = isset($data['creation_' . $id_role . '_' . $machine_name_entity . '_' . $id_bundle])?$data['creation_' . $id_role . '_' . $machine_name_entity . '_' . $id_bundle]:$machine_name_entity . '.' . $id_bundle.'.default';
+                        $id_creation = isset($data['creation+' . $id_role . '+' . $machine_name_entity . '+' . $id_bundle])?$data['creation+' . $id_role . '+' . $machine_name_entity . '+' . $id_bundle]:$machine_name_entity . '.' . $id_bundle.'.default';
 
-                        $form['details_entity_type_' . $machine_name_entity]['details_bundle_' . $machine_name_entity . '_' . $id_bundle]['details_form_mode_creation' . '_' . $machine_name_entity . '_' . $id_bundle]['creation_' . $id_role . '_' . $machine_name_entity . '_' . $id_bundle] = array(
+                        $form['details_entity_type_' . $machine_name_entity]['details_bundle_' . $machine_name_entity . '_' . $id_bundle]['details_form_mode_creation' . '_' . $machine_name_entity . '_' . $id_bundle]['creation+' . $id_role . '+' . $machine_name_entity . '+' . $id_bundle] = array(
                             '#type' => 'select',
                             "#options" => $options,
                             '#title' => $role->label(),
@@ -100,9 +98,9 @@ class FormModeConfigForm extends ConfigFormBase {
                             '#group' => 'information',
                         );
 
-                        $id_modification = isset($data['modification_' . $id_role . '_' . $machine_name_entity . '_' . $id_bundle])?$data['modification_' . $id_role . '_' . $machine_name_entity . '_' . $id_bundle]:$machine_name_entity . '.' . $id_bundle.'.default';
+                        $id_modification = isset($data['modification+' . $id_role . '+' . $machine_name_entity . '+' . $id_bundle])?$data['modification+' . $id_role . '+' . $machine_name_entity . '+' . $id_bundle]:$machine_name_entity . '.' . $id_bundle.'.default';
 
-                        $form['details_entity_type_' . $machine_name_entity]['details_bundle_' . $machine_name_entity . '_' . $id_bundle]['details_form_mode_modification' . '_' . $machine_name_entity . '_' . $id_bundle]['modification_' . $id_role . '_' . $machine_name_entity . '_' . $id_bundle] = array(
+                        $form['details_entity_type_' . $machine_name_entity]['details_bundle_' . $machine_name_entity . '_' . $id_bundle]['details_form_mode_modification' . '_' . $machine_name_entity . '_' . $id_bundle]['modification+' . $id_role . '+' . $machine_name_entity . '+' . $id_bundle] = array(
                             '#type' => 'select',
                             "#options" => $options,
                             '#title' => $role->label(),
@@ -129,10 +127,7 @@ class FormModeConfigForm extends ConfigFormBase {
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-        /**
-         *  Filter all values of form_state
-         * and unused unused values.
-         */
+        // Filter all values of form_state and unused values.
         $all_values = $form_state->getValues();
         unset($all_values['submit']);
         unset($all_values['form_build_id']);
@@ -140,22 +135,32 @@ class FormModeConfigForm extends ConfigFormBase {
         unset($all_values['submit']);
         unset($all_values['form_id']);
         unset($all_values['op']);
-        // Load the current configuration associeted to the config form (form_mode_control.settings).
+
+        // Load the current configuration associated to the config form (form_mode_control.settings).
         $configuration = \Drupal::configFactory()
             ->getEditable('form_mode_control.settings');
-        $has_modification = FALSE;
-        foreach ($all_values as $form_state_key => $form_mode_id_associated) {
-            $display = $form_state->getValue($form_state_key);
-            if (substr_count($form_state_key, "modification_") != 0 || substr_count($form_state_key, "creation_") != 0) {
-                $configuration->set($form_state_key, $display);
-                $has_modification = TRUE;
+
+        // Clear all entries in config data.
+        $cleared_data = [];
+        foreach ($configuration->getRawData() as $data_key => $data_value) {
+            if (substr_count($data_key, "modification_") != 0 || substr_count($data_key, "creation_") != 0  // TODO: remove this when stable.
+              || substr_count($data_key, "modification+") != 0 || substr_count($data_key, "creation+") != 0) {
+                $configuration->clear($data_key);
+                $cleared_data[$data_key] = $data_key;
             }
         }
-        // Save once configuration when there are modifications.
-        if($has_modification)
-            $configuration->save();
-        parent::submitForm($form, $form_state);
 
+        foreach ($all_values as $form_state_key => $form_mode_id_associated) {
+            $display = $form_state->getValue($form_state_key);
+            if (substr_count($form_state_key, "modification+") != 0 || substr_count($form_state_key, "creation+") != 0) {
+                $configuration->set($form_state_key, $display);
+            }
+        }
+
+        // Save once configuration.
+        $configuration->save();
+
+        parent::submitForm($form, $form_state);
     }
 
     /**
