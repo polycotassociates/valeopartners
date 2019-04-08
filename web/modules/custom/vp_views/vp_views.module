@@ -19,11 +19,29 @@ function vp_views_preprocess_views_view_table(&$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Alters the firm list options.
+ * Alters the list options.
  */
 function vp_views_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
 
+  // kint($form['#id']);
+
+  switch ($form['#id']) {
+
+    case "views-exposed-form-search-rfp-pitch-analysis-rfp-pitch-analysis-page":
+
+      // Remove the default "all" section if there's a request.
+      // This prevents "illegal selection" from happening when there's no "all".
+      $request = \Drupal::request();
+      if (!is_null($request->get('field_vp_rate_firm_target_id_verf'))) {
+        unset($form['field_vp_rate_firm_target_id_verf']['#options']['All']);
+      }
+      else {
+        $form['field_vp_rate_firm_target_id_verf']['#options']['All'] = '- Select -';
+      }
+
+
+  }
 
   // $database = \Drupal::database();
 

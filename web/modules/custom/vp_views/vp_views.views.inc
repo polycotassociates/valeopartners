@@ -43,6 +43,31 @@ function vp_views_views_data_alter(&$data) {
     ),
   );
 
+  $data['node']['low_actual_rate'] = array(
+    'field' => array(
+      'id' => 'low_actual_rate',
+      'title' => t('Low Actual Rate'),
+      'help' => t('Gets the lowest rate given a position/rate/firm.'),
+    ),
+  );
+
+  $data['node']['high_actual_rate'] = array(
+    'field' => array(
+      'id' => 'high_actual_rate',
+      'title' => t('High Actual Rate'),
+      'help' => t('Gets the highest rate given a position/rate/firm.'),
+    ),
+  );
+
+  $data['node']['average_actual_rate'] = array(
+    'field' => array(
+      'id' => 'average_actual_rate',
+      'title' => t('Avg Actual Rate'),
+      'help' => t('Gets the average rate given a position/rate/firm.'),
+    ),
+  );
+
+
   $data['node__field_vp_rate_hourly']['has_actual_rate'] = array(
     'title' => t('Has rate'),
     'filter' => array(
