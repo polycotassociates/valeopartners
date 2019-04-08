@@ -3222,7 +3222,7 @@ display:
         description: ''
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
-        weight: -48
+        weight: -49
         context: '0'
         menu_name: rate-afa-searches
       display_description: 'Search Rates By Firm Detail'

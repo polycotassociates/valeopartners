@@ -1,19 +1,25 @@
-uuid: 38c7a0bd-6fab-4cdd-8a52-8a691f941a5a
+uuid: 6f216b06-3bfe-4d73-a279-bdff9bc03033
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.storage.node.field_vp_filing_year_end
+    - field.storage.node.field_vp_rate_position
+    - node.type.vp_type_rate
   module:
-    - dblog
+    - better_exposed_filters
+    - computed_field
+    - node
     - user
-_core:
-  default_config_hash: mRpCPs9ab0M-w_gYtSyRgFco6FohGMSbiN4DH4-xAxU
-id: watchdog
-label: Watchdog
+    - verf
+    - vp_views
+id: rfp_test
+label: 'RFP TEST'
 module: views
-description: 'Recent log messages'
+description: ''
 tag: ''
-base_table: watchdog
-base_field: wid
+base_table: node_field_data
+base_field: nid
 core: 8.x
 display:
   default:
@@ -25,9 +31,9 @@ display:
       access:
         type: perm
         options:
-          perm: 'access site reports'
+          perm: 'access content'
       cache:
-        type: none
+        type: tag
         options: {  }
       query:
         type: views_query
@@ -38,19 +44,37 @@ display:
           query_comment: ''
           query_tags: {  }
       exposed_form:
-        type: basic
+        type: bef
         options:
-          submit_button: Filter
-          reset_button: true
+          submit_button: Apply
+          reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
+          input_required: true
+          text_input_required: 'Select a firm'
+          bef:
+            general:
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              autosubmit: true
+              autosubmit_exclude_textfield: false
+              autosubmit_hide: true
+            field_vp_rate_firm_target_id_verf:
+              bef_format: default
+              more_options:
+                bef_select_all_none: false
+                bef_collapsible: false
+                is_secondary: false
+                rewrite:
+                  filter_rewrite_values: ''
+          text_input_required_format: basic_html
       pager:
         type: mini
         options:
-          items_per_page: 50
+          items_per_page: 10
           offset: 0
           id: 0
           total_pages: null
@@ -68,8 +92,12 @@ display:
       style:
         type: table
         options:
-          grouping: {  }
-          row_class: '{{ type }} {{ severity }}'
+          grouping:
+            -
+              field: field_vp_filing_year_end
+              rendered: true
+              rendered_strip: false
+          row_class: table-bordered
           default_row_class: true
           override: true
           sticky: false
@@ -77,85 +105,47 @@ display:
           summary: ''
           description: ''
           columns:
-            nothing: nothing
-            wid: wid
-            severity: severity
-            type: type
-            timestamp: timestamp
-            message: message
-            name: name
-            link: link
+            field_vp_rate_position: field_vp_rate_position
+            field_vp_filing_year_end: field_vp_filing_year_end
+            nid: nid
           info:
-            nothing:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: priority-medium
-            wid:
-              sortable: false
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: priority-low
-            severity:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: priority-low
-            type:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: priority-medium
-            timestamp:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: priority-low
-            message:
+            field_vp_rate_position:
               sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            name:
-              sortable: true
+            field_vp_filing_year_end:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
-              responsive: priority-medium
-            link:
+              responsive: ''
+            nid:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
-              responsive: priority-low
-          default: wid
+              responsive: ''
+          default: '-1'
           empty_table: false
       row:
         type: fields
       fields:
-        nothing:
-          id: nothing
-          table: views
-          field: nothing
+        field_vp_rate_position:
+          id: field_vp_rate_position
+          table: node__field_vp_rate_position
+          field: field_vp_rate_position
           relationship: none
           group_type: group
-          admin_label: Icon
-          label: ''
+          admin_label: ''
+          label: Position
           exclude: false
           alter:
-            alter_text: true
+            alter_text: false
             text: ''
             make_link: false
             path: ''
@@ -182,277 +172,48 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: icon
+          element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: false
+          element_default_classes: true
           empty: ''
           hide_empty: false
           empty_zero: false
-          hide_alter_empty: false
-          plugin_id: custom
-        wid:
-          id: wid
-          table: watchdog
-          field: wid
-          relationship: none
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          set_precision: false
+          precision: 0
+          decimal: .
+          format_plural: false
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
+          plugin_id: field
+        field_vp_filing_year_end:
+          id: field_vp_filing_year_end
+          table: node__field_vp_filing_year_end
+          field: field_vp_filing_year_end
+          relationship: field_vp_rate_filing
           group_type: group
           admin_label: ''
-          label: WID
+          label: 'Rate Year'
           exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          plugin_id: standard
-        severity:
-          id: severity
-          table: watchdog
-          field: severity
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Severity
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          machine_name: false
-          plugin_id: machine_name
-        type:
-          id: type
-          table: watchdog
-          field: type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Type
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          plugin_id: standard
-        timestamp:
-          id: timestamp
-          table: watchdog
-          field: timestamp
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Date
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          date_format: short
-          custom_date_format: ''
-          timezone: ''
-          plugin_id: date
-        message:
-          id: message
-          table: watchdog
-          field: message
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Message
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: true
-            path: 'admin/reports/dblog/event/{{ wid }}'
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: '{{ message }}'
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 56
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: true
-            trim: true
-            preserve_tags: ''
-            html: true
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          replace_variables: true
-          plugin_id: dblog_message
-        name:
-          id: name
-          table: users_field_data
-          field: name
-          relationship: uid
-          group_type: group
-          admin_label: ''
-          label: User
-          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -493,9 +254,12 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: user_name
+          type: computed_integer
           settings:
-            link_to_entity: true
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -506,17 +270,81 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: user
-          entity_field: name
           plugin_id: field
-        link:
-          id: link
-          table: watchdog
-          field: link
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: field_vp_rate_firm
+          group_type: group
+          admin_label: ''
+          label: firm_id
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
+        low_actual_rate:
+          id: low_actual_rate
+          table: node
+          field: low_actual_rate
           relationship: none
           group_type: group
           admin_label: ''
-          label: Operations
+          label: 'Low Actual Rate'
           exclude: false
           alter:
             alter_text: false
@@ -557,12 +385,204 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: dblog_operations
+          entity_type: node
+          plugin_id: low_actual_rate
+        average_actual_rate:
+          id: average_actual_rate
+          table: node
+          field: average_actual_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Avg Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          entity_type: node
+          plugin_id: average_actual_rate
+        high_actual_rate:
+          id: high_actual_rate
+          table: node
+          field: high_actual_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'High Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          entity_type: node
+          plugin_id: high_actual_rate
+        nid_1:
+          id: nid_1
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: count
+          admin_label: ''
+          label: 'Number of Rates'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          set_precision: false
+          precision: 0
+          decimal: .
+          separator: ', '
+          format_plural: 0
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
+          click_sort_column: value
+          type: number_integer
+          settings: {  }
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          field_api_classes: false
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
       filters:
+        status:
+          value: '1'
+          table: node_field_data
+          field: status
+          plugin_id: boolean
+          entity_type: node
+          entity_field: status
+          id: status
+          expose:
+            operator: ''
+          group: 1
         type:
           id: type
-          table: watchdog
+          table: node_field_data
           field: type
+          value:
+            vp_type_rate: vp_type_rate
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+        field_vp_rate_firm_target_id_verf:
+          id: field_vp_rate_firm_target_id_verf
+          table: node__field_vp_rate_firm
+          field: field_vp_rate_firm_target_id_verf
           relationship: none
           group_type: group
           admin_label: ''
@@ -571,19 +591,84 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: type_op
-            label: Type
+            operator_id: field_vp_rate_firm_target_id_verf_op
+            label: Firm
             description: ''
             use_operator: false
-            operator: type_op
-            identifier: type
+            operator: field_vp_rate_firm_target_id_verf_op
+            identifier: field_vp_rate_firm_target_id_verf
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          verf_target_bundles:
+            vp_type_firm: vp_type_firm
+            article: '0'
+            page: '0'
+            vp_type_case: '0'
+            vp_type_company: '0'
+            vp_type_contact: '0'
+            vp_type_filing: '0'
+            vp_type_individual: '0'
+            vp_type_rate: '0'
+            vp_type_saved_search: '0'
+          plugin_id: verf
+        field_vp_rate_position_target_id:
+          id: field_vp_rate_position_target_id
+          table: node__field_vp_rate_position
+          field: field_vp_rate_position_target_id
+          relationship: none
+          group_type: count_distinct
+          admin_label: ''
+          operator: '='
+          value:
+            min: null
+            max: null
+            value: 1
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
             reduce: false
           is_grouped: false
           group_info:
@@ -597,91 +682,64 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: dblog_types
-        severity:
-          id: severity
-          table: watchdog
-          field: severity
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: in
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: severity_op
-            label: Severity
-            description: ''
-            use_operator: false
-            operator: severity_op
-            identifier: severity
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: in_operator
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: position
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
       sorts:
-        wid:
-          id: wid
-          table: watchdog
-          field: wid
-          relationship: none
+        field_vp_filing_year_end_value:
+          id: field_vp_filing_year_end_value
+          table: node__field_vp_filing_year_end
+          field: field_vp_filing_year_end_value
+          relationship: field_vp_rate_filing
           group_type: group
           admin_label: ''
           order: DESC
           exposed: false
           expose:
+            label: 'Filing Year End (field_vp_filing_year_end)'
+          plugin_id: standard
+        field_vp_rate_position_target_id:
+          id: field_vp_rate_position_target_id
+          table: node__field_vp_rate_position
+          field: field_vp_rate_position_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
             label: ''
           plugin_id: standard
-      title: 'Recent log messages'
+      title: 'RFP TEST'
       header: {  }
       footer: {  }
-      empty:
-        area:
-          id: area_text_custom
-          table: views
-          field: area_text_custom
-          relationship: none
-          group_type: group
-          admin_label: 'No log messages available.'
-          empty: true
-          tokenize: false
-          content: 'No log messages available.'
-          plugin_id: text_custom
+      empty: {  }
       relationships:
-        uid:
-          id: uid
-          table: watchdog
-          field: uid
+        field_vp_rate_firm:
+          id: field_vp_rate_firm
+          table: node__field_vp_rate_firm
+          field: field_vp_rate_firm
           relationship: none
           group_type: group
-          admin_label: User
+          admin_label: Firm
+          required: false
+          plugin_id: standard
+        field_vp_rate_filing:
+          id: field_vp_rate_filing
+          table: node__field_vp_rate_filing
+          field: field_vp_rate_filing
+          relationship: none
+          group_type: group
+          admin_label: Filing
           required: false
           plugin_id: standard
       arguments: {  }
       display_extenders: {  }
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
-      css_class: admin-dblog
+      group_by: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -689,16 +747,21 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
-  page:
+      tags:
+        - 'config:field.storage.node.field_vp_filing_year_end'
+        - 'config:field.storage.node.field_vp_rate_position'
+        - 'config:views.view.rfp_test'
+        - node_list
+  page_1:
     display_plugin: page
-    id: page
+    id: page_1
     display_title: Page
     position: 1
     display_options:
       display_extenders: {  }
-      path: admin/reports/dblog
+      path: rfp-test
     cache_metadata:
       max-age: -1
       contexts:
@@ -706,5 +769,10 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.node.field_vp_filing_year_end'
+        - 'config:field.storage.node.field_vp_rate_position'
+        - 'config:views.view.rfp_test'
+        - node_list
