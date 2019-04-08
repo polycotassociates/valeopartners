@@ -79,6 +79,7 @@
         "drupal/views_bulk_edit": "^2.2",
         "drupal/views_bulk_operations": "^2.5",
         "drupal/views_data_export": "1.x-dev#717234f",
+        "drupal/views_field_view": "^1.0",
         "drupal/viewsreference": "^2.0",
         "drupal/webform": "^5.0",
         "drupal/xls_serialization": "^1.0",
@@ -135,6 +136,9 @@
         },
         "drupal/views_data_export": {
             "Support for batch operations patch 192": "https://www.drupal.org/files/issues/2019-02-06/2789531-192_0.patch"
+        },
+        "drupal/devel": {
+            "protected property issues": "https://www.drupal.org/files/issues/devel.ksm_.2857361.18.patch"
         }
     },
     "build-env": {
