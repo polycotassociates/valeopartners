@@ -92,7 +92,8 @@ class AverageActualRate extends FieldPluginBase {
       }
     }
     $average = $rate / count($results);
-    return money_format('%i', $average);
+    return sprintf("%0.2f", $average);
+    //return money_format('%i', $average);
   }
 
 }
