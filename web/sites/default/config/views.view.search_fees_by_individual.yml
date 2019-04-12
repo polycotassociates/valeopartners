@@ -29,7 +29,6 @@ dependencies:
     - serialization
     - user
     - views_data_export
-    - vp_views
     - xls_serialization
     - yearonly
 id: search_fees_by_individual
@@ -68,11 +67,11 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
-          reset_button: false
+          submit_button: Search
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
+          expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
@@ -1542,7 +1541,7 @@ display:
           expose:
             label: ''
           plugin_id: standard
-      title: 'Search Fees By Individual'
+      title: 'Transactions by Individual'
       header:
         result:
           id: result
@@ -1554,15 +1553,6 @@ display:
           empty: false
           content: 'Displaying @start - @end of @total'
           plugin_id: result
-        export_header:
-          id: export_header
-          table: views
-          field: export_header
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          plugin_id: export_header
       footer: {  }
       empty: {  }
       relationships:
@@ -1669,7 +1659,7 @@ display:
       filename: '[view:title].xls'
       automatic_download: false
       redirect_path: ''
-      export_method: batch
+      export_method: standard
       export_batch_size: 1000
       fields:
         title:
@@ -2672,16 +2662,7 @@ display:
         menu_name: rate-afa-searches
         enabled: true
       display_description: 'Search Fees By Individual'
-      footer:
-        export_header:
-          id: export_header
-          table: views
-          field: export_header
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          plugin_id: export_header
+      footer: {  }
       defaults:
         footer: false
     cache_metadata:

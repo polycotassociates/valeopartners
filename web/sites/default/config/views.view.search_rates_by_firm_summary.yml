@@ -16,6 +16,7 @@ dependencies:
     - field.storage.node.field_vp_state_bar
     - node.type.vp_type_rate
     - system.menu.rate-afa-searches
+    - taxonomy.vocabulary.city
     - taxonomy.vocabulary.position
     - taxonomy.vocabulary.practice_area
     - user.role.administrator
@@ -72,11 +73,11 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
-          reset_button: false
+          submit_button: Search
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
+          expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
@@ -1395,7 +1396,7 @@ display:
           id: field_vp_rate_firm_target_id_verf
           table: node__field_vp_rate_firm
           field: field_vp_rate_firm_target_id_verf
-          relationship: field_vp_rate_firm
+          relationship: none
           group_type: group
           admin_label: ''
           operator: in
@@ -1452,6 +1453,64 @@ display:
             vp_type_rate: '0'
             vp_type_saved_search: '0'
           plugin_id: verf
+        term_node_tid_depth:
+          id: term_node_tid_depth
+          table: node_field_data
+          field: term_node_tid_depth
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: term_node_tid_depth_op
+            label: Country/City
+            description: ''
+            use_operator: false
+            operator: term_node_tid_depth_op
+            identifier: term_node_tid_depth
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: city
+          hierarchy: true
+          error_message: true
+          depth: 3
+          entity_type: node
+          plugin_id: taxonomy_index_tid_depth
         field_vp_position_target_id:
           id: field_vp_position_target_id
           table: node__field_vp_position
@@ -1564,69 +1623,6 @@ display:
           hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
-        field_vp_location_target_id_verf:
-          id: field_vp_location_target_id_verf
-          table: node__field_vp_location
-          field: field_vp_location_target_id_verf
-          relationship: field_vp_rate_individual
-          group_type: group
-          admin_label: ''
-          operator: in
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_vp_location_target_id_verf_op
-            label: Country/City
-            description: ''
-            use_operator: false
-            operator: field_vp_location_target_id_verf_op
-            identifier: field_vp_location_target_id_verf
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              rate_report_user: '0'
-              superuser: '0'
-              pilot_account: '0'
-              data_entry: '0'
-              alerts_add_on: '0'
-              company_industry_add_on: '0'
-              full_database_download_add_on: '0'
-              firm_rate_profile_add_on: '0'
-              fee_search_add_on: '0'
-              nos_add_on: '0'
-              download_add_on: '0'
-            reduce: 0
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          verf_target_bundles:
-            city: city
-            industry: '0'
-            law_school: '0'
-            nature_of_suit: '0'
-            position: '0'
-            practice_area: '0'
-            search_columns: '0'
-            source_court: '0'
-            state: '0'
-            tags: '0'
-            transaction_type: '0'
-            type: '0'
-          plugin_id: verf
         field_vp_graduation_value:
           id: field_vp_graduation_value
           table: node__field_vp_graduation
@@ -1737,20 +1733,60 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: numeric
-      sorts:
-        title:
-          id: title
-          table: node_field_data
-          field: title
-          relationship: field_vp_rate_individual
+        field_vp_rate_hourly_value:
+          id: field_vp_rate_hourly_value
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly_value
+          relationship: none
           group_type: group
           admin_label: ''
-          order: ASC
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
+      sorts:
+        field_vp_rate_hourly_value:
+          id: field_vp_rate_hourly_value
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
           exposed: false
           expose:
             label: ''
-          entity_type: node
-          entity_field: title
           plugin_id: standard
       title: 'Rates By Firm - Summary'
       header:
@@ -1840,7 +1876,6 @@ display:
         - 'config:field.storage.node.field_vp_state_bar'
         - 'config:views.view.search_rates_by_firm_summary'
         - node_list
-        - taxonomy_term_list
   data_export_xls:
     display_plugin: data_export
     id: data_export_xls
@@ -1852,7 +1887,7 @@ display:
       filename: rates-by-firm-summary.xls
       automatic_download: false
       redirect_path: ''
-      export_method: batch
+      export_method: standard
       export_batch_size: 1000
       display_description: ''
       fields:
@@ -2590,6 +2625,210 @@ display:
           year: '2018'
           entity_type: node
           plugin_id: standard_rate_by_year
+        actual_rate_by_year_1:
+          id: actual_rate_by_year_1
+          table: node
+          field: actual_rate_by_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2017 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          year: '2017'
+          entity_type: node
+          plugin_id: actual_rate_by_year
+        standard_rate_by_year_1:
+          id: standard_rate_by_year_1
+          table: node
+          field: standard_rate_by_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2017 Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          year: '2017'
+          entity_type: node
+          plugin_id: standard_rate_by_year
+        actual_rate_by_year_2:
+          id: actual_rate_by_year_2
+          table: node
+          field: actual_rate_by_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2016 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          year: '2016'
+          entity_type: node
+          plugin_id: actual_rate_by_year
+        standard_rate_by_year_2:
+          id: standard_rate_by_year_2
+          table: node
+          field: standard_rate_by_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2016 Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          year: '2016'
+          entity_type: node
+          plugin_id: standard_rate_by_year
       defaults:
         fields: false
         title: false
@@ -2640,7 +2879,6 @@ display:
         - 'config:field.storage.node.field_vp_state_bar'
         - 'config:views.view.search_rates_by_firm_summary'
         - node_list
-        - taxonomy_term_list
   rate_firm_year:
     display_plugin: block
     id: rate_firm_year
@@ -3391,4 +3629,3 @@ display:
         - 'config:field.storage.node.field_vp_state_bar'
         - 'config:views.view.search_rates_by_firm_summary'
         - node_list
-        - taxonomy_term_list

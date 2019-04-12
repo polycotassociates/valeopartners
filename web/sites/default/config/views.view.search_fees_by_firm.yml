@@ -74,11 +74,11 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
-          reset_button: false
+          submit_button: Search
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
+          expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
@@ -1374,12 +1374,13 @@ display:
             vp_type_filing: '0'
             vp_type_individual: '0'
             vp_type_rate: '0'
+            vp_type_saved_search: '0'
           plugin_id: verf
-        field_vp_position_target_id:
-          id: field_vp_position_target_id
-          table: node__field_vp_position
-          field: field_vp_position_target_id
-          relationship: field_vp_rate_individual
+        term_node_tid_depth_1:
+          id: term_node_tid_depth_1
+          table: node_field_data
+          field: term_node_tid_depth
+          relationship: none
           group_type: group
           admin_label: ''
           operator: or
@@ -1387,12 +1388,12 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_vp_position_target_id_op
+            operator_id: term_node_tid_depth_1_op
             label: Position
             description: ''
             use_operator: false
-            operator: field_vp_position_target_id_op
-            identifier: field_vp_position_target_id
+            operator: term_node_tid_depth_1_op
+            identifier: term_node_tid_depth_1
             required: false
             remember: false
             multiple: true
@@ -1430,11 +1431,13 @@ display:
           vid: position
           hierarchy: true
           error_message: true
-          plugin_id: taxonomy_index_tid
-        field_vp_individual_location_target_id:
-          id: field_vp_individual_location_target_id
-          table: node__field_vp_individual_location
-          field: field_vp_individual_location_target_id
+          depth: 3
+          entity_type: node
+          plugin_id: taxonomy_index_tid_depth
+        term_node_tid_depth:
+          id: term_node_tid_depth
+          table: node_field_data
+          field: term_node_tid_depth
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
@@ -1443,12 +1446,12 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_vp_individual_location_target_id_op
-            label: City
+            operator_id: term_node_tid_depth_op
+            label: Country/City
             description: ''
             use_operator: false
-            operator: field_vp_individual_location_target_id_op
-            identifier: field_vp_individual_location_target_id
+            operator: term_node_tid_depth_op
+            identifier: term_node_tid_depth
             required: false
             remember: false
             multiple: true
@@ -1486,7 +1489,9 @@ display:
           vid: city
           hierarchy: true
           error_message: true
-          plugin_id: taxonomy_index_tid
+          depth: 4
+          entity_type: node
+          plugin_id: taxonomy_index_tid_depth
         field_vp_practice_area_1_target_id:
           id: field_vp_practice_area_1_target_id
           table: node__field_vp_practice_area_1
@@ -1657,7 +1662,7 @@ display:
           id: field_vp_filing_fee_dates_value
           table: node__field_vp_filing_fee_dates
           field: field_vp_filing_fee_dates_value
-          relationship: none
+          relationship: field_vp_rate_filing
           group_type: group
           admin_label: ''
           operator: between
@@ -1890,7 +1895,7 @@ display:
           expose:
             label: ''
           plugin_id: standard
-      title: 'Search Fees By Firm'
+      title: 'Transactions by Firm'
       header:
         result:
           id: result

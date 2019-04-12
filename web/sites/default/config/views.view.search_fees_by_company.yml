@@ -6,8 +6,11 @@ dependencies:
     - field.storage.node.field_vp_bar_date
     - field.storage.node.field_vp_company_industry
     - field.storage.node.field_vp_filing_fee_dates
+    - field.storage.node.field_vp_first_name
     - field.storage.node.field_vp_graduation
     - field.storage.node.field_vp_individual_location
+    - field.storage.node.field_vp_last_name
+    - field.storage.node.field_vp_middle_name
     - field.storage.node.field_vp_practice_area_1
     - field.storage.node.field_vp_practice_area_2
     - field.storage.node.field_vp_practice_area_3
@@ -75,11 +78,11 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
-          reset_button: false
+          submit_button: Search
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
+          expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
@@ -1372,11 +1375,11 @@ display:
           hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
-        field_vp_position_target_id:
-          id: field_vp_position_target_id
-          table: node__field_vp_position
-          field: field_vp_position_target_id
-          relationship: field_vp_rate_individual
+        term_node_tid_depth_1:
+          id: term_node_tid_depth_1
+          table: node_field_data
+          field: term_node_tid_depth
+          relationship: none
           group_type: group
           admin_label: ''
           operator: or
@@ -1384,12 +1387,12 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_vp_position_target_id_op
+            operator_id: term_node_tid_depth_1_op
             label: Position
             description: ''
             use_operator: false
-            operator: field_vp_position_target_id_op
-            identifier: field_vp_position_target_id
+            operator: term_node_tid_depth_1_op
+            identifier: term_node_tid_depth_1
             required: false
             remember: false
             multiple: true
@@ -1427,7 +1430,9 @@ display:
           vid: position
           hierarchy: true
           error_message: true
-          plugin_id: taxonomy_index_tid
+          depth: 3
+          entity_type: node
+          plugin_id: taxonomy_index_tid_depth
         field_vp_practice_area_1_target_id:
           id: field_vp_practice_area_1_target_id
           table: node__field_vp_practice_area_1
@@ -1484,10 +1489,10 @@ display:
           hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
-        field_vp_individual_location_target_id:
-          id: field_vp_individual_location_target_id
-          table: node__field_vp_individual_location
-          field: field_vp_individual_location_target_id
+        term_node_tid_depth:
+          id: term_node_tid_depth
+          table: node_field_data
+          field: term_node_tid_depth
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
@@ -1496,12 +1501,12 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_vp_individual_location_target_id_op
-            label: City
+            operator_id: term_node_tid_depth_op
+            label: Country/City
             description: ''
             use_operator: false
-            operator: field_vp_individual_location_target_id_op
-            identifier: field_vp_individual_location_target_id
+            operator: term_node_tid_depth_op
+            identifier: term_node_tid_depth
             required: false
             remember: false
             multiple: true
@@ -1539,12 +1544,14 @@ display:
           vid: city
           hierarchy: true
           error_message: true
-          plugin_id: taxonomy_index_tid
+          depth: 4
+          entity_type: node
+          plugin_id: taxonomy_index_tid_depth
         field_vp_filing_fee_dates_value:
           id: field_vp_filing_fee_dates_value
           table: node__field_vp_filing_fee_dates
           field: field_vp_filing_fee_dates_value
-          relationship: none
+          relationship: field_vp_rate_filing
           group_type: group
           admin_label: ''
           operator: between
@@ -1897,7 +1904,7 @@ display:
           expose:
             label: ''
           plugin_id: standard
-      title: 'Search Fees By Company'
+      title: 'Transactions by Company'
       header:
         result:
           id: result
@@ -2038,17 +2045,17 @@ display:
       filename: '[view:title].xls'
       automatic_download: false
       redirect_path: ''
-      export_method: batch
+      export_method: standard
       export_batch_size: 1000
       fields:
-        title:
-          id: title
-          table: node_field_data
-          field: title
+        field_vp_last_name:
+          id: field_vp_last_name
+          table: node__field_vp_last_name
+          field: field_vp_last_name
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: Name
+          label: 'Last Name'
           exclude: false
           alter:
             alter_text: false
@@ -2068,8 +2075,8 @@ display:
             target: ''
             nl2br: false
             max_length: 0
-            word_boundary: false
-            ellipsis: false
+            word_boundary: true
+            ellipsis: true
             more_link: false
             more_link_text: ''
             more_link_path: ''
@@ -2092,7 +2099,7 @@ display:
           click_sort_column: value
           type: string
           settings:
-            link_to_entity: true
+            link_to_entity: false
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2103,8 +2110,132 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: title
+          plugin_id: field
+        field_vp_middle_name:
+          id: field_vp_middle_name
+          table: node__field_vp_middle_name
+          field: field_vp_middle_name
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Middle Name'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_first_name:
+          id: field_vp_first_name
+          table: node__field_vp_first_name
+          field: field_vp_first_name
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'First Name'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
           plugin_id: field
         title_1:
           id: title_1
@@ -2179,69 +2310,6 @@ display:
           group_type: group
           admin_label: ''
           label: Position
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_vp_individual_location:
-          id: field_vp_individual_location
-          table: node__field_vp_individual_location
-          field: field_vp_individual_location
-          relationship: field_vp_rate_individual
-          group_type: group
-          admin_label: ''
-          label: City
           exclude: false
           alter:
             alter_text: false
@@ -2674,6 +2742,68 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_vp_bar_date:
+          id: field_vp_bar_date
+          table: node__field_vp_bar_date
+          field: field_vp_bar_date
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Bar Yr'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: yearonly_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         field_vp_state_bar:
           id: field_vp_state_bar
           table: node__field_vp_state_bar
@@ -2737,14 +2867,14 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_vp_bar_date:
-          id: field_vp_bar_date
-          table: node__field_vp_bar_date
-          field: field_vp_bar_date
+        field_vp_individual_location:
+          id: field_vp_individual_location
+          table: node__field_vp_individual_location
+          field: field_vp_individual_location
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Bar Yr'
+          label: City
           exclude: false
           alter:
             alter_text: false
@@ -2785,10 +2915,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: yearonly_default
-          settings: {  }
-          group_column: value
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -3013,8 +3144,11 @@ display:
         - 'config:field.storage.node.field_vp_bar_date'
         - 'config:field.storage.node.field_vp_company_industry'
         - 'config:field.storage.node.field_vp_filing_fee_dates'
+        - 'config:field.storage.node.field_vp_first_name'
         - 'config:field.storage.node.field_vp_graduation'
         - 'config:field.storage.node.field_vp_individual_location'
+        - 'config:field.storage.node.field_vp_last_name'
+        - 'config:field.storage.node.field_vp_middle_name'
         - 'config:field.storage.node.field_vp_practice_area_1'
         - 'config:field.storage.node.field_vp_practice_area_2'
         - 'config:field.storage.node.field_vp_practice_area_3'
