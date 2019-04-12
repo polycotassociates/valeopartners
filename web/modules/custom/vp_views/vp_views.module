@@ -16,95 +16,115 @@ function vp_views_preprocess_views_view_table(&$variables) {
 
 
 
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Alters the list options.
- */
-function vp_views_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+// /**
+//  * Implements hook_form_FORM_ID_alter().
+//  *
+//  * Alters the list options.
+//  */
+// function vp_views_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+//   switch ($form['#id']) {
+
+//     case "views-exposed-form-search-rfp-pitch-analysis-rfp-pitch-analysis-page":
+
+//       // Remove the default "all" section if there's a request.
+//       // This prevents "illegal selection" from happening when there's no "all".
+//       $request = \Drupal::request();
+//       if (!is_null($request->get('field_vp_rate_firm_target_id_verf'))) {
+//         unset($form['field_vp_rate_firm_target_id_verf']['#options']['All']);
+//       }
+//       else {
+//         $form['field_vp_rate_firm_target_id_verf']['#options']['All'] = '- Select -';
+//       }
+//       break;
+
+//     case "views-exposed-form-search-rates-by-firm-detail-search-rates-by-firm-detail":
+
+//       // Get the current year.
+//       $year = format_date(time(), 'custom', 'Y');
+
+//       $form['field_vp_filing_fee_dates_value']['min']['#type'] = "select";
+//       $form['field_vp_filing_fee_dates_value']['min']['#multiple'] = FALSE;
+//       $form['field_vp_filing_fee_dates_value']['min']['#empty_option'] = '-All-';
+//       $form['field_vp_filing_fee_dates_value']['min']['#default_value'] = '1950-01-01';
+//       $form['field_vp_filing_fee_dates_value']['min']['#options'] = vp_api_year_options_min();
+
+//       unset($form['field_vp_filing_fee_dates_value']['min']['#size']);
+
+//       $form['field_vp_filing_fee_dates_value']['max']['#type'] = "select";
+//       $form['field_vp_filing_fee_dates_value']['max']['#multiple'] = FALSE;
+//       $form['field_vp_filing_fee_dates_value']['max']['#empty_option'] = '-All-';
+//       $form['field_vp_filing_fee_dates_value']['max']['#default_value'] = '2017-01-01';
+//       $form['field_vp_filing_fee_dates_value']['max']['#options'] = vp_api_year_options_max();
+//       $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
+//       unset($form['field_vp_filing_fee_dates_value']['max']['#size']);
+
+//       break;
+
+//   }
+
+//   // $database = \Drupal::database();
+
+//   // $db = \Drupal::database();
 
 
-  // kint($form['#id']);
 
-  switch ($form['#id']) {
+//   // kint($form['#id']);
 
-    case "views-exposed-form-search-rfp-pitch-analysis-rfp-pitch-analysis-page":
+//   $options = [12888 => 'Susman Godfrey LLP', 12875 => 'Gibson, Dunn & Crutcher LLP'];
 
-      // Remove the default "all" section if there's a request.
-      // This prevents "illegal selection" from happening when there's no "all".
-      $request = \Drupal::request();
-      if (!is_null($request->get('field_vp_rate_firm_target_id_verf'))) {
-        unset($form['field_vp_rate_firm_target_id_verf']['#options']['All']);
-      }
-      else {
-        $form['field_vp_rate_firm_target_id_verf']['#options']['All'] = '- Select -';
-      }
+//   // $form['firm_id']['#type'] = "select";
 
+//   // $form['firm_id']['#multiple'] = FALSE;
 
-  }
+//   // // Specify the empty option for our select list
+//   // $form['firm_id']['#empty_option'] = 0;
 
-  // $database = \Drupal::database();
-
-  // $db = \Drupal::database();
-
-
-
-  // kint($form['#id']);
-
-  $options = [12888 => 'Susman Godfrey LLP', 12875 => 'Gibson, Dunn & Crutcher LLP'];
-
-  // $form['firm_id']['#type'] = "select";
-
-  // $form['firm_id']['#multiple'] = FALSE;
-
-  // // Specify the empty option for our select list
-  // $form['firm_id']['#empty_option'] = 0;
-
-  // // Add the $options from above to our select list
-  // $form['firm_id']['#options'] = $options;
-  // unset($form['firm_id']['#size']);
+//   // // Add the $options from above to our select list
+//   // $form['firm_id']['#options'] = $options;
+//   // unset($form['firm_id']['#size']);
 
 
 
 
-    // If not the view we are looking, move on
-    if ($form['#id'] != 'views-exposed-form-search-rates-by-firm-test-search-rates-by-firm-summary') {
-     return FALSE;
-    }
+//     // If not the view we are looking, move on
+//     if ($form['#id'] != 'views-exposed-form-search-rates-by-firm-test-search-rates-by-firm-summary') {
+//      return FALSE;
+//     }
 
-    // // Query nodes
-    // $storage = Drupal::getContainer()->get('entity_type.manager')->getStorage('node');
-    // $nids = $storage->getQuery();
+//     // // Query nodes
+//     // $storage = Drupal::getContainer()->get('entity_type.manager')->getStorage('node');
+//     // $nids = $storage->getQuery();
 
-    // // Gather published artist nodes and sort by title
-    // $nids = $nids->condition('type', 'artist')
-    //  ->condition('status', 1)
-    //  ->sort('title')
-    //  ->execute();
+//     // // Gather published artist nodes and sort by title
+//     // $nids = $nids->condition('type', 'artist')
+//     //  ->condition('status', 1)
+//     //  ->sort('title')
+//     //  ->execute();
 
-    // // If there are no nodes, move on
-    // if (!$nids) {
-    //  return FALSE;
-    // }
+//     // // If there are no nodes, move on
+//     // if (!$nids) {
+//     //  return FALSE;
+//     // }
 
-    // // Start building out the options for our select list
-    // $options = [];
-    // $nodes = $storage->loadMultiple($nids);
+//     // // Start building out the options for our select list
+//     // $options = [];
+//     // $nodes = $storage->loadMultiple($nids);
 
-    // // Push titles into select list
-    // foreach ($nodes as $node) {
-    //  $options[$node->id()] = $node->getTitle();
-    // }
+//     // // Push titles into select list
+//     // foreach ($nodes as $node) {
+//     //  $options[$node->id()] = $node->getTitle();
+//     // }
 
-    // // Start building out our new form element
-    // $artist_field = 'artist';
-    // $form[$artist_field]['#type'] = 'select';
-    // $form[$artist_field]['#multiple'] = FALSE;
+//     // // Start building out our new form element
+//     // $artist_field = 'artist';
+//     // $form[$artist_field]['#type'] = 'select';
+//     // $form[$artist_field]['#multiple'] = FALSE;
 
-    // // Specify the empty option for our select list
-    // $form[$artist_field]['#empty_option'] = t('Artist');
+//     // // Specify the empty option for our select list
+//     // $form[$artist_field]['#empty_option'] = t('Artist');
 
-    // // Add the $options from above to our select list
-    // $form[$artist_field]['#options'] = $options;
-    // unset($form[$artist_field]['#size']);
-  }
+//     // // Add the $options from above to our select list
+//     // $form[$artist_field]['#options'] = $options;
+//     // unset($form[$artist_field]['#size']);
+//   }

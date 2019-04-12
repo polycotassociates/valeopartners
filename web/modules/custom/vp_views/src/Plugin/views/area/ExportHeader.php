@@ -65,7 +65,7 @@ class ExportHeader extends AreaPluginBase {
     // Put them together with /export added to the path and format=xls at the end.
     $export_xls = "/saved/search/export?$query&_format=xls";
     // Create the html for the link.
-    $export_xls_link = "$query1<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
+    $export_xls_link = "$query<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
     // Return the link.
 
     // $node = Drupal::request()->attributes->get('node');

@@ -13,6 +13,49 @@ use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 
+/**
+ * Implements template_views_pre_render().
+ */
+function vp_views_views_pre_render(ViewExecutable $view) {
+
+  switch ($view->id()) {
+
+    case 'search_rate_trending_analysis':
+      // If a year is passed as an argument, change the column lables to
+      // reference that year.
+      $year = $view->argument['field_vp_filing_fee_dates_value_year']->argument;
+      if ($year) {
+        $view->field['field_vp_rate_hourly']->options['label'] = $year . " Rate";
+        $view->field['field_vp_rate_previous']->options['label'] = $year - 1 . " Rate";
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function vp_views_views_post_execute(ViewExecutable $view) {
+
+  // switch ($view->id()) {
+  //   case 'search_rate_trending_analysis':
+
+  //     foreach ($view->result as $result) {
+  //       kint($result);
+
+  //       kint($result->node__field_vp_rate_hourly_field_vp_rate_hourly_value);
+  //       $hourly = $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value;
+  //       $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value .= $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value . '$';
+
+  //       // Replace all empty fields with the dash '-' character.
+  //       if (!empty($result->node__field_vp_rate_hourly_field_vp_rate_hourly_value)) {
+  //         $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value .= $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value . '$';
+  //       }
+  //     }
+  //     break;
+  // }
+
+}
 
 /**
  * Implements hook_views_pre_view().
@@ -206,75 +249,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       }
 
       break;
+
   }
 
 }
-
-
-
-// /**
-//  * Implements hook_views_query_alter().
-//  */
-// function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-//   if ($view->id() == 'search_rates_by_firm_summary') {
-
-//     // foreach top level condition group
-//     foreach ($query->where as &$condition_group) {
-//       // call helper function to recursively alter conditions
-//       _recursively_alter_query_conditions($condition_group['conditions']);
-//     }
-
-//     // kint($view->field);
-//     // die;
-//     $db = \Drupal::database();
-//     $sub_query = $db->select('node', 'node')->fields('node');
-//     $sub_query->join('node__field_vp_rate_hourly', 'hourly', 'node.nid = hourly.entity_id');
-//     $sub_query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
-//     $sub_query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
-//     $sub_query->join('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
-//     $sub_query->fields('node', ['nid']);
-//     $sub_query->fields('hourly', ['field_vp_rate_hourly_value']);
-//     $sub_query->fields('year', ['field_vp_filing_year_end_value']);
-//     $sub_query->fields('individual', ['field_vp_rate_individual_target_id']);
-//     $sub_query = $query->andConditionGroup()
-//       ->condition('field_vp_filing_year_end_value', '2017', '=')
-//       ->condition('field_vp_rate_individual_target_id', '65557', '=');
-//     $sub_query->orderBy('field_vp_rate_hourly_value', 'DESC');
-//     $sub_query->range(0, 1);
-
-
-//      $view->query->add_where(0, 'node.nid', $sub_query, 'IN');
-
-
-//   }
-// }
-
-
-// // helper function: (takes in conditions group argument)
-// function _recursively_alter_query_conditions(&$conditions) {
-//   // foreach condition in condition group
-//   foreach ($conditions as &$condition) {
-//     // if condition is itself a condition group
-//     if (isset($condition['field']) && is_a($condition['field'], 'Drupal\Core\Database\Query\Condition')) {
-//       // call the helper function on it
-//       _recursively_alter_query_conditions($condition['field']->conditions());
-//     }
-//     else {
-//       // check if we want to alter the condition and if so alter it
-//       _alter_query_condition($condition);
-//     }
-//   }
-// }
-
-// // separate helper function to determine if the condition is one we want to alter
-// function _alter_query_condition(&$condition) {
-//   if (isset($condition['field']) && ($condition['field'] === 'node_search_index.word')) {
-//     $condition['value'] = "%{$condition['value']}%";
-//     $condition['operator'] = 'LIKE';
-//   }
-//   if (isset($condition['field']) && ($condition['field'] === 'node_search_dataset.data')) {
-//     // here we're using trim to eliminate both the unwanted whitespace and the '%' symbols,
-//     // which then get added back via string concatenation
-//     $condition['value'] = "%" . trim($condition['value'], " \t\n\r\0\x0B%") . "%";
-//   }
-// }

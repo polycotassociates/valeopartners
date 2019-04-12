@@ -122,7 +122,10 @@ class ActualRateByYear extends FieldPluginBase {
       ->condition('field_vp_rate_individual_target_id', $individual_nid, '=');
     $query->orderBy('field_vp_rate_hourly_value', 'DESC');
     $query->range(0, 1);
+    // $query->extend('TableSort')->orderByHeader('field_vp_rate_hourly_value');
     $result = $query->condition($group)->execute()->fetchAll();
+
+
 
     if ($result) {
       $rate = $result[0]->field_vp_rate_hourly_value;

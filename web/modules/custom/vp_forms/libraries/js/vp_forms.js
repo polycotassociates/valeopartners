@@ -17,4 +17,83 @@
     }
   };
 
+
+  // Resets the interface min/max dates to 4 digits intead of 2010-01-01
+  Drupal.behaviors.vpMaxDateBehavior = {
+    attach: function (context, settings) {
+
+      // var params = getUrlParams();
+
+      // console.log(params);
+
+      // var grad_min = params['field_vp_graduation_value[min]'];
+      // var grad_max = params['field_vp_graduation_value[max]'];
+      // var grad_0 = params['field_vp_graduation_value[0]'];
+      // var grad_1 = params['field_vp_graduation_value[1]'];
+      // var bar_min = params['field_vp_bar_date_value[0]'];
+      // var bar_max = params['field_vp_bar_date_value[1]'];
+      // var fee_min = params['field_vp_filing_fee_dates_value[0]'];
+      // var fee_max = params['field_vp_filing_fee_dates_value[1]'];
+      // var fee_min = params['field_vp_filing_fee_dates_value[min]'];
+      // var fee_max = params['field_vp_filing_fee_dates_value[max]'];
+
+
+      // if (grad_min) {
+      //   $( '#edit-field-vp-filing-fee-dates-value-min' ).val(grad_min);
+      // }
+      // if (grad_max) {
+      //   $( '#edit-field-vp-filing-fee-dates-value-max' ).val(grad_max);
+      // }
+      // if (grad_0) {
+      //   $( '#edit-field-vp-filing-fee-dates-value-min' ).val(grad_0);
+      // }
+      // if (grad_1) {
+      //   $( '#edit-field-vp-filing-fee-dates-value-max' ).val(grad_1);
+      // }
+
+
+      // if (fee_min) {
+      //   var fee_min_yr = fee_min.slice(0,4);
+      //   $( '#edit-field-vp-filing-fee-dates-value-min' ).val(fee_min_yr);
+      // }
+      // if (fee_max) {
+      //   var fee_max_yr = fee_max.slice(0,4);
+      //   $( '#edit-field-vp-filing-fee-dates-value-max' ).val(fee_max_yr);
+      // }
+
+      // if (fee_min) {
+      //   min_year = min_year.slice(0, 4);
+      //   $( '#edit-field-vp-filing-fee-dates-value-min' ).val( min_year );
+      // }
+
+      // if (fee_max) {
+      //   max_year = min_year.slice(0, 4);
+      //   $( '#edit-field-vp-filing-fee-dates-value-max' ).val( max_year );
+      // }
+
+    }
+  };
+
 })(jQuery, Drupal);
+
+
+/**
+ * JavaScript Get URL Parameter
+ *
+ * From: https://www.kevinleary.net/javascript-get-url-parameters/
+ *
+ * @param String prop The specific URL parameter you want to retreive the value for
+ * @return String|Object If prop is provided a string value is returned, otherwise an object of all properties is returned
+ */
+function getUrlParams( prop ) {
+  var params = {};
+  var search = decodeURIComponent( window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ) );
+  var definitions = search.split( '&' );
+
+  definitions.forEach( function( val, key ) {
+      var parts = val.split( '=', 2 );
+      params[ parts[ 0 ] ] = parts[ 1 ];
+  } );
+
+  return ( prop && prop in params ) ? params[ prop ] : params;
+}

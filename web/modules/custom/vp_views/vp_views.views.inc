@@ -3,15 +3,14 @@
 
 /**
  * @file
- *   Hooks for Valeo Partners Views.
+ * Hooks for Valeo Partners Views.
  */
-
-
 
 /**
  * Implements hook_views_data().
  */
 function vp_views_views_data() {
+  // Add an export header with a link to the xls export.
   $data['views']['export_header'] = [
     'title' => t('Export Link Header'),
     'help' => t('An area containing links with current arguments.'),
@@ -24,9 +23,11 @@ function vp_views_views_data() {
 
 /**
  * Implements hook_views_data_alter().
+ *
+ * Register custom views fields.
  */
 function vp_views_views_data_alter(&$data) {
-  //Add to Node views
+
   $data['node']['actual_rate_by_year'] = array(
     'field' => array(
       'id' => 'actual_rate_by_year',
@@ -77,7 +78,6 @@ function vp_views_views_data_alter(&$data) {
     ),
   );
 
-  //Add to Node views
   $data['node_field_data']['all_companies_filter'] = array(
     'title' => t('List Of Companies'),
     'filter' => array(

@@ -11,7 +11,7 @@
  *
  * (Currently unused --ACE).
  */
-  function vp_api_saved_search($vars) {
+function vp_api_saved_search($vars) {
   $args = [$tid];
   $view = Views::getView('test_view');
   if (is_object($view)) {
@@ -22,4 +22,61 @@
     $content = $view->buildRenderable('block', $args);
   }
   return $content;
+}
+
+/**
+ * Function to Generate minimum year dropdowns.
+ */
+function vp_api_year_options_min() {
+
+  $options = [];
+  // Get the current year.
+  $year = format_date(time(), 'custom', 'Y');
+
+  // Loop through years from 1950 to this year + 10.
+  for ($x = 2000; $x <= $year + 10; $x++) {
+    // Make a date string based on year plus December 31.
+    $long_date = $x . '-01-01';
+    // Make an options array in the form of value="2010-01-01" key="2010".
+    $options[$long_date] = $x;
   }
+
+  return $options;
+}
+
+/**
+ * Function to Generate maximum year dropdowns.
+ */
+function vp_api_year_options_max() {
+
+  $options = [];
+  // Get the current year.
+  $year = format_date(time(), 'custom', 'Y');
+
+  // Loop through years from 1950 to this year + 10.
+  for ($x = 2000; $x <= $year + 10; $x++) {
+    // Make a date string based on year plus December 31.
+    $long_date = $x . '-12-31';
+    // Make an options array in the form of value="2010-12-31" key="2010".
+    $options[$long_date] = $x;
+  }
+
+  return $options;
+}
+
+/**
+ * Function to Generate maximum year dropdowns.
+ */
+function vp_api_bar_grad_year_options() {
+
+  $options = [];
+  // Get the current year.
+  $year = format_date(time(), 'custom', 'Y');
+
+  // Loop through years from 1950 to this year + 10.
+  for ($x = 1950; $x <= $year; $x++) {
+    $options[$x] = $x;
+  }
+
+  return $options;
+}
