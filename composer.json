@@ -139,6 +139,9 @@
         },
         "drupal/devel": {
             "protected property issues": "https://www.drupal.org/files/issues/devel.ksm_.2857361.18.patch"
+        },
+        "drupal/core": {
+            "View's pagination doesn't carry the exposed filter value": "https://www.drupal.org/files/issues/2019-03-11/2987598-11.patch"
         }
     },
     "build-env": {

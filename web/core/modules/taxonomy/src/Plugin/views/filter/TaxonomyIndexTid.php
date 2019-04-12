@@ -307,8 +307,11 @@ class TaxonomyIndexTid extends ManyToOne {
     $rc = parent::acceptExposedInput($input);
     if ($rc) {
       // If we have previously validated input, override.
-      if (isset($this->validated_exposed_input)) {
+      if (!$this->isAGroup() && isset($this->validated_exposed_input)) {
         $this->value = $this->validated_exposed_input;
+      } else {
+        // This is a group so provide the group values.
+        $this->value = $this->group_info;
       }
     }
 
