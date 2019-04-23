@@ -67,7 +67,7 @@ class ExportHeader extends AreaPluginBase {
     $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
     // Return the link.
 
-    print_r($export_xls);
+    // print_r($export_xls);
 
     return "$export_xls_link";
 
