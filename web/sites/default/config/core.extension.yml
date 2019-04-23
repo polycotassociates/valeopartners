@@ -93,6 +93,7 @@ module:
   views_field_view: 0
   views_ui: 0
   vp_api: 0
+  vp_blocks: 0
   vp_computed_fields: 0
   vp_forms: 0
   vp_views: 0
