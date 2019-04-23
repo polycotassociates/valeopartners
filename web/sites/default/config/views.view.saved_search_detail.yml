@@ -1647,10 +1647,10 @@ display:
           require_value: false
           reduce_duplicates: false
           plugin_id: taxonomy_index_tid
-        tid_2:
-          id: tid_2
-          table: taxonomy_index
-          field: tid
+        term_node_tid_depth:
+          id: term_node_tid_depth
+          table: node_field_data
+          field: term_node_tid_depth
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
@@ -1681,11 +1681,11 @@ display:
             type: none
             fail: 'not found'
           validate_options: {  }
-          break_phrase: true
-          add_table: true
-          require_value: false
-          reduce_duplicates: false
-          plugin_id: taxonomy_index_tid
+          depth: 3
+          break_phrase: false
+          use_taxonomy_term_path: false
+          entity_type: node
+          plugin_id: taxonomy_index_tid_depth
         tid_3:
           id: tid_3
           table: taxonomy_index
