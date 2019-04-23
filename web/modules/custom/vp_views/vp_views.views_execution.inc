@@ -35,27 +35,27 @@ function vp_views_views_pre_render(ViewExecutable $view) {
 /**
  * Implements hook_views_post_execute().
  */
-function vp_views_views_post_execute(ViewExecutable $view) {
+// function vp_views_views_post_execute(ViewExecutable $view) {
 
-  // switch ($view->id()) {
-  //   case 'search_rate_trending_analysis':
+//   switch ($view->id()) {
 
-  //     foreach ($view->result as $result) {
-  //       kint($result);
+//     case 'search_rate_trending_analysis':
 
-  //       kint($result->node__field_vp_rate_hourly_field_vp_rate_hourly_value);
-  //       $hourly = $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value;
-  //       $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value .= $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value . '$';
+//       // Override cache.
+//       \Drupal::service('page_cache_kill_switch')->trigger();
 
-  //       // Replace all empty fields with the dash '-' character.
-  //       if (!empty($result->node__field_vp_rate_hourly_field_vp_rate_hourly_value)) {
-  //         $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value .= $result->node__field_vp_rate_hourly_field_vp_rate_hourly_value . '$';
-  //       }
-  //     }
-  //     break;
-  // }
+//       kint($view);
 
-}
+//       foreach ($view->result as $key => $result) {
+//         if (!empty($result->node__field_vp_rate_hourly_field_vp_rate_hourly_value)) {
+//           // Reset the value of the item.
+//           $view->result[$key]->_entity->set('field_vp_rate_previous', [['value' => 'xxx']]);
+//         }
+//       }
+//       break;
+//   }
+
+// }
 
 /**
  * Implements hook_views_pre_view().
