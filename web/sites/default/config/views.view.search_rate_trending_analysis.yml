@@ -116,15 +116,15 @@ display:
             title_1: title_1
             title: title
             field_vp_rate_position: field_vp_rate_position
-            field_vp_individual_location: field_vp_individual_location
             field_vp_practice_area_1: field_vp_practice_area_1
             field_vp_practice_area_2: field_vp_practice_area_1
             field_vp_practice_area_3: field_vp_practice_area_1
-            field_vp_bar_date: field_vp_bar_date
+            field_vp_individual_location: field_vp_individual_location
             field_vp_graduation: field_vp_graduation
+            field_vp_rate_previous: field_vp_rate_previous
             field_vp_rate_hourly: field_vp_rate_hourly
-            field_vp_rate_standard: field_vp_rate_standard
             field_vp_filing_fee_dates: field_vp_filing_fee_dates
+            nothing: nothing
           info:
             counter:
               sortable: false
@@ -148,14 +148,7 @@ display:
               empty_column: false
               responsive: ''
             field_vp_rate_position:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_individual_location:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -182,7 +175,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_bar_date:
+            field_vp_individual_location:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -196,6 +189,13 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            field_vp_rate_previous:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             field_vp_rate_hourly:
               sortable: true
               default_sort_order: asc
@@ -203,14 +203,14 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_rate_standard:
+            field_vp_filing_fee_dates:
               sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_filing_fee_dates:
+            nothing:
               sortable: true
               default_sort_order: asc
               align: ''
