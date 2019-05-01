@@ -8,10 +8,8 @@
 use Drupal\views\Views;
 use Drupal\node\Entity\Node;
 use Drupal\views\ViewExecutable;
-use Drupal\user\Plugin\views\filter\Name;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
-use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
  * Implements template_views_pre_render().
@@ -31,31 +29,6 @@ function vp_views_views_pre_render(ViewExecutable $view) {
       break;
   }
 }
-
-/**
- * Implements hook_views_post_execute().
- */
-// function vp_views_views_post_execute(ViewExecutable $view) {
-
-//   switch ($view->id()) {
-
-//     case 'search_rate_trending_analysis':
-
-//       // Override cache.
-//       \Drupal::service('page_cache_kill_switch')->trigger();
-
-//       kint($view);
-
-//       foreach ($view->result as $key => $result) {
-//         if (!empty($result->node__field_vp_rate_hourly_field_vp_rate_hourly_value)) {
-//           // Reset the value of the item.
-//           $view->result[$key]->_entity->set('field_vp_rate_previous', [['value' => 'xxx']]);
-//         }
-//       }
-//       break;
-//   }
-
-// }
 
 /**
  * Implements hook_views_pre_view().
