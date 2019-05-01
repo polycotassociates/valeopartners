@@ -80,3 +80,19 @@ function vp_api_bar_grad_year_options() {
 
   return $options;
 }
+
+/**
+ * Return a list of vocabulary terms to create a dropdown.
+ */
+function vp_api_get_vocabulary_terms($vocabulary) {
+
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary);
+  $x = 0;
+
+  foreach ($terms as $term) {
+    $options[$term->name] = $term->name;
+    $x++;
+  }
+
+  return $options;
+}
