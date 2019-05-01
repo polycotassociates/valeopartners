@@ -1,8 +1,0 @@
-uuid: c944f600-c127-4b02-bc64-7bd86652de8c
-langcode: en
-status: true
-dependencies: {  }
-id: qa-management
-label: 'QA Management'
-description: 'QA Management'
-locked: false

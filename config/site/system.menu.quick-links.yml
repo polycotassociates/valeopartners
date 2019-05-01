@@ -1,8 +1,0 @@
-uuid: ff97573d-f3e1-4451-a31e-b47c91d157e7
-langcode: en
-status: true
-dependencies: {  }
-id: quick-links
-label: 'Quick Links'
-description: 'Links to commonly used sections'
-locked: false

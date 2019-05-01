@@ -1,8 +1,0 @@
-uuid: f45faf14-9676-4d21-8701-912d2e75b9f4
-langcode: en
-status: true
-dependencies: {  }
-id: add-content
-label: 'Add Content'
-description: 'Add content types'
-locked: false

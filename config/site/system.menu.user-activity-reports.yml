@@ -1,8 +1,0 @@
-uuid: cd654ce3-a948-4f2e-bfae-44ac183d2704
-langcode: en
-status: true
-dependencies: {  }
-id: user-activity-reports
-label: 'User Activity Reports'
-description: 'Links to views showing user activity on the site'
-locked: false

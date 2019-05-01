@@ -1,9 +1,0 @@
-uuid: 349ff0b1-846f-4cb1-ad0a-428d12edce38
-langcode: en
-status: true
-dependencies: {  }
-id: referenced_company
-label: 'Referenced Company'
-icon_uuid: null
-description: 'A company and attorney'
-behavior_plugins: {  }

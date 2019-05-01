@@ -1,9 +1,0 @@
-uuid: 5da2f99b-ce10-48fd-b30d-d45f2bdf805a
-langcode: en
-status: true
-dependencies: {  }
-name: City
-vid: city
-description: ''
-hierarchy: 1
-weight: -8

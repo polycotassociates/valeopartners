@@ -1,7 +1,0 @@
-status: '2'
-pattern: '[node:field_vp_last_name], [node:field_vp_first_name] [node:field_vp_middle_name]'
-php: 1
-escape: 0
-dependencies:
-  config:
-    - node.type.vp_type_individual

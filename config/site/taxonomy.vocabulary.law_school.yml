@@ -1,9 +1,0 @@
-uuid: c1635d7d-9e36-4f9e-9c1a-61f547dc3a7e
-langcode: en
-status: true
-dependencies: {  }
-name: 'Law School'
-vid: law_school
-description: ''
-hierarchy: 0
-weight: -5
