@@ -1,21 +1,21 @@
 (function ($, Drupal) {
-alert("loaded");
-    Drupal.behaviors.vpMaxDateBehavior = {
-      attach: function (context, settings) {
 
-        // Hide all the pressures.
-        $( "div.obstacles").hide();
+  Drupal.behaviors.vpXLSPopup = {
+    attach: function (context, settings) {
 
-        // On click, reveal the related pressures.
-        $('#edit-field-vp-filing-fee-dates-value-min', context).once('vpMaxDateBehavior').change(function (e) {
-          e.preventDefault();
-          alert("changed");
-          $( "#edit-field-vp-filing-fee-dates-value-min").val('2020');
-
-
+      // On click, reveal the modal.
+      $( '#export-xls-link', context).once('vpXLSPopup').click(function (e) {
+        // e.preventDefault();
+        // Open the xlsModal set in the Export Header.
+        $( "#xlsModal" ).dialog({
+          modal: false,
+          show: { duration: 800 },
+          position: { my: "top", at: "top"}
         });
 
-      }
-    };
+      });
 
-  })(jQuery, Drupal);
+    }
+  };
+
+})(jQuery, Drupal);

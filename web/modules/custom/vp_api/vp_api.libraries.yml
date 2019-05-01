@@ -1,4 +1,10 @@
-saved_search:
+vp_api_libraries:
   version: 1.x
   js:
     libraries/js/valeo_common.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
