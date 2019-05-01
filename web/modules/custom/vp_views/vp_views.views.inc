@@ -28,6 +28,14 @@ function vp_views_views_data() {
  */
 function vp_views_views_data_alter(&$data) {
 
+  $data['views']['array_combine'] = [
+    'title' => t('Combine fields filter (for select)'),
+    'help' => t('Combine multiple fields together and search by them.'),
+    'filter' => [
+      'id' => 'array_combine',
+    ],
+  ];
+
   $data['node']['actual_rate_by_year'] = array(
     'field' => array(
       'id' => 'actual_rate_by_year',
