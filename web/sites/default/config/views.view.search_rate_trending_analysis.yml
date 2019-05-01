@@ -117,8 +117,8 @@ display:
             title: title
             field_vp_rate_position: field_vp_rate_position
             field_vp_practice_area_1: field_vp_practice_area_1
-            field_vp_practice_area_2: field_vp_practice_area_1
-            field_vp_practice_area_3: field_vp_practice_area_1
+            field_vp_practice_area_2: field_vp_practice_area_2
+            field_vp_practice_area_3: field_vp_practice_area_3
             field_vp_individual_location: field_vp_individual_location
             field_vp_graduation: field_vp_graduation
             field_vp_rate_previous: field_vp_rate_previous
@@ -155,21 +155,21 @@ display:
               empty_column: false
               responsive: ''
             field_vp_practice_area_1:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
-              separator: ','
+              separator: ''
               empty_column: false
               responsive: ''
             field_vp_practice_area_2:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             field_vp_practice_area_3:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -472,7 +472,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice Area'
+          label: 'Practice 1'
           exclude: false
           alter:
             alter_text: false
@@ -535,7 +535,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice Area 2'
+          label: 'Practice 2'
           exclude: false
           alter:
             alter_text: false
@@ -598,7 +598,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice Area 3'
+          label: 'Practice 3'
           exclude: false
           alter:
             alter_text: false
@@ -724,7 +724,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Grad Date'
+          label: 'Grad Year'
           exclude: false
           alter:
             alter_text: false
