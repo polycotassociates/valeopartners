@@ -1,5 +1,7 @@
 (function ($, Drupal) {
 
+  $( "#xlsModal" ).hide();
+
   Drupal.behaviors.vpXLSPopup = {
     attach: function (context, settings) {
 
