@@ -142,6 +142,16 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
 
     case "views-exposed-form-search-ci-database-search-ci-database-page":
     case "views-exposed-form-search-fees-by-company-search-fees-by-company-page":
+
+      // Change the form from a text field to a dropdown.
+      $form['array_combine']['#title'] = "Practice Area:";
+      $form['array_combine']['#type'] = "select";
+      $form['array_combine']['#multiple'] = TRUE;
+      $form['array_combine']['#empty_option'] = 0;
+      $form['array_combine']['#default_value'] = FALSE;
+      $form['array_combine']['#options'] = vp_api_get_vocabulary_terms('practice_area');
+      $form['array_combine']['#size'] = 9;
+
       // Change the form from a date picker to a dropdown.
       $form['field_vp_filing_fee_dates_value']['min']['#title'] = "Rate Year:<br>From date:";
       $form['field_vp_filing_fee_dates_value']['min']['#type'] = "select";
