@@ -27,6 +27,24 @@ function vp_views_views_pre_render(ViewExecutable $view) {
         $view->field['field_vp_rate_previous']->options['label'] = $year - 1 . " Rate";
       }
       break;
+
+    case 'search_rates_by_firm_summary_rates':
+      // Manually remove duplicates.
+      // See: (https://www.drupal.org/node/1223448#comment-4757898)
+      // $nids = []; // array of nodes to prevent duplicates
+      // $unique_id = FALSE;
+      // $resultNoDoubleNodes = []; // manipulated results
+      // foreach ($view->result as $key => $result) { // check each node of the result array on it's nid
+
+      //   $nid = $result->nid;
+      //   if (!in_array($nid, $nids)) { // if this node isn't a duplicate
+      //     $resultNoDoubleNodes[] = $view->result[$key]; // add it to the manipulated results
+      //     $nids[$key] = $nid; // mark this nid as in results to prevent duplicates from now on
+      //   };
+      // }
+      // $view->result = $resultNoDoubleNodes; // replace the old results with the results without duplicates
+      break;
+
   }
 }
 

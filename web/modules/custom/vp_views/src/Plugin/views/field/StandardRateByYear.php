@@ -69,7 +69,7 @@ class StandardRateByYear extends FieldPluginBase {
 
         // Relationships on the individual node.
         $relationships = $values->_relationship_entities;
-        $firm = $relationships['field_vp_employment_history'];
+        // $firm = $relationships['field_vp_employment_history'];
         // Get the individual id.
         $individual_nid = $values->_entity->get('nid')->getValue()[0]['value'];
         // Get the firm id.

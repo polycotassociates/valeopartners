@@ -72,7 +72,7 @@ function vp_api_get_vocabulary_terms($vocabulary) {
   $x = 0;
 
   foreach ($terms as $term) {
-    $options[$term->name] = $term->name;
+    $options[$term->tid] = $term->name;
     $x++;
   }
 

@@ -96,5 +96,14 @@ function vp_views_views_data_alter(&$data) {
     ),
   );
 
+  $data['node']['practice_areas'] = array(
+    'field' => array(
+      'id' => 'practice_areas',
+      'title' => t('Practice Areas'),
+      'help' => t('Gets all the practice areas for a person.'),
+    ),
+  );
+
+
 }
 
