@@ -33,6 +33,7 @@ dependencies:
     - field.storage.node.field_vp_rate_transaction_amount
     - field.storage.node.field_vp_rate_transaction_type
     - field.storage.node.field_vp_rate_transactional_fee
+    - field.storage.node.field_vp_state_bar
     - node.type.vp_type_rate
     - system.menu.rate-afa-searches
     - user.role.administrator
@@ -90,7 +91,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
+          submit_button: Search
           reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -1803,7 +1804,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice Area'
+          label: 'Practice Area 1'
           exclude: false
           alter:
             alter_text: false
@@ -2109,6 +2110,69 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_vp_state_bar:
+          id: field_vp_state_bar
+          table: node__field_vp_state_bar
+          field: field_vp_state_bar
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          label: 'Bar State'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         field_vp_individual_location:
           id: field_vp_individual_location
           table: node__field_vp_individual_location
@@ -2296,134 +2360,6 @@ display:
             decimal_separator: .
             scale: '2'
           group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_vp_filing_fee_dates:
-          id: field_vp_filing_fee_dates
-          table: node__field_vp_filing_fee_dates
-          field: field_vp_filing_fee_dates
-          relationship: field_vp_rate_filing
-          group_type: group
-          admin_label: ''
-          label: 'Rate Year'
-          exclude: false
-          alter:
-            alter_text: true
-            text: '{{ field_vp_filing_fee_dates__value }} '
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 4
-            word_boundary: false
-            ellipsis: false
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: true
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: daterange_default
-          settings:
-            timezone_override: ''
-            format_type: html_year
-            separator: '-'
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_vp_case_nature_of_suit:
-          id: field_vp_case_nature_of_suit
-          table: node__field_vp_case_nature_of_suit
-          field: field_vp_case_nature_of_suit
-          relationship: field_vp_filing_case
-          group_type: group
-          admin_label: ''
-          label: 'Nature of Suit'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -2766,6 +2702,69 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_vp_rate_transaction_type:
+          id: field_vp_rate_transaction_type
+          table: node__field_vp_rate_transaction_type
+          field: field_vp_rate_transaction_type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Transaction Type'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         field_vp_rate_transactional_fee:
           id: field_vp_rate_transactional_fee
           table: node__field_vp_rate_transactional_fee
@@ -2832,77 +2831,14 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_vp_rate_transaction_type:
-          id: field_vp_rate_transaction_type
-          table: node__field_vp_rate_transaction_type
-          field: field_vp_rate_transaction_type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Transaction Type'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_vp_case_number:
-          id: field_vp_case_number
-          table: node__field_vp_case_number
-          field: field_vp_case_number
+        field_vp_case_name:
+          id: field_vp_case_name
+          table: node__field_vp_case_name
+          field: field_vp_case_name
           relationship: field_vp_filing_case
           group_type: group
           admin_label: ''
-          label: 'Case Number'
+          label: 'Case Name'
           exclude: false
           alter:
             alter_text: false
@@ -2958,14 +2894,14 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_vp_case_name:
-          id: field_vp_case_name
-          table: node__field_vp_case_name
-          field: field_vp_case_name
+        field_vp_case_number:
+          id: field_vp_case_number
+          table: node__field_vp_case_number
+          field: field_vp_case_number
           relationship: field_vp_filing_case
           group_type: group
           admin_label: ''
-          label: 'Case Name'
+          label: 'Case Number'
           exclude: false
           alter:
             alter_text: false
@@ -3138,6 +3074,69 @@ display:
             timezone_override: ''
             date_format: m/d/Y
           group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_case_nature_of_suit:
+          id: field_vp_case_nature_of_suit
+          table: node__field_vp_case_nature_of_suit
+          field: field_vp_case_nature_of_suit
+          relationship: field_vp_filing_case
+          group_type: group
+          admin_label: ''
+          label: 'Nature of Suit'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -3546,6 +3545,7 @@ display:
         - 'config:field.storage.node.field_vp_rate_transaction_amount'
         - 'config:field.storage.node.field_vp_rate_transaction_type'
         - 'config:field.storage.node.field_vp_rate_transactional_fee'
+        - 'config:field.storage.node.field_vp_state_bar'
   related_rates_by_individual:
     display_plugin: block
     id: related_rates_by_individual

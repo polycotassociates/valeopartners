@@ -1565,7 +1565,7 @@ display:
   data_export_xls:
     display_plugin: data_export
     id: data_export_xls
-    display_title: 'Data export'
+    display_title: 'XLS Data export'
     position: 2
     display_options:
       display_extenders: {  }
@@ -3722,6 +3722,7 @@ display:
         options:
           items_per_page: 1000
           offset: 0
+      display_description: ''
     cache_metadata:
       max-age: -1
       contexts:
