@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Transaction Type'
 vid: transaction_type
 description: ''
-hierarchy: 1
 weight: 0

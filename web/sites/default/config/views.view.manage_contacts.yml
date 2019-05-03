@@ -742,7 +742,7 @@ display:
       menu:
         type: normal
         title: 'Company Contacts'
-        description: ''
+        description: 'Manage All Contacts'
         expanded: false
         parent: ''
         weight: -44

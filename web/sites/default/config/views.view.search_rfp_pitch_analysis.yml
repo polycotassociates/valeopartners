@@ -813,12 +813,13 @@ display:
       menu:
         type: normal
         title: 'RFP / Pitch Analysis'
-        description: 'RFP / Pitch Analysis'
+        description: 'One-Page Summary of a Firm''s Rates by Position, Year and High, Average and Low'
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
         weight: -50
         context: '0'
         menu_name: rate-afa-searches
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

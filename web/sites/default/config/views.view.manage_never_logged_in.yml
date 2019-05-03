@@ -848,12 +848,13 @@ display:
       menu:
         type: normal
         title: 'No Login Accounts'
-        description: ''
+        description: 'User accounts that have been created but which have never been logged into'
         expanded: false
         parent: ''
-        weight: -38
+        weight: -50
         context: '0'
         menu_name: user-activity-reports
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

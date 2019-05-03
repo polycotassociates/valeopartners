@@ -4,6 +4,17 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_saved_search.field_vp_search_bar_year
+    - field.field.node.vp_type_saved_search.field_vp_search_display_columns
+    - field.field.node.vp_type_saved_search.field_vp_search_firms
+    - field.field.node.vp_type_saved_search.field_vp_search_grad_date
+    - field.field.node.vp_type_saved_search.field_vp_search_industry
+    - field.field.node.vp_type_saved_search.field_vp_search_partner_year
+    - field.field.node.vp_type_saved_search.field_vp_search_position
+    - field.field.node.vp_type_saved_search.field_vp_search_practice_area
+    - field.field.node.vp_type_saved_search.field_vp_search_rate_year
+    - field.field.node.vp_type_saved_search.field_vp_search_region_city
+    - field.field.node.vp_type_saved_search.field_vp_search_type
     - node.type.vp_type_saved_search
   module:
     - user
@@ -18,4 +29,15 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_vp_search_bar_year: true
+  field_vp_search_display_columns: true
+  field_vp_search_firms: true
+  field_vp_search_grad_date: true
+  field_vp_search_industry: true
+  field_vp_search_partner_year: true
+  field_vp_search_position: true
+  field_vp_search_practice_area: true
+  field_vp_search_rate_year: true
+  field_vp_search_region_city: true
+  field_vp_search_type: true
   published_at: true

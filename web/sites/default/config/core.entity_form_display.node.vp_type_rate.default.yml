@@ -34,7 +34,6 @@ dependencies:
     - node.type.vp_type_rate
   module:
     - computed_field
-    - content_moderation
     - field_group
     - paragraphs
     - path
@@ -293,12 +292,6 @@ content:
     third_party_settings: {  }
     type: number
     region: content
-  moderation_state:
-    type: moderation_state_default
-    weight: 19
-    settings: {  }
-    region: content
-    third_party_settings: {  }
   path:
     type: path
     weight: 18

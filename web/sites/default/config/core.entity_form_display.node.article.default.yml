@@ -13,6 +13,7 @@ dependencies:
     - comment
     - image
     - path
+    - publication_date
     - text
 _core:
   default_config_hash: vPb_yvhA-xuNoV_yOmOwYxGuHNRIH1CoMK2qi7BSga0
@@ -71,6 +72,12 @@ content:
       display_label: true
     weight: 15
     region: content
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

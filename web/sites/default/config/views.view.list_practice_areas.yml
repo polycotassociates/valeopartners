@@ -250,12 +250,13 @@ display:
       menu:
         type: normal
         title: 'Practice Area Abbreviations'
-        description: ''
+        description: 'Practice Area Abbreviations'
         expanded: false
         parent: ''
         weight: -47
         context: '0'
         menu_name: quick-links
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

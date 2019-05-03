@@ -756,12 +756,13 @@ display:
       menu:
         type: normal
         title: 'Data Entry Details'
-        description: ''
+        description: 'All the records entered by data entry personnel in a specified time period'
         expanded: false
         parent: ''
         weight: -49
         context: '0'
         menu_name: qa-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

@@ -2221,12 +2221,13 @@ display:
       menu:
         type: normal
         title: 'Rate Trending Analysis'
-        description: ''
+        description: 'Rate Trending Analysis'
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
         weight: -47
         context: '0'
         menu_name: rate-afa-searches
+        enabled: true
       header:
         result:
           id: result

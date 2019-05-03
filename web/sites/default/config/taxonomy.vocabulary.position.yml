@@ -5,5 +5,4 @@ dependencies: {  }
 name: Position
 vid: position
 description: ''
-hierarchy: 1
 weight: 0

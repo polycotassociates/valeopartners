@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Law School'
 vid: law_school
 description: ''
-hierarchy: 0
 weight: -5

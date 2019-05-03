@@ -284,7 +284,7 @@ display:
           batch_size: 10
           form_step: true
           buttons: false
-          clear_on_exposed: 0
+          clear_on_exposed: false
           action_title: Action
           selected_actions:
             comment_delete_action: 0
@@ -1627,12 +1627,13 @@ display:
       menu:
         type: normal
         title: 'Bulk Rates'
-        description: ''
+        description: 'Bulk Rates'
         expanded: false
         parent: ''
         weight: -37
         context: '0'
         menu_name: data-management
+        enabled: true
     cache_metadata:
       max-age: 0
       contexts:

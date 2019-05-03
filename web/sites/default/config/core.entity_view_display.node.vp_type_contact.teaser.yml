@@ -4,9 +4,13 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_contact.field_vp_contact_address
+    - field.field.node.vp_type_contact.field_vp_contact_email
     - field.field.node.vp_type_contact.field_vp_contact_firstname
     - field.field.node.vp_type_contact.field_vp_contact_lastname
     - field.field.node.vp_type_contact.field_vp_contact_middleinitial
+    - field.field.node.vp_type_contact.field_vp_contact_phone
+    - field.field.node.vp_type_contact.field_vp_contact_phone_extension
     - field.field.node.vp_type_contact.field_vp_contact_position
     - field.field.node.vp_type_contact.field_vp_contact_title
     - node.type.vp_type_contact
@@ -23,8 +27,13 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_vp_contact_address: true
+  field_vp_contact_email: true
   field_vp_contact_firstname: true
   field_vp_contact_lastname: true
   field_vp_contact_middleinitial: true
+  field_vp_contact_phone: true
+  field_vp_contact_phone_extension: true
   field_vp_contact_position: true
   field_vp_contact_title: true
+  published_at: true

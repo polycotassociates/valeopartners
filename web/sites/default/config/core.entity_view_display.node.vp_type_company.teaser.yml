@@ -4,6 +4,16 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_company.field_vp_company_address
+    - field.field.node.vp_type_company.field_vp_company_contact
+    - field.field.node.vp_type_company.field_vp_company_email
+    - field.field.node.vp_type_company.field_vp_company_firstname
+    - field.field.node.vp_type_company.field_vp_company_industry
+    - field.field.node.vp_type_company.field_vp_company_lastname
+    - field.field.node.vp_type_company.field_vp_company_middleinitial
+    - field.field.node.vp_type_company.field_vp_company_phone
+    - field.field.node.vp_type_company.field_vp_company_phone_extension
+    - field.field.node.vp_type_company.field_vp_company_title
     - node.type.vp_type_company
   module:
     - user
@@ -17,4 +27,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  field_vp_company_address: true
+  field_vp_company_contact: true
+  field_vp_company_email: true
+  field_vp_company_firstname: true
+  field_vp_company_industry: true
+  field_vp_company_lastname: true
+  field_vp_company_middleinitial: true
+  field_vp_company_phone: true
+  field_vp_company_phone_extension: true
+  field_vp_company_title: true
+  published_at: true

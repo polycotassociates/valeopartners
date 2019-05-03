@@ -3252,6 +3252,12 @@ display:
         default: '0'
       export_method: standard
       export_batch_size: 1000
+      export_limit: 10
+      pager:
+        type: some
+        options:
+          items_per_page: 10
+          offset: 0
     cache_metadata:
       max-age: -1
       contexts:

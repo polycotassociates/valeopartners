@@ -1032,12 +1032,13 @@ display:
       menu:
         type: normal
         title: Filings
-        description: ''
+        description: 'Manage All Filings'
         expanded: false
         parent: ''
         weight: -49
         context: '0'
         menu_name: data-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

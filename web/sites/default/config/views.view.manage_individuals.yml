@@ -1197,12 +1197,13 @@ display:
       menu:
         type: normal
         title: Individuals
-        description: ''
+        description: 'Manage All Individuals'
         expanded: false
         parent: ''
         weight: -46
         context: '0'
         menu_name: data-management
+        enabled: true
       display_description: 'Manage all individuals'
     cache_metadata:
       max-age: -1

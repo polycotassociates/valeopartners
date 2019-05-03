@@ -511,12 +511,13 @@ display:
       menu:
         type: normal
         title: 'Firm Rankings'
-        description: ''
+        description: 'Set the ranking of firms in the database with drag-and-drop'
         expanded: false
         parent: ''
         weight: -35
         context: '0'
         menu_name: data-management
+        enabled: true
     cache_metadata:
       max-age: 0
       contexts:

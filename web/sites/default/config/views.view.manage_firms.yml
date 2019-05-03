@@ -882,12 +882,13 @@ display:
       menu:
         type: normal
         title: Firms
-        description: ''
+        description: 'Manage All Firms'
         expanded: false
         parent: ''
         weight: -47
         context: '0'
         menu_name: data-management
+        enabled: true
       display_description: ''
     cache_metadata:
       max-age: -1

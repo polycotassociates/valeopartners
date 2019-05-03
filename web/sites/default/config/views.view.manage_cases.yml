@@ -940,12 +940,13 @@ display:
       menu:
         type: normal
         title: Cases
-        description: ''
+        description: 'Manage All Cases'
         expanded: false
         parent: ''
         weight: -48
         context: '0'
         menu_name: data-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

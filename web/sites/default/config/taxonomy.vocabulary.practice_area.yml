@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Practice Area'
 vid: practice_area
 description: ''
-hierarchy: 0
 weight: -10

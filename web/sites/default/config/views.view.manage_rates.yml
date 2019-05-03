@@ -1717,12 +1717,13 @@ display:
       menu:
         type: normal
         title: 'Rates and Fees'
-        description: ''
+        description: 'Manage All Rates and Fees'
         expanded: false
         parent: ''
         weight: -50
         context: '0'
         menu_name: data-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

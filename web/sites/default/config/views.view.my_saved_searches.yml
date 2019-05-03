@@ -205,8 +205,8 @@ display:
           empty: true
           tokenize: false
           content:
-            value: '<a href="/node/add/vp_type_saved_search">Create a New Search...</a>'
-            format: basic_html
+            value: '<a href="/node/add/vp_type_saved_search" title="Create a new Saved Search">Create a New Search...</a>'
+            format: full_html
           plugin_id: text
       footer: {  }
       empty: {  }

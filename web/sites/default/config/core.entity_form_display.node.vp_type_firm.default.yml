@@ -9,8 +9,8 @@ dependencies:
     - field.field.node.vp_type_firm.field_vp_user
     - node.type.vp_type_firm
   module:
-    - content_moderation
     - path
+    - publication_date
     - shs
 id: node.vp_type_firm.default
 targetEntityType: node
@@ -54,12 +54,6 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
-  moderation_state:
-    type: moderation_state_default
-    weight: 100
-    settings: {  }
-    region: content
-    third_party_settings: {  }
   path:
     type: path
     weight: 30
@@ -72,6 +66,12 @@ content:
       display_label: true
     weight: 15
     region: content
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

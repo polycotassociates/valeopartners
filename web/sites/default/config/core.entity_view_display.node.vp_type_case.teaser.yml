@@ -4,6 +4,16 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_case.field_vp_case_attorneys_fee
+    - field.field.node.vp_type_case.field_vp_case_court
+    - field.field.node.vp_type_case.field_vp_case_date_filed
+    - field.field.node.vp_type_case.field_vp_case_judgement_amount
+    - field.field.node.vp_type_case.field_vp_case_name
+    - field.field.node.vp_type_case.field_vp_case_nature_of_suit
+    - field.field.node.vp_type_case.field_vp_case_number
+    - field.field.node.vp_type_case.field_vp_case_other_expenses
+    - field.field.node.vp_type_case.field_vp_case_settlement_amount
+    - field.field.node.vp_type_case.field_vp_case_status
     - node.type.vp_type_case
   module:
     - user
@@ -17,4 +27,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  field_vp_case_attorneys_fee: true
+  field_vp_case_court: true
+  field_vp_case_date_filed: true
+  field_vp_case_judgement_amount: true
+  field_vp_case_name: true
+  field_vp_case_nature_of_suit: true
+  field_vp_case_number: true
+  field_vp_case_other_expenses: true
+  field_vp_case_settlement_amount: true
+  field_vp_case_status: true
+  published_at: true

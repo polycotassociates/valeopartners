@@ -886,12 +886,13 @@ display:
       menu:
         type: normal
         title: 'Oldest Logins'
-        description: ''
+        description: 'Site users ordered to show the oldest logins first'
         expanded: false
         parent: ''
-        weight: -38
+        weight: -48
         context: '0'
         menu_name: user-activity-reports
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

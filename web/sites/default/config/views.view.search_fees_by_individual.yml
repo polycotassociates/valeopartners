@@ -2794,7 +2794,7 @@ display:
       menu:
         type: normal
         title: 'Transactions by Individual'
-        description: ''
+        description: 'Lists Transactions by Individual'
         expanded: false
         parent: 'menu_link_content:7733bc3d-69f6-484c-92a9-08c32e0bc792'
         weight: -48

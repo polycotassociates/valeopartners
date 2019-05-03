@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Search Columns'
 vid: search_columns
 description: 'The columns that can be selected for Saved Searches'
-hierarchy: 0
 weight: 0

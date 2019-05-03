@@ -541,12 +541,13 @@ display:
       menu:
         type: normal
         title: 'Data Entry Summary'
-        description: ''
+        description: 'A summary of the number of records created by data entry personnel'
         expanded: false
         parent: ''
         weight: -48
         context: '0'
         menu_name: qa-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

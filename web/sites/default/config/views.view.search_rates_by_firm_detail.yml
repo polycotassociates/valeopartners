@@ -2052,18 +2052,6 @@ display:
           admin_label: Case
           required: false
           plugin_id: standard
-        term_node_tid:
-          id: term_node_tid
-          table: node_field_data
-          field: term_node_tid
-          relationship: field_vp_rate_individual
-          group_type: group
-          admin_label: 'Practice Area'
-          required: false
-          vids:
-            - practice_area
-          entity_type: node
-          plugin_id: node_term_data
       arguments: {  }
       display_extenders: {  }
       filter_groups:
@@ -3971,6 +3959,71 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          label: 'Filing Name'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: title
+          plugin_id: field
         field_vp_filing_description:
           id: field_vp_filing_description
           table: node__field_vp_filing_description
@@ -4363,12 +4416,13 @@ display:
       menu:
         type: normal
         title: 'Rates by Firm - Detail'
-        description: ''
+        description: 'Shows All Actual and Standard Rates for All Years Available'
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
-        weight: -49
+        weight: -48
         context: '0'
         menu_name: rate-afa-searches
+        enabled: true
       display_description: 'Search Rates By Firm Detail'
       header:
         result:
@@ -5532,72 +5586,6 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        name:
-          id: name
-          table: taxonomy_term_field_data
-          field: name
-          relationship: term_node_tid
-          group_type: group
-          admin_label: ''
-          label: 'Practice Area Name'
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          convert_spaces: false
-          entity_type: taxonomy_term
-          entity_field: name
-          plugin_id: term_name
       filters:
         status:
           value: '1'
@@ -5886,7 +5874,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           fields:
-            name: name
+            field_vp_practice_area_1: field_vp_practice_area_1
+            field_vp_practice_area_2: field_vp_practice_area_2
+            field_vp_practice_area_3: field_vp_practice_area_3
           plugin_id: array_combine
         field_vp_case_nature_of_suit_target_id_verf:
           id: field_vp_case_nature_of_suit_target_id_verf

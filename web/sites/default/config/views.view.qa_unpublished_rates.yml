@@ -1691,12 +1691,13 @@ display:
       menu:
         type: normal
         title: 'Unpublished Rates'
-        description: ''
+        description: 'View and download unpublished rates'
         expanded: false
         parent: ''
-        weight: -47
+        weight: -45
         context: '0'
         menu_name: qa-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

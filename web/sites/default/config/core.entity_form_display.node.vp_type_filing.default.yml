@@ -12,7 +12,6 @@ dependencies:
     - node.type.vp_type_filing
   module:
     - computed_field
-    - content_moderation
     - datetime_range
     - path
     - publication_date
@@ -70,12 +69,6 @@ content:
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  moderation_state:
-    type: moderation_state_default
-    weight: 10
-    settings: {  }
-    region: content
-    third_party_settings: {  }
   path:
     type: path
     weight: 9

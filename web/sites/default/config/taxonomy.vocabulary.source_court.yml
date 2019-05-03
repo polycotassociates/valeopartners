@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'Source Court'
 vid: source_court
 description: ''
-hierarchy: 1
 weight: -1

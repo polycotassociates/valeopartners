@@ -685,12 +685,13 @@ display:
       menu:
         type: normal
         title: Companies
-        description: ''
+        description: 'Manage All Companies'
         expanded: false
         parent: ''
         weight: -45
         context: '0'
         menu_name: data-management
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

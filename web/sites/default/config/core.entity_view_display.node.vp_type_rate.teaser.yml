@@ -4,6 +4,34 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_rate.field_standard_rate_tmp
+    - field.field.node.vp_type_rate.field_vp_rate_attorneys
+    - field.field.node.vp_type_rate.field_vp_rate_company
+    - field.field.node.vp_type_rate.field_vp_rate_discount
+    - field.field.node.vp_type_rate.field_vp_rate_fees_listed_calc
+    - field.field.node.vp_type_rate.field_vp_rate_filing
+    - field.field.node.vp_type_rate.field_vp_rate_firm
+    - field.field.node.vp_type_rate.field_vp_rate_flat_fee
+    - field.field.node.vp_type_rate.field_vp_rate_hourly
+    - field.field.node.vp_type_rate.field_vp_rate_hours
+    - field.field.node.vp_type_rate.field_vp_rate_individual
+    - field.field.node.vp_type_rate.field_vp_rate_notes
+    - field.field.node.vp_type_rate.field_vp_rate_position
+    - field.field.node.vp_type_rate.field_vp_rate_previous
+    - field.field.node.vp_type_rate.field_vp_rate_primaryfee_calc
+    - field.field.node.vp_type_rate.field_vp_rate_primaryfeetypecalc
+    - field.field.node.vp_type_rate.field_vp_rate_record_type
+    - field.field.node.vp_type_rate.field_vp_rate_referenced_company
+    - field.field.node.vp_type_rate.field_vp_rate_retainer
+    - field.field.node.vp_type_rate.field_vp_rate_sec_filing
+    - field.field.node.vp_type_rate.field_vp_rate_standard
+    - field.field.node.vp_type_rate.field_vp_rate_success_fee
+    - field.field.node.vp_type_rate.field_vp_rate_total
+    - field.field.node.vp_type_rate.field_vp_rate_total_fees
+    - field.field.node.vp_type_rate.field_vp_rate_total_fees_calc
+    - field.field.node.vp_type_rate.field_vp_rate_transaction_amount
+    - field.field.node.vp_type_rate.field_vp_rate_transaction_type
+    - field.field.node.vp_type_rate.field_vp_rate_transactional_fee
     - node.type.vp_type_rate
   module:
     - user
@@ -17,4 +45,33 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  field_standard_rate_tmp: true
+  field_vp_rate_attorneys: true
+  field_vp_rate_company: true
+  field_vp_rate_discount: true
+  field_vp_rate_fees_listed_calc: true
+  field_vp_rate_filing: true
+  field_vp_rate_firm: true
+  field_vp_rate_flat_fee: true
+  field_vp_rate_hourly: true
+  field_vp_rate_hours: true
+  field_vp_rate_individual: true
+  field_vp_rate_notes: true
+  field_vp_rate_position: true
+  field_vp_rate_previous: true
+  field_vp_rate_primaryfee_calc: true
+  field_vp_rate_primaryfeetypecalc: true
+  field_vp_rate_record_type: true
+  field_vp_rate_referenced_company: true
+  field_vp_rate_retainer: true
+  field_vp_rate_sec_filing: true
+  field_vp_rate_standard: true
+  field_vp_rate_success_fee: true
+  field_vp_rate_total: true
+  field_vp_rate_total_fees: true
+  field_vp_rate_total_fees_calc: true
+  field_vp_rate_transaction_amount: true
+  field_vp_rate_transaction_type: true
+  field_vp_rate_transactional_fee: true
+  published_at: true

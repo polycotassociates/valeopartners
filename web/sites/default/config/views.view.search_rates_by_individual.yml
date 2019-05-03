@@ -4317,12 +4317,13 @@ display:
       menu:
         type: normal
         title: 'Rates by Individual'
-        description: ''
+        description: 'Lists Hourly Rates by Individual Attorney'
         expanded: false
         parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
         weight: -45
         context: '0'
         menu_name: rate-afa-searches
+        enabled: true
       header:
         result:
           id: result

@@ -915,12 +915,13 @@ display:
       menu:
         type: normal
         title: 'No Recent Login'
-        description: ''
+        description: 'Users that haven''t logged into the site in the past month'
         expanded: false
         parent: ''
-        weight: -38
+        weight: -49
         context: '0'
         menu_name: user-activity-reports
+        enabled: true
     cache_metadata:
       max-age: -1
       contexts:

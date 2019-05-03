@@ -187,7 +187,7 @@ display:
           batch_size: 10
           form_step: true
           buttons: false
-          clear_on_exposed: 0
+          clear_on_exposed: false
           action_title: Action
           selected_actions:
             comment_delete_action: 0
@@ -592,12 +592,13 @@ display:
       menu:
         type: normal
         title: 'Approve New Records'
-        description: ''
+        description: 'Approve new records for publication to users'
         expanded: false
         parent: ''
         weight: -50
         context: '0'
         menu_name: qa-management
+        enabled: true
     cache_metadata:
       max-age: 0
       contexts:

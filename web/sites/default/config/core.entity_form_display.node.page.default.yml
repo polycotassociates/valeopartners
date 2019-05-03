@@ -7,6 +7,7 @@ dependencies:
     - node.type.page
   module:
     - path
+    - publication_date
     - text
 _core:
   default_config_hash: sb0qCkzU_8mNq29NehYAU8jCBXWPLeX0UN8sYFVGVcw
@@ -42,6 +43,12 @@ content:
       display_label: true
     weight: 15
     region: content
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

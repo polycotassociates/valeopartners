@@ -4,6 +4,12 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.user.compact
+    - field.field.user.user.field_user_2_week_alert
+    - field.field.user.user.field_user_email_alert_addresses
+    - field.field.user.user.field_user_first_name
+    - field.field.user.user.field_user_last_name
+    - field.field.user.user.field_user_organization
+    - field.field.user.user.field_user_pricing_alert_firms
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -26,4 +32,10 @@ content:
     third_party_settings: {  }
     label: hidden
 hidden:
+  field_user_2_week_alert: true
+  field_user_email_alert_addresses: true
+  field_user_first_name: true
+  field_user_last_name: true
+  field_user_organization: true
+  field_user_pricing_alert_firms: true
   member_for: true

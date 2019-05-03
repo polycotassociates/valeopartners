@@ -4,6 +4,10 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_firm.field_vp_firm_type
+    - field.field.node.vp_type_firm.field_vp_headquarters
+    - field.field.node.vp_type_firm.field_vp_location
+    - field.field.node.vp_type_firm.field_vp_user
     - node.type.vp_type_firm
   module:
     - user
@@ -17,4 +21,9 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  field_vp_firm_type: true
+  field_vp_headquarters: true
+  field_vp_location: true
+  field_vp_user: true
+  published_at: true
