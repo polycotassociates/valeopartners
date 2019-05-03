@@ -668,7 +668,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice 1'
+          label: 'Practice Area 1'
           exclude: false
           alter:
             alter_text: false
@@ -731,7 +731,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice 2'
+          label: 'Practice Area 2'
           exclude: false
           alter:
             alter_text: false
@@ -794,7 +794,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice 3'
+          label: 'Practice Area 3'
           exclude: false
           alter:
             alter_text: false
@@ -1359,17 +1359,47 @@ display:
           id: type
           table: node_field_data
           field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
           value:
-            vp_type_rate: vp_type_rate
+            vp_type_individual: vp_type_individual
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
           entity_type: node
           entity_field: type
           plugin_id: bundle
-          group: 1
         title:
           id: title
           table: node_field_data
           field: title
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: 'not empty'
@@ -1469,7 +1499,7 @@ display:
           id: term_node_tid_depth
           table: node_field_data
           field: term_node_tid_depth
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: or
@@ -1527,7 +1557,7 @@ display:
           id: field_vp_position_target_id
           table: node__field_vp_position
           field: field_vp_position_target_id
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: or
@@ -1583,7 +1613,7 @@ display:
           id: field_vp_practice_area_1_target_id
           table: node__field_vp_practice_area_1
           field: field_vp_practice_area_1_target_id
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: or
@@ -1639,7 +1669,7 @@ display:
           id: field_vp_graduation_value
           table: node__field_vp_graduation
           field: field_vp_graduation_value
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: between
@@ -1694,7 +1724,7 @@ display:
           id: field_vp_bar_date_value
           table: node__field_vp_bar_date
           field: field_vp_bar_date_value
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: between
@@ -1902,22 +1932,26 @@ display:
     display_plugin: data_export
     id: data_export_xls
     display_title: 'XLS Data export'
-    position: 3
+    position: 4
     display_options:
       display_extenders: {  }
-      path: rates/summary_search/export
-      filename: rates-by-firm-summary.xls
-      automatic_download: false
-      redirect_path: ''
-      export_method: standard
-      export_batch_size: 1000
       display_description: ''
+      path: rates/summary_search/export
+      filename: 'Rates by Firm - Summary.xls'
+      automatic_download: true
+      redirect_path: ''
+      export_limit: 1000
+      pager:
+        type: some
+        options:
+          items_per_page: 1000
+          offset: 0
       fields:
         field_vp_last_name:
           id: field_vp_last_name
           table: node__field_vp_last_name
           field: field_vp_last_name
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Last Name'
@@ -1980,7 +2014,7 @@ display:
           id: field_vp_first_name
           table: node__field_vp_first_name
           field: field_vp_first_name
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'First Name'
@@ -2043,7 +2077,7 @@ display:
           id: field_vp_middle_name
           table: node__field_vp_middle_name
           field: field_vp_middle_name
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Middle Name'
@@ -2102,8 +2136,8 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        title_1:
-          id: title_1
+        title:
+          id: title
           table: node_field_data
           field: title
           relationship: field_vp_rate_firm
@@ -2142,7 +2176,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -2171,7 +2205,7 @@ display:
           id: field_vp_rate_position
           table: node__field_vp_rate_position
           field: field_vp_rate_position
-          relationship: none
+          relationship: reverse__node__field_vp_rate_individual
           group_type: group
           admin_label: ''
           label: Position
@@ -2234,7 +2268,7 @@ display:
           id: field_vp_individual_location
           table: node__field_vp_individual_location
           field: field_vp_individual_location
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: City
@@ -2297,7 +2331,7 @@ display:
           id: field_vp_practice_area_1
           table: node__field_vp_practice_area_1
           field: field_vp_practice_area_1
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Practice Area 1'
@@ -2360,7 +2394,7 @@ display:
           id: field_vp_practice_area_2
           table: node__field_vp_practice_area_2
           field: field_vp_practice_area_2
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Practice Area 2'
@@ -2423,7 +2457,7 @@ display:
           id: field_vp_practice_area_3
           table: node__field_vp_practice_area_3
           field: field_vp_practice_area_3
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Practice Area 3'
@@ -2486,7 +2520,7 @@ display:
           id: field_vp_graduation
           table: node__field_vp_graduation
           field: field_vp_graduation
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Grad Year'
@@ -2548,7 +2582,7 @@ display:
           id: field_vp_state_bar
           table: node__field_vp_state_bar
           field: field_vp_state_bar
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Bar State'
@@ -2611,7 +2645,7 @@ display:
           id: field_vp_bar_date
           table: node__field_vp_bar_date
           field: field_vp_bar_date
-          relationship: field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           label: 'Bar Yr'
@@ -2771,8 +2805,8 @@ display:
           year: '2019'
           entity_type: node
           plugin_id: standard_rate_by_year
-        actual_rate_by_year:
-          id: actual_rate_by_year
+        actual_rate_by_year_1:
+          id: actual_rate_by_year_1
           table: node
           field: actual_rate_by_year
           relationship: none
@@ -2781,8 +2815,8 @@ display:
           label: '2018 Actual Rate'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '${{ actual_rate_by_year_1 }} '
             make_link: false
             path: ''
             absolute: false
@@ -2816,8 +2850,8 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
-          empty_zero: false
+          hide_empty: true
+          empty_zero: true
           hide_alter_empty: true
           year: '2018'
           entity_type: node
@@ -2832,8 +2866,8 @@ display:
           label: '2018 Standard Rate'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '${{ standard_rate_by_year }}'
             make_link: false
             path: ''
             absolute: false
@@ -2867,14 +2901,14 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
-          empty_zero: false
+          hide_empty: true
+          empty_zero: true
           hide_alter_empty: true
           year: '2018'
           entity_type: node
           plugin_id: standard_rate_by_year
-        actual_rate_by_year_1:
-          id: actual_rate_by_year_1
+        actual_rate_by_year_2:
+          id: actual_rate_by_year_2
           table: node
           field: actual_rate_by_year
           relationship: none
@@ -2883,8 +2917,8 @@ display:
           label: '2017 Actual Rate'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '${{ actual_rate_by_year_2 }}'
             make_link: false
             path: ''
             absolute: false
@@ -2913,13 +2947,13 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
-          empty_zero: false
+          hide_empty: true
+          empty_zero: true
           hide_alter_empty: true
           year: '2017'
           entity_type: node
@@ -2934,8 +2968,8 @@ display:
           label: '2017 Standard Rate'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '${{ standard_rate_by_year_1 }} '
             make_link: false
             path: ''
             absolute: false
@@ -2969,15 +3003,37 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
-          empty_zero: false
+          hide_empty: true
+          empty_zero: true
           hide_alter_empty: true
           year: '2017'
           entity_type: node
           plugin_id: standard_rate_by_year
       defaults:
         fields: false
-        title: false
+        relationships: false
+        filters: false
+        filter_groups: false
+      relationships:
+        reverse__node__field_vp_rate_individual:
+          id: reverse__node__field_vp_rate_individual
+          table: node_field_data
+          field: reverse__node__field_vp_rate_individual
+          relationship: none
+          group_type: group
+          admin_label: Rate
+          required: false
+          entity_type: node
+          plugin_id: entity_reverse
+        field_vp_rate_firm:
+          id: field_vp_rate_firm
+          table: node__field_vp_rate_firm
+          field: field_vp_rate_firm
+          relationship: reverse__node__field_vp_rate_individual
+          group_type: group
+          admin_label: Firm
+          required: false
+          plugin_id: standard
       style:
         type: data_export
         options:
@@ -3003,21 +3059,107 @@ display:
               category: ''
               manager: ''
               company: ''
-      title: 'Rates By Firm - Detail'
-      export_limit: 1000
-      pager:
-        type: some
-        options:
-          items_per_page: 1000
-          offset: 0
+      filters:
+        status:
+          value: '1'
+          table: node_field_data
+          field: status
+          plugin_id: boolean
+          entity_type: node
+          entity_field: status
+          id: status
+          expose:
+            operator: ''
+          group: 1
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            vp_type_individual: vp_type_individual
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: 'not empty'
+          value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - request_format
-        - url
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -3032,8 +3174,6 @@ display:
         - 'config:field.storage.node.field_vp_practice_area_3'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
-        - 'config:views.view.search_rates_by_firm_summary_rates'
-        - node_list
   rate_firm_year:
     display_plugin: block
     id: rate_firm_year
