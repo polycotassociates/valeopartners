@@ -2094,7 +2094,7 @@ display:
     display_options:
       display_extenders: {  }
       path: rates/report/export
-      filename: rates-by-firm-detail.xls
+      filename: 'Rates by Firm - Detail.xls'
       automatic_download: false
       redirect_path: ''
       export_method: standard
@@ -2425,7 +2425,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Company Represented'
+          label: 'Client Represented'
           exclude: false
           alter:
             alter_text: false
@@ -5470,7 +5470,7 @@ display:
           alter:
             alter_text: true
             text: ' {{ field_vp_filing_fee_dates__value }} '
-            make_link: true
+            make_link: false
             path: '{{ view_node }} '
             absolute: false
             external: false

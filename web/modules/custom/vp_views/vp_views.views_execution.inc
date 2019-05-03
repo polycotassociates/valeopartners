@@ -10,6 +10,8 @@ use Drupal\node\Entity\Node;
 use Drupal\views\ViewExecutable;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements template_views_pre_render().
@@ -307,6 +309,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
        * view.
        */
 
+      $firms = [];
       // Get the current user.
       $user = User::load(\Drupal::currentUser()->id());
 
@@ -318,6 +321,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
         $firms[] = $firm['target_id'];
       }
 
+
       // Make a comma-separated list of the firms from the user profile.
       $firm_list = implode(",", $firms);
 
@@ -326,6 +330,10 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       // $args[0] = $current_year;
       // Args 1 is the list of selected firms.
       $args[1] = $firm_list;
+
+      if (!$firms) {
+        $args[1] = FALSE;
+      }
 
       break;
 
