@@ -1557,18 +1557,12 @@
     },
     {
         "name": "drupal/auto_entitylabel",
-        "version": "2.1.0-beta1",
-        "version_normalized": "2.1.0.0-beta1",
+        "version": "dev-2.x",
+        "version_normalized": "dev-2.x",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/auto_entitylabel.git",
-            "reference": "8.x-2.1-beta1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/auto_entitylabel-8.x-2.1-beta1.zip",
-            "reference": "8.x-2.1-beta1",
-            "shasum": "94a77f55896744075ff21bc2bdfab91308a69a27"
+            "reference": "101b69dc799113d1485f5fe89b9fee07f6308522"
         },
         "require": {
             "drupal/core": "~8.0"
@@ -1579,15 +1573,19 @@
                 "dev-2.x": "2.x-dev"
             },
             "drupal": {
-                "version": "8.x-2.1-beta1",
-                "datestamp": "1510484584",
+                "version": "8.x-2.1-beta1+15-dev",
+                "datestamp": "1536175980",
                 "security-coverage": {
                     "status": "not-covered",
-                    "message": "Beta releases are not covered by Drupal security advisories."
+                    "message": "Dev releases are not covered by Drupal security advisories."
                 }
+            },
+            "patches_applied": {
+                "Title displayed as %AutoEntityLabel% after saving via Inline Entity Form": "https://www.drupal.org/files/issues/Title_displayed_as_AutoEntityLabel_after_saving_via_Inline_Entity_Form-2905230-6.patch",
+                "Broken when provider !=entityTypeId": "https://www.drupal.org/files/issues/2019-01-19/auto_entitylabel-2923876-28-Broken-when-provider-entityId.patch"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "notification-url": "https://packages.drupal.org/8/downloads",
         "license": [
             "GPL-2.0+"
@@ -1606,6 +1604,10 @@
                 "homepage": "https://www.drupal.org/user/216396"
             },
             {
+                "name": "diqidoq",
+                "homepage": "https://www.drupal.org/user/1001934"
+            },
+            {
                 "name": "purushotam.rai",
                 "homepage": "https://www.drupal.org/user/3193859"
             }
@@ -1613,7 +1615,7 @@
         "description": "Allows hiding of entity label fields and automatic label creation.",
         "homepage": "https://www.drupal.org/project/auto_entitylabel",
         "support": {
-            "source": "http://cgit.drupalcode.org/auto_entitylabel",
+            "source": "https://git.drupalcode.org/project/auto_entitylabel",
             "issues": "https://www.drupal.org/project/issues/auto_entitylabel"
         }
     },
@@ -3153,6 +3155,55 @@
         }
     },
     {
+        "name": "drupal/custom_add_another",
+        "version": "1.0.0-beta1",
+        "version_normalized": "1.0.0.0-beta1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/custom_add_another.git",
+            "reference": "8.x-1.0-beta1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/custom_add_another-8.x-1.0-beta1.zip",
+            "reference": "8.x-1.0-beta1",
+            "shasum": "698c9e7520e45f92afaf12f7f27e83ac66286262"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-beta1",
+                "datestamp": "1455199739",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Steven Jones",
+                "homepage": "https://www.drupal.org/user/99644"
+            }
+        ],
+        "description": "Allows modification of the 'Add another item' button on fields",
+        "homepage": "https://www.drupal.org/project/custom_add_another",
+        "support": {
+            "source": "https://git.drupalcode.org/project/custom_add_another"
+        }
+    },
+    {
         "name": "drupal/date_popup",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",
@@ -3582,6 +3633,60 @@
         "homepage": "http://drupal.org/project/entity",
         "support": {
             "source": "https://git.drupalcode.org/project/entity"
+        }
+    },
+    {
+        "name": "drupal/entity_activity",
+        "version": "1.0.0-beta4",
+        "version_normalized": "1.0.0.0-beta4",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/entity_activity.git",
+            "reference": "8.x-1.0-beta4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/entity_activity-8.x-1.0-beta4.zip",
+            "reference": "8.x-1.0-beta4",
+            "shasum": "a468e734ddcb63d0d7e2e6662e6175fea20e6dfa"
+        },
+        "require": {
+            "drupal/core": "*",
+            "drupal/token": "~1.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-beta4",
+                "datestamp": "1556488981",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "flocondetoile",
+                "homepage": "https://www.drupal.org/user/2006064"
+            }
+        ],
+        "description": "Entity activity will allow to configure and generate any kind of notifications on any content entity type.",
+        "homepage": "https://www.drupal.org/project/entity_activity",
+        "keywords": [
+            "Drupal"
+        ],
+        "support": {
+            "source": "http://cgit.drupalcode.org/entity_activity",
+            "issues": "https://www.drupal.org/project/issues/entity_activity"
         }
     },
     {

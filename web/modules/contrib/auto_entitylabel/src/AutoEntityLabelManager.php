@@ -147,7 +147,7 @@ class AutoEntityLabelManager implements AutoEntityLabelManagerInterface {
       $label = $this->getAlternativeLabel();
     }
 
-    $label = substr($label, 0, 255);
+    $label = mb_substr($label, 0, 255);
     $label_name = $this->getLabelName();
     $this->entity->$label_name->setValue($label);
 
@@ -172,19 +172,11 @@ class AutoEntityLabelManager implements AutoEntityLabelManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function hasPrefilledAutoLabel() {
-    return $this->getConfig('status') == self::PREFILLED;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function autoLabelNeeded() {
     $not_applied = empty($this->auto_label_applied);
     $required = $this->hasAutoLabel();
     $optional = $this->hasOptionalAutoLabel() && empty($this->entity->label());
-    $prefilled = $this->hasPrefilledAutoLabel();
-    return $not_applied && ($required || $optional || $prefilled);
+    return $not_applied && ($required || $optional);
   }
 
   /**
@@ -276,9 +268,13 @@ class AutoEntityLabelManager implements AutoEntityLabelManagerInterface {
     // Decode HTML entities, returning them to their original UTF-8 characters.
     $output = Html::decodeEntities($output);
 
-    // Strip tags and Escape special characters.
+    // Strip tags and Remove special characters.
     $pattern = !empty($this->getConfig('escape')) ? '/[^a-zA-Z0-9\s]|[\t\n\r\0\x0B]/' : '/[\t\n\r\0\x0B]/';
-    $output = preg_replace($pattern, '', strip_tags($output));
+    $output = preg_replace($pattern, ' ', strip_tags($output));
+
+    // Invoke hook_auto_entitylabel_label_alter().
+    $entity_clone = clone $entity;
+    \Drupal::moduleHandler()->alter('auto_entitylabel_label', $output, $entity_clone);
 
     return $output;
   }
