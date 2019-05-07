@@ -1,0 +1,43 @@
+.subscription {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.subscription .message {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.subscription.message--status {
+  color: #5cb85c;
+}
+
+.subscription .message--warning {
+  color: #f0ad4e;
+}
+
+.subscription .message--error {
+  color: #d9534f;
+}
+
+.subscription  .subscription__content {
+  display: flex;
+}
+
+.subscription  .subscription__content .remove {
+  margin-left: auto;
+}
+
+.subscription  footer {
+  display: flex;
+  font-size: 0.8rem;
+}
+
+.subscription  footer .field--type-entity-reference {
+  margin: 0 0.5rem 0 0;
+}

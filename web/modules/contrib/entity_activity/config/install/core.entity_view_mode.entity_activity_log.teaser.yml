@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - entity_activity
+id: entity_activity_log.teaser
+label: Teaser
+targetEntityType: entity_activity_log
+cache: true

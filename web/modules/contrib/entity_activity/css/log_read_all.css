@@ -1,0 +1,9 @@
+.js-log-read-all-wrapper {
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.js-log-read-all-wrapper > * {
+  margin-right: 0.5rem;
+}

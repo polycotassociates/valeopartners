@@ -1,0 +1,98 @@
+admin:
+  version: VERSION
+  css:
+    theme:
+      css/admin.css: {}
+  js:
+    js/entity_activity_fieldset_summaries.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupal.form
+
+subscribe_on:
+  version: VERSION
+  css:
+    theme:
+      css/subscribe_on.css: {}
+  js:
+    js/subscribe_on.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
+subscription:
+  version: VERSION
+  css:
+    theme:
+      css/subscription.css: {}
+
+subscription_remove:
+  version: VERSION
+  js:
+    js/subscription_remove.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
+log_read_unread:
+  version: VERSION
+  css:
+    theme:
+      css/log_read_unread.css: {}
+  js:
+    js/log_read_unread.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+    - core/drupalSettings
+
+log:
+  version: VERSION
+  css:
+    theme:
+      css/log.css: {}
+
+log_read_all:
+  version: VERSION
+  css:
+    theme:
+      css/log_read_all.css: {}
+  js:
+    js/log_read_all.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+    - core/drupalSettings
+
+log_remove:
+  version: VERSION
+  js:
+    js/log_remove.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+
+settings:
+  version: VERSION
+  css:
+    theme:
+      css/settings.css: {}
+
+user_log_unread_block:
+  js:
+    js/user_log_unread_block.js: {}
+  css:
+    theme:
+      css/user_log_unread_block.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+    - core/drupalSettings

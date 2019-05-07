@@ -1,0 +1,9 @@
+/**
+ * @file
+ * Settings form styling.
+ */
+
+.interval .form-type-number,
+.interval .form-type-select {
+  display: inline;
+}

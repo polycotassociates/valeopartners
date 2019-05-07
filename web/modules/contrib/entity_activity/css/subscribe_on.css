@@ -1,0 +1,11 @@
+.subscribe-on .action {
+  display: none;
+}
+
+.subscribe-on.not-subscribed .action.subscribe {
+  display: block;
+}
+
+.subscribe-on.subscribed .action.unsubscribe {
+  display: block;
+}

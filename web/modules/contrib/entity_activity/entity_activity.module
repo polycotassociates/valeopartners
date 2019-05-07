@@ -1,0 +1,463 @@
+<?php
+
+/**
+ * @file
+ * Contains entity_activity.module.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\entity_activity\Event\EntityActivityEvents;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\entity_activity\Entity\SubscriptionInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\cache\CachePluginBase;
+use Drupal\entity_activity\Entity\LogInterface;
+
+/**
+ * Implements hook_help().
+ */
+function entity_activity_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the entity_activity module.
+    case 'help.page.entity_activity':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Entity activity allow to configure and generate any kind of logs on any content entity type.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function entity_activity_entity_insert(EntityInterface $entity) {
+  if ($entity instanceof ContentEntityInterface) {
+    /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+    $entityActivityManager = \Drupal::service('entity_activity.manager');
+    $entityActivityManager->dispatch(EntityActivityEvents::ENTITY_ACTIVITY_INSERT, $entity);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function entity_activity_entity_update(EntityInterface $entity) {
+  if ($entity instanceof ContentEntityInterface) {
+    /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+    $entityActivityManager = \Drupal::service('entity_activity.manager');
+    $entityActivityManager->dispatch(EntityActivityEvents::ENTITY_ACTIVITY_UPDATE, $entity);
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function entity_activity_entity_delete(EntityInterface $entity) {
+  if ($entity instanceof ContentEntityInterface) {
+    if (!$entity instanceof SubscriptionInterface) {
+      /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+      $entityActivityManager = \Drupal::service('entity_activity.manager');
+      $entityActivityManager->dispatch(EntityActivityEvents::ENTITY_ACTIVITY_DELETE, $entity);
+      $entityActivityManager->deleteSubscriptions($entity);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function entity_activity_theme() {
+  $theme = [];
+
+  $theme['entity_activity_log'] = [
+    'render element' => 'elements',
+  ];
+
+  $theme['entity_activity_subscription'] = [
+    'render element' => 'elements',
+  ];
+
+  $theme['subscribe_on'] = [
+    'variables' => [
+      'attributes' => NULL,
+      'entity' => NULL,
+      'view_mode' => '',
+    ],
+  ];
+
+  $theme['subscription_remove'] = [
+    'variables' => [
+      'attributes' => NULL,
+      'entity' => NULL,
+      'view_mode' => '',
+    ],
+  ];
+
+  $theme['log_read_unread'] = [
+    'variables' => [
+      'read_unread' => '',
+      'attributes' => NULL,
+      'entity' => NULL,
+      'view_mode' => '',
+    ],
+  ];
+
+  $theme['log_read_all'] = [
+    'variables' => [
+      'attributes' => NULL,
+      'wrapper_attributes' => NULL,
+    ],
+  ];
+
+  $theme['log_remove'] = [
+    'variables' => [
+      'attributes' => NULL,
+      'entity' => NULL,
+      'view_mode' => '',
+    ],
+  ];
+
+  $theme['user_log_block'] = [
+    'variables' => [
+      'wrapper_attributes' => NULL,
+      'total_attributes' => NULL,
+      'logs_attributes' => NULL,
+      'total_unread' => '',
+      'total_unread_label' => '',
+      'total_unread_class' => NULL,
+      'has_icon' => FALSE,
+      'logs' => NULL,
+      'logs_user_page_url' => NULL,
+    ],
+  ];
+
+  return $theme;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function entity_activity_theme_suggestions_subscribe_on_alter(array &$suggestions, array $variables) {
+  $view_mode = $variables['view_mode'];
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $variables['entity'];
+  $suggestions[] = 'subscribe_on__' . $view_mode;
+  $suggestions[] = 'subscribe_on__' . $entity->getEntityTypeId();
+  $suggestions[] = 'subscribe_on__' . $entity->getEntityTypeId() . '__' . $view_mode;
+  $suggestions[] = 'subscribe_on__' . $entity->getEntityTypeId() . '__' . $entity->bundle();
+  $suggestions[] = 'subscribe_on__' . $entity->getEntityTypeId() . '__' . $entity->bundle() . '__' . $view_mode;
+  $suggestions[] = 'subscribe_on__' . $entity->getEntityTypeId() . '__' . $entity->bundle() . '__' . $entity->id();
+}
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function entity_activity_entity_extra_field_info() {
+  /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+  $entityActivityManager = \Drupal::service('entity_activity.manager');
+  $entity_type_enabled = $entityActivityManager->getContentEntityTypesEnabled();
+  $extra = [];
+
+  foreach ($entity_type_enabled as $entity_type_id) {
+    $bundles = $entityActivityManager->getBundlesPerEntityType($entity_type_id);
+    foreach ($bundles as $bundle => $value) {
+      $extra[$entity_type_id][$bundle]['display']['subscribe_on'] = [
+        'label' => t('Subscribe on'),
+        'description' => t('Subscribe on the entity.'),
+        'weight' => 100,
+        'visible' => FALSE,
+      ];
+    }
+  }
+
+  $extra['entity_activity_subscription']['entity_activity_subscription']['display']['subscription_remove'] = [
+    'label' => t('Remove subscription'),
+    'description' => t('Remove (delete) the subscription.'),
+    'weight' => 100,
+    'visible' => FALSE,
+  ];
+
+  $extra['entity_activity_log']['entity_activity_log']['display']['log_remove'] = [
+    'label' => t('Remove log'),
+    'description' => t('Remove (delete) the log.'),
+    'weight' => 100,
+    'visible' => FALSE,
+  ];
+
+  return $extra;
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function entity_activity_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if (!$entity instanceof ContentEntityInterface) {
+    return;
+  }
+  /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+  $entityActivityManager = \Drupal::service('entity_activity.manager');
+  $entity_types_enabled = $entityActivityManager->getContentEntityTypesEnabled();
+  $account = \Drupal::currentUser();
+  $can_subscribe_all = $account->hasPermission('subscribe all entities');
+
+  if ($display->getComponent('subscribe_on') && in_array($entity->getEntityTypeId(), $entity_types_enabled)) {
+    $entity_type_id = $entity->getEntityTypeId();
+    $id = $entity->id();
+    $entity_type_id_clean = Html::cleanCssIdentifier($entity_type_id);
+    if ($entity->isTranslatable()) {
+      $langcode = $entity->language()->getId();
+    }
+    else {
+      $langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
+    }
+
+    $attributes = new Attribute(['class' => ['js-subscribe-on', 'subscribe-on']]);
+    $attributes->setAttribute('id', 'subscribe-on-' . $entity_type_id_clean . '-' . $id);
+    $attributes->setAttribute('data-entity-type', $entity_type_id);
+    $attributes->setAttribute('data-entity-id', $id);
+    $attributes->setAttribute('data-langcode', $langcode);
+
+    $build['subscribe_on'] = [
+      '#theme' => 'subscribe_on',
+      '#attributes' => $attributes,
+      '#entity' => $entity,
+      '#view_mode' => $view_mode,
+      '#attached' => [
+        'library' => [
+          'entity_activity/subscribe_on',
+        ],
+      ],
+      '#access' => $can_subscribe_all,
+    ];
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function entity_activity_entity_activity_subscription_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if (!$entity instanceof SubscriptionInterface) {
+    return;
+  }
+
+  if ($display->getComponent('subscription_remove')) {
+    $account = \Drupal::currentUser();
+    $can_remove_own = $account->hasPermission('remove own subscriptions');
+    $can_remove_all = $account->hasPermission('administer subscription entities');
+
+    $entity_type_id = $entity->getEntityTypeId();
+    $id = $entity->id();
+    $langcode = $entity->langcode->value;
+
+    $attributes = new Attribute(['class' => ['js-subscription-remove']]);
+    $attributes->setAttribute('type', 'button');
+    $attributes->setAttribute('data-entity-type', $entity_type_id);
+    $attributes->setAttribute('data-entity-id', $id);
+    $attributes->setAttribute('data-langcode', $langcode);
+
+    $build['subscription_remove'] = [
+      '#theme' => 'subscription_remove',
+      '#attributes' => $attributes,
+      '#entity' => $entity,
+      '#view_mode' => $view_mode,
+      '#attached' => [
+        'library' => [
+          'entity_activity/subscription_remove',
+        ],
+      ],
+      '#access' => $can_remove_all || ($can_remove_own && $account->id() == $entity->getOwnerId()),
+    ];
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function entity_activity_entity_activity_log_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if (!$entity instanceof LogInterface) {
+    return;
+  }
+
+  if ($display->getComponent('log_remove')) {
+    $account = \Drupal::currentUser();
+    $can_remove_own = $account->hasPermission('remove own logs');
+    $can_remove_all = $account->hasPermission('administer log entities');
+
+    $entity_type_id = $entity->getEntityTypeId();
+    $id = $entity->id();
+
+    $attributes = new Attribute(['class' => ['js-log-remove']]);
+    $attributes->setAttribute('type', 'button');
+    $attributes->setAttribute('data-entity-type', $entity_type_id);
+    $attributes->setAttribute('data-entity-id', $id);
+
+    $build['log_remove'] = [
+      '#theme' => 'log_remove',
+      '#attributes' => $attributes,
+      '#entity' => $entity,
+      '#view_mode' => $view_mode,
+      '#attached' => [
+        'library' => [
+          'entity_activity/log_remove',
+        ],
+      ],
+      '#access' => $can_remove_all || ($can_remove_own && $account->id() == $entity->getOwnerId()),
+    ];
+  }
+}
+
+/**
+ * Prepares variables for Log templates.
+ *
+ * Default template: entity-activity-log.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the user information and any
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_entity_activity_log(array &$variables) {
+  /** @var \Drupal\entity_activity\Entity\LogInterface $log */
+  $log = $variables['elements']['#entity_activity_log'];
+  $variables['entity'] = $log;
+  $variables['source_entity'] = $log->getSourceEntity();
+  $variables['reference_source_entity'] = $log->getReferenceSourceEntity();
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  $variables['label'] = $log->label();
+
+  // We add an ID here instead of using the template because we need this
+  // attribute to remove the html when removing a subscription. And we don't
+  // want this attribute be removed per accident from the template twig.
+  // Certainly, this can be improved.
+  $variables['attributes']['id'] = 'js-log-' . $log->id();
+  $variables['attributes']['class'][] = 'js-log';
+  $variables['attributes']['class'][] = $log->isRead() ? 'read' : 'unread';
+  $variables['#attached']['library'][] = 'entity_activity/log';
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Prepares variables for Subscription templates.
+ *
+ * Default template: entity-activity-subscription.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the user information and any
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_entity_activity_subscription(array &$variables) {
+  /** @var \Drupal\entity_activity\Entity\SubscriptionInterface $subscription */
+  $subscription = $variables['elements']['#entity_activity_subscription'];
+  $variables['entity'] = $subscription;
+  $variables['source_entity'] = $subscription->getSourceEntity();
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  $variables['label'] = $subscription->label();
+
+  // We add an ID here instead of using the template because we need this
+  // attribute to remove the html when removing a subscription. And we don't
+  // want this attribute be removed per accident from the template twig.
+  // Certainly, this can be improved.
+  $variables['attributes']['id'] = 'js-subscription-' . $subscription->id();
+  $variables['attributes']['class'][] = 'js-subscription';
+  $variables['#attached']['library'][] = 'entity_activity/subscription';
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+
+}
+
+/**
+ * Implements hook_entity_access().
+ */
+function entity_activity_view_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  $log_views = [
+    'entity_activity_logs',
+    'user_logs',
+  ];
+  $subscriptions_views = [
+    'entity_activity_subscriptions',
+    'user_subscriptions',
+  ];
+  $protected_views = array_merge($log_views, $subscriptions_views);
+  // Prevent user to delete the entity activity views.
+  if (in_array($entity->id(), $protected_views) && $operation == 'delete') {
+    return AccessResult::forbidden('This view can not be deleted.');
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function entity_activity_preprocess_views_view(&$variables) {
+  /** @var \Drupal\views\ViewExecutable $view */
+  $view = $variables['view'];
+  $view_id = $variables['id'];
+  $view_display_id = $variables['display_id'];
+  if ($view_id == 'user_logs') {
+    $variables['#attached']['library'][] = 'entity_activity/log_read_all';
+  }
+}
+
+/**
+ * Implements hook_views_post_render().
+ */
+function entity_activity_views_post_render(ViewExecutable $view, &$output, CachePluginBase $cache) {
+  // We remove the global list cache tags, because then all user's logs
+  // views will be invalidated every time a log is created / updated. Instead
+  // we use our custom list cache tag per user.
+  // @See Log::getCacheTagsToInvalidate()()
+  if ($view->id() == 'user_logs') {
+    $tags = $output['#cache']['tags'];
+    if ($tags) {
+      $tags = array_diff($tags, ['entity_activity_log_list']);
+      $output['#cache']['tags'] = $tags;
+    }
+  }
+  // Same thing here but for subscription.
+  if ($view->id() == 'user_subscriptions') {
+    $tags = $output['#cache']['tags'];
+    if ($tags) {
+      $tags = array_diff($tags, ['entity_activity_subscription_list']);
+      $output['#cache']['tags'] = $tags;
+    }
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function entity_activity_cron() {
+  /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+  $entityActivityManager = \Drupal::service('entity_activity.manager');
+  $entityActivityManager->purgeLog();
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function entity_activity_module_implements_alter(&$implementations, $hook) {
+  // We need hook_tokens run after all others implementations because of
+  // the rewriteFinalLog() need our tokens when using cron to keep the current
+  // user and the current date when the operation was done.
+  if ($hook == 'tokens') {
+    $group = $implementations['entity_activity'];
+    unset($implementations['entity_activity']);
+    $implementations['entity_activity'] = $group;
+  }
+}

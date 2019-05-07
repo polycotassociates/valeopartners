@@ -1,0 +1,97 @@
+entity_activity.config_content:
+  path: '/admin/config/content/entity-activity'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Entity Activity'
+  requirements:
+    _permission: 'administer entity activity'
+  options:
+    _admin_route: TRUE
+
+entity_activity.settings_form:
+  path: '/admin/config/content/entity-activity/settings'
+  defaults:
+    _form: '\Drupal\entity_activity\Form\SettingsForm'
+    _title: 'SettingsForm'
+  requirements:
+    _permission: 'administer entity activity'
+  options:
+    _admin_route: TRUE
+
+entity.entity_activity_generator.enable:
+  path: '/admin/config/content/entity-activity/generators/{entity_activity_generator}/enable'
+  defaults:
+    _entity_form: 'entity_activity_generator.enable'
+    _title: 'Enable Generator'
+  requirements:
+    _permission: 'administer log generators'
+
+entity.entity_activity_generator.disable:
+  path: '/admin/config/content/generators/entity-activity/{entity_activity_generator}/disable'
+  defaults:
+    _entity_form: 'entity_activity_generator.disable'
+    _title: 'Disable Generator'
+  requirements:
+    _permission: 'administer log generators'
+
+entity.entity_activity_generator.duplicate:
+  path: '/admin/config/content/generators/entity-activity/{entity_activity_generator}/duplicate'
+  defaults:
+    _entity_form: 'entity_activity_generator.duplicate'
+    _title: 'Duplicate Generator'
+  requirements:
+    _permission: 'administer log generators'
+
+entity_activity.api.subscription:
+  path: '/ea/api/subscription'
+  defaults:
+    _controller: '\Drupal\entity_activity\Controller\SubscriptionController::haveSubscription'
+    _title: 'Have a subscription'
+  methods: [POST]
+  requirements:
+    _entity_activity_subscription: 'TRUE'
+
+entity_activity.api.subscription.add_remove:
+  path: '/ea/api/subscription/add'
+  defaults:
+    _controller: '\Drupal\entity_activity\Controller\SubscriptionController::addRemove'
+    _title: 'Create / delete a subscription'
+  methods: [POST]
+  requirements:
+    _entity_activity_subscription: 'TRUE'
+
+entity_activity.api.subscription.remove:
+  path: '/ea/api/subscription/remove'
+  defaults:
+    _controller: '\Drupal\entity_activity\Controller\SubscriptionController::remove'
+    _title: 'Remove a subscription'
+  methods: [POST]
+  requirements:
+    _entity_activity_subscription: 'TRUE'
+
+entity_activity.api.log.read:
+  path: '/ea/api/log/read'
+  defaults:
+    _controller: '\Drupal\entity_activity\Controller\LogController::readUnread'
+    _title: 'Mark as read / unread'
+  methods: [POST]
+  requirements:
+    _entity_activity_log: 'TRUE'
+
+entity_activity.api.log.readall:
+  path: '/ea/api/log/readall'
+  defaults:
+    _controller: '\Drupal\entity_activity\Controller\LogController::readAll'
+    _title: 'Mark all logs as read'
+  methods: [POST]
+  requirements:
+    _entity_activity_log: 'TRUE'
+
+entity_activity.api.log.remove:
+  path: '/ea/api/log/remove'
+  defaults:
+    _controller: '\Drupal\entity_activity\Controller\LogController::remove'
+    _title: 'Remove a log'
+  methods: [POST]
+  requirements:
+    _entity_activity_log: 'TRUE'

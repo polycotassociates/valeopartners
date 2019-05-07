@@ -1,0 +1,20 @@
+{#
+/**
+ * @file log-read-unread.html.twig
+ * Basic barebone template for extra field subscription-remove.
+ *
+ * Available variables:
+ * - read_unread: The text configured for status true / false (i.e. usually read / unread).
+ * - user: The user entity for whom we can mark all logs as read.
+ * - attributes: HTML attributes for the button.
+ * - wrapper_attributes : HTML attributes for the button wrapper.
+ *
+ * @see Plugin\views\area\LogReadAll::render()
+ *
+ * @ingroup themeable
+ */
+#}
+<div {{ wrapper_attributes }}>
+  <button{{ attributes }}>{{ 'Mark all logs as read'|t }}</button>
+</div>
+

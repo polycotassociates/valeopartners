@@ -1,0 +1,16 @@
+{
+    "name": "drupal/entity_activity",
+    "type": "drupal-module",
+    "description": "Entity activity will allow to configure and generate any kind of notifications on any content entity type.",
+    "keywords": ["Drupal"],
+    "license": "GPL-2.0+",
+    "homepage": "https://www.drupal.org/project/entity_activity",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/entity_activity",
+        "source": "http://cgit.drupalcode.org/entity_activity"
+    },
+    "require": {
+        "drupal/token": "~1.0"
+    }
+}

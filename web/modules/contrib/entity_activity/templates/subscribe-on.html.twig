@@ -1,0 +1,19 @@
+{#
+/**
+ * @file subscribe-on.html.twig
+ * Basic barebone template for extra field subscribe_on.
+ *
+ * Available variables:
+ * - entity: The entity the subscribe_on extra field belong to.
+ * - attributes: HTML attributes for the container element.
+ * - view_mode: The view mode of the entity rendered.
+ *
+ * @see entity_activity_entity_view()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes }}>
+  <button type="button" class="action subscribe">{{ 'Subscribe'|t }}</button>
+  <button type="button" class="action unsubscribe">{{ 'Unsubscribe'|t }}</button>
+</div>

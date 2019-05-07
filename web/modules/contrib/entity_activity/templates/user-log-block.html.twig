@@ -1,0 +1,37 @@
+{#
+/**
+ * @file user-log-block.html.twig
+ * Basic barebone template for the user log block.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the global wrapper.
+ * - total_attributes: HTML attributes for the total unread wrapper.
+ * - logs_attributes: HTML attributes for the logs wrapper.
+ * - total_unread: The total of unread logs.
+ * - total_unread_label: The total unread label.
+ * - total_unread_class: HTML attributes for adding a <i> tag
+ * - logs: An render array with the latest unread logs.
+ * - link_page: The link to the user's log page.
+ *
+ * @see UserLogBlock
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ wrapper_attributes }}>
+  <div{{ total_attributes }}>
+    {% if has_icon %}<i{{ total_unread_class }}></i>{% endif %}
+    {% if total_unread %}<span class="total-unread">{{ total_unread }}</span>{% endif %}
+    {% if total_unread_label %}<span class="total-unread-label">{{ total_unread_label }}</span>{% endif %}
+  </div>
+  <div class="js-logs__content">
+    {#{% if logs %}#}
+      <div{{ logs_attributes }}>
+        {{ logs }}
+      </div>
+    {#{% endif %}#}
+    {% if logs_user_page_url %}
+      <div class="user-page"><a href="{{ logs_user_page_url }}">{{ 'See all logs'|t }}</a></div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,32 @@
+services:
+
+  plugin.manager.log_generator:
+    class: Drupal\entity_activity\Plugin\LogGeneratorManager
+    parent: default_plugin_manager
+
+  entity_activity.manager:
+    class: Drupal\entity_activity\EntityActivityManager
+    arguments: ['@config.factory', '@entity_type.manager', '@entity.repository', '@language_manager', '@entity_field.manager', '@plugin.manager.log_generator', '@current_user', '@entity_type.bundle.info', '@event_dispatcher', '@queue', '@datetime.time', '@state']
+
+  entity_activity.access_check_subscription:
+    class: Drupal\entity_activity\Access\SubscriptionAccessCheck
+    arguments: ['@entity_type.manager']
+    tags:
+    - { name: access_check, applies_to: _entity_activity_subscription }
+
+  entity_activity.access_check_log:
+    class: Drupal\entity_activity\Access\LogAccessCheck
+    arguments: ['@entity_type.manager']
+    tags:
+    - { name: access_check, applies_to: _entity_activity_log }
+
+  entity_activity.entity_activity_subscriber:
+    class: Drupal\entity_activity\EventSubscriber\EntityActivitySubscriber
+    arguments: ['@entity_activity.manager', '@queue']
+    tags:
+    - { name: event_subscriber }
+
+  entity_activity.route_subscriber:
+    class: Drupal\entity_activity\Routing\RouteSubscriber
+    tags:
+    - { name: event_subscriber }

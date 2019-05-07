@@ -1,0 +1,45 @@
+{#
+/**
+ * @file entity_activity_subscription.html.twig
+ * Default theme implementation to present Subscription data.
+ *
+ * This template is used when viewing Subscription entities.
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ * - source_entity : The source entity related to the log
+ * - reference_source_entity: The reference source entity from wich a
+ *   subscription has generated the log.
+ * - entity : The log entity
+ * - label : The subscription label
+ * - view_mode : The view mode.
+ *
+ * @see template_preprocess_entity_activity_subscription()
+ *
+ * @ingroup themeable
+ */
+#}
+<article{{ attributes.addClass('log') }}>
+  <div class="log__content">
+    <div class="log__log">
+      {{ content.log }}
+    </div>
+    {% if content.read %}
+      <div class="read-wrapper">{{ content.read }}</div>
+    {% endif %}
+  </div>
+  <footer class="owner-date">
+    {% if content.uid %}
+      <div class="owner">{{ content.uid }}</div>
+    {% endif %}
+    <div class="date">{{ content.created }}</div>
+    {% if content.subscription %}
+      <div class="subscription">{{ content.subscription }}</div>
+    {% endif %}
+    {% if content.log_remove %}
+      <div class="remove">{{ content.log_remove }}</div>
+    {% endif %}
+  </footer>
+  {{ content | without('uid', 'subscription', 'read', 'created', 'log', 'log_remove') }}
+</article>

@@ -1,0 +1,35 @@
+{#
+/**
+ * @file entity_activity_subscription.html.twig
+ * Default theme implementation to present Subscription data.
+ *
+ * This template is used when viewing Subscription entities.
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ * - source_entity : The source entity related to the subscription
+ * - entity : The subscription entity
+ * - label : The subscription label
+ * - view_mode : The view mode.
+ *
+ * @see template_preprocess_entity_activity_subscription()
+ *
+ * @ingroup themeable
+ */
+#}
+<article{{ attributes.addClass('subscription') }}>
+  <div class="subscription__content">
+    <div class="label">{{ label }}</div>
+    {% if content.subscription_remove %}
+    <div class="remove">{{ content.subscription_remove }}</div>
+    {% endif %}
+  </div>
+  <footer class="owner-date">
+    {% if content.uid %}
+    <div class="owner">{{ content.uid }}</div>
+    {% endif %}
+    <div class="date">{{ entity.created.value|format_date('fallback') }}</div>
+  </footer>
+    {{ content | without('uid', 'subscription_remove') }}
+</article>

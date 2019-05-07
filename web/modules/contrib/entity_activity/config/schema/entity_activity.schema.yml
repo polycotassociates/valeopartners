@@ -1,0 +1,146 @@
+entity_activity.generator.*:
+  type: config_entity
+  label: 'Generator config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+    status:
+      type: boolean
+      label: 'Status'
+    generators:
+      type: sequence
+      label: 'Log generators'
+      sequence:
+        type: log_generator.plugin.[id]
+entity_activity.settings:
+  type: config_object
+  label: 'Entity Activity settings.'
+  mapping:
+    entity_type:
+      type: sequence
+      label: 'Entity types enabled'
+      sequence:
+        type: mapping
+        label: 'Entity type settings'
+        mapping:
+          enable:
+            type: boolean
+            label: 'Entity Type enable'
+    purge:
+      type: mapping
+      label: 'Log purge settings'
+      mapping:
+        method:
+          type: string
+          label: 'Purge method'
+        read_only:
+          type: boolean
+          label: 'Purge only logs unread'
+        time:
+          type: mapping
+          label: 'Time method setting'
+          mapping:
+            number:
+              type: integer
+              label: 'Interval'
+            unit:
+              type: string
+              label: 'Unit'
+        limit:
+          type: mapping
+          label: 'Limit method settings'
+          mapping:
+            max:
+              type: integer
+              label: 'Max logs per user'
+    language:
+      type: mapping
+      label: 'Language settings'
+      mapping:
+        user:
+          type: boolean
+          label: 'Use user preferred language'
+block.settings.entity_activity_user_log_block:
+  type: block_settings
+  label: 'User log block'
+  mapping:
+    total_unread_label:
+      type: label
+      label: 'Total unread label'
+    total_unread_class:
+      type: string
+      label: 'Total unread class'
+    number:
+      type: integer
+      label: 'Number'
+    view_mode:
+      type: string
+      label: 'View mode'
+    logs_user_page_url:
+      type: boolean
+      label: 'Logs user page url'
+log_generator.plugin:
+  type: mapping
+  label: 'Log generator'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    status:
+      type: boolean
+      label: 'Status'
+    published:
+      type: boolean
+      label: 'Published'
+    operation:
+      type: string
+      label: 'Operation'
+    bundles:
+      type: sequence
+      label: 'Bundles'
+      sequence:
+        type: string
+        label: 'bundle'
+    subscribed_on:
+      type: string
+      label: 'Subscribed on'
+    referenced_by:
+      type: sequence
+      label: 'Referenced by'
+      sequence:
+        type: string
+        label: 'Field name'
+    include_parents_term:
+      type: boolean
+      label: 'Include parents term'
+    log:
+      type: mapping
+      label: 'Log'
+      mapping:
+        value:
+          type: text
+          label: 'Log message'
+        format:
+          type: string
+          label: 'Log format'
+    use_cron:
+      type: boolean
+      label: 'Use cron'
+log_generator.plugin.node:
+  type: log_generator.plugin
+  label: 'Log Generator Node'
+log_generator.plugin.user:
+  type: log_generator.plugin
+  label: 'Log Generator User'
+log_generator.plugin.comment:
+  type: log_generator.plugin
+  label: 'Log Generator Comment'
+log_generator.plugin.taxonomy_term:
+  type: log_generator.plugin
+  label: 'Log Generator Taxonomy term'

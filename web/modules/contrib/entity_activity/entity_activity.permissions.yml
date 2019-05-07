@@ -1,0 +1,38 @@
+administer log entities:
+  title: 'Administer Log entities'
+  description: 'Allow to access the administration form to configure Log entities.'
+  restrict access: true
+
+administer subscription entities:
+  title: 'Administer Subscription entities'
+  description: 'Allow to access the administration form to configure Subscription entities.'
+  restrict access: true
+
+administer entity activity:
+  title: 'Administer Entity Activity'
+  restrict access: true
+
+administer log generators:
+  title: 'Administer log generators'
+  restrict access: true
+
+subscribe all entities:
+  title: 'Subscribe on all entities'
+
+view own subscriptions:
+  title: 'View own subscriptions'
+
+view any subscriptions:
+  title: 'View any subscriptions'
+
+remove own subscriptions:
+  title: 'Remove own subscriptions'
+
+view own logs:
+  title: 'View own logs'
+
+view any logs:
+  title: 'View any logs'
+
+remove own logs:
+  title: 'Remove own logs'

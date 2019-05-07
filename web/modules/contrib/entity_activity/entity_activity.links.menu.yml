@@ -1,0 +1,52 @@
+# Log menu items definition
+entity.entity_activity_log.collection:
+  title: 'Logs'
+  route_name: entity.entity_activity_log.collection
+  description: 'List Log entities'
+  parent: entity_activity.config_content
+  weight: 200
+
+entity_activity_log.admin.structure.settings:
+  title: 'Log settings'
+  description: 'Configure Log entities'
+  route_name: entity_activity_log.settings
+  parent: entity_activity.config_content
+  weight: 210
+
+# Subscription menu items definition
+entity.entity_activity_subscription.collection:
+  title: 'Subscriptions'
+  route_name: entity.entity_activity_subscription.collection
+  description: 'List Subscription entities'
+  parent: entity_activity.config_content
+  weight: 100
+
+entity_activity_subscription.admin.structure.settings:
+  title: 'Subscription settings'
+  description: 'Configure Subscription entities'
+  route_name: entity_activity_subscription.settings
+  parent: entity_activity.config_content
+  weight: 110
+
+entity_activity.config_content:
+  title: 'Entity Activity'
+  route_name: entity_activity.config_content
+  description: 'Configure Entity Activity and Generators.'
+  parent: system.admin_config_content
+  weight: 200
+
+# Generator menu items definition
+entity.entity_activity_generator.collection:
+  title: 'Log Generators'
+  route_name: entity.entity_activity_generator.collection
+  description: 'List Log Generators'
+  parent: entity_activity.config_content
+  weight: 50
+
+entity_activity.settings_form:
+  title: 'Entity Activity Settings'
+  route_name: entity_activity.settings_form
+  description: 'Configure Entity Activity'
+  parent: entity_activity.config_content
+  weight: 20
+

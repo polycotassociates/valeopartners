@@ -1,0 +1,7 @@
+
+entity.entity_activity_generator.add_form:
+  route_name: entity.entity_activity_generator.add_form
+  title: 'Add Generator'
+  appears_on:
+    - entity.entity_activity_generator.collection
+

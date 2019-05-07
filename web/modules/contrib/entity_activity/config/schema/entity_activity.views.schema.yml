@@ -1,0 +1,6 @@
+views.area.log_read_all:
+  type: views_area
+  label: 'log_read_all'
+views.area.log_total_unread:
+  type: views_area
+  label: 'log_total_unread'

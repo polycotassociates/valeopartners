@@ -1,0 +1,11 @@
+# Log routing definition
+entity_activity_log.settings_tab:
+  route_name: entity_activity_log.settings
+  title: 'Settings'
+  base_route: entity_activity_log.settings
+
+# Subscription routing definition
+entity_activity_subscription.settings_tab:
+  route_name: entity_activity_subscription.settings
+  title: 'Settings'
+  base_route: entity_activity_subscription.settings
