@@ -13,6 +13,7 @@ dependencies:
   module:
     - computed_field
     - datetime_range
+    - inline_entity_form
     - path
     - publication_date
 id: node.vp_type_filing.default
@@ -29,11 +30,18 @@ content:
   field_vp_filing_case:
     weight: 1
     settings:
+      form_mode: default
+      override_labels: true
+      label_singular: case
+      label_plural: cases
+      allow_new: true
+      allow_existing: true
       match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      collapsible: false
+      collapsed: false
+      allow_duplicate: false
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: inline_entity_form_complex
     region: content
   field_vp_filing_description:
     weight: 4

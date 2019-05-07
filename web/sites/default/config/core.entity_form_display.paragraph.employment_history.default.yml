@@ -8,6 +8,7 @@ dependencies:
     - field.field.paragraph.employment_history.field_partner_date
     - paragraphs.paragraphs_type.employment_history
   module:
+    - inline_entity_form
     - yearonly
 id: paragraph.employment_history.default
 targetEntityType: paragraph
@@ -17,11 +18,18 @@ content:
   field_firm:
     weight: 101
     settings:
+      form_mode: default
+      override_labels: true
+      label_singular: firm
+      label_plural: firms
+      allow_new: true
+      allow_existing: true
       match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      collapsible: false
+      collapsed: false
+      allow_duplicate: false
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: inline_entity_form_complex
     region: content
   field_firm_date:
     weight: 102

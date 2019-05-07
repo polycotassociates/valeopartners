@@ -1,6 +1,6 @@
-status: '2'
+status: '1'
 pattern: '[node:field_vp_last_name], [node:field_vp_first_name] [node:field_vp_middle_name]'
-php: 1
+php: 0
 escape: 0
 dependencies:
   config:
