@@ -146,10 +146,10 @@
         "drupal/auto_entitylabel": {
             "Title displayed as %AutoEntityLabel% after saving via Inline Entity Form": "https://www.drupal.org/files/issues/Title_displayed_as_AutoEntityLabel_after_saving_via_Inline_Entity_Form-2905230-6.patch",
             "Broken when provider !=entityTypeId": "https://www.drupal.org/files/issues/2019-01-19/auto_entitylabel-2923876-28-Broken-when-provider-entityId.patch"
+        },
+        "drupal/core": {
+            "ManyToOneHelper ignores group configuration for some cases and forces INNER joins": "https://www.drupal.org/files/issues/2018-08-02/manytoonehelper_ignores-2559961-44-8.5.x.patch"
         }
-
-
-
     },
     "build-env": {
         "install-cms": [

@@ -444,6 +444,108 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        actual_rate_by_year_3:
+          id: actual_rate_by_year_3
+          table: node
+          field: actual_rate_by_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2019 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          year: '2019'
+          entity_type: node
+          plugin_id: actual_rate_by_year
+        standard_rate_by_year_3:
+          id: standard_rate_by_year_3
+          table: node
+          field: standard_rate_by_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2019 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          year: '2019'
+          entity_type: node
+          plugin_id: standard_rate_by_year
         actual_rate_by_year:
           id: actual_rate_by_year
           table: node
@@ -646,108 +748,6 @@ display:
           empty_zero: false
           hide_alter_empty: true
           year: '2017'
-          entity_type: node
-          plugin_id: standard_rate_by_year
-        actual_rate_by_year_2:
-          id: actual_rate_by_year_2
-          table: node
-          field: actual_rate_by_year
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: '2016 Actual Rate'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          year: '2016'
-          entity_type: node
-          plugin_id: actual_rate_by_year
-        standard_rate_by_year_2:
-          id: standard_rate_by_year_2
-          table: node
-          field: standard_rate_by_year
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: '2016 Standard Rate'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          year: '2016'
           entity_type: node
           plugin_id: standard_rate_by_year
       filters:

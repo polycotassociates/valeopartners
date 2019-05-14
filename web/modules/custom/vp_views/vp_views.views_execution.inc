@@ -20,6 +20,15 @@ function vp_views_views_pre_render(ViewExecutable $view) {
 
   switch ($view->id()) {
 
+    case 'search_by_firm':
+      // If a year is passed as an argument, change the column lables to
+      // reference that year.
+      // kint($view->argument);
+      //kint($view);
+      $view->exposed_data['field_vp_practice_area_2_target_id'] = $view->exposed_data['field_vp_practice_area_1_target_id'];
+
+      break;
+
     case 'search_rate_trending_analysis':
       // If a year is passed as an argument, change the column lables to
       // reference that year.
@@ -353,5 +362,29 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       break;
 
   }
+
+}
+
+/**
+ * Override view output to join the search for all Practice Areas to one variable
+ */
+function vp_views_views_pre_build(ViewExecutable $view) {
+
+  //$practice_area1 = $view->filter['field_vp_practice_area_1_target_id']->value;
+  //$view->filter['field_vp_practice_area_2_target_id']->value = $practice_area1;
+
+
+// kint($practice_area2);
+
+  // if (isset($practice_area2)) {
+  //   $practice_area2['expose']['identifier'] = 'practice_area';
+  //   $view->set_item($view->current_display, 'filter', 'field_individual_pa2_value', $practice_area2);
+  // }
+  // $practice_area3 = $view->get_item($view->current_display, 'filter', 'field_individual_pa3_value');
+  // if (isset($practice_area3)) {
+  //   $practice_area3['expose']['identifier'] = 'practice_area';
+  //   $view->set_item($view->current_display, 'filter', 'field_individual_pa3_value', $practice_area3);
+  // }
+  // $view->is_cacheable = FALSE;
 
 }

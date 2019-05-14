@@ -27,6 +27,8 @@ dependencies:
     - user.role.company_industry_add_on
     - user.role.data_entry
     - user.role.superuser
+  content:
+    - 'taxonomy_term:practice_area:78f3f721-016e-41f2-a128-6edb9ae72777'
   module:
     - computed_field
     - datetime_range
@@ -5273,60 +5275,6 @@ display:
           hierarchy: true
           error_message: true
           plugin_id: taxonomy_index_tid
-        array_combine:
-          id: array_combine
-          table: views
-          field: array_combine
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: word
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: array_combine_op
-            label: 'Practice Area'
-            description: ''
-            use_operator: false
-            operator: array_combine_op
-            identifier: array_combine
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              rate_report_user: '0'
-              superuser: '0'
-              pilot_account: '0'
-              data_entry: '0'
-              alerts_add_on: '0'
-              company_industry_add_on: '0'
-              full_database_download_add_on: '0'
-              firm_rate_profile_add_on: '0'
-              fee_search_add_on: '0'
-              nos_add_on: '0'
-              download_add_on: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          fields:
-            field_vp_practice_area_1: field_vp_practice_area_1
-            field_vp_practice_area_2: field_vp_practice_area_2
-            field_vp_practice_area_3: field_vp_practice_area_3
-          plugin_id: array_combine
         field_vp_graduation_value:
           id: field_vp_graduation_value
           table: node__field_vp_graduation
@@ -5479,10 +5427,181 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: numeric
+        field_vp_practice_area_1_target_id:
+          id: field_vp_practice_area_1_target_id
+          table: node__field_vp_practice_area_1
+          field: field_vp_practice_area_1_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 2
+          exposed: true
+          expose:
+            operator_id: field_vp_practice_area_1_target_id_op
+            label: 'Practice Areas'
+            description: ''
+            use_operator: false
+            operator: field_vp_practice_area_1_target_id_op
+            identifier: field_vp_practice_area_1_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: practice_area
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
+        field_vp_practice_area_2_target_id:
+          id: field_vp_practice_area_2_target_id
+          table: node__field_vp_practice_area_2
+          field: field_vp_practice_area_2_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            423: 423
+          group: 2
+          exposed: true
+          expose:
+            operator_id: field_vp_practice_area_2_target_id_op
+            label: 'Practice Area 2 (field_vp_practice_area_2)'
+            description: ''
+            use_operator: false
+            operator: field_vp_practice_area_2_target_id_op
+            identifier: field_vp_practice_area_2_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: practice_area
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
+        field_vp_practice_area_3_target_id:
+          id: field_vp_practice_area_3_target_id
+          table: node__field_vp_practice_area_3
+          field: field_vp_practice_area_3_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value:
+            423: 423
+          group: 2
+          exposed: true
+          expose:
+            operator_id: field_vp_practice_area_3_target_id_op
+            label: 'Practice Area 3 (field_vp_practice_area_3)'
+            description: ''
+            use_operator: false
+            operator: field_vp_practice_area_3_target_id_op
+            identifier: field_vp_practice_area_3_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: practice_area
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
       filter_groups:
         operator: AND
         groups:
           1: AND
+          2: OR
       sorts:
         field_vp_rate_hourly_value:
           id: field_vp_rate_hourly_value

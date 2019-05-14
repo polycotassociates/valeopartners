@@ -308,18 +308,18 @@ class ManyToOneHelper {
           $placeholder .= '[]';
 
           if ($operator == 'IS NULL') {
-            $this->handler->query->addWhereExpression(0, "$field $operator");
+            $this->handler->query->addWhereExpression($options['group'], "$field $operator");
           }
           else {
-            $this->handler->query->addWhereExpression(0, "$field $operator($placeholder)", [$placeholder => $value]);
+            $this->handler->query->addWhereExpression($options['group'], "$field $operator($placeholder)", [$placeholder => $value]);
           }
         }
         else {
           if ($operator == 'IS NULL') {
-            $this->handler->query->addWhereExpression(0, "$field $operator");
+            $this->handler->query->addWhereExpression($options['group'], "$field $operator");
           }
           else {
-            $this->handler->query->addWhereExpression(0, "$field $operator $placeholder", [$placeholder => $value]);
+            $this->handler->query->addWhereExpression($options['group'], "$field $operator $placeholder", [$placeholder => $value]);
           }
         }
       }
