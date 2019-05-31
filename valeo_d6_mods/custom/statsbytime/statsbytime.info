@@ -1,5 +1,0 @@
-; $Id$
-name = Stats By Time Module
-description = A module for calculating and storing summary statistics for set time intervals
-core = 6.x
-package = Other

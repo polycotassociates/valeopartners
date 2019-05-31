@@ -39,6 +39,7 @@
         "drupal/csv_serialization": "^1.4",
         "drupal/custom_add_another": "^1.0",
         "drupal/date_popup": "^1.0",
+        "drupal/default_paragraphs": "^1.0",
         "drupal/devel": "^2.0",
         "drupal/diff": "^1.0",
         "drupal/draggableviews": "^1.0",
@@ -148,7 +149,8 @@
             "Broken when provider !=entityTypeId": "https://www.drupal.org/files/issues/2019-01-19/auto_entitylabel-2923876-28-Broken-when-provider-entityId.patch"
         },
         "drupal/core": {
-            "ManyToOneHelper ignores group configuration for some cases and forces INNER joins": "https://www.drupal.org/files/issues/2018-08-02/manytoonehelper_ignores-2559961-44-8.5.x.patch"
+            "ManyToOneHelper ignores group configuration for some cases and forces INNER joins": "https://www.drupal.org/files/issues/2018-08-02/manytoonehelper_ignores-2559961-44-8.5.x.patch",
+            "Impossible to update an entity revision if the field value you are updating matches the default revision.": "https://www.drupal.org/files/issues/2018-07-30/entity_original_revision-2859042-26.patch"
         }
     },
     "build-env": {

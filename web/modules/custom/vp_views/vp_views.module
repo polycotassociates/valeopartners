@@ -73,6 +73,5 @@ function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query
 
       break;
   }
-  // kint($query);
 
 }

@@ -35,6 +35,32 @@ class HasActualRate extends StringFilter {
     if (!empty($this->value)) {
       parent::query();
     }
+
+    kint($this);
+
+    // $field = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id';
+    // $field2 = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id';
+    // $value = $pa1;
+    // $operator = '=';
+    // $query->addWhere(2, $field, $value, $operator);
+
+
+    $configuration = [
+      'table' => 'node_access',
+      'field' => 'nid',
+      'left_table' => 'node_field_data',
+      'left_field' => 'nid',
+      'operator' => '='
+    ];
+    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+
+
+    $this->query->addRelationship('node_access', $join, 'node_field_data');
+    $this->query->addWhere('AND', 'node_access.gid', $domain->getDomainId());
+
+    // $this->query->addWhere(1, 'field_vp_rate_hourly_value', NULL, "!=");
+
+
   }
 
   /**
@@ -58,6 +84,7 @@ class HasActualRate extends StringFilter {
     if (!isset($this->where[$group])) {
       $this->setWhereGroup('AND', $group);
     }
+    kint($this->where);
     $this->where[$group]['conditions'][] = [
       'field' => 'field_vp_rate_hourly_value',
       'value' => NULL,

@@ -1,0 +1,8 @@
+
+
+ALTER TABLE `node__field_vp_rate_primaryfee_calc` CHANGE `field_vp_rate_primaryfee_calc_value` `field_vp_rate_primaryfee_calc_value` DECIMAL(14,2) NOT NULL; 
+ALTER TABLE `node_revision__field_vp_rate_primaryfee_calc` CHANGE `field_vp_rate_primaryfee_calc_value` `field_vp_rate_primaryfee_calc_value` DECIMAL(14,2) NOT NULL; 
+
+
+ALTER TABLE `node__field_vp_rate_total_fees` CHANGE `field_vp_rate_total_fees_value` `field_vp_rate_total_fees_value` DECIMAL(14,2) NOT NULL; 
+ALTER TABLE `node_revision__field_vp_rate_total_fees` CHANGE `field_vp_rate_total_fees_value` `field_vp_rate_total_fees_value` DECIMAL(14,2) NOT NULL; 

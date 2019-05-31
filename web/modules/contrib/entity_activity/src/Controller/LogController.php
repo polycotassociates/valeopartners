@@ -48,11 +48,13 @@ class LogController extends EntityActivityBaseController {
     if (!$log instanceof LogInterface) {
       return $response;
     }
-
-    if ($this->isAdmin($log) || ($this->isOwner($log) && $this->currentUser->hasPermission('remove own loqs'))) {
+    if ($this->isAdmin($log) || ($this->isOwner($log) && $this->currentUser->hasPermission('remove own logs'))) {
       $unread = (bool) !$log->isRead();
       $log->delete();
       $response = $this->getResponse(200, 'Log deleted.', $data, TRUE, ['action' => 'removal-done', 'unread' => $unread]);
+    }
+    else {
+      $response = $this->accessDeniedResponse($data);
     }
 
     return $response;

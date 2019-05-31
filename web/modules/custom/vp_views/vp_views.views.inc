@@ -44,6 +44,14 @@ function vp_views_views_data_alter(&$data) {
     ),
   );
 
+  $data['node']['actual_rate_by_year_paragraph'] = array(
+    'field' => array(
+      'id' => 'actual_rate_by_year_paragraph',
+      'title' => t('Actual Rate By Year (Paragraph)'),
+      'help' => t('Get actual rate by a given year, defaults to current year'),
+    ),
+  );
+
   $data['node']['standard_rate_by_year'] = array(
     'field' => array(
       'id' => 'standard_rate_by_year',
@@ -77,7 +85,7 @@ function vp_views_views_data_alter(&$data) {
   );
 
 
-  $data['node__field_vp_rate_hourly']['has_actual_rate'] = array(
+  $data['node_field_data']['has_actual_rate'] = array(
     'title' => t('Has rate'),
     'filter' => array(
       'title' => t('Has a rate'),

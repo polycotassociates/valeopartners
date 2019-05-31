@@ -1,7 +1,0 @@
-; $Id$
-name = Valeo Saved Search Module
-description = Functions specific to making the Saved Search functionality work
-core = 6.x
-package = Valeo Partners
-dependencies[] = "statsbytime"
-dependencies[] = "valeomod"

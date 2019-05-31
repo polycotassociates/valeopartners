@@ -72,6 +72,16 @@ interface EntityActivityManagerInterface {
   public function deleteSubscriptions(ContentEntityInterface $entity);
 
   /**
+   * Get the entity's langcode or the default langcode as fallback.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The content entity.
+   *
+   * @return string
+   */
+  public function getEntityLangcode(ContentEntityInterface $entity);
+
+  /**
    * Purge log given the global settings.
    */
   public function purgeLog();

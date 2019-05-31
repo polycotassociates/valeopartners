@@ -277,10 +277,24 @@ class EntityActivityManager implements EntityActivityManagerInterface {
    * {@inheritdoc}
    */
   public function deleteSubscriptions(ContentEntityInterface $entity) {
-    $subscriptions = $this->subscriptionStorage->loadMultipleByEntity($entity);
+    $langcode = $this->getEntityLangcode($entity);
+    $subscriptions = $this->subscriptionStorage->loadMultipleByEntity($entity, $langcode);
     foreach ($subscriptions as $subscription) {
       $subscription->delete();
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityLangcode(ContentEntityInterface $entity) {
+    if ($entity->isTranslatable()) {
+      $langcode = $entity->language()->getId();
+    }
+    else {
+      $langcode = $this->languageManager->getDefaultLanguage()->getId();
+    }
+    return $langcode;
   }
 
   /**
