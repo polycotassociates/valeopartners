@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.vp_type_individual.field_actual_rate_by_year
     - field.field.node.vp_type_individual.field_vp_bar_date
     - field.field.node.vp_type_individual.field_vp_email
     - field.field.node.vp_type_individual.field_vp_employment_history
@@ -27,6 +28,15 @@ targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
+  field_actual_rate_by_year:
+    type: entity_reference_revisions_entity_view
+    weight: 125
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
   field_vp_bar_date:
     weight: 120
     label: above
@@ -142,4 +152,5 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  published_at: true

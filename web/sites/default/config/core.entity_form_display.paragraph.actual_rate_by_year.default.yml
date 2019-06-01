@@ -1,0 +1,31 @@
+uuid: 08274bbf-86ad-4c44-a6b0-bec710ececc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.actual_rate_by_year.field_paragraph_actual_rate
+    - field.field.paragraph.actual_rate_by_year.field_paragraph_actual_rate_year
+    - paragraphs.paragraphs_type.actual_rate_by_year
+  module:
+    - computed_field
+    - yearonly
+id: paragraph.actual_rate_by_year.default
+targetEntityType: paragraph
+bundle: actual_rate_by_year
+mode: default
+content:
+  field_paragraph_actual_rate:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_paragraph_actual_rate_year:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: yearonly_default
+    region: content
+hidden:
+  created: true
+  status: true

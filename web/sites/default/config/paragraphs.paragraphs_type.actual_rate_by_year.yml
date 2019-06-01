@@ -1,0 +1,9 @@
+uuid: 623f339d-2f98-46fe-acfa-9d429ebf1642
+langcode: en
+status: true
+dependencies: {  }
+id: actual_rate_by_year
+label: 'Actual Rate by Year'
+icon_uuid: null
+description: 'Actual Rate By Year'
+behavior_plugins: {  }

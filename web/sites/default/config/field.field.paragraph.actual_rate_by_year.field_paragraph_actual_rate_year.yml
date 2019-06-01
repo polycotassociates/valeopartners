@@ -1,0 +1,23 @@
+uuid: 4b9affe4-6c97-430b-9dea-5ef504814096
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_actual_rate_year
+    - paragraphs.paragraphs_type.actual_rate_by_year
+  module:
+    - yearonly
+id: paragraph.actual_rate_by_year.field_paragraph_actual_rate_year
+field_name: field_paragraph_actual_rate_year
+entity_type: paragraph
+bundle: actual_rate_by_year
+label: Year
+description: 'The year for this actual rate.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  yearonly_from: '2000'
+  yearonly_to: now
+field_type: yearonly
