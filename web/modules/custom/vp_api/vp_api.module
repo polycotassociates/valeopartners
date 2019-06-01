@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @file
  * Common Valeo Partners methods used by modules in the site.
@@ -10,49 +9,79 @@ use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 
-// /**
-//  * Implements hook_node_insert().
-//  */
-// function vp_api_node_insert(NodeInterface $node) {
+/**
+ * Implements hook_node_insert().
+ *
+ * Runs code when a particular content type is created.
+ */
+function vp_api_node_insert(NodeInterface $node) {
 
-//   if ($node->getType() == 'vp_type_rate') {
-//     kint("rate");
-//     kint($node);
+  if ($node->getType() == 'vp_type_rate') {
 
+    /*
+     * This is a new rate. Make sure the individual who is assigned to this rate
+     * has a paragraph entry for their rate year/actual rate.
+     */
 
-//     die;
-//   }
+    // Get the individual associated with this rate.
+    $individual_id = $node->get('field_vp_rate_individual')->getValue()[0]['target_id'];
+    $individual = Node::load($individual_id);
 
-//   if ($node->getType() == 'vp_type_individual') {
+    // Get the filing associated with this rate.
+    $filing_id = $node->get('field_vp_rate_filing')->getValue()[0]['target_id'];
+    $filing = Node::load($filing_id);
 
-//     /*
-//      * This is a new individual. Create the last 5 years of rates
-//      * as place holders.
-//      */
+    // Get the filing year.
+    $filing_year = $filing->get('field_vp_filing_year')->getValue()[0]['value'];
 
-//     // Get current year.
-//     $year = format_date(time(), 'custom', 'Y');
+    // Create the paragraph data with the filing year.
+    $paragraph_data = [
+      'type' => 'actual_rate_by_year',
+      'field_paragraph_actual_rate_year' => (string) $filing_year,
+      'field_paragraph_actual_rate' => 0,
+    ];
 
-//     // Create paragraph entries for the last 5 years of rates.
-//     for ($x = $year; $x >= $year - 5; $x--) {
+    // Create a new paragraph object.
+    $new_paragraph = Paragraph::create($paragraph_data);
+    $new_paragraph->save();
+    $paragraphs = ['target_id' => $new_paragraph->Id(), 'target_revision_id' => $new_paragraph->getRevisionId()];
 
-//       $paragraph_data = [
-//         'type' => 'actual_rate_by_year',
-//         'field_paragraph_actual_rate_year' => (string) $x,
-//         'field_paragraph_actual_rate' => 0,
-//       ];
+    // Assign to the paragraph on the user object and save.
+    $individual->field_actual_rate_by_year[] = $paragraphs;
+    $individual->save();
 
-//       $new_paragraph = Paragraph::create($paragraph_data);
-//       $new_paragraph->save();
-//       $paragraphs[] = ['target_id' => $new_paragraph->Id(), 'target_revision_id' => $new_paragraph->getRevisionId()];
-//     }
+  }
 
-//     // Add the paragraphs.
-//     $node->field_actual_rate_by_year = $paragraphs;
-//     $node->save();
-//   }
+  if ($node->getType() == 'vp_type_individual') {
 
-// }
+    /*
+     * This is a new individual. Create the last 5 years of rates
+     * as place holders.
+     */
+
+    // Get current year.
+    $year = format_date(time(), 'custom', 'Y');
+
+    // Create paragraph entries for the last 5 years of rates.
+    for ($x = $year; $x >= $year - 5; $x--) {
+
+      $paragraph_data = [
+        'type' => 'actual_rate_by_year',
+        'field_paragraph_actual_rate_year' => (string) $x,
+        'field_paragraph_actual_rate' => 0,
+      ];
+
+      $new_paragraph = Paragraph::create($paragraph_data);
+      $new_paragraph->save();
+      $paragraphs[] = ['target_id' => $new_paragraph->Id(), 'target_revision_id' => $new_paragraph->getRevisionId()];
+    }
+
+    // Add the paragraphs.
+    $node->field_actual_rate_by_year = $paragraphs;
+    $node->save();
+  }
+
+}
 
 /**
  * Function to Generate minimum year dropdowns.
