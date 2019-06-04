@@ -342,3 +342,44 @@ function computed_field_field_paragraph_actual_rate_compute($entity_type_manager
     }
   }
 }
+
+/**
+ * Get the highest standard rate from an attorney for a particular year.
+ */
+function computed_field_field_paragraph_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+
+//kint($entity);
+
+  if ($individual_nid = $entity->get('parent_id')->getValue()) {
+    $individual_nid = $entity->get('parent_id')->getValue()[0]['value'];
+    $year = $entity->field_paragraph_standard_rate_yr->value;
+
+    // Do a database query for the individual node id/year and get the
+    // latest hourly rate value.
+    $db = \Drupal::database();
+
+    $query = $db->select('node', 'node')->fields('node');
+    $query->join('node__field_vp_rate_standard', 'standard', 'node.nid = standard.entity_id');
+    $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+    $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+    $query->join('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+    $query->fields('node', ['nid']);
+    $query->fields('standard', ['field_vp_rate_standard_value']);
+    $query->fields('year', ['field_vp_filing_year_end_value']);
+    $query->fields('individual', ['field_vp_rate_individual_target_id']);
+    $group = $query->andConditionGroup()
+      ->condition('field_vp_filing_year_end_value', $year, '=')
+      ->condition('field_vp_rate_individual_target_id', $individual_nid, '=');
+    $query->orderBy('field_vp_rate_standard_value', 'DESC');
+    $query->range(0, 1);
+    // $query->extend('TableSort')->orderByHeader('field_vp_rate_hourly_value');
+    $result = $query->condition($group)->execute()->fetchAll();
+
+// SELECT * FROM node AS n LEFT JOIN node__field_vp_rate_standard AS s ON n.nid=s.entity_id LEFT JOIN node__field_vp_rate_filing AS f ON n.nid=f.entity_id LEFT JOIN node__field_vp_rate_individual AS i ON n.nid = i.entity_id LEFT JOIN node__field_vp_filing_year_end AS y on y.entity_id=f.field_vp_rate_filing_target_id WHERE y.field_vp_filing_year_end_value = 2016 AND i.field_vp_rate_individual_target_id=27725 ORDER BY s.field_vp_rate_standard_value DESC LIMIT 1;
+
+    if ($result) {
+      $rate = $result[0]->field_vp_rate_standard_value;
+      return $rate;
+    }
+  }
+}
