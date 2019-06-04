@@ -1,0 +1,21 @@
+uuid: 0d49f7b2-4599-4dc7-9d12-29ed0e8ee9b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - paragraphs
+id: paragraph.field_paragraph_standard_rate
+field_name: field_paragraph_standard_rate
+entity_type: paragraph
+type: computed_decimal
+settings:
+  precision: '14'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,43 @@
+uuid: 2e35ab81-6f16-4e4a-9e1c-179820e07f3a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_standard_rate_by_year
+    - node.type.vp_type_individual
+    - paragraphs.paragraphs_type.standard_rate_by_year
+  module:
+    - entity_reference_revisions
+id: node.vp_type_individual.field_standard_rate_by_year
+field_name: field_standard_rate_by_year
+entity_type: node
+bundle: vp_type_individual
+label: 'Standard Rate by Year'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      standard_rate_by_year: standard_rate_by_year
+    target_bundles_drag_drop:
+      actual_rate_by_year:
+        weight: 6
+        enabled: false
+      employment_history:
+        weight: 7
+        enabled: false
+      from_library:
+        weight: 8
+        enabled: false
+      referenced_company:
+        weight: 9
+        enabled: false
+      standard_rate_by_year:
+        enabled: true
+        weight: 10
+field_type: entity_reference_revisions

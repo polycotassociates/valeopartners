@@ -1,0 +1,19 @@
+uuid: bd755f21-816a-4f89-b728-44dc5b3a75ac
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - yearonly
+id: paragraph.field_paragraph_standard_rate_yr
+field_name: field_paragraph_standard_rate_yr
+entity_type: paragraph
+type: yearonly
+settings: {  }
+module: yearonly
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

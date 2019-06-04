@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.vp_type_individual.field_actual_rate_by_year
+    - field.field.node.vp_type_individual.field_standard_rate_by_year
     - field.field.node.vp_type_individual.field_vp_bar_date
     - field.field.node.vp_type_individual.field_vp_email
     - field.field.node.vp_type_individual.field_vp_employment_history
@@ -22,8 +23,6 @@ dependencies:
   module:
     - field_group
     - paragraphs
-    - path
-    - publication_date
     - yearonly
 third_party_settings:
   field_group:
@@ -34,11 +33,13 @@ third_party_settings:
         - field_vp_last_name
       parent_name: ''
       weight: 1
-      format_type: accordion
+      format_type: fieldset
       format_settings:
         id: ''
         classes: ''
         effect: none
+        description: ''
+        required_fields: true
       label: Name
       region: content
 id: node.vp_type_individual.default
@@ -46,32 +47,14 @@ targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
-  created:
-    type: datetime_timestamp
-    weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_actual_rate_by_year:
-    type: entity_reference_paragraphs
-    weight: 40
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
-    third_party_settings: {  }
-    region: content
   field_vp_bar_date:
-    weight: 35
+    weight: 8
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_email:
-    weight: 32
+    weight: 6
     settings:
       size: 60
       placeholder: ''
@@ -80,7 +63,7 @@ content:
     region: content
   field_vp_employment_history:
     type: paragraphs
-    weight: 13
+    weight: 12
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -98,20 +81,20 @@ content:
     region: content
   field_vp_first_name:
     type: string_textfield
-    weight: 9
+    weight: 1
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_vp_graduation:
-    weight: 34
+    weight: 7
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_individual_location:
-    weight: 37
+    weight: 9
     settings:
       match_operator: CONTAINS
       size: 60
@@ -121,14 +104,14 @@ content:
     region: content
   field_vp_last_name:
     type: string_textfield
-    weight: 11
+    weight: 3
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_vp_law_school:
-    weight: 38
+    weight: 10
     settings:
       match_operator: CONTAINS
       size: 60
@@ -138,14 +121,14 @@ content:
     region: content
   field_vp_middle_name:
     type: string_textfield
-    weight: 10
+    weight: 2
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_vp_position:
-    weight: 39
+    weight: 11
     settings:
       match_operator: CONTAINS
       size: 60
@@ -154,62 +137,29 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_vp_practice_area_1:
-    weight: 26
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_vp_practice_area_2:
-    weight: 27
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_vp_practice_area_3:
-    weight: 28
+    weight: 4
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_vp_state_bar:
-    weight: 30
+    weight: 5
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  path:
-    type: path
-    weight: 6
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  promote:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 4
-    region: content
-    third_party_settings: {  }
-  published_at:
-    type: publication_date_timestamp
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  status:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 8
-    region: content
-    third_party_settings: {  }
-  sticky:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 5
-    region: content
-    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -218,13 +168,13 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  uid:
-    type: entity_reference_autocomplete
-    weight: 2
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  created: true
+  field_actual_rate_by_year: true
+  field_standard_rate_by_year: true
+  path: true
+  promote: true
+  published_at: true
+  status: true
+  sticky: true
+  uid: true

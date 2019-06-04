@@ -16,19 +16,11 @@ dependencies:
     - node.type.vp_type_case
   module:
     - datetime
-    - path
-    - publication_date
 id: node.vp_type_case.default
 targetEntityType: node
 bundle: vp_type_case
 mode: default
 content:
-  created:
-    type: datetime_timestamp
-    weight: 12
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_vp_case_attorneys_fee:
     weight: 9
     settings:
@@ -47,9 +39,12 @@ content:
     region: content
   field_vp_case_date_filed:
     weight: 4
-    settings: {  }
+    settings:
+      date_order: YMD
+      time_type: '24'
+      increment: 15
     third_party_settings: {  }
-    type: datetime_default
+    type: datetime_datelist
     region: content
   field_vp_case_judgement_amount:
     weight: 7
@@ -103,39 +98,6 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
-  path:
-    type: path
-    weight: 15
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  promote:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 13
-    region: content
-    third_party_settings: {  }
-  published_at:
-    type: publication_date_timestamp
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  status:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 17
-    region: content
-    third_party_settings: {  }
-  sticky:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 14
-    region: content
-    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -144,13 +106,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  uid:
-    type: entity_reference_autocomplete
-    weight: 11
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  published_at: true
+  status: true
+  sticky: true
+  uid: true

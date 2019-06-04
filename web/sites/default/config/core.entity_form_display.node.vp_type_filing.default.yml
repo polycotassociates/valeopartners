@@ -14,19 +14,11 @@ dependencies:
     - computed_field
     - datetime_range
     - inline_entity_form
-    - path
-    - publication_date
 id: node.vp_type_filing.default
 targetEntityType: node
 bundle: vp_type_filing
 mode: default
 content:
-  created:
-    type: datetime_timestamp
-    weight: 6
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_vp_filing_case:
     weight: 1
     settings:
@@ -66,50 +58,17 @@ content:
     type: string_textfield
     region: content
   field_vp_filing_year:
-    weight: 26
+    weight: 5
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_vp_filing_year_end:
-    weight: 27
+    weight: 6
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  path:
-    type: path
-    weight: 9
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  promote:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 7
-    region: content
-    third_party_settings: {  }
-  published_at:
-    type: publication_date_timestamp
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  status:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 11
-    region: content
-    third_party_settings: {  }
-  sticky:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 8
-    region: content
-    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -118,13 +77,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  uid:
-    type: entity_reference_autocomplete
-    weight: 5
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  published_at: true
+  status: true
+  sticky: true
+  uid: true

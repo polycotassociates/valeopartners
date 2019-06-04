@@ -1,0 +1,23 @@
+uuid: c7577581-e506-4b4d-ae9a-84acaaa5569a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_standard_rate_yr
+    - paragraphs.paragraphs_type.standard_rate_by_year
+  module:
+    - yearonly
+id: paragraph.standard_rate_by_year.field_paragraph_standard_rate_yr
+field_name: field_paragraph_standard_rate_yr
+entity_type: paragraph
+bundle: standard_rate_by_year
+label: Year
+description: 'Standard Rate Year'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  yearonly_from: '2000'
+  yearonly_to: now
+field_type: yearonly

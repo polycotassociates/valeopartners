@@ -1,0 +1,9 @@
+uuid: ec697af0-bde1-499c-9fff-68ca7e5c9785
+langcode: en
+status: true
+dependencies: {  }
+id: standard_rate_by_year
+label: 'Standard Rate by Year'
+icon_uuid: null
+description: 'Standard rate by year'
+behavior_plugins: {  }
