@@ -41,13 +41,27 @@ function vp_api_node_insert(NodeInterface $node) {
       'field_paragraph_actual_rate' => 0,
     ];
 
+    // Create the paragraph data with the filing year.
+    $paragraph_standard_data = [
+      'type' => 'standard_rate_by_year',
+      'field_paragraph_standard_rate_yr' => (string) $filing_year,
+      'field_paragraph_standard_rate' => 0,
+    ];
+
     // Create a new paragraph object.
     $new_paragraph = Paragraph::create($paragraph_data);
     $new_paragraph->save();
     $paragraphs = ['target_id' => $new_paragraph->Id(), 'target_revision_id' => $new_paragraph->getRevisionId()];
 
+    // Create a new paragraph object.
+    $new_paragraph_standard = Paragraph::create($paragraph_standard_data);
+    $new_paragraph_standard->save();
+    $paragraphs_standard = ['target_id' => $new_paragraph_standard->Id(), 'target_revision_id' => $new_paragraph_standard->getRevisionId()];
+
+
     // Assign to the paragraph on the user object and save.
     $individual->field_actual_rate_by_year[] = $paragraphs;
+    $individual->field_standard_rate_by_year[] = $paragraphs_standard;
     $individual->save();
 
   }
@@ -71,13 +85,25 @@ function vp_api_node_insert(NodeInterface $node) {
         'field_paragraph_actual_rate' => 0,
       ];
 
+      $paragraph_standard_data = [
+        'type' => 'standard_rate_by_year',
+        'field_paragraph_standard_rate_yr' => (string) $filing_year,
+        'field_paragraph_standard_rate' => 0,
+      ];
+
       $new_paragraph = Paragraph::create($paragraph_data);
       $new_paragraph->save();
       $paragraphs[] = ['target_id' => $new_paragraph->Id(), 'target_revision_id' => $new_paragraph->getRevisionId()];
+
+      $new_paragraph_standard = Paragraph::create($paragraph_standard_data);
+      $new_paragraph_standard->save();
+      $paragraphs_standard = ['target_id' => $new_paragraph_standard->Id(), 'target_revision_id' => $new_paragraph_standard->getRevisionId()];
+
     }
 
     // Add the paragraphs.
     $node->field_actual_rate_by_year = $paragraphs;
+    $node->field_standard_rate_by_year = $paragraphs_standard;
     $node->save();
   }
 
