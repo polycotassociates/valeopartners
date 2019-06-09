@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24c69c4517022ade9086d774eb109313",
+    "content-hash": "2e6d36a0cee2d795d8764f36ce515517",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1862,6 +1862,53 @@
             "homepage": "https://www.drupal.org/project/bootstrap_layouts",
             "support": {
                 "source": "http://cgit.drupalcode.org/bootstrap_layouts"
+            }
+        },
+        {
+            "name": "drupal/bulk_update_fields",
+            "version": "2.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/bulk_update_fields.git",
+                "reference": "8.x-2.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/bulk_update_fields-8.x-2.0-alpha2.zip",
+                "reference": "8.x-2.0-alpha2",
+                "shasum": "a6723fe90b72843a0db8eb0be93e7032d3558710"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.0-alpha2",
+                    "datestamp": "1560086885",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "el1_1el",
+                    "homepage": "https://www.drupal.org/user/1795292"
+                }
+            ],
+            "description": "Bulk update fields from one value to another",
+            "homepage": "https://www.drupal.org/project/bulk_update_fields",
+            "support": {
+                "source": "https://git.drupalcode.org/project/bulk_update_fields"
             }
         },
         {
@@ -4798,6 +4845,54 @@
             }
         },
         {
+            "name": "drupal/paragraphs_clean",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/paragraphs_clean.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/paragraphs_clean-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "74d1a280ccc40258cd0bbd3f2a51ed8774682bd9"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/paragraphs": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1548430084",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "AaronBauman",
+                    "homepage": "https://www.drupal.org/user/384578"
+                }
+            ],
+            "description": "Delete paragraph entities when they're removed from their parent",
+            "homepage": "https://www.drupal.org/project/paragraphs_clean",
+            "support": {
+                "source": "https://git.drupalcode.org/project/paragraphs_clean"
+            }
+        },
+        {
             "name": "drupal/pathauto",
             "version": "1.4.0",
             "source": {
@@ -6408,53 +6503,6 @@
             "homepage": "https://www.drupal.org/project/yearonly",
             "support": {
                 "source": "http://cgit.drupalcode.org/yearonly"
-            }
-        },
-        {
-            "name": "drupal/yg_booster",
-            "version": "1.0.0-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/yg_booster.git",
-                "reference": "8.x-1.0-alpha1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/yg_booster-8.x-1.0-alpha1.zip",
-                "reference": "8.x-1.0-alpha1",
-                "shasum": "48bf0981b8a5e5babab977cf0dd9293b5f6dadf9"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-theme",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-alpha1",
-                    "datestamp": "1519817884",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Pravin Ajaaz",
-                    "homepage": "https://www.drupal.org/user/2910049"
-                }
-            ],
-            "description": "A free bootstrap based theme for products and business.",
-            "homepage": "https://www.drupal.org/project/yg_booster",
-            "support": {
-                "source": "http://cgit.drupalcode.org/yg_booster"
             }
         },
         {

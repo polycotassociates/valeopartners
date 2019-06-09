@@ -35,3 +35,28 @@ table caption {
 #xlsModal {
   display:none;
 }
+
+.region-primary-menu {
+  background-color:#0B3B6B;
+  background: #0B3B6B;
+  border: #0B3B6B;
+  color: white;
+}
+
+.region-primary-menu .menu a {
+  padding: 0px 14px 0px 14px;
+  text-decoration: none;
+  font-size: 110%;
+  font-weight: bold;
+  background: #0B3B6B;
+  border: #0B3B6B;
+  color: white;
+
+}
+
+.region-primary-menu .menu a:hover {
+  background-color:#0B3B6B;
+  background: #0B3B6B;
+  border: #0B3B6B;
+  color: white;
+}

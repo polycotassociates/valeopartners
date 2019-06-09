@@ -10,7 +10,8 @@ body {
   min-height: 100%;
   line-height: 1.5;
   word-wrap: break-word;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  /* font-family: Georgia, "Times New Roman", Times, serif; */
+  font-family: Arial, Helvetica, "Bitstream Vera Sans", sans-serif;
   font-size: 87.5%;
 }
 a,
@@ -149,4 +150,9 @@ ul ul {
 [dir="rtl"] ol ol,
 [dir="rtl"] ul ul {
   padding: 0 1em 0.25em 0;
+}
+
+#navbar, #sidebar-left .block h2.title, #sidebar-right .block h2.title {
+  background: #0B3B6B;
+  border: #0B3B6B;
 }
