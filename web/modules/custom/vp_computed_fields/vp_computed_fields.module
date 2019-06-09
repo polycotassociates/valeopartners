@@ -241,34 +241,35 @@ function computed_field_field_vp_rate_previous_compute($entity_type_manager, $en
   /**
    * Get the latest rate from a user from last year
    */
-  function vp_computed_fields_previous_rate($year, $individual) {
+function vp_computed_fields_previous_rate($year, $individual) {
 
-   // Get the last year
-   $year = $year - 1;
+  if (is_numeric((int) $year)) {
+    // Get the last year
+    $year = $year - 1;
 
-   // Set the view arguments, the year and individual id
-   $args = [$year, $individual];
+    // Set the view arguments, the year and individual id
+    $args = [$year, $individual];
 
-   // Get the specific view
-   $view = \Drupal\views\Views::getView('search_rates_by_single_individual');
+    // Get the specific view
+    $view = \Drupal\views\Views::getView('search_rates_by_single_individual');
 
-   // Pass the arguments
-   $view->setArguments($args);
+    // Pass the arguments
+    $view->setArguments($args);
 
-   // Execute
-   $view->execute();
+    // Execute
+    $view->execute();
 
-   // If there are results, return the hourly rate
-   if ($view->result) {
-     $node = $view->result[0]->_entity;
-     $rate = $node->get('field_vp_rate_hourly')->getValue()[0]['value'];
-     return $rate;
-   }
+    // If there are results, return the hourly rate
+    if ($view->result) {
+      $node = $view->result[0]->_entity;
+      $rate = $node->get('field_vp_rate_hourly')->getValue()[0]['value'];
+      return $rate;
+    }
 
-   // Else, return default value
-   return 0;
-
- }
+    // Else, return default value
+    return 0;
+  }
+}
 
 
 /**
@@ -348,7 +349,7 @@ function computed_field_field_paragraph_actual_rate_compute($entity_type_manager
  */
 function computed_field_field_paragraph_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
 
-//kint($entity);
+// //kint($entity);
 
   if ($individual_nid = $entity->get('parent_id')->getValue()) {
     $individual_nid = $entity->get('parent_id')->getValue()[0]['value'];
