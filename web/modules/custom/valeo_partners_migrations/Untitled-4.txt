@@ -1,0 +1,24 @@
+Case: duplicate '588304'
+Processed 1192 items (1191 created, 0 updated, 1 failed, 0 ignored) - done with 'valeo_case'
+
+Filing: duplicate '588219'
+Processed 2733 items (2732 created, 0 updated, 1 failed, 0 ignored) - done with 'valeo_filing'
+
+Firm:
+Processed 39 items (39 created, 0 updated, 0 failed, 0 ignored) - done with 'valeo_firm'
+
+Individual:
+Processed 3628 items (3627 created, 0 updated, 1 failed, 0 ignored) - done with 'valeo_individual'
+
+
+
+ valeo_case                                                 Idle    9710    8523      1187         2018-11-19 16:30:59
+ valeo_company                                              Idle    8703    8712      -11          2019-05-29 14:59:35
+ valeo_contact                                              Idle    1047    1047      0            2018-11-18 18:34:52
+ valeo_filing                                               Idle    32132   29408     2724         2018-11-25 10:22:17
+ valeo_individual                                           Idle    76562   73024     3538         2018-11-16 17:58:35
+ valeo_paragraph_company_rate                               Idle    319675  0         319675       2018-11-24 22:22:07
+ valeo_paragraph_individual_firm                            Idle    76562   0         76562        2018-11-23 21:48:27
+ valeo_rates                                                Idle    319675  298981    20694        2018-12-06 01:48:08
+ valeo_search                                               Idle    1533    1484      49           2019-01-08 15:01:40
+ valeo_firm                                                 Idle    1482    1447      35           2018-11-16 16:07:10

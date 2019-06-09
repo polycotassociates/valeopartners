@@ -1,0 +1,43 @@
+id: valeo_page
+label: Migrate Pages
+
+migration_group: valeomiggroup
+
+# Every migration must have a source plugin. Set this to the ID of the plugin to
+# use.
+#
+# This is the extract phase of your migration.
+source:
+  plugin: d6_node
+  node_type: page
+
+# Every migration must also have a destination plugin, which handles writing
+# the migrated data in the appropriate form for that particular kind of data.
+# This value should be the ID of the destination plugin to use.
+#
+# This is the load phase of your migration.
+destination:
+  plugin: entity:node
+  default_bundle: page
+
+#
+# This is the transform phase of your migration.
+process:
+  type:
+    plugin: default_value
+    default_value: page
+  nid: nid
+  vid: vid
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  comment: comment
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  body: body

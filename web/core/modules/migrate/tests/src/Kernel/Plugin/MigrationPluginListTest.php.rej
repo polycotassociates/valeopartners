@@ -1,0 +1,17 @@
+--- modules/migrate/tests/src/Kernel/Plugin/MigrationPluginListTest.php
++++ modules/migrate/tests/src/Kernel/Plugin/MigrationPluginListTest.php
+@@ -77,8 +77,13 @@ public function testGetDefinitions() {
+     // All the plugins provided by core depend on migrate_drupal.
+     $this->assertEmpty($migration_plugins);
+ 
+-    // Enable migrate_drupal to test that the plugins can now be discovered.
++    // Enable migrate_drupal to test discovery of Drupal migrations.
+     $this->enableModules(['migrate_drupal']);
++    $migration_plugins = $this->container->get('plugin.manager.migration')->getDefinitions();
++    // Without a database configured for Drupal migration, no plugins should be
++    // discovered..
++    $this->assertEmpty($migration_plugins);
++
+     // Set up a migrate database connection so that plugin discovery works.
+     // Clone the current connection and replace the current prefix.
+     $connection_info = Database::getConnectionInfo('migrate');
