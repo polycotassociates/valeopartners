@@ -1,0 +1,16 @@
+palette:
+  top: '#ffffff'
+  bottom: '#ffffff'
+  bg: '#ffffff'
+  sidebar: '#B2C2D1'
+  sidebarborders: '#B2C2D1'
+  footer: '#0B3B6B'
+  titleslogan: '#0B3B6B'
+  text: '#3b3b3b'
+  link: '#0071b3'
+logo: 'public://color/valeo_classic-c4fbc8ad/logo.svg'
+stylesheets:
+  - 'public://color/valeo_classic-c4fbc8ad/colors.css'
+files:
+  - 'public://color/valeo_classic-c4fbc8ad/logo.svg'
+  - 'public://color/valeo_classic-c4fbc8ad/colors.css'

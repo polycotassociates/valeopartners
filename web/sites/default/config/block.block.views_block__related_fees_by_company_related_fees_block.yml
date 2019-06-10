@@ -1,0 +1,33 @@
+uuid: e3772975-6919-4ca3-9a19-f1fc094eab50
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.related_fees_by_company
+  module:
+    - ctools
+    - views
+  theme:
+    - valeo_classic
+id: views_block__related_fees_by_company_related_fees_block
+theme: valeo_classic
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:related_fees_by_company-related_fees_block'
+settings:
+  id: 'views_block:related_fees_by_company-related_fees_block'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      vp_type_company: vp_type_company
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

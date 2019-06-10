@@ -22,7 +22,7 @@ class Migration extends PluginBase implements MigrationInterface, RequirementsIn
   /**
    * The migration ID (machine name).
    *
-   * @var string
+   * @var string620
    */
   protected $id;
 
@@ -615,6 +615,9 @@ class Migration extends PluginBase implements MigrationInterface, RequirementsIn
    */
   public function getMigrationDependencies() {
     $this->migration_dependencies = ($this->migration_dependencies ?: []) + ['required' => [], 'optional' => []];
+    if (count($this->migration_dependencies) !== 2 || !is_array($this->migration_dependencies['optional']) || !is_array($this->migration_dependencies['optional'])) {
+      throw new MigrateException("Invalid migration dependencies configuration for migration {$this->id()}");
+    }
     $this->migration_dependencies['optional'] = array_unique(array_merge($this->migration_dependencies['optional'], $this->findMigrationDependencies($this->process)));
     return $this->migration_dependencies;
   }

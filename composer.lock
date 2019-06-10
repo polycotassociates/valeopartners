@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98048c843557715b3799a1f7377fafce",
+    "content-hash": "457efd9e7fe042a065e395c676aee387",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2903,7 +2903,8 @@
                 },
                 "patches_applied": {
                     "ManyToOneHelper ignores group configuration for some cases and forces INNER joins": "https://www.drupal.org/files/issues/2018-08-02/manytoonehelper_ignores-2559961-44-8.5.x.patch",
-                    "Impossible to update an entity revision if the field value you are updating matches the default revision.": "https://www.drupal.org/files/issues/2018-07-30/entity_original_revision-2859042-26.patch"
+                    "Impossible to update an entity revision if the field value you are updating matches the default revision.": "https://www.drupal.org/files/issues/2018-07-30/entity_original_revision-2859042-26.patch",
+                    "Malformed migration_dependencies breaks all migrations": "https://www.drupal.org/files/issues/2019-03-24/2815895-malformed-migration-dependencies-4.patch"
                 }
             },
             "autoload": {

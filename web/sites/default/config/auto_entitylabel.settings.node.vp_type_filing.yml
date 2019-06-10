@@ -1,7 +1,7 @@
-status: '1'
+status: 1
 pattern: '[node:field_vp_filing_case] [node:field_vp_filing_fee_dates] ([node:field_vp_filing_number])'
-php: 0
-escape: 0
+php: false
+escape: false
 dependencies:
   config:
     - node.type.vp_type_filing

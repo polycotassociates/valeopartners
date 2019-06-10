@@ -1,7 +1,7 @@
-status: '1'
+status: 1
 pattern: '[node:field_vp_contact_firstname] [node:field_vp_contact_middleinitial] [node:field_vp_contact_lastname]'
-php: 0
-escape: 0
+php: false
+escape: false
 dependencies:
   config:
     - node.type.vp_type_contact

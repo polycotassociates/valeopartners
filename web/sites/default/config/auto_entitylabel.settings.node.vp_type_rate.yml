@@ -1,7 +1,7 @@
-status: '1'
+status: 1
 pattern: '[node:field_vp_rate_individual] - [node:field_vp_rate_firm] - [node:field_vp_rate_filing]'
-php: 0
-escape: 0
+php: false
+escape: false
 dependencies:
   config:
     - node.type.vp_type_rate

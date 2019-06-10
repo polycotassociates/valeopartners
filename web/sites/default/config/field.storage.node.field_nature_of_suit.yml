@@ -1,0 +1,20 @@
+uuid: b6a1158a-42f3-45d4-83b9-f6e3b4417d5f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_nature_of_suit
+field_name: field_nature_of_suit
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,7 +1,9 @@
-uuid: 1fa8b8b0-ba5e-455e-a3d7-a1de37488f4a
+uuid: ad995d19-912f-4edb-ab15-9011e81f765e
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: N7hXFq4JWKmQgsngdVGmlJmV28VH2uKg6P8sBlFhJOA
 id: valeo_paragraph_company_rate
 class: null
 field_plugin_method: null

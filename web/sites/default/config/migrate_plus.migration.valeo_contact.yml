@@ -1,7 +1,9 @@
-uuid: 0f4dc97b-753f-4114-ab92-27d0e40d0277
+uuid: 1ab81a5c-fffe-4344-9964-402320038851
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: msqobRve-6vPJ8jroXzfyzp6HlLmQAJgJB-6n2D91Ok
 id: valeo_contact
 class: null
 field_plugin_method: null

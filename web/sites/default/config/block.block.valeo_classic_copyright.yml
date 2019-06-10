@@ -2,10 +2,6 @@ uuid: 23dd682c-98a3-4935-a58b-75b19a8cd503
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:basic:3bfc676b-aeb1-4da6-8c42-02dea1e6fc60'
-  module:
-    - block_content
   theme:
     - valeo_classic
 id: valeo_classic_copyright

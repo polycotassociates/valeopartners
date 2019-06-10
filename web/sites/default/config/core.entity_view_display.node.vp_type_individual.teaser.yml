@@ -32,6 +32,8 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_actual_rate_by_year: true
+  field_standard_rate_by_year: true
   field_vp_bar_date: true
   field_vp_email: true
   field_vp_employment_history: true
@@ -46,3 +48,4 @@ hidden:
   field_vp_practice_area_2: true
   field_vp_practice_area_3: true
   field_vp_state_bar: true
+  published_at: true

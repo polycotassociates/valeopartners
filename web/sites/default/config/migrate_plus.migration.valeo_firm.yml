@@ -1,7 +1,9 @@
-uuid: b1deaf17-698c-408c-a794-6308580a9f92
+uuid: dae14557-0fc8-4da5-bb17-37201eca7c74
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: Dgy7MLNXCK_hGT8wbo4w196jwMP1lbVPC49q2B5i9Vk
 id: valeo_firm
 class: null
 field_plugin_method: null

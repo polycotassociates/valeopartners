@@ -14,6 +14,7 @@ module:
   comment: 0
   computed_field: 0
   config: 0
+  config_devel: 0
   contact: 0
   content_access: 0
   content_moderation: 0
@@ -24,6 +25,7 @@ module:
   ctools: 0
   ctools_block: 0
   ctools_views: 0
+  custom_nid: 0
   date_popup: 0
   datetime: 0
   datetime_range: 0
@@ -31,6 +33,7 @@ module:
   devel: 0
   draggableviews: 0
   dynamic_page_cache: 0
+  easy_install: 0
   editor: 0
   entity: 0
   entity_reference_revisions: 0
@@ -53,13 +56,14 @@ module:
   migrate: 0
   migrate_drupal: 0
   migrate_plus: 0
-  migrate_upgrade: 0
+  migrate_tools: 0
   module_filter: 0
   multiselect: 0
   node: 0
   node_access_rebuild_progressive: 0
   options: 0
   page_cache: 0
+  paragraphs_clean: 0
   paragraphs_library: 0
   paragraphs_type_permissions: 0
   path: 0
@@ -87,6 +91,7 @@ module:
   typed_data: 0
   update: 0
   user: 0
+  valeo_partners_migrations: 0
   vefl_bef: 0
   verf: 0
   views_bulk_edit: 0

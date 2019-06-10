@@ -1,7 +1,9 @@
-uuid: 8bb72d23-3517-43ac-a13e-a0f5963a653a
+uuid: 80cabc7a-455b-4ede-9ab9-fb0467612154
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: aVz6cWNp4D_aJaFsRpVExA1d5cTyOYGThtv1RmlLQgs
 id: valeo_rates
 class: null
 field_plugin_method: null

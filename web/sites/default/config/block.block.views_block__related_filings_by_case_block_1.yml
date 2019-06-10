@@ -1,0 +1,33 @@
+uuid: ce91ff6e-82cf-48df-a11f-b3016a8c0f18
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.related_filings_by_case
+  module:
+    - ctools
+    - views
+  theme:
+    - valeo_classic
+id: views_block__related_filings_by_case_block_1
+theme: valeo_classic
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:related_filings_by_case-block_1'
+settings:
+  id: 'views_block:related_filings_by_case-block_1'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      vp_type_case: vp_type_case
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
