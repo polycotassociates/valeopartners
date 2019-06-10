@@ -2223,7 +2223,7 @@ display:
         title: 'Rate Trending Analysis'
         description: 'Rate Trending Analysis'
         expanded: false
-        parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
+        parent: 'menu_link_content:35c56a85-fccb-403c-914b-937959cd399a'
         weight: -47
         context: '0'
         menu_name: rate-afa-searches

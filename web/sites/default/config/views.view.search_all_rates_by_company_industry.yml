@@ -3779,8 +3779,8 @@ display:
         title: 'All Rates by Company / Industry'
         description: ''
         expanded: false
-        parent: 'menu_link_content:44433b29-4f47-442f-a2dd-bf42c10edc0c'
-        weight: 0
+        parent: 'menu_link_content:a05213ea-87bc-4af3-9c75-ff7d0d7ba098'
+        weight: -49
         context: '0'
         menu_name: rate-afa-searches
       display_description: 'Search All Rates by Company / Industry'

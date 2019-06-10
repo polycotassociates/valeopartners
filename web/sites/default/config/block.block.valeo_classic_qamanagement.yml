@@ -12,7 +12,7 @@ dependencies:
 id: valeo_classic_qamanagement
 theme: valeo_classic
 region: sidebar_first
-weight: -3
+weight: -6
 provider: null
 plugin: 'system_menu_block:qa-management'
 settings:

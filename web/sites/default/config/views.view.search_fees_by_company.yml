@@ -5405,7 +5405,7 @@ display:
         title: 'Transactions by Company'
         menu_name: rate-afa-searches
         weight: -49
-        parent: 'menu_link_content:7733bc3d-69f6-484c-92a9-08c32e0bc792'
+        parent: 'menu_link_content:bbdb2d92-ee48-4bc6-b7dc-8db63b617f87'
         description: 'Lists Transactions by Company'
         expanded: false
         enabled: true

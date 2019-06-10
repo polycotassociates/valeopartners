@@ -1,4 +1,4 @@
-uuid: 2d495291-a927-4c96-8ad0-6e5466ff7f63
+uuid: 5f8eeb12-b7dd-488a-85e2-c12c39d88387
 langcode: en
 status: true
 dependencies:
@@ -9,10 +9,10 @@ dependencies:
     - user
   theme:
     - valeo_classic
-id: valeo_classic_addcontent
+id: addcontent_2
 theme: valeo_classic
 region: sidebar_first
-weight: -8
+weight: -11
 provider: null
 plugin: 'system_menu_block:add-content'
 settings:

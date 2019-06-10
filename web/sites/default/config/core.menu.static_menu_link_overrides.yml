@@ -12,16 +12,10 @@ definitions:
     expanded: false
     enabled: true
   user__logout:
-    weight: -48
+    weight: -47
     menu_name: account
     parent: ''
     expanded: false
     enabled: true
-  standard__front_page:
-    enabled: false
-    menu_name: main
-    parent: ''
-    weight: -47
-    expanded: false
 _core:
   default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM

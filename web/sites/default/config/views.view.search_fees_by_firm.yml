@@ -42,7 +42,7 @@ dependencies:
     - user.role.fee_search_add_on
     - user.role.superuser
   content:
-    - 'taxonomy_term:practice_area:78f3f721-016e-41f2-a128-6edb9ae72777'
+    - 'taxonomy_term:practice_area:cbc7b0a6-bd4d-4647-84cf-4ac7ff05b5c9'
   module:
     - computed_field
     - datetime
@@ -4381,7 +4381,7 @@ display:
         title: 'Transactions by Firm'
         description: 'Lists Transactions by Firm'
         expanded: false
-        parent: 'menu_link_content:7733bc3d-69f6-484c-92a9-08c32e0bc792'
+        parent: 'menu_link_content:bbdb2d92-ee48-4bc6-b7dc-8db63b617f87'
         weight: -50
         context: '0'
         menu_name: rate-afa-searches

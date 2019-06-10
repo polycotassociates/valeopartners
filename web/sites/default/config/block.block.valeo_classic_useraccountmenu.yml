@@ -12,7 +12,7 @@ dependencies:
 id: valeo_classic_useraccountmenu
 theme: valeo_classic
 region: sidebar_first
-weight: 0
+weight: -4
 provider: null
 plugin: 'system_menu_block:account'
 settings:

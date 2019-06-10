@@ -28,7 +28,7 @@ dependencies:
     - user.role.data_entry
     - user.role.superuser
   content:
-    - 'taxonomy_term:practice_area:78f3f721-016e-41f2-a128-6edb9ae72777'
+    - 'taxonomy_term:practice_area:cbc7b0a6-bd4d-4647-84cf-4ac7ff05b5c9'
   module:
     - computed_field
     - datetime_range
@@ -3828,7 +3828,7 @@ display:
         title: 'Rates by Firm - Summary'
         description: 'Lists only the highest Actual and Standard Hourly Rates for the past 3 years'
         expanded: false
-        parent: 'menu_link_content:ef7b2cd3-affe-4a9b-8665-f85ed8470096'
+        parent: 'menu_link_content:35c56a85-fccb-403c-914b-937959cd399a'
         weight: -49
         context: '0'
         menu_name: rate-afa-searches

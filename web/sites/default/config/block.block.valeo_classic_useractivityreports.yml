@@ -12,7 +12,7 @@ dependencies:
 id: valeo_classic_useractivityreports
 theme: valeo_classic
 region: sidebar_first
-weight: -2
+weight: -5
 provider: null
 plugin: 'system_menu_block:user-activity-reports'
 settings:
