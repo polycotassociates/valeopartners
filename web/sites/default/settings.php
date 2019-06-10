@@ -759,15 +759,15 @@ if (file_exists(__DIR__ . '/settings.pantheon.php')) {
  */
 
 if (isset($_ENV['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
-  // Redirect to https://$primary_domain in the Live environment
-  if ($_ENV['PANTHEON_ENVIRONMENT'] === 'live') {
-    /** Replace www.example.com with your registered domain name */
-    //$primary_domain = 'reports.valeopartners.com';
-  }
-  else {
-    // Redirect to HTTPS on every Pantheon environment.
-    $primary_domain = $_SERVER['HTTP_HOST'];
-  }
+  // // Redirect to https://$primary_domain in the Live environment
+  // if ($_ENV['PANTHEON_ENVIRONMENT'] === 'live') {
+  //   /** Replace www.example.com with your registered domain name */
+  //   $primary_domain = 'reports.valeopartners.com';
+  // }
+  // else {
+  //   // Redirect to HTTPS on every Pantheon environment.
+  //   $primary_domain = $_SERVER['HTTP_HOST'];
+  // }
 
   if ($_SERVER['HTTP_HOST'] != $primary_domain
       || !isset($_SERVER['HTTP_USER_AGENT_HTTPS'])
