@@ -39,12 +39,9 @@ content:
     region: content
   field_vp_case_date_filed:
     weight: 4
-    settings:
-      date_order: YMD
-      time_type: '24'
-      increment: 15
+    settings: {  }
     third_party_settings: {  }
-    type: datetime_datelist
+    type: datetime_default
     region: content
   field_vp_case_judgement_amount:
     weight: 7
