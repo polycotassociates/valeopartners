@@ -20,58 +20,55 @@ function vp_views_preprocess_views_view_table(&$variables) {
  */
 function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
 
-  // Alter the query based on the view id.
-  switch ($view->id()) {
+  $view_ids = [
+    'search_by_firm',
+    'search_rates_by_firm_summary_rates',
+    'search_rates_by_firm_detail',
+    'search_fees_by_firm',
+    'search_fees_by_company',
+  ];
 
-    case 'search_by_firm':
-    case 'search_rates_by_firm_summary_rates':
-    case 'search_rates_by_firm_detail':
-    case 'search_fees_by_firm':
-    case 'search_fees_by_company':
+  if (in_array($view->id(), $view_ids) && $view->exposed_data) {
+    // Get the value of the exposed filter Practice Area 1,
+    // set to NULL if it doesn't exist.
+    $pa1 = $view->exposed_data['field_vp_practice_area_1_target_id'] ? $view->exposed_data['field_vp_practice_area_1_target_id'] : NULL;
 
-      // Get the value of the exposed filter Practice Area 1,
-      // set to NULL if it doesn't exist.
-      $pa1 = $view->exposed_data['field_vp_practice_area_1_target_id'] ? $view->exposed_data['field_vp_practice_area_1_target_id'] : NULL;
+    // If there is no exposed data for practice area 1.
+    if (!isset($pa1)) {
+      // Get rid of the practice area "OR" block entirely.
+      unset($query->where[2]);
 
-      // If there is no exposed data for practice area 1.
-      if (!isset($pa1)) {
-        // Get rid of the practice area "OR" block entirely.
-        unset($query->where[2]);
+      // We add practice areas with default values in the view so the
+      // proper relationships are created.
+      // Get the tableQueue so we can manipulate it,
+      // and clear the default practice area values.
+      $tables =& $query->getTableQueue();
+      unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2']);
+      unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3']);
+    }
+    else {
+      // Traverse through the 'where' part of the query,
+      // eliminate the value of practice area 2 and 3,
+      // add value of practice area 1 to practice areas 2 and 3.
+      foreach ($query->where as &$condition_group) {
+        foreach ($condition_group['conditions'] as &$condition) {
 
-        // We add practice areas with default values in the view so the
-        // proper relationships are created.
-        // Get the tableQueue so we can manipulate it,
-        // and clear the default practice area values.
-        $tables =& $query->getTableQueue();
-        unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2']);
-        unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3']);
-      }
-      else {
-        // Traverse through the 'where' part of the query,
-        // eliminate the value of practice area 2 and 3,
-        // add value of practice area 1 to practice areas 2 and 3.
-        foreach ($query->where as &$condition_group) {
-          foreach ($condition_group['conditions'] as &$condition) {
-
-            if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id = :node__field_vp_practice_area_2_field_vp_practice_area_2_target_id') {
-              $condition['value'][':node__field_vp_practice_area_2_field_vp_practice_area_2_target_id'] = NULL;
-            }
-            if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id = :node__field_vp_practice_area_3_field_vp_practice_area_3_target_id') {
-              $condition['value'][':node__field_vp_practice_area_3_field_vp_practice_area_3_target_id'] = NULL;
-            }
-            if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_1.field_vp_practice_area_1_target_id = :node__field_vp_practice_area_1_field_vp_practice_area_1_target_id') {
-              $field = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id';
-              $field2 = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id';
-              $value = $pa1;
-              $operator = '=';
-              $query->addWhere(2, $field, $value, $operator);
-              $query->addWhere(2, $field2, $value, $operator);
-            }
+          if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id = :node__field_vp_practice_area_2_field_vp_practice_area_2_target_id') {
+            $condition['value'][':node__field_vp_practice_area_2_field_vp_practice_area_2_target_id'] = NULL;
+          }
+          if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id = :node__field_vp_practice_area_3_field_vp_practice_area_3_target_id') {
+            $condition['value'][':node__field_vp_practice_area_3_field_vp_practice_area_3_target_id'] = NULL;
+          }
+          if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_1.field_vp_practice_area_1_target_id = :node__field_vp_practice_area_1_field_vp_practice_area_1_target_id') {
+            $field = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id';
+            $field2 = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id';
+            $value = $pa1;
+            $operator = '=';
+            $query->addWhere(2, $field, $value, $operator);
+            $query->addWhere(2, $field2, $value, $operator);
           }
         }
       }
-
-      break;
+    }
   }
-
 }
