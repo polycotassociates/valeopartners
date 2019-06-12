@@ -1,0 +1,7 @@
+vp_api.filings:
+  path: '/admin/refresh-nodes'
+  defaults:
+    _form: '\Drupal\vp_api\Form\ResaveNodes'
+    _title: 'Loads and saves nodes with batch API'
+  requirements:
+    _permission: 'administer node'
