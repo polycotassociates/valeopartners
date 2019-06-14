@@ -69,7 +69,14 @@ display:
             last: 'Last »'
           quantity: 9
       style:
-        type: default
+        type: html_list
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          type: ul
+          wrapper_class: item-list
+          class: ''
       row:
         type: fields
       fields:
@@ -77,17 +84,14 @@ display:
           id: title
           table: node_field_data
           field: title
-          settings:
-            link_to_entity: true
-          plugin_id: field
           relationship: none
           group_type: group
           admin_label: ''
           label: ''
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<li>{{ title }} </li>'
             make_link: false
             path: ''
             absolute: false
@@ -116,7 +120,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -126,6 +130,8 @@ display:
           hide_alter_empty: true
           click_sort_column: value
           type: string
+          settings:
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -136,6 +142,7 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+          plugin_id: field
       filters:
         type:
           id: type
@@ -205,10 +212,23 @@ display:
           empty: true
           tokenize: false
           content:
-            value: '<a href="/node/add/vp_type_saved_search" title="Create a new Saved Search">Create a New Search...</a>'
+            value: "\r\n<ul>\r\n<li><a href=\"/node/add/vp_type_saved_search\" title=\"Create a new Saved Search\">Create a New Search...</a></li>"
             format: full_html
           plugin_id: text
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          tokenize: false
+          content:
+            value: '</ul>'
+            format: basic_html
+          plugin_id: text
       empty: {  }
       relationships: {  }
       arguments:

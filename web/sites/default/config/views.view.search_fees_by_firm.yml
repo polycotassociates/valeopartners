@@ -2064,13 +2064,13 @@ display:
       display_extenders: {  }
       path: fees/firm/export
       filename: 'Transactions By Firm.xls'
-      automatic_download: true
-      redirect_path: ''
-      export_limit: 1000
+      automatic_download: false
+      redirect_path: /fees/firm
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 1000
+          items_per_page: 0
           offset: 0
       display_description: ''
       fields:
@@ -4325,6 +4325,8 @@ display:
               category: ''
               manager: ''
               company: ''
+      export_method: batch
+      export_batch_size: 1000
     cache_metadata:
       max-age: -1
       contexts:

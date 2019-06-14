@@ -1754,13 +1754,13 @@ display:
       display_extenders: {  }
       path: rates/company/export
       filename: 'Search CI Database.xls'
-      automatic_download: true
-      redirect_path: ''
-      export_limit: 1000
+      automatic_download: false
+      redirect_path: /rates/company
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 1000
+          items_per_page: 0
           offset: 0
       fields:
         field_vp_last_name:
@@ -3953,6 +3953,8 @@ display:
           admin_label: Case
           required: false
           plugin_id: standard
+      export_method: batch
+      export_batch_size: 1000
     cache_metadata:
       max-age: -1
       contexts:

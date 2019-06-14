@@ -3497,14 +3497,14 @@ display:
       path: rates/individual/export
       filename: '[view:title].xls'
       automatic_download: false
-      redirect_path: ''
-      export_method: standard
+      redirect_path: /rates/individual
+      export_method: batch
       export_batch_size: 1000
-      export_limit: 1000
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 1000
+          items_per_page: 0
           offset: 0
     cache_metadata:
       max-age: -1

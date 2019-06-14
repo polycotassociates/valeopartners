@@ -90,7 +90,7 @@ display:
         type: basic
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
@@ -1571,8 +1571,8 @@ display:
       display_extenders: {  }
       path: rates/company/all/export
       filename: 'Search All Rates By Company.xls'
-      automatic_download: true
-      redirect_path: ''
+      automatic_download: false
+      redirect_path: /rates/company/all
       fields:
         field_vp_last_name:
           id: field_vp_last_name
@@ -3716,13 +3716,15 @@ display:
               manager: ''
               company: ''
       title: search-all-rates
-      export_limit: 1000
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 1000
+          items_per_page: 0
           offset: 0
       display_description: ''
+      export_method: batch
+      export_batch_size: 1000
     cache_metadata:
       max-age: -1
       contexts:

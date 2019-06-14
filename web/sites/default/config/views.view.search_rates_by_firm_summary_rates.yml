@@ -1942,11 +1942,11 @@ display:
       filename: 'Rates by Firm - Summary.xls'
       automatic_download: true
       redirect_path: ''
-      export_limit: 1000
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 1000
+          items_per_page: 0
           offset: 0
       fields:
         field_vp_last_name:
@@ -3156,6 +3156,8 @@ display:
         operator: AND
         groups:
           1: AND
+      export_method: batch
+      export_batch_size: 1000
     cache_metadata:
       max-age: -1
       contexts:

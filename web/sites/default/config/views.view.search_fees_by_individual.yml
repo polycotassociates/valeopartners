@@ -1685,9 +1685,9 @@ display:
       display_description: ''
       path: fees/individual/export
       filename: 'Transactions by Individual.xls'
-      automatic_download: true
-      redirect_path: ''
-      export_method: standard
+      automatic_download: false
+      redirect_path: /fees/individual
+      export_method: batch
       export_batch_size: 1000
       fields:
         field_vp_last_name:
@@ -3870,11 +3870,11 @@ display:
       defaults:
         fields: false
         relationships: false
-      export_limit: 500
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 500
+          items_per_page: 0
           offset: 0
       relationships:
         field_vp_rate_individual:
