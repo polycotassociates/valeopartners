@@ -27,8 +27,14 @@ function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query
     'search_fees_by_firm',
     'search_fees_by_company',
   ];
+  $view_displays =[
+    'data_export_xls',
+  ];
 
-  if (in_array($view->id(), $view_ids) && $view->exposed_data) {
+  // kint($view);
+  // die();
+
+  if (in_array($view->id(), $view_ids) && $view->exposed_data && $view->current_display != 'data_export_xls') {
     // Get the value of the exposed filter Practice Area 1,
     // set to NULL if it doesn't exist.
     $pa1 = $view->exposed_data['field_vp_practice_area_1_target_id'] ? $view->exposed_data['field_vp_practice_area_1_target_id'] : NULL;
