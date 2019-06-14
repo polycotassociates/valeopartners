@@ -59,7 +59,7 @@ class ExportHeader extends AreaPluginBase {
     // Put them together with /export added to the path and format=xls at the end.
     $export_xls = "$path/export?$query&_format=xls";
     // Create the html for the link.
-    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a><br><i>(First 500 records)</i></span>";
+    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
     // Get the modal text.
     $modal = $this->xlsModal();
     // Return the link.
@@ -80,7 +80,7 @@ class ExportHeader extends AreaPluginBase {
     $export_xls = "/saved/search/export?$query";
     $export_xls .= "_format=xls";
     // Create the html for the link.
-    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a><br><i>(First 500 records)</i></span>";
+    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
     // Get the modal text.
     $modal = $this->xlsModal();
     // Return the link.
