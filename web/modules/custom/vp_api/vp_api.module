@@ -77,7 +77,7 @@ function vp_api_node_insert(NodeInterface $node) {
     $year = format_date(time(), 'custom', 'Y');
 
     // Create paragraph entries for the last 5 years of rates.
-    for ($x = $year; $x >= $year - 5; $x--) {
+    for ($x = $year; $x >= $year - 10; $x--) {
 
       $paragraph_data = [
         'type' => 'actual_rate_by_year',
