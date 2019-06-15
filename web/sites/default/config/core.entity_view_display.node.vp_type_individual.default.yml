@@ -22,39 +22,90 @@ dependencies:
     - node.type.vp_type_individual
   module:
     - entity_reference_revisions
+    - field_group
     - user
     - yearonly
+third_party_settings:
+  field_group:
+    group_practice_areas:
+      children:
+        - field_vp_practice_area_1
+        - field_vp_practice_area_2
+        - field_vp_practice_area_3
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: 'Practice Areas'
+      region: content
+    group_name_and_info:
+      children:
+        - field_vp_first_name
+        - field_vp_middle_name
+        - field_vp_last_name
+        - field_vp_email
+        - field_vp_individual_location
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+      label: ''
+      region: content
+    group_other:
+      children:
+        - field_vp_state_bar
+        - field_vp_graduation
+        - field_vp_bar_date
+        - field_vp_law_school
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+      label: ''
+      region: content
+    group_employer:
+      children:
+        - field_vp_employment_history
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: Employer
+      region: content
 id: node.vp_type_individual.default
 targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
-  field_standard_rate_by_year:
-    type: entity_reference_revisions_entity_view
-    weight: 14
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    region: content
   field_vp_bar_date:
-    weight: 10
-    label: above
+    weight: 5
+    label: inline
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_email:
-    weight: 8
-    label: above
+    weight: 4
+    label: inline
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_vp_employment_history:
     type: entity_reference_revisions_entity_view
-    weight: 3
+    weight: 4
     label: above
     settings:
       view_mode: default
@@ -62,93 +113,87 @@ content:
     third_party_settings: {  }
     region: content
   field_vp_first_name:
-    weight: 0
-    label: above
+    weight: 1
+    label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
   field_vp_graduation:
-    weight: 9
-    label: above
+    weight: 4
+    label: inline
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_individual_location:
-    weight: 11
-    label: above
+    weight: 5
+    label: inline
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_last_name:
-    weight: 2
-    label: above
+    weight: 3
+    label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
   field_vp_law_school:
-    weight: 12
-    label: above
+    weight: 6
+    label: inline
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_middle_name:
-    weight: 1
-    label: above
+    weight: 2
+    label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
-  field_vp_position:
-    weight: 13
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_vp_practice_area_1:
-    weight: 4
-    label: above
+    weight: 6
+    label: inline
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_practice_area_2:
-    weight: 5
-    label: above
+    weight: 7
+    label: inline
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_practice_area_3:
-    weight: 6
-    label: above
+    weight: 8
+    label: inline
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_state_bar:
-    weight: 7
-    label: above
+    weight: 3
+    label: inline
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
 hidden:
   field_actual_rate_by_year: true
+  field_standard_rate_by_year: true
+  field_vp_position: true
   links: true
   published_at: true

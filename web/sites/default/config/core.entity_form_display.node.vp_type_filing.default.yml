@@ -11,7 +11,6 @@ dependencies:
     - field.field.node.vp_type_filing.field_vp_filing_year_end
     - node.type.vp_type_filing
   module:
-    - computed_field
     - datetime_range
     - inline_entity_form
 id: node.vp_type_filing.default
@@ -57,18 +56,6 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_vp_filing_year:
-    weight: 5
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_vp_filing_year_end:
-    weight: 6
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
   title:
     type: string_textfield
     weight: 0
@@ -79,6 +66,8 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_vp_filing_year: true
+  field_vp_filing_year_end: true
   path: true
   promote: true
   published_at: true

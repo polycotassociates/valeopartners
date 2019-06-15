@@ -303,7 +303,7 @@ display:
           type: daterange_default
           settings:
             timezone_override: ''
-            format_type: short
+            format_type: short_filing_date
             separator: '-'
           group_column: value
           group_columns: {  }

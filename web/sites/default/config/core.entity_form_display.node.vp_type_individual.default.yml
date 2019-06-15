@@ -42,19 +42,34 @@ third_party_settings:
         required_fields: true
       label: Name
       region: content
+    group_practice_areas:
+      children:
+        - field_vp_practice_area_1
+        - field_vp_practice_area_2
+        - field_vp_practice_area_3
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Practice Areas'
+      region: content
 id: node.vp_type_individual.default
 targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
   field_vp_bar_date:
-    weight: 8
+    weight: 9
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_email:
-    weight: 6
+    weight: 7
     settings:
       size: 60
       placeholder: ''
@@ -63,7 +78,7 @@ content:
     region: content
   field_vp_employment_history:
     type: paragraphs
-    weight: 12
+    weight: 13
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -88,13 +103,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_vp_graduation:
-    weight: 7
+    weight: 8
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_individual_location:
-    weight: 9
+    weight: 10
     settings:
       match_operator: CONTAINS
       size: 60
@@ -111,7 +126,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_vp_law_school:
-    weight: 10
+    weight: 11
     settings:
       match_operator: CONTAINS
       size: 60
@@ -128,7 +143,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_vp_position:
-    weight: 11
+    weight: 12
     settings:
       match_operator: CONTAINS
       size: 60
@@ -137,29 +152,36 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_vp_practice_area_1:
-    weight: 2
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_vp_practice_area_2:
     weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  field_vp_practice_area_3:
+  field_vp_practice_area_2:
     weight: 4
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  field_vp_state_bar:
+  field_vp_practice_area_3:
     weight: 5
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
+  field_vp_state_bar:
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  status:
+    type: boolean_checkbox
+    weight: 14
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -175,6 +197,5 @@ hidden:
   path: true
   promote: true
   published_at: true
-  status: true
   sticky: true
   uid: true

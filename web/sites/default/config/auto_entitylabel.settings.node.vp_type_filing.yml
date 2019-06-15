@@ -1,5 +1,5 @@
 status: 1
-pattern: '[node:field_vp_filing_case] [node:field_vp_filing_fee_dates] ([node:field_vp_filing_number])'
+pattern: '[node:field_vp_filing_case] [node:field_vp_filing_fee_dates:start_date:short_filing_date] - [node:field_vp_filing_fee_dates:end_date:short_filing_date] ([node:field_vp_filing_number])'
 php: false
 escape: false
 dependencies:

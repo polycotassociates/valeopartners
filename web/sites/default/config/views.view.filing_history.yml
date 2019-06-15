@@ -897,7 +897,7 @@ display:
           empty: false
           tokenize: false
           content:
-            value: 'Rates & Fees Associated with this Filing: '
+            value: '<h2>Rates & Fees Associated with this Filing:</h2>'
             format: basic_html
           plugin_id: text
       fields:

@@ -1,0 +1,8 @@
+uuid: ce7ebf91-6234-4d01-85e3-870d18d5bb74
+langcode: en
+status: true
+dependencies: {  }
+id: short_filing_date
+label: 'Short Filing Date'
+locked: false
+pattern: m/d/Y

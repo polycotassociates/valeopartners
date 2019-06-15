@@ -40,34 +40,104 @@ dependencies:
 third_party_settings:
   field_group:
     group_rate_information:
-      children: {  }
+      children:
+        - field_vp_rate_hourly
+        - field_vp_rate_standard
+        - field_vp_rate_hours
+        - field_vp_rate_total
+        - field_vp_rate_discount
       parent_name: ''
-      weight: 30
+      weight: 2
       format_type: fieldset
       format_settings:
         id: ''
         classes: ''
         description: ''
       label: 'Rate Information'
-      region: hidden
+      region: content
+    group_fee_information:
+      children:
+        - field_vp_rate_flat_fee
+        - field_vp_rate_retainer
+        - field_vp_rate_transactional_fee
+        - field_vp_rate_success_fee
+        - field_vp_rate_total_fees
+        - field_vp_rate_sec_filing
+        - field_vp_rate_total_fees_calc
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: 'Fee Information'
+      region: content
+    group_referenced_company:
+      children:
+        - field_vp_rate_referenced_company
+        - field_vp_rate_attorneys
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+      label: 'Referenced Company'
+      region: content
+    group_notes:
+      children:
+        - field_vp_rate_notes
+      parent_name: ''
+      weight: 4
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: Notes
+      region: content
+    group_other:
+      children:
+        - field_vp_rate_transaction_amount
+        - field_vp_rate_transaction_type
+        - field_vp_rate_primaryfeetypecalc
+        - field_vp_rate_primaryfee_calc
+        - field_vp_rate_record_type
+      parent_name: ''
+      weight: 5
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: Other
+      region: content
+    group_individual_firm:
+      children:
+        - links
+        - field_vp_rate_individual
+        - field_vp_rate_position
+        - field_vp_rate_firm
+        - field_vp_rate_filing
+        - field_vp_rate_company
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+      label: ''
+      region: content
 id: node.vp_type_rate.default
 targetEntityType: node
 bundle: vp_type_rate
 mode: default
 content:
-  field_standard_rate_tmp:
-    weight: 27
-    label: above
-    settings:
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: number_decimal
-    region: content
   field_vp_rate_attorneys:
-    weight: 6
+    weight: 22
     label: above
     settings:
       link: true
@@ -75,7 +145,7 @@ content:
     type: entity_reference_label
     region: content
   field_vp_rate_company:
-    weight: 5
+    weight: 6
     label: above
     settings:
       link: true
@@ -88,23 +158,13 @@ content:
     settings:
       thousand_separator: ''
       decimal_separator: .
-      scale: 2
+      scale: 6
       prefix_suffix: true
     third_party_settings: {  }
     type: number_decimal
     region: content
-  field_vp_rate_fees_listed_calc:
-    weight: 26
-    label: above
-    settings:
-      sanitized: true
-      cache_unit: -1
-      cache_duration: 1
-    third_party_settings: {  }
-    type: computed_string
-    region: content
   field_vp_rate_filing:
-    weight: 4
+    weight: 5
     label: above
     settings:
       link: true
@@ -112,7 +172,7 @@ content:
     type: entity_reference_label
     region: content
   field_vp_rate_firm:
-    weight: 3
+    weight: 4
     label: above
     settings:
       link: true
@@ -120,7 +180,7 @@ content:
     type: entity_reference_label
     region: content
   field_vp_rate_flat_fee:
-    weight: 14
+    weight: 16
     label: above
     settings:
       thousand_separator: ''
@@ -131,7 +191,7 @@ content:
     type: number_decimal
     region: content
   field_vp_rate_hourly:
-    weight: 8
+    weight: 9
     label: above
     settings:
       thousand_separator: ''
@@ -153,21 +213,6 @@ content:
     type: number_decimal
     region: content
   field_vp_rate_individual:
-    weight: 1
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_rate_notes:
-    weight: 21
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
-    region: content
-  field_vp_rate_position:
     weight: 2
     label: above
     settings:
@@ -175,55 +220,24 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_vp_rate_previous:
-    weight: 9
+  field_vp_rate_notes:
+    weight: 10
     label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
+    settings: {  }
     third_party_settings: {  }
-    type: computed_decimal
+    type: basic_string
     region: content
-  field_vp_rate_primaryfee_calc:
-    weight: 23
+  field_vp_rate_position:
+    weight: 3
     label: above
     settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
+      link: false
     third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_vp_rate_primaryfeetypecalc:
-    weight: 24
-    label: above
-    settings:
-      sanitized: true
-      cache_unit: -1
-      cache_duration: 1
-    third_party_settings: {  }
-    type: computed_string
-    region: content
-  field_vp_rate_record_type:
-    weight: 25
-    label: above
-    settings:
-      sanitized: true
-      cache_unit: -1
-      cache_duration: 1
-    third_party_settings: {  }
-    type: computed_string
+    type: entity_reference_label
     region: content
   field_vp_rate_referenced_company:
     type: entity_reference_revisions_entity_view
-    weight: 7
+    weight: 21
     label: above
     settings:
       view_mode: default
@@ -231,7 +245,7 @@ content:
     third_party_settings: {  }
     region: content
   field_vp_rate_retainer:
-    weight: 15
+    weight: 17
     label: above
     settings:
       thousand_separator: ''
@@ -242,7 +256,7 @@ content:
     type: number_decimal
     region: content
   field_vp_rate_sec_filing:
-    weight: 19
+    weight: 21
     label: above
     settings:
       link_to_entity: false
@@ -263,7 +277,7 @@ content:
     type: computed_decimal
     region: content
   field_vp_rate_success_fee:
-    weight: 17
+    weight: 19
     label: above
     settings:
       thousand_separator: ''
@@ -287,7 +301,7 @@ content:
     type: computed_decimal
     region: content
   field_vp_rate_total_fees:
-    weight: 18
+    weight: 20
     label: above
     settings:
       thousand_separator: ''
@@ -298,7 +312,7 @@ content:
     type: number_decimal
     region: content
   field_vp_rate_total_fees_calc:
-    weight: 20
+    weight: 22
     label: above
     settings:
       cache_unit: -1
@@ -310,27 +324,8 @@ content:
     third_party_settings: {  }
     type: computed_decimal
     region: content
-  field_vp_rate_transaction_amount:
-    weight: 28
-    label: above
-    settings:
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: number_decimal
-    region: content
-  field_vp_rate_transaction_type:
-    weight: 22
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_vp_rate_transactional_fee:
-    weight: 16
+    weight: 18
     label: above
     settings:
       thousand_separator: ''
@@ -341,9 +336,17 @@ content:
     type: number_decimal
     region: content
   links:
-    weight: 0
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_standard_rate_tmp: true
+  field_vp_rate_fees_listed_calc: true
+  field_vp_rate_previous: true
+  field_vp_rate_primaryfee_calc: true
+  field_vp_rate_primaryfeetypecalc: true
+  field_vp_rate_record_type: true
+  field_vp_rate_transaction_amount: true
+  field_vp_rate_transaction_type: true
   published_at: true

@@ -16,15 +16,40 @@ dependencies:
     - node.type.vp_type_case
   module:
     - datetime
+    - field_group
     - options
     - user
+third_party_settings:
+  field_group:
+    group_information:
+      children:
+        - links
+        - field_vp_case_number
+        - field_vp_case_name
+        - field_vp_case_court
+        - field_vp_case_date_filed
+        - field_vp_case_nature_of_suit
+        - field_vp_case_status
+        - field_vp_case_settlement_amount
+        - field_vp_case_judgement_amount
+        - field_vp_case_attorneys_fee
+        - field_vp_case_other_expenses
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: Information
+      region: content
 id: node.vp_type_case.default
 targetEntityType: node
 bundle: vp_type_case
 mode: default
 content:
   field_vp_case_attorneys_fee:
-    weight: 109
+    weight: 10
     label: above
     settings:
       thousand_separator: ''
@@ -35,24 +60,24 @@ content:
     type: number_decimal
     region: content
   field_vp_case_court:
-    weight: 103
+    weight: 4
     label: above
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_case_date_filed:
-    weight: 104
+    weight: 5
     label: above
     settings:
-      format_type: medium
       timezone_override: ''
+      format_type: short_filing_date
     third_party_settings: {  }
     type: datetime_default
     region: content
   field_vp_case_judgement_amount:
-    weight: 108
+    weight: 9
     label: above
     settings:
       thousand_separator: ''
@@ -63,7 +88,7 @@ content:
     type: number_decimal
     region: content
   field_vp_case_name:
-    weight: 102
+    weight: 3
     label: above
     settings:
       link_to_entity: false
@@ -71,15 +96,15 @@ content:
     type: string
     region: content
   field_vp_case_nature_of_suit:
-    weight: 105
+    weight: 6
     label: above
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_vp_case_number:
-    weight: 101
+    weight: 2
     label: above
     settings:
       link_to_entity: false
@@ -87,7 +112,7 @@ content:
     type: string
     region: content
   field_vp_case_other_expenses:
-    weight: 110
+    weight: 11
     label: above
     settings:
       thousand_separator: ''
@@ -98,7 +123,7 @@ content:
     type: number_decimal
     region: content
   field_vp_case_settlement_amount:
-    weight: 107
+    weight: 8
     label: above
     settings:
       thousand_separator: ''
@@ -109,16 +134,16 @@ content:
     type: number_decimal
     region: content
   field_vp_case_status:
-    weight: 106
+    weight: 7
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
   links:
-    weight: 100
+    weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   published_at: true

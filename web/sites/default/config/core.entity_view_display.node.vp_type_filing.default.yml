@@ -11,16 +11,34 @@ dependencies:
     - field.field.node.vp_type_filing.field_vp_filing_year_end
     - node.type.vp_type_filing
   module:
-    - computed_field
     - datetime_range
+    - field_group
     - user
+third_party_settings:
+  field_group:
+    group_information:
+      children:
+        - links
+        - field_vp_filing_case
+        - field_vp_filing_fee_dates
+        - field_vp_filing_number
+        - field_vp_filing_description
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: Information
+      region: content
 id: node.vp_type_filing.default
 targetEntityType: node
 bundle: vp_type_filing
 mode: default
 content:
   field_vp_filing_case:
-    weight: 1
+    weight: 2
     label: above
     settings:
       link: true
@@ -28,65 +46,36 @@ content:
     type: entity_reference_label
     region: content
   field_vp_filing_description:
-    weight: 4
+    weight: 5
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_vp_filing_fee_dates:
-    weight: 2
+    weight: 3
     label: above
     settings:
-      separator: '-'
-      format_type: medium
       timezone_override: ''
+      format_type: short_filing_date
+      separator: '-'
     third_party_settings: {  }
     type: daterange_default
     region: content
   field_vp_filing_number:
-    weight: 3
+    weight: 4
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
-  field_vp_filing_year:
-    type: computed_integer
-    weight: 5
-    region: content
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-  field_vp_filing_year_end:
-    type: computed_integer
-    weight: 6
-    region: content
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
   links:
-    weight: 0
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
-  published_at:
-    type: timestamp
-    weight: 7
-    region: content
-    label: above
-    settings:
-      date_format: medium
-      custom_date_format: ''
-      timezone: ''
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_vp_filing_year: true
+  field_vp_filing_year_end: true
+  published_at: true
