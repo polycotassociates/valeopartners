@@ -804,4 +804,4 @@ if (isset($_ENV['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
    include $app_root . '/' . $site_path . '/settings.local.php';
  }
 $config_directories['sync'] = 'sites/default/config';
-$conf['views_data_export_directory'] = 'public://vde/';
+$conf['views_data_export_directory'] = 'public://';
