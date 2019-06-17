@@ -8,10 +8,8 @@
 use Drupal\views\Views;
 use Drupal\node\Entity\Node;
 use Drupal\views\ViewExecutable;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
-use Drupal\Core\Url;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 /**
  * Implements template_views_pre_render().
@@ -23,10 +21,7 @@ function vp_views_views_pre_render(ViewExecutable $view) {
     case 'search_by_firm':
       // If a year is passed as an argument, change the column lables to
       // reference that year.
-      // kint($view->argument);
-      //kint($view);
       $view->exposed_data['field_vp_practice_area_2_target_id'] = $view->exposed_data['field_vp_practice_area_1_target_id'];
-
       break;
 
     case 'search_rate_trending_analysis':
@@ -38,24 +33,6 @@ function vp_views_views_pre_render(ViewExecutable $view) {
         $view->field['field_vp_rate_previous']->options['label'] = $year - 1 . " Rate";
       }
       break;
-
-    case 'search_rates_by_firm_summary_rates':
-      // Manually remove duplicates.
-      // See: (https://www.drupal.org/node/1223448#comment-4757898)
-      // $nids = []; // array of nodes to prevent duplicates
-      // $unique_id = FALSE;
-      // $resultNoDoubleNodes = []; // manipulated results
-      // foreach ($view->result as $key => $result) { // check each node of the result array on it's nid
-
-      //   $nid = $result->nid;
-      //   if (!in_array($nid, $nids)) { // if this node isn't a duplicate
-      //     $resultNoDoubleNodes[] = $view->result[$key]; // add it to the manipulated results
-      //     $nids[$key] = $nid; // mark this nid as in results to prevent duplicates from now on
-      //   };
-      // }
-      // $view->result = $resultNoDoubleNodes; // replace the old results with the results without duplicates
-      break;
-
   }
 }
 
@@ -69,14 +46,15 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
   switch ($view_id) {
 
     case 'saved_search_detail':
+      /*
+       * Set arguments to the view equal to
+       * whatever is selected in the saved search node
+       * and render that view.
+       */
 
       if ($display_id != 'saved_search_data_export') {
         // Get the current node.
         $node = \Drupal::routeMatch()->getParameter('node');
-
-
-
-
 
         $firms = FALSE;
         if ($node->get('field_vp_search_firms')) {
@@ -161,7 +139,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
         $args[0] = $firms ? implode(",", $firms) : 'all';
         $args[1] = $positions ? implode(",", $positions) : 'all';
         $args[2] = $industries ? implode(",", $industries) : 'all';
-        $args[3] = $cities ? implode("+", $cities) : 'all';
+        $args[3] = 'all';
         $args[4] = $practice_areas ? implode("+", $practice_areas) : 'all';
         $args[5] = $grad_date_from ? implode(",", $grad_range) : 'all';
         $args[6] = $partner_date_from ? implode(",", $partner_range) : 'all';
@@ -328,29 +306,5 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       break;
 
   }
-
-}
-
-/**
- * Override view output to join the search for all Practice Areas to one variable
- */
-function vp_views_views_pre_build(ViewExecutable $view) {
-
-  //$practice_area1 = $view->filter['field_vp_practice_area_1_target_id']->value;
-  //$view->filter['field_vp_practice_area_2_target_id']->value = $practice_area1;
-
-
-// kint($practice_area2);
-
-  // if (isset($practice_area2)) {
-  //   $practice_area2['expose']['identifier'] = 'practice_area';
-  //   $view->set_item($view->current_display, 'filter', 'field_individual_pa2_value', $practice_area2);
-  // }
-  // $practice_area3 = $view->get_item($view->current_display, 'filter', 'field_individual_pa3_value');
-  // if (isset($practice_area3)) {
-  //   $practice_area3['expose']['identifier'] = 'practice_area';
-  //   $view->set_item($view->current_display, 'filter', 'field_individual_pa3_value', $practice_area3);
-  // }
-  // $view->is_cacheable = FALSE;
 
 }
