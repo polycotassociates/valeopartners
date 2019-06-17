@@ -160,21 +160,21 @@ display:
               empty_column: false
               responsive: ''
             field_vp_practice_area_1:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ','
               empty_column: true
               responsive: ''
             field_vp_practice_area_2:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             field_vp_practice_area_3:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -447,7 +447,7 @@ display:
           relationship: field_vp_rate_individual
           group_type: group
           admin_label: ''
-          label: 'Practice Area'
+          label: 'Practice Areas'
           exclude: false
           alter:
             alter_text: false
@@ -511,7 +511,7 @@ display:
           group_type: group
           admin_label: ''
           label: 'Practice Area 2'
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -574,7 +574,7 @@ display:
           group_type: group
           admin_label: ''
           label: 'Practice Area 3'
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -1878,7 +1878,7 @@ display:
       path: saved/search/export
       filename: '[view:title].xls'
       automatic_download: false
-      redirect_path: ''
+      redirect_path: '[view:current-page]'
       fields:
         field_vp_last_name:
           id: field_vp_last_name
@@ -3250,13 +3250,13 @@ display:
       displays:
         saved_search_detail_page: saved_search_detail_page
         default: '0'
-      export_method: standard
+      export_method: batch
       export_batch_size: 1000
-      export_limit: 10
+      export_limit: 0
       pager:
         type: some
         options:
-          items_per_page: 10
+          items_per_page: 0
           offset: 0
     cache_metadata:
       max-age: -1
