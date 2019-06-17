@@ -10,7 +10,6 @@ use Drupal\node\Entity\Node;
 use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
 
-
 /**
  * Implements template_views_pre_render().
  */
@@ -18,11 +17,11 @@ function vp_views_views_pre_render(ViewExecutable $view) {
 
   switch ($view->id()) {
 
-    case 'search_by_firm':
-      // If a year is passed as an argument, change the column lables to
-      // reference that year.
-      $view->exposed_data['field_vp_practice_area_2_target_id'] = $view->exposed_data['field_vp_practice_area_1_target_id'];
-      break;
+    // case 'search_by_firm':
+    //   // If a year is passed as an argument, change the column lables to
+    //   // reference that year.
+    //   $view->exposed_data['field_vp_practice_area_2_target_id'] = $view->exposed_data['field_vp_practice_area_1_target_id'];
+    //   break;
 
     case 'search_rate_trending_analysis':
       // If a year is passed as an argument, change the column lables to
