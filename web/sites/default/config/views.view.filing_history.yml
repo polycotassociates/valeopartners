@@ -97,49 +97,89 @@ display:
           summary: ''
           description: ''
           columns:
+            title: title
             title_1: title_1
-            field_vp_rate_position: field_vp_rate_position
             field_vp_rate_firm: field_vp_rate_firm
-            field_vp_practice_area_1: field_vp_practice_area_1
-            field_vp_practice_area_2: field_vp_practice_area_1
-            field_vp_practice_area_3: field_vp_practice_area_1
+            title_2: title_2
+            field_vp_rate_hourly: field_vp_rate_hourly
+            field_vp_rate_standard: field_vp_rate_standard
+            field_vp_rate_flat_fee: field_vp_rate_flat_fee
+            field_vp_rate_retainer: field_vp_rate_retainer
+            field_vp_rate_transactional_fee: field_vp_rate_transactional_fee
+            field_vp_rate_success_fee: field_vp_rate_success_fee
+            field_vp_filing_year_end: field_vp_filing_year_end
           info:
-            title_1:
-              sortable: false
+            title:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_rate_position:
-              sortable: false
+            title_1:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             field_vp_rate_firm:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_practice_area_1:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ','
-              empty_column: false
-              responsive: ''
-            field_vp_practice_area_2:
-              sortable: false
+            title_2:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_practice_area_3:
+            field_vp_rate_hourly:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_standard:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_flat_fee:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_retainer:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_transactional_fee:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_success_fee:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_filing_year_end:
               sortable: false
               default_sort_order: asc
               align: ''

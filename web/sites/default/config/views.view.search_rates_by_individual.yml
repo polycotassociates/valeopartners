@@ -131,36 +131,18 @@ display:
           summary: ''
           description: ''
           columns:
-            counter: counter
-            nid: nid
-            title_1: title_1
+            title_2: title_2
             title: title
-            field_vp_rate_position: field_vp_rate_position
-            field_vp_individual_location: field_vp_individual_location
-            field_vp_practice_area_1: field_vp_practice_area_1
-            field_vp_practice_area_2: field_vp_practice_area_2
-            field_vp_practice_area_3: field_vp_practice_area_3
-            field_vp_bar_date: field_vp_bar_date
-            field_vp_graduation: field_vp_graduation
+            title_3: title_3
             field_vp_rate_hourly: field_vp_rate_hourly
             field_vp_rate_standard: field_vp_rate_standard
+            field_vp_rate_flat_fee: field_vp_rate_flat_fee
+            field_vp_rate_retainer: field_vp_rate_retainer
+            field_vp_rate_transactional_fee: field_vp_rate_transactional_fee
+            field_vp_rate_success_fee: field_vp_rate_success_fee
             field_vp_filing_fee_dates: field_vp_filing_fee_dates
           info:
-            counter:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            nid:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            title_1:
+            title_2:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -174,49 +156,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_vp_rate_position:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_individual_location:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_practice_area_1:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_practice_area_2:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_practice_area_3:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_bar_date:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_vp_graduation:
+            title_3:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -231,6 +171,34 @@ display:
               empty_column: false
               responsive: ''
             field_vp_rate_standard:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_flat_fee:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_retainer:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_transactional_fee:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_vp_rate_success_fee:
               sortable: true
               default_sort_order: asc
               align: ''

@@ -1664,10 +1664,10 @@ display:
           entity_field: uid
           plugin_id: user_name
       sorts:
-        field_vp_rate_primaryfee_calc_value:
-          id: field_vp_rate_primaryfee_calc_value
-          table: node__field_vp_rate_primaryfee_calc
-          field: field_vp_rate_primaryfee_calc_value
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
           relationship: none
           group_type: group
           admin_label: ''
@@ -1675,7 +1675,10 @@ display:
           exposed: false
           expose:
             label: ''
-          plugin_id: standard
+          granularity: second
+          entity_type: node
+          entity_field: changed
+          plugin_id: date
       title: 'Manage Rates'
       header:
         result:
