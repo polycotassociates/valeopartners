@@ -93,6 +93,10 @@ function computed_field_field_vp_rate_standard_compute($entity_type_manager, $en
 
     if ($entity->field_vp_rate_discount->value) {
 
+      if (is_numeric($entity->field_vp_rate_discount->value) && $entity->field_vp_rate_discount->value == 100) {
+        return 0;
+      }
+
       if (is_numeric($entity->field_vp_rate_discount->value) && $entity->field_vp_rate_discount->value > 0) {
         $discount = 1 - ($entity->field_vp_rate_discount->value / 100);
         return $entity->field_vp_rate_hourly->value / $discount;
