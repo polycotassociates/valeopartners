@@ -6,6 +6,7 @@ module:
   auto_entitylabel: 0
   automated_cron: 0
   better_exposed_filters: 0
+  big_pipe: 0
   block: 0
   block_content: 0
   breakpoint: 0
@@ -62,6 +63,7 @@ module:
   node_access_rebuild_progressive: 0
   options: 0
   page_cache: 0
+  pantheon_advanced_page_cache: 0
   paragraphs_clean: 0
   paragraphs_library: 0
   paragraphs_type_permissions: 0
