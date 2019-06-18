@@ -6313,7 +6313,7 @@
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/views_data_export.git",
-            "reference": "717234f"
+            "reference": "05bd75f39d15f214728e40600aed6fbdffc8295e"
         },
         "require": {
             "drupal/core": "*",
@@ -6325,15 +6325,15 @@
                 "dev-1.x": "1.x-dev"
             },
             "drupal": {
-                "version": "8.x-1.0-beta1+14-dev",
-                "datestamp": "1552327084",
+                "version": "8.x-1.0-beta1+15-dev",
+                "datestamp": "1552327381",
                 "security-coverage": {
                     "status": "not-covered",
                     "message": "Dev releases are not covered by Drupal security advisories."
                 }
             },
             "patches_applied": {
-                "Support for batch operations patch 192": "https://www.drupal.org/files/issues/2019-02-06/2789531-192_0.patch"
+                "Support for batch operations patch": "https://www.drupal.org/files/issues/2019-06-12/views-data-export-support-for-batch-operations-2789531-259.patch"
             }
         },
         "installation-source": "source",
@@ -6370,7 +6370,7 @@
         "description": "Plugin to export views data into various file formats.",
         "homepage": "https://www.drupal.org/project/views_data_export",
         "support": {
-            "source": "http://cgit.drupalcode.org/views_data_export"
+            "source": "https://git.drupalcode.org/project/views_data_export"
         }
     },
     {

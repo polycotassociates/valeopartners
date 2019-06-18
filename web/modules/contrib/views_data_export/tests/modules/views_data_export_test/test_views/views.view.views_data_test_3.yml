@@ -64,8 +64,8 @@ display:
             offset: false
             offset_label: Offset
           tags:
-            previous: ‹‹
-            next: ››
+            previous: â€¹â€¹
+            next: â€ºâ€º
       style:
         type: default
         options:
@@ -181,7 +181,6 @@ display:
       path: views_data_export/test_3
       filename: test_3
       automatic_download: false
-      redirect_path: /admin
       style:
         type: data_export
         options:
@@ -209,6 +208,14 @@ display:
       export_method: batch
       export_batch_size: 4
       export_limit: 3
+
+      redirect_path: /admin
+      store_in_public_file_directory: false
+      custom_redirect_path: true
+
+      redirect_to_display: none
+      include_query_params: false
+
       pager:
         type: some
         options:

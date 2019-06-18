@@ -1,11 +1,7 @@
 .views-data-export-feed {
   display: inline;
 }
-.json-feed .feed-icon,
-.xml-feed .feed-icon,
-.csv-feed .feed-icon,
-.xls-feed .feed-icon,
-.xlsx-feed .feed-icon {
+.views-data-export-feed .feed-icon {
   background: no-repeat;
   overflow: hidden;
   text-indent: -9999px;
