@@ -1,0 +1,28 @@
+uuid: 6802a138-9925-4095-83bf-d39365565a8b
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_print
+  theme:
+    - valeo_classic
+id: printlinks
+theme: valeo_classic
+region: content
+weight: -8
+provider: null
+plugin: print_links
+settings:
+  id: print_links
+  label: 'Print Links'
+  provider: entity_print
+  label_display: '0'
+  pdf_enabled: true
+  pdf_link_text: 'View PDF'
+  epub_enabled: false
+  epub_link_text: 'View EPub'
+  word_docx_enabled: false
+  word_docx_link_text: 'View Word Document'
+  context_mapping:
+    entity: '@node.node_route_context:node'
+visibility: {  }

@@ -1993,7 +1993,7 @@ display:
       pager:
         type: some
         options:
-          items_per_page: 1000
+          items_per_page: 0
           offset: 0
       displays:
         default: '0'
@@ -3155,7 +3155,7 @@ display:
       display_description: 'Export data as XLS'
       title: Master_Search_by_Firm
       enabled: true
-      export_method: standard
+      export_method: batch
       export_batch_size: 1000
       automatic_download: false
       redirect_path: ''
@@ -3671,7 +3671,11 @@ display:
           expose:
             label: ''
           plugin_id: standard
-      export_limit: 1000
+      export_limit: 0
+      store_in_public_file_directory: 1
+      redirect_to_display: master_search_by_firm_page
+      custom_redirect_path: 0
+      include_query_params: 0
     cache_metadata:
       max-age: -1
       contexts:

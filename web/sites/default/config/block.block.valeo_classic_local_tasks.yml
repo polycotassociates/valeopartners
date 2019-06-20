@@ -9,7 +9,7 @@ _core:
 id: valeo_classic_local_tasks
 theme: valeo_classic
 region: content
-weight: -10
+weight: -11
 provider: null
 plugin: local_tasks_block
 settings:

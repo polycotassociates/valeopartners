@@ -3258,6 +3258,10 @@ display:
         options:
           items_per_page: 0
           offset: 0
+      store_in_public_file_directory: true
+      redirect_to_display: saved_search_detail_page
+      custom_redirect_path: false
+      include_query_params: false
     cache_metadata:
       max-age: -1
       contexts:
