@@ -91,8 +91,12 @@ class AverageActualRate extends FieldPluginBase {
         $rate += $results[$x]->field_vp_rate_hourly_value;
       }
     }
-    $average = $rate / count($results);
-    return sprintf("%0.2f", $average);
+    if (count($results)) {
+      $average = $rate / count($results);
+      return sprintf("%0.2f", $average);
+    }
+    return NULL;
+
     //return money_format('%i', $average);
   }
 
