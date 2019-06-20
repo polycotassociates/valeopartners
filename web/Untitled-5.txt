@@ -1,0 +1,27 @@
+Initial re-migration of new data: users and content types
+Migration of Individuals: Custom script to add last X years of actual rates
+Migration of Rates: prune D6 database to have only rates dated from last migration
+Migration of Rates: Drupal 8.7.2 required a patch to successfully migrate
+Migration of Rates: Custom scripts run to migrate D6 data structures to D8
+
+
+
+---
+Migration of Individuals: Custom script to add last X years of standard rates
+
+
+Fixed input forms for adding new individual via add new rate
+Fixed input forms for other types, making sure they're easier to use
+
+Created Kirkland & Ellis multidev site at kirkland-valeopartners.pantheon.io
+
+Investigating the rates discrepency between d6 and d8, to see if there are corrupted records
+Rerunning clean database migration
+
+migrate_profile.drush
+filing_date_fix.drush
+pg_rate.drush
+pg_saved_search.drush
+save_all_rates.drush
+reset_prev_rate.drush
+pg_add_rate.drush

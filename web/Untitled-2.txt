@@ -1,0 +1,24 @@
+Attach rate Rate records to company
+
+http://reports.valeopartners.com/company/exeter-finance-corp-subsidiary-blackstone-group-lp
+
+https://dev-valeopartners.pantheonsite.io/node/430578
+
+
+---
+ 
+Attach filing records to case
+
+http://reports.valeopartners.com/case/015-cv-02100-mjd-brt-hutar-v-capital-one-financial-corporation-et-al 
+
+https://dev-valeopartners.pantheonsite.io/node/455378
+
+
+--- 
+
+MAke sure individual name is set in title of rate record (generated when saved)
+
+Make most recent records first in approve records for publication page
+
+
+-- Check fee date ranges
