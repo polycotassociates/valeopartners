@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Entity Activity module.
+ */
+
+/**
+ * Enable the core serialization module.
+ */
+function entity_activity_update_8101(&$sandbox) {
+  $module_handler = \Drupal::moduleHandler();
+  if (!$module_handler->moduleExists('serialization')) {
+    /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+    $module_installer = \Drupal::service('module_installer');
+    $module_installer->install(['serialization']);
+  }
+}

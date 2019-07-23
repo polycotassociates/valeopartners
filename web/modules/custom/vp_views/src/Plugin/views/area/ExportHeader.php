@@ -75,6 +75,7 @@ class ExportHeader extends AreaPluginBase {
     // Build the query from the saved search items for the node $nid.
     $query = $this->generateQueryFromNode($nid);
 
+
     // $query = "firm=12857&";
     // Put them together with /export added to the path and format=xls at the end.
     $export_xls = "/saved/search/export?$query";
@@ -95,9 +96,6 @@ class ExportHeader extends AreaPluginBase {
 
     $query = '';
     $node = Node::load($nid);
-
-
-
 
     $firms = [];
     if ($node->get('field_vp_search_firms')) {
@@ -139,8 +137,7 @@ class ExportHeader extends AreaPluginBase {
       }
     }
 
-    $grad_date_from = FALSE;
-    $grad_range = [];
+    $grad_date_from = [];
     if ($grad_date_from = $node->get('field_vp_search_grad_date')->getValue()) {
       $grad_date_from = $node->get('field_vp_search_grad_date')->getValue()[0]['from'];
       $grad_date_to = $node->get('field_vp_search_grad_date')->getValue()[0]['to'];
@@ -150,8 +147,7 @@ class ExportHeader extends AreaPluginBase {
       $grad_range = range($grad_date_from, $grad_date_to);
     }
 
-    $partner_date_from = FALSE;
-    $partner_range = [];
+    $partner_date_from = [];
     if ($node->get('field_vp_search_partner_year')->getValue()) {
       $partner_date_from = $node->get('field_vp_search_partner_year')->getValue()[0]['from'];
       $partner_date_to = $node->get('field_vp_search_partner_year')->getValue()[0]['to'];
@@ -161,7 +157,7 @@ class ExportHeader extends AreaPluginBase {
       $partner_range = range($partner_date_from, $partner_date_to);
     }
 
-    $bar_date_from = FALSE;
+    $bar_date_from = [];
     if ($node->get('field_vp_search_bar_year')->getValue()) {
       $bar_date_from = $node->get('field_vp_search_bar_year')->getValue()[0]['from'];
       $bar_date_to = $node->get('field_vp_search_bar_year')->getValue()[0]['to'];
@@ -171,7 +167,7 @@ class ExportHeader extends AreaPluginBase {
       $bar_range = range($bar_date_from, $bar_date_to);
     }
 
-    $rate_date_from = FALSE;
+    $rate_date_from = [];
     if ($node->get('field_vp_search_rate_year')->getValue()) {
       $rate_date_from = $node->get('field_vp_search_rate_year')->getValue()[0]['from'];
       $rate_date_to = $node->get('field_vp_search_rate_year')->getValue()[0]['to'];
@@ -181,81 +177,33 @@ class ExportHeader extends AreaPluginBase {
       $rate_range = range($rate_date_from, $rate_date_to);
     }
 
-    // Create firms query string.
-    // if (count($firms) > 1) {
-    //   for ($x = 0; $x < count($firms); $x++) {
-    //     $query .= "firm[$x]=" . $firms[$x] . '&';
-    //   }
-    // }
-    // else {
-    //   $query .= "firm=" . $firms[0] . '&';
-    // }
-
-    // if (count($positions) > 1) {
-    //   for ($x = 0; $x < count($positions); $x++) {
-    //     $query .= "position[$x]=" . $positions[$x] . '&';
-    //   }
-    // }
-    // else {
-    //   $query .= "position=" . $positions[0] . '&';
-    // }
-
-    // if (count($industries) > 1) {
-    //   for ($x = 0; $x < count($industries); $x++) {
-    //     $query .= "industry[$x]=" . $industries[$x] . '&';
-    //   }
-    // }
-    // else {
-    //   $query .= "industry=" . $industries[0] . '&';
-    // }
-
-    // if (count($cities) > 1) {
-    //   for ($x = 0; $x < count($cities); $x++) {
-    //     $query .= "location[$x]=" . $cities[$x] . '&';
-    //   }
-    // }
-    // else {
-    //   $query .= "location=" . $cities[0] . '&';
-    // }
-
-    // if (count($practice_areas) > 1) {
-    //   for ($x = 0; $x < count($practice_areas); $x++) {
-    //     $query .= "practice_area[$x]=" . $practice_areas[$x] . '&';
-    //   }
-    // }
-    // else {
-    //   $query .= "practice_area=" . $practice_areas[0] . '&';
-    // }
-
     $firms_query = $firms ? implode(",", $firms) : 'all';
     $query .= "firm=$firms_query&";
 
     $positions_query = $positions ? implode(",", $positions) : 'all';
     $query .= "position=$positions_query&";
 
-    $industries_query = $industries ? implode(",", $industries) : 'all';
+    $industries_query = $industries ? implode("+", $industries) : 'all';
     $query .= "industry=$industries_query&";
 
     $cities_query = $cities ? implode(",", $cities) : 'all';
     $query .= "location=$cities_query&";
 
-    // $grad_date_query = $grad_date_from ? implode(",", $grad_range) : 'all';
-    // $partner_date_query = $partner_date_from ? implode(",", $partner_range) : 'all';
-    // $bar_date_query = $bar_date_from ? implode(",", $bar_range) : 'all';
-    // $rate_date_query = $rate_date_from ? implode(",", $rate_range) : 'all';
+    $practice_areas_query = $practice_areas ? implode(",", $practice_areas) : 'all';
+    $query .= "practice_areas=$practice_areas_query&";
 
-    // $query .= "graduation_year=$grad_date_query&";
-    // $query .= "partner=$partner_date_query&";
-    // $query .= "bar_year=$bar_date_query&";
-    // $query .= "rate=$rate_date_query&";
+    $grad_date_query = $grad_date_from ? implode(",", $grad_range) : 'all';
+    $query .= "graduation_year=$grad_date_query&";
 
-    // https://valeopartners.lndo.site/saved/search/export?firm[0]=12857&firm[1]=12858&position=2124&industry=2613&location=580&practice_area=4017&graduation_year=all&partner=all&bar_year=all&_format=xls
+    $partner_date_query = $partner_date_from ? implode(",", $partner_range) : 'all';
+    $query .= "partner=$partner_date_query&";
 
-    // https://valeopartners.lndo.site/saved/search/export?firm=12857,12858&position=2111&industry=2613&location=580&practice_area=4017&_format=xls
+    $bar_date_query = $bar_date_from ? implode(",", $bar_range) : 'all';
+    $query .= "bar_year=$bar_date_query&";
 
+    $rate_range_query = $rate_range ? implode("+", $rate_range) : 'all';
+    $query .= "filing_year_end=$rate_range_query&";
 
-    //https://valeopartners.lndo.site/saved/search/export?firm=12857,12858&position=2111&industry=2613&location=580&&graduation_year=2011+2012+2013&_format=xls
-    // field_vp_rate_firm_target_id_verf[0]=257600&field_vp_graduation_value[min]=&field_vp_graduation_value[max]=&field_vp_bar_date_value[min]=&field_vp_bar_date_value[max]=&field_vp_filing_fee_dates_value[min]=&field_vp_filing_fee_dates_value[max]=&_format=xls
     return $query;
 
   }

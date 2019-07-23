@@ -1,0 +1,17 @@
+uuid: 1d9c02e5-de9d-4be0-ae04-7226731422ed
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - valeo_partners_migrations
+_core:
+  default_config_hash: '-gdrmhJkGK-QlBNKzzPyejZy-t3GHNmPglxmkrRSj14'
+id: valeomiggroup
+label: 'Valeo Migrations Group'
+description: 'Drupal 6 migrations group.'
+source_type: 'Drupal 6'
+module: null
+shared_configuration:
+  source:
+    key: migrate

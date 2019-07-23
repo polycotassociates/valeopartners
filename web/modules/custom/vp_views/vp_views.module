@@ -5,7 +5,7 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\taxonomy\Entity\Term;
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Implements hook_preprocess_views_view_table().
  */
 function vp_views_preprocess_views_view_table(&$variables) {
 

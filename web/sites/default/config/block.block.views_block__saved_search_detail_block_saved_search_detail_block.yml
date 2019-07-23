@@ -1,0 +1,39 @@
+uuid: 3e634dd6-8382-42a3-94bc-0565ae8d6ba0
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.saved_search_detail_block
+  module:
+    - ctools
+    - system
+    - views
+  theme:
+    - valeo_classic
+id: views_block__saved_search_detail_block_saved_search_detail_block
+theme: valeo_classic
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:saved_search_detail_block-saved_search_detail_block'
+settings:
+  id: 'views_block:saved_search_detail_block-saved_search_detail_block'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      vp_type_saved_search: vp_type_saved_search
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: "admin/*\r\nedit/*"
+    negate: true
+    context_mapping: {  }

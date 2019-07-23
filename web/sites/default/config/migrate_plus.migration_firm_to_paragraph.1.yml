@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies: {  }
+id: valeo_firm_to_paragraph
+label: 'Firm to Paragraph'
+source: null
+plugin: d6_node
+node_type: individual
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: field_firm
+migration_dependencies:
+  required: {  }
+  optional: {  }
+process:
+  field_vp_graduation/value:
+    plugin: entity_generate
+    source: field_individual_firm
+    default_values: null
+    'field_firm''': field_individual_firm
+    no_stub: true
+_core:
+  default_config_hash: 4WrCnVR8k4egRk-GL7CorwUSLJXvFVteDRhj2SAwl_U
