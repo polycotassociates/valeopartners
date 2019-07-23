@@ -17,4 +17,5 @@ use Drupal\views\Plugin\views\exposed_form\Basic;
  */
 class VeflBasic extends Basic {
   use VeflTrait;
+
 }

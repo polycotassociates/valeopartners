@@ -5,10 +5,11 @@ description: 'Entity activity allow to configure and generate any kind of logs o
 package: 'Community'
 dependencies:
   - drupal:text
+  - drupal:serialization
   - token:token
 
-# Information added by Drupal.org packaging script on 2019-05-28
-version: '8.x-1.0-beta6'
+# Information added by Drupal.org packaging script on 2019-07-03
+version: '8.x-1.0-beta7'
 core: '8.x'
 project: 'entity_activity'
-datestamp: 1559073787
+datestamp: 1562145492

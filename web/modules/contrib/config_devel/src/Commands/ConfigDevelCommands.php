@@ -2,7 +2,7 @@
 
 namespace Drupal\config_devel\Commands;
 
-use Drupal\config_devel\EventSubscriber\ConfigDevelAutoExportSubscriber;
+use Drupal\config_devel\ConfigImporterExporter;
 use Drupal\config_devel\EventSubscriber\ConfigDevelAutoImportSubscriber;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\InstallStorage;
@@ -46,11 +46,11 @@ class ConfigDevelCommands extends DrushCommands {
   protected $configFactory;
 
   /**
-   * The event subscriber that listens to config change events.
+   * The config importer and exporter.
    *
-   * @var \Drupal\config_devel\EventSubscriber\ConfigDevelAutoExportSubscriber
+   * @var \Drupal\config_devel\ConfigImporterExporter
    */
-  protected $autoExportSubscriber;
+  protected $configImportExport;
 
   /**
    * The event subscriber that listens to config change events.
@@ -77,7 +77,7 @@ class ConfigDevelCommands extends DrushCommands {
    *   The parser for info.yml files.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\config_devel\EventSubscriber\ConfigDevelAutoExportSubscriber $autoExportSubscriber
+   * @param \Drupal\config_devel\ConfigImporterExporter $autoExportSubscriber
    *   The event subscriber that listens to config change events, and happens to
    *   contain some code that we depend on which should be factored out into a
    *   separate service.
@@ -88,16 +88,16 @@ class ConfigDevelCommands extends DrushCommands {
    * @param \Drupal\Core\File\FileSystemInterface $fileSystem
    *   The file system service.
    */
-  public function __construct(ModuleHandlerInterface $moduleHandler, ThemeHandlerInterface $themeHandler, InfoParserInterface $infoParser, ConfigFactoryInterface $configFactory, ConfigDevelAutoExportSubscriber $autoExportSubscriber, ConfigDevelAutoImportSubscriber $autoImportSubscriber, FileSystemInterface $fileSystem) {
+  public function __construct(ModuleHandlerInterface $moduleHandler, ThemeHandlerInterface $themeHandler, InfoParserInterface $infoParser, ConfigFactoryInterface $configFactory, ConfigImporterExporter $config_import_export, ConfigDevelAutoImportSubscriber $autoImportSubscriber, FileSystemInterface $fileSystem) {
     parent::__construct();
 
     $this->moduleHandler = $moduleHandler;
     $this->themeHandler = $themeHandler;
     $this->infoParser = $infoParser;
     $this->configFactory = $configFactory;
+    $this->configImportExport = $config_import_export;
     // @todo We should not depend on event subscribers directly.
     // @see https://www.drupal.org/node/2388253
-    $this->autoExportSubscriber = $autoExportSubscriber;
     $this->autoImportSubscriber = $autoImportSubscriber;
     $this->fileSystem = $fileSystem;
   }
@@ -116,11 +116,11 @@ class ConfigDevelCommands extends DrushCommands {
    *   optional:
    *     - field.instance.node.article.tags
    *
-   * @command config-devel-export
+   * @command config:devel-export
    * @param string $extension Machine name of the module, profile or theme to export.
    * @usage drush config-devel-export MODULE_NAME
    *   Write back configuration to the specified module, based on .info file.
-   * @aliases cde,cd-em
+   * @aliases cde,cd-em,config-devel-export
    *
    * @throws \Exception
    *   Thrown when the passed in extension
@@ -135,6 +135,10 @@ class ConfigDevelCommands extends DrushCommands {
 
     // Get the config.
     $config = $this->getExtensionConfig($type, $extension);
+
+    if (empty($config)) {
+      throw new \Exception(sprintf("Couldn't export configuration. There is no config available for %s.", $extension));
+    }
 
     // Export the required config.
     if (isset($config['install'])) {
@@ -161,11 +165,11 @@ class ConfigDevelCommands extends DrushCommands {
    *   optional:
    *     - field.instance.node.article.tags
    *
-   * @command config-devel-import
+   * @command config:devel-import
    * @param string $extension Machine name of the module, profile or theme.
    * @usage drush config-devel-import MODULE_NAME
    *   Import configuration from the specified module, profile or theme into the active storage, based on .info file.
-   * @aliases cdi,cd-im
+   * @aliases cdi,cd-im,config-devel-import
    *
    * @throws \Exception
    *   Thrown when the passed in extension is not enabled.
@@ -180,6 +184,10 @@ class ConfigDevelCommands extends DrushCommands {
 
     // Get the config
     $config = $this->getExtensionConfig($type, $extension);
+
+    if (empty($config)) {
+      throw new \Exception(sprintf("Couldn't import configuration. There is no config available for %s.", $extension));
+    }
 
     // Import config
     if (isset($config['install'])) {
@@ -206,13 +214,13 @@ class ConfigDevelCommands extends DrushCommands {
    *   optional:
    *     - field.instance.node.article.tags
    *
-   * @command config-devel-import-one
+   * @command config:devel-import-one
    * @param string $path Config file name.
    * @usage drush config-devel-import-one system.site.yml
    *   Import the contents of system.site.yml into the config object system.site.
    * @usage drush config-devel-import-one system.site
    *   Import the standard input into the config object system.site. Helpful for scripting copying to remote.
-   * @aliases cdi1,cd-i1
+   * @aliases cdi1,cd-i1,config-devel-import-one
    *
    * @throws \Exception
    *   Thrown when the given file was not found.
@@ -228,7 +236,11 @@ class ConfigDevelCommands extends DrushCommands {
       }
     }
     if ($contents || file_exists($path)) {
-      $this->autoImportSubscriber->importOne($path, '', $contents);
+      $new_hash = $this->configImportExport->importConfig($path, '', $contents);
+
+      if ($new_hash) {
+        $this->output()->writeln('Imported config from file ' . $path . '.');
+      }
     }
     else {
       throw new \Exception("File '$path' not found.");
@@ -309,7 +321,9 @@ class ConfigDevelCommands extends DrushCommands {
    * @param string $extension
    *   The name of the extension we're exporting.
    * @param string $directory
-   *   The directory we're exporting to.
+   *   The subdirectory within the extension that we're exporting to. One of
+   *   \Drupal\Core\Config\InstallStorage\InstallStorage::CONFIG_INSTALL_DIRECTORY
+   *   or \Drupal\Core\Config\InstallStorage\InstallStorage::CONFIG_OPTIONAL_DIRECTORY.
    *
    * @throws \Exception
    *   Thrown when the directory to export to is missing and could not be
@@ -325,7 +339,11 @@ class ConfigDevelCommands extends DrushCommands {
     foreach ($config_list as $name) {
       $config = $this->configFactory->get($name);
       $file_names = [$config_path . '/' . $name . '.yml'];
-      $this->autoExportSubscriber->writeBackConfig($config, $file_names);
+      $written_files = $this->configImportExport->writeBackConfig($config, $file_names);
+
+      foreach ($written_files as $written_file_name) {
+        $this->output()->writeln('Exported config file ' . $written_file_name . '.');
+      }
     }
   }
 
@@ -340,7 +358,9 @@ class ConfigDevelCommands extends DrushCommands {
    * @param string $extension
    *   The module, theme or install profile we're importing.
    * @param string $directory
-   *   The directory we're importing.
+   *   The subdirectory within the extension that we're importing from. One of
+   *   \Drupal\Core\Config\InstallStorage\InstallStorage::CONFIG_INSTALL_DIRECTORY
+   *   or \Drupal\Core\Config\InstallStorage\InstallStorage::CONFIG_OPTIONAL_DIRECTORY.
    */
   protected function importConfig($config_list, $type, $extension, $directory) {
     $config_path = drupal_get_path($type, $extension) . "/$directory";

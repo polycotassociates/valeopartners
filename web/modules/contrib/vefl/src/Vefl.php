@@ -3,11 +3,14 @@
 namespace Drupal\vefl;
 
 use Drupal\Core\Layout\LayoutPluginManagerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Helper class that holds all the main Display Suite helper functions.
  */
 class Vefl {
+
+  use StringTranslationTrait;
 
   /**
    * The layout plugin manager.
@@ -17,6 +20,8 @@ class Vefl {
   protected $layoutManager;
 
   /**
+   * Constructs a new class object.
+   *
    * @param \Drupal\Core\Layout\LayoutPluginManagerInterface $layout_manager
    *   The layout plugin manager.
    */
@@ -48,7 +53,7 @@ class Vefl {
     // Converts layouts array to options.
     $layout_options = [];
     foreach ($layouts as $key => $layout_definition) {
-      $optgroup = t('Other');
+      $optgroup = $this->t('Other');
 
       // Create new layout option group.
       if (!empty($layout_definition->getCategory())) {

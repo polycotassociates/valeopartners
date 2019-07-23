@@ -12,8 +12,8 @@ function vefl_theme() {
   return [
     'vefl_views_exposed_form' => [
       'render element' => 'form',
-      'theme path' => drupal_get_path('module', 'vefl')
-    ]
+      'theme path' => drupal_get_path('module', 'vefl'),
+    ],
   ];
 }
 

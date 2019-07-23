@@ -34,4 +34,13 @@ final class EntityActivityEvents {
    */
   const ENTITY_ACTIVITY_DELETE = 'entity_activity.entity.delete';
 
+  /**
+   * Name of the event fired before returning the content entity types supported.
+   *
+   * @Event
+   *
+   * @see \Drupal\entity_activity\Event\EntityActivityEvent
+   */
+  const ENTITY_ACTIVITY_SUPPORT_ENTITY_TYPE = 'entity_activity.support_entity_type';
+
 }

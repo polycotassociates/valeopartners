@@ -43,6 +43,7 @@ class ConfigDevelAutoImportSubscriber extends ConfigDevelSubscriberBase implemen
    * @return bool
    */
   public function importOne($filename, $original_hash = '', $contents = '') {
+    // TODO: use the config_devel.importer_exporter service.
     $hash = '';
     if (!$contents && (!$contents = @file_get_contents($filename))) {
       return $hash;

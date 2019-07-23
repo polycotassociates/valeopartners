@@ -19,6 +19,8 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\entity_activity\Event\EntityActivityEvent;
+use Drupal\entity_activity\Event\EntityActivityEvents;
+use Drupal\entity_activity\Event\EntityActivitySupportEntityTypeEvent;
 use Drupal\entity_activity\Plugin\LogGeneratorInterface;
 use Drupal\entity_activity\Plugin\LogGeneratorManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -136,13 +138,6 @@ class EntityActivityManager implements EntityActivityManagerInterface {
   protected $logStorage;
 
   /**
-   * An array of supported content entity type.
-   *
-   * @var array
-   */
-  protected $supportedContentEntityTypes;
-
-  /**
    * EntityActivityManager constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -193,20 +188,34 @@ class EntityActivityManager implements EntityActivityManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSupportedContentEntityTypes() {
-    if (!$this->supportedContentEntityTypes) {
-      /** @var \Drupal\Core\Entity\ContentEntityTypeInterface[] $entity_types */
-      $entity_types = $this->entityTypeManager->getDefinitions();
-      foreach ($entity_types as $entity_type_id => $entity_type) {
-        if (!$entity_type instanceof ContentEntityTypeInterface
-          || !method_exists($entity_type, 'getBundleEntityType')
-          || !$entity_type->hasLinkTemplate('canonical')) {
-          unset($entity_types[$entity_type_id]);
-        }
+  public function getSupportedContentEntityTypes($return_object = FALSE) {
+    /** @var \Drupal\Core\Entity\ContentEntityTypeInterface[] $entity_types */
+    $entity_types = $this->entityTypeManager->getDefinitions();
+    foreach ($entity_types as $entity_type_id => $entity_type) {
+      if (!$entity_type instanceof ContentEntityTypeInterface) {
+        unset($entity_types[$entity_type_id]);
+        continue;
       }
-      $this->supportedContentEntityTypes = array_keys($entity_types);
+      if (!method_exists($entity_type, 'getBundleEntityType')
+        || !$entity_type->hasLinkTemplate('canonical')) {
+        // Custom modules can want to support content entity type without a
+        // canonical link template, and then they must manage programmatically
+        // subscriptions to these entities which can not have a "subscribe on"
+        // button.
+        $support_entity_type = new EntityActivitySupportEntityTypeEvent($entity_type_id);
+        $this->eventDispatcher->dispatch(EntityActivityEvents::ENTITY_ACTIVITY_SUPPORT_ENTITY_TYPE, $support_entity_type);
+        if ($support_entity_type->isSupported()) {
+          continue;
+        }
+        unset($entity_types[$entity_type_id]);
+      }
     }
-    return $this->supportedContentEntityTypes;
+    if ($return_object) {
+      return $entity_types;
+    }
+    else {
+      return array_keys($entity_types);
+    }
   }
 
   /**

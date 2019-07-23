@@ -1,4 +1,4 @@
-name: Configuration development module
+name: Configuration development
 type: module
 description: 'Helps developers work with configuration.'
 package: Configuration
@@ -6,8 +6,8 @@ package: Configuration
 # core: 8.x
 configure: config_devel.settings
 
-# Information added by Drupal.org packaging script on 2017-11-16
-version: '8.x-1.2'
+# Information added by Drupal.org packaging script on 2019-07-11
+version: '8.x-1.3'
 core: '8.x'
 project: 'config_devel'
-datestamp: 1510843086
+datestamp: 1562862187

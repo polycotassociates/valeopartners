@@ -25,8 +25,10 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Utility\Token;
 use Drupal\entity_activity\Entity\GeneratorInterface;
+use Drupal\entity_activity\EntityActivityManagerInterface;
 use Drupal\token\TokenEntityMapperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Base class for Log generator plugins.
@@ -122,6 +124,20 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
   protected $time;
 
   /**
+   * The serializer service.
+   *
+   * @var \Symfony\Component\Serializer\SerializerInterface
+   */
+  protected $serializer;
+
+  /**
+   * The global entity activity manager.
+   *
+   * @var \Drupal\entity_activity\EntityActivityManagerInterface
+   */
+  protected $entityActivityManager;
+
+  /**
    * An array of entity type id supported by entity activity.
    *
    * @var array
@@ -182,11 +198,15 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
    *   The config factory service.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
+   * @param \Symfony\Component\Serializer\SerializerInterface $serializer
+   *   The serializer service.
+   * @param \Drupal\entity_activity\EntityActivityManagerInterface $entity_activity_manager
+   *   The global entity activity manager.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, DateFormatterInterface $date_formatter, Token $token, ModuleHandlerInterface $module_handler, EntityRepositoryInterface $entity_repository, EntityFieldManagerInterface $entity_field_manager, TokenEntityMapperInterface $token_entity_mapper, EntityTypeBundleInfoInterface $entity_type_bundle_info, AccountProxyInterface $current_user, LanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory, TimeInterface $time) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, DateFormatterInterface $date_formatter, Token $token, ModuleHandlerInterface $module_handler, EntityRepositoryInterface $entity_repository, EntityFieldManagerInterface $entity_field_manager, TokenEntityMapperInterface $token_entity_mapper, EntityTypeBundleInfoInterface $entity_type_bundle_info, AccountProxyInterface $current_user, LanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory, TimeInterface $time, SerializerInterface $serializer, EntityActivityManagerInterface $entity_activity_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->dateFormatter = $date_formatter;
@@ -200,6 +220,8 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
     $this->languageManager = $language_manager;
     $this->configFactory = $config_factory;
     $this->time = $time;
+    $this->serializer = $serializer;
+    $this->entityActivityManager = $entity_activity_manager;
     $this->subscriptionStorage = $this->entityTypeManager->getStorage('entity_activity_subscription');
     $this->logStorage = $this->entityTypeManager->getStorage('entity_activity_log');
     $this->termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
@@ -224,7 +246,9 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
       $container->get('current_user'),
       $container->get('language_manager'),
       $container->get('config.factory'),
-      $container->get('datetime.time')
+      $container->get('datetime.time'),
+      $container->get('serializer'),
+      $container->get('entity_activity.manager')
     );
   }
 
@@ -655,18 +679,25 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
    */
   protected function getSupportedEntityTypes() {
     if (!$this->supportedContentEntityType) {
-      /** @var \Drupal\Core\Entity\ContentEntityTypeInterface[] $entity_types */
-      $entity_types = $this->entityTypeManager->getDefinitions();
-      foreach ($entity_types as $entity_type_id => $entity_type) {
-        if (!$entity_type instanceof ContentEntityTypeInterface
-          || !method_exists($entity_type, 'getBundleEntityType')
-          || !$entity_type->hasLinkTemplate('canonical')) {
-          unset($entity_types[$entity_type_id]);
-        }
-      }
-      $this->supportedContentEntityType = array_keys($entity_types);
+      $this->supportedContentEntityType = $this->entityActivityManager->getSupportedContentEntityTypes();
     }
     return $this->supportedContentEntityType;
+  }
+
+  /**
+   * Get the class name of the entity to use it with the serializer service.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The content entity.
+   *
+   * @return string
+   *   The class name, ready to be used with the serializer service for the
+   *   deserialize() method which expect for example for Node the string class :
+   *   'Drupal\node\Entity\Node'
+   */
+  protected function getClassName(ContentEntityInterface $entity) {
+    $class = $entity->getEntityType()->getClass();
+    return $class;
   }
 
   /**
@@ -699,6 +730,8 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
     $settings['current_user_id'] = $current_user ? $current_user->id() : $this->currentUser->id();
     $settings['generator_id'] = $generator_id;
     $settings['current_date'] = $this->time->getRequestTime();
+    $settings['source_entity_serialized'] = $this->serializer->serialize($entity, 'json');
+    $settings['source_entity_class'] = $this->getClassName($entity);
     return $settings;
   }
 
@@ -717,6 +750,8 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
     $langcode = $settings['langcode'];
     $generator_id = $settings['generator_id'];
     $current_date = $settings['current_date'];
+    $source_entity_serialized = $settings['source_entity_serialized'];
+    $source_entity_class = $settings['source_entity_class'];
 
     // The log generator could have been disabled after an item has been added
     // to the queue if using cron.
@@ -735,7 +770,14 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
     $use_user_preferred_language = $this->configFactory->get('entity_activity.settings')->get('language.user');
     /** @var \Drupal\Core\Entity\ContentEntityInterface $source_entity */
     $source_entity = $this->entityTypeManager->getStorage($source_entity_type)->load($source_entity_id);
-    $source_entity = $source_entity->hasTranslation($langcode) ? $source_entity->getTranslation($langcode) : $source_entity;
+    // The source entity has been deleted. Load it from the serialized entity stored in the settings.
+    // @TODO use always this entity serialized instead of reloading the source entity.
+    if (!$source_entity) {
+      $source_entity = $this->serializer->deserialize($source_entity_serialized, $source_entity_class, 'json');
+    }
+    if ($source_entity) {
+      $source_entity = $source_entity->hasTranslation($langcode) ? $source_entity->getTranslation($langcode) : $source_entity;
+    }
 
     foreach ($entities_subscribed as $entity_type_id => $ids) {
       foreach ($ids as $id) {
@@ -754,7 +796,7 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
             $owner = $subscription->getOwner();
             $user_langcode = $owner->getPreferredLangcode(FALSE);
           }
-          if ($user_langcode && $user_langcode != $langcode) {
+          if ($user_langcode && $user_langcode != $langcode && $source_entity instanceof ContentEntityInterface) {
             $original_langcode = $langcode;
             $langcode = $user_langcode;
 
@@ -775,7 +817,7 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
                 // user id and the current date stored to retrieve right values
                 // for tokens.
                 // @See entity_activity_tokens().
-                $log_message = $this->rewriteFinalLog($source_entity, $log_message, $current_user_id, $current_date, $langcode);
+                $log_message = $this->rewriteFinalLog($source_entity, $log_message, $current_user_id, $current_date, $original_langcode);
               }
             }
           }

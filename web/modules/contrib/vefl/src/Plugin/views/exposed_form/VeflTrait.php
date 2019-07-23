@@ -93,11 +93,17 @@ trait VeflTrait {
   }
 
   /**
-   * @param $layout_id
+   * Set filters for regions.
+   *
+   * @param string $layout_id
+   *   The layout id.
    * @param array $layouts
+   *   The array of layouts.
+   *
    * @return array
+   *   Form elements.
    */
-  private function getRegionElements($layout_id, $layouts = []) {
+  private function getRegionElements($layout_id, array $layouts = []) {
     $element = [
       '#prefix' => '<div id="edit-block-region-wrapper">',
       '#suffix' => '</div>',
@@ -107,11 +113,6 @@ trait VeflTrait {
       'filters' => $this->view->display_handler->getHandlers('filter'),
       'actions' => $this->vefl->getFormActions(),
     ];
-
-    // Adds additional action for BEF combined sort. @todo
-//    if (!empty($vars['widgets']['sort-sort_bef_combine'])) {
-//      $actions[] = 'sort-sort_bef_combine';
-//    }
 
     $regions = [];
     foreach ($layouts[$layout_id]->getRegions() as $region_id => $region) {
@@ -124,19 +125,28 @@ trait VeflTrait {
           if (!$filter->options['exposed']) {
             continue;
           }
-          $filter = $filter->definition['title'];
+          elseif ($filter->options['is_grouped']) {
+            $id = $filter->options['group_info']['identifier'];
+            $label = $filter->options['group_info']['label'];
+          }
+          else {
+            $id = $filter->options['expose']['identifier'];
+            $label = $filter->options['expose']['label'];
+          }
+        }
+        else {
+          $label = $filter;
         }
 
-        $element[$id] = [
-          '#type' => 'select',
-          '#title' => $filter,
-          '#options' => $regions,
-        ];
-
-        // Set default region for chosen layout.
-        if (!empty($this->options['layout']['widget_region'][$id]) && !empty($regions[$this->options['layout']['widget_region'][$id]])) {
-          $element[$id]['#default_value'] = $this->options['layout']['widget_region'][$id];
+        // Check if the operator is exposed for this filter.
+        if (isset($filter->options['expose']['use_operator'])
+          && $filter->options['expose']['use_operator']
+        ) {
+          $operator_id = $filter->options['expose']['operator_id'];;
+          $element[$operator_id] = $this->createSelectElementForVeflForm($operator_id, $this->t('Expose operator') . ' - ' . $label, $regions);
         }
+
+        $element[$id] = $this->createSelectElementForVeflForm($id, $label, $regions);
       }
     }
 
@@ -163,6 +173,8 @@ trait VeflTrait {
   }
 
   /**
+   * Alters the exposed form.
+   *
    * @inheritdoc
    */
   public function exposedFormAlter(&$form, FormStateInterface $form_state) {
@@ -177,7 +189,7 @@ trait VeflTrait {
         'id' => $layout_id,
         'settings' => [],
       ],
-      'regions' => []
+      'regions' => [],
     ];
 
     foreach ($widget_region as $field_name => $region) {
@@ -190,6 +202,34 @@ trait VeflTrait {
     }
 
     $form['#theme'] = $view->buildThemeFunctions('vefl_views_exposed_form');
+  }
+
+  /**
+   * Create form element VEFL form.
+   *
+   * @param string $element_id
+   *   The form element id.
+   * @param string $label
+   *   The label for the form's element.
+   * @param array $regions
+   *   The array of regions.
+   *
+   * @return array
+   *   Form element.
+   */
+  private function createSelectElementForVeflForm($element_id, $label, array $regions) {
+    $element = [
+      '#type' => 'select',
+      '#title' => $label,
+      '#options' => $regions,
+    ];
+
+    // Set default region for chosen layout.
+    if (!empty($this->options['layout']['widget_region'][$element_id]) && !empty($regions[$this->options['layout']['widget_region'][$element_id]])) {
+      $element['#default_value'] = $this->options['layout']['widget_region'][$element_id];
+    }
+
+    return $element;
   }
 
 }

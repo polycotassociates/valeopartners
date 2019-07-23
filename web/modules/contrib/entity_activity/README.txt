@@ -44,8 +44,18 @@ CONFIGURATION
 All the configuration happens under /admin/config/content/entity-activity.
 
 General settings:
- * Configure the content entity type on wich you want enable subscription.
- * Configure a purge if needed for the logs generated
+ * Configure the content entity type on which you want enable subscription.
+ * Configure a purge if needed for the logs generated.
+
+ The content entity type supported are those which implements
+ ContentEntityTypeInterface and which have a canonical link template.
+ Custom modules can alter the supported content entity type to add entity type
+ which have not a canonical link template by subscribing to the event
+ 'entity_activity.support_entity_type'. Custom modules are then responsible to
+ generate subscriptions to these additionnal entity type supported (as contact
+ message or flagging for example).
+ See the issue https://www.drupal.org/project/entity_activity/issues/3063918 for
+ a complete example.
 
 Generators and Logs generators :
  * Create and configure as many as you need config entities Generators. Each of
@@ -119,8 +129,9 @@ FAQ
   The only way to be notified of new content is to subscribed to related
   entities (author, taxonomy term, etc) and then configure a generator based
   on the entities referenced by the relevant field. Users who subscribed to
-  theses related entites will be the notified of new content.
-  There is no way actually to be globally notified.
+  theses related entities will be the notified of new content.
+  There is no way actually to be globally notified. This need a "global"
+  subscription which could be implemented if needed in the futur.
 
 MAINTAINERS
 -----------

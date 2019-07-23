@@ -117,7 +117,7 @@ class SettingsForm extends ConfigFormBase {
       '#tree' => TRUE,
     ];
 
-    $entity_types = $this->getSupportedContentEntityTypes();
+    $entity_types = $this->entityActivityManager->getSupportedContentEntityTypes(TRUE);
     // We do not use here a checkboxes to be able later to
     // enable / disable per bundle too.
     /** @var \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type */
@@ -253,25 +253,6 @@ class SettingsForm extends ConfigFormBase {
       ->set('purge', $values['purge'])
       ->set('language', $values['language'])
       ->save();
-  }
-
-  /**
-   * Get an array of content entity types.
-   */
-  public function getSupportedContentEntityTypes() {
-    if (!$this->supportedContentEntityTypes) {
-      /** @var \Drupal\Core\Entity\ContentEntityTypeInterface[] $entity_types */
-      $entity_types = $this->entityTypeManager->getDefinitions();
-      foreach ($entity_types as $entity_type_id => $entity_type) {
-        if (!$entity_type instanceof ContentEntityTypeInterface
-          || !method_exists($entity_type, 'getBundleEntityType')
-          || !$entity_type->hasLinkTemplate('canonical')) {
-          unset($entity_types[$entity_type_id]);
-        }
-      }
-      $this->supportedContentEntityTypes = $entity_types;
-    }
-    return $this->supportedContentEntityTypes;
   }
 
 }

@@ -208,7 +208,7 @@ abstract class EntityActivityBaseController extends ControllerBase implements En
 
     switch ($property) {
       case 'entity_type':
-        $supported_entity_types = $this->entityActivityManager->getSupportedContentEntityTypes();
+        $enabled_entity_types = $this->entityActivityManager->getContentEntityTypesEnabled();
         try {
           $storage = $this->entityTypeManager->getStorage($data[$property]);
         }
@@ -216,7 +216,7 @@ abstract class EntityActivityBaseController extends ControllerBase implements En
           $storage = NULL;
         }
 
-        if (in_array($data[$property], $supported_entity_types) && $storage instanceof EntityStorageInterface) {
+        if (in_array($data[$property], $enabled_entity_types) && $storage instanceof EntityStorageInterface) {
           $result = TRUE;
         }
         break;

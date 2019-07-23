@@ -13,7 +13,7 @@ Malformed migration_dependencies breaks all migrations
 Source: https://www.drupal.org/files/issues/2019-03-24/2815895-malformed-migration-dependencies-4.patch
 
 
-Create a builder for the d6_profile_values migration
-Source: https://www.drupal.org/files/issues/2549003-13.patch
+Contextual filters: Taxonomy filter validation using multiple term names
+Source: https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch
 
 

@@ -10,18 +10,22 @@ use Drupal\Core\Entity\ContentEntityInterface;
 interface EntityActivityManagerInterface {
 
   /**
-   * Returns objects of content entity types supported by Log generators.
+   * Returns objects or id of content entity types supported by Log generators.
+   *
+   * @param bool $return_object
+   *   Should we return an array of object ?
    *
    * @return array
-   *   Objects of entity types that can generate log.
+   *   Id or Objects of entity types that can generate log.
    */
-  public function getSupportedContentEntityTypes();
+  public function getSupportedContentEntityTypes($return_object = FALSE);
 
   /**
    * Returns an array of content entity types ID enabled.
    *
    * @return array
-   *   Objects of entity types that can generate log.
+   *   An array of entity type id that can generate log and/or on which we can
+   *   subscribe.
    */
   public function getContentEntityTypesEnabled();
 

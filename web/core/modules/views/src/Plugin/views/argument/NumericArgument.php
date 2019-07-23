@@ -101,7 +101,7 @@ class NumericArgument extends ArgumentPluginBase {
       $this->operator = $break->operator;
     }
     else {
-      $this->value = [$this->argument];
+      $this->value = array_filter(preg_split('/[,+ ]/', $this->argument));
     }
 
     $placeholder = $this->placeholder();

@@ -1,4 +1,7 @@
 services:
+  config_devel.importer_exporter:
+    class: Drupal\config_devel\ConfigImporterExporter
+    arguments: ['@config.factory', '@config.manager', '@event_dispatcher']
   config_devel.writeback_subscriber:
     class: Drupal\config_devel\EventSubscriber\ConfigDevelAutoExportSubscriber
     arguments: ['@config.factory', '@config.manager', '@event_dispatcher']

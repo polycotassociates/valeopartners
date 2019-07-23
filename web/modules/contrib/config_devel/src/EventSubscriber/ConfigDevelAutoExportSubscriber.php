@@ -96,6 +96,7 @@ class ConfigDevelAutoExportSubscriber extends ConfigDevelSubscriberBase implemen
    *   The file names to which the configuration should be written.
    */
   public function writeBackConfig(Config $config, array $file_names) {
+    // TODO: use the config_devel.importer_exporter service.
     if ($file_names) {
       $data = $config->get();
       $config_name = $config->getName();
