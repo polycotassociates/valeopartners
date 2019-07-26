@@ -87,7 +87,7 @@ function vp_api_node_insert(NodeInterface $node) {
 
       $paragraph_standard_data = [
         'type' => 'standard_rate_by_year',
-        'field_paragraph_standard_rate_yr' => (string) $filing_year,
+        'field_paragraph_standard_rate_yr' => (string) $x,
         'field_paragraph_standard_rate' => 0,
       ];
 
