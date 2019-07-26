@@ -49,6 +49,7 @@
         "drupal/entity_activity": "^1.0",
         "drupal/entity_print": "^2.1",
         "drupal/entity_usage": "^2.0",
+        "drupal/entityconnect": "^2.0",
         "drupal/features": "3.8",
         "drupal/field_group": "^3.0",
         "drupal/form_mode_control": "^2.0",

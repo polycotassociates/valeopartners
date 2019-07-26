@@ -20,7 +20,6 @@ module:
   content_access: 0
   content_moderation: 0
   contextual: 0
-  contextual_range_filter: 0
   csv_importer: 0
   csv_serialization: 0
   ctools: 0
@@ -94,6 +93,7 @@ module:
   typed_data: 0
   update: 0
   user: 0
+  valeo_partners_migrations: 0
   vefl_bef: 0
   verf: 0
   views_bulk_edit: 0

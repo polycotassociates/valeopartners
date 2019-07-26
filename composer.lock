@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9a0f0ad830e932e52a4647ffd58f551",
+    "content-hash": "d830dedb84140e60a65696d2d04f8821",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3942,6 +3942,61 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/entity_usage",
                 "issues": "http://drupal.org/project/issues/entity_usage"
+            }
+        },
+        {
+            "name": "drupal/entityconnect",
+            "version": "2.0.0-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/entityconnect.git",
+                "reference": "8.x-2.0-alpha1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entityconnect-8.x-2.0-alpha1.zip",
+                "reference": "8.x-2.0-alpha1",
+                "shasum": "65aee9ef330c7511edac7a83f124394bf0a1d345"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.0-alpha1",
+                    "datestamp": "1486464184",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "amaria",
+                    "homepage": "https://www.drupal.org/user/66428"
+                },
+                {
+                    "name": "jygastaud",
+                    "homepage": "https://www.drupal.org/user/660334"
+                },
+                {
+                    "name": "olmeta.david",
+                    "homepage": "https://www.drupal.org/user/720398"
+                }
+            ],
+            "description": "Allows for referenced entity to be created and edited from the entity reference field",
+            "homepage": "https://www.drupal.org/project/entityconnect",
+            "support": {
+                "source": "https://git.drupalcode.org/project/entityconnect"
             }
         },
         {
