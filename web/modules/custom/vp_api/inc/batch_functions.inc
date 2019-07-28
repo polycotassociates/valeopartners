@@ -3,6 +3,7 @@
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Database\Database;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 /**
  * Batch execution.
@@ -12,7 +13,7 @@ use Drupal\Core\Database\Database;
  * @param array $context
  *   An array of contextual key/value information for rebuild batch process.
  */
-function _execute_batch($type, array &$context) {
+function _execute_batch($type, $time, array &$context) {
 
   Database::setActiveConnection('pantheon');
   $database = Database::getConnection();
@@ -20,22 +21,43 @@ function _execute_batch($type, array &$context) {
   switch ($type) {
 
     case 'vp_type_case':
-      $query = $database->query("SELECT nid FROM node WHERE type='vp_type_case'");
+      if ($time) {
+        $query = $database->query("SELECT nid, created FROM node_field_data WHERE type='vp_type_case' AND created > $time");
+      }
+      else {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_case'");
+      }
       $type_title = "Case";
       break;
 
     case 'vp_type_filing':
-      $query = $database->query("SELECT nid FROM node WHERE type='vp_type_filing'");
+      if ($time) {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_filing' AND created > $time");
+      }
+      else {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_filing'");
+      }
       $type_title = "Filing";
       break;
 
     case 'vp_type_rate':
-      $query = $database->query("SELECT nid FROM node WHERE type='vp_type_rate'");
+      if ($time) {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_rate' AND created > $time");
+      }
+      else {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_rate'");
+      }
       $type_title = "Rate";
       break;
 
     case 'vp_type_individual':
-      $query = $database->query("SELECT nid FROM node WHERE type='vp_type_individual'");
+      if ($time) {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_individual' AND created > $time");
+      }
+      else {
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_individual'");
+      }
+
       $type_title = "Individual";
       $standard_rate_paragraphs = generate_standard_rate_paragraphs();
       $actual_rate_paragraphs = generate_actual_rate_paragraphs();
@@ -46,7 +68,6 @@ function _execute_batch($type, array &$context) {
   $ids = $query->fetchCol();
   $total = count($ids);
   $counter = 0;
-
 
   // Initiate multistep processing.
   if (empty($context['sandbox'])) {

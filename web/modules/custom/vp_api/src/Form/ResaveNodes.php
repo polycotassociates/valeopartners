@@ -25,6 +25,12 @@ class ResaveNodes extends FormBase {
 
     $form['actions'] = ['#type' => 'actions'];
 
+    $form['date'] = [
+      '#type' => 'date',
+      '#title' => $this
+        ->t('Resave results after date:'),
+    ];
+
     $form['actions']['cases'] = [
       '#type' => 'submit',
       '#value' => t('Refresh Cases'),
@@ -72,12 +78,14 @@ class ResaveNodes extends FormBase {
    */
   public function refreshCaseHandler(array &$form, FormStateInterface $form_state) {
     $type = 'vp_type_case';
+    $date = $form['date'];
+    $time = strtotime($date['#value']);
     $batch = [
       'init_message' => t('Executing a batch...'),
       'operations' => [
         [
           '_execute_batch',
-          [$type],
+          [$type, $time],
         ],
       ],
       'file' => drupal_get_path('module', 'vp_api') . '/inc/batch_functions.inc',
@@ -95,12 +103,14 @@ class ResaveNodes extends FormBase {
    */
   public function refreshRateHandler(array &$form, FormStateInterface $form_state) {
     $type = 'vp_type_rate';
+    $date = $form['date'];
+    $time = strtotime($date['#value']);
     $batch = [
       'init_message' => t('Executing a batch...'),
       'operations' => [
         [
           '_execute_batch',
-          [$type],
+          [$type, $time],
         ],
       ],
       'file' => drupal_get_path('module', 'vp_api') . '/inc/batch_functions.inc',
@@ -118,12 +128,14 @@ class ResaveNodes extends FormBase {
    */
   public function refreshFilingHandler(array &$form, FormStateInterface $form_state) {
     $type = 'vp_type_filing';
+    $date = $form['date'];
+    $time = strtotime($date['#value']);
     $batch = [
       'init_message' => t('Executing a batch...'),
       'operations' => [
         [
           '_execute_batch',
-          [$type],
+          [$type, $time],
         ],
       ],
       'file' => drupal_get_path('module', 'vp_api') . '/inc/batch_functions.inc',
@@ -141,12 +153,14 @@ class ResaveNodes extends FormBase {
    */
   public function refreshIndividualHandler(array &$form, FormStateInterface $form_state) {
     $type = 'vp_type_individual';
+    $date = $form['date'];
+    $time = strtotime($date['#value']);
     $batch = [
       'init_message' => t('Executing a batch...'),
       'operations' => [
         [
           '_execute_batch',
-          [$type],
+          [$type, $time],
         ],
       ],
       'file' => drupal_get_path('module', 'vp_api') . '/inc/batch_functions.inc',
