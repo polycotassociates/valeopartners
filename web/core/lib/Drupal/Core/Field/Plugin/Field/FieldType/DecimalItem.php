@@ -2,6 +2,7 @@
 
 namespace Drupal\Core\Field\Plugin\Field\FieldType;
 
+use Drupal\Component\Utility\Number;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -78,7 +79,7 @@ class DecimalItem extends NumericItemBase {
       '#type' => 'number',
       '#title' => t('Scale', [], ['context' => 'decimal places']),
       '#min' => 0,
-      '#max' => 10,
+      '#max' => Number::IEEE_754_DOUBLE_GUARANTEED_SIGNIFICANT_DECIMALS,
       '#default_value' => $settings['scale'],
       '#description' => t('The number of digits to the right of the decimal.'),
       '#disabled' => $has_data,
@@ -112,8 +113,10 @@ class DecimalItem extends NumericItemBase {
     $element = parent::fieldSettingsForm($form, $form_state);
     $settings = $this->getSettings();
 
-    $element['min']['#step'] = pow(0.1, $settings['scale']);
-    $element['max']['#step'] = pow(0.1, $settings['scale']);
+    // Convert to string, for consistent and lossless processing.
+    $step = number_format(pow(0.1, $settings['scale']), $settings['scale'], '.', '');
+    $element['min']['#step'] = $step;
+    $element['max']['#step'] = $step;
 
     return $element;
   }

@@ -157,7 +157,8 @@
             "ManyToOneHelper ignores group configuration for some cases and forces INNER joins": "https://www.drupal.org/files/issues/2018-08-02/manytoonehelper_ignores-2559961-44-8.5.x.patch",
             "Impossible to update an entity revision if the field value you are updating matches the default revision.": "https://www.drupal.org/files/issues/2018-07-30/entity_original_revision-2859042-26.patch",
             "Malformed migration_dependencies breaks all migrations": "https://www.drupal.org/files/issues/2019-03-24/2815895-malformed-migration-dependencies-4.patch",
-            "Contextual filters: Taxonomy filter validation using multiple term names": "https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch"
+            "Contextual filters: Taxonomy filter validation using multiple term names": "https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch",
+            "Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2019-05-04/drupal_2230909_138.patch"
         }
     },
     "build-env": {

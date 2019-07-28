@@ -17,3 +17,7 @@ Contextual filters: Taxonomy filter validation using multiple term names
 Source: https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch
 
 
+Simple decimals fail to pass validation
+Source: https://www.drupal.org/files/issues/2019-05-04/drupal_2230909_138.patch
+
+
