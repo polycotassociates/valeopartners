@@ -78,7 +78,8 @@ function computed_field_field_vp_rate_total_fees_calc_compute($entity_type_manag
     $value = 0;
   }
 
-  return money_format('%n',$value);
+  return $value;
+
 }
 
 /**
