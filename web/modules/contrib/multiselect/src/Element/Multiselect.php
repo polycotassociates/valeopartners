@@ -47,13 +47,13 @@ class Multiselect extends Select {
    *   object with an 'option' member that is an associative array. This
    *   parameter is only used internally and should not be passed.
    *
-   * @return string
-   *   An HTML string of options for the multiselect form element.
+   * @return array
+   *   An array of options for the multiselect form element.
    */
   public static function getOptions($type, $element, $choices = NULL) {
     if (!isset($choices)) {
       if (empty($element['#options'])) {
-        return '';
+        return array();
       }
       $choices = $element['#options'];
     }

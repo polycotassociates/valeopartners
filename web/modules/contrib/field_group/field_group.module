@@ -239,7 +239,7 @@ function field_group_inline_entity_form_entity_form_alter(&$entity_form, FormSta
   ];
 
   field_group_attach_groups($entity_form, $context);
-  $entity_form['#process'][] = 'field_group_form_process';
+  field_group_form_process($entity_form);
 }
 
 /**

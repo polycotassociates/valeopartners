@@ -103,7 +103,7 @@ function template_preprocess_multiselect(&$variables) {
   $variables['multiselect']['selected']['attributes']['size'] = $total_size;
 
   // Prepare attributes for available select.
-  foreach (array('multiple', 'required', 'class') as $key) {
+  foreach (array('multiple', 'class') as $key) {
     $element_key = "#{$key}";
     if (isset($element[$element_key])) {
       $variables['multiselect']['available']['attributes'][$key] = $element[$element_key];

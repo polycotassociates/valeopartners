@@ -401,7 +401,7 @@ function field_group_field_ui_create_vertical_tabs(&$form, &$form_state, $params
  */
 function field_group_display_overview_row_region($row) {
   // We already cleaned region when building the form.
-  return $row['region']['#value'];
+  return $row['region']['#value'] === 'first' ? 'content' : $row['region']['#value'];
 }
 
 /**

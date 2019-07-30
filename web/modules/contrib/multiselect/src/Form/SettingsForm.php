@@ -47,9 +47,8 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('multiselect.settings')
-      ->set('multiselect.widths', $form_state['values']['multiselect_widths'])
-      ->save();
+    $config = $this->config('multiselect.settings');  
+    $config->set('multiselect.widths', $form_state->getValue('multiselect_widths'))->save();
 
     parent::submitForm($form, $form_state);
   }

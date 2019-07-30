@@ -2,14 +2,14 @@
 
 namespace Drupal\Tests\multiselect\FunctionalJavascript;
 
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
  * Tests the multiselect element using JavaScript.
  *
  * @group multiselect
  */
-class MultiselectElementJavascriptTest extends JavascriptTestBase {
+class MultiselectElementJavascriptTest extends WebDriverTestBase {
 
   /**
    * {@inheritdoc}
