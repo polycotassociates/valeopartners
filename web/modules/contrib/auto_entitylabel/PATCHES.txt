@@ -5,7 +5,3 @@ Title displayed as %AutoEntityLabel% after saving via Inline Entity Form
 Source: https://www.drupal.org/files/issues/Title_displayed_as_AutoEntityLabel_after_saving_via_Inline_Entity_Form-2905230-6.patch
 
 
-Broken when provider !=entityTypeId
-Source: https://www.drupal.org/files/issues/2019-01-19/auto_entitylabel-2923876-28-Broken-when-provider-entityId.patch
-
-

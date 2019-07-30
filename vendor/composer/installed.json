@@ -1629,12 +1629,12 @@
     },
     {
         "name": "drupal/auto_entitylabel",
-        "version": "dev-2.x",
-        "version_normalized": "dev-2.x",
+        "version": "dev-3.x",
+        "version_normalized": "dev-3.x",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/auto_entitylabel.git",
-            "reference": "a40d5ad28ada101c0209e05a2da615c7a323b425"
+            "reference": "3a4d9b47a2f4c5dce4bd71a622b1fd78a2ca1960"
         },
         "require": {
             "drupal/core": "~8.0"
@@ -1642,11 +1642,11 @@
         "type": "drupal-module",
         "extra": {
             "branch-alias": {
-                "dev-2.x": "2.x-dev"
+                "dev-3.x": "3.x-dev"
             },
             "drupal": {
-                "version": "8.x-2.1-beta1+20-dev",
-                "datestamp": "1563984785",
+                "version": "8.x-3.x-dev",
+                "datestamp": "1563985988",
                 "security-coverage": {
                     "status": "not-covered",
                     "message": "Dev releases are not covered by Drupal security advisories."
@@ -4202,12 +4202,18 @@
     },
     {
         "name": "drupal/field_group",
-        "version": "dev-3.x",
-        "version_normalized": "dev-3.x",
+        "version": "3.0.0-rc1",
+        "version_normalized": "3.0.0.0-RC1",
         "source": {
             "type": "git",
             "url": "https://git.drupalcode.org/project/field_group.git",
-            "reference": "b245b85f99c48221edf5fb60344dfe53737ae0f9"
+            "reference": "8.x-3.0-rc1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/field_group-8.x-3.0-rc1.zip",
+            "reference": "8.x-3.0-rc1",
+            "shasum": "e291b5468c834a344e9aa6cafd3a76171d473a22"
         },
         "require": {
             "drupal/core": "*"
@@ -4218,16 +4224,15 @@
                 "dev-3.x": "3.x-dev"
             },
             "drupal": {
-                "version": "8.x-3.0-beta1+54-dev",
-                "datestamp": "1553812381",
+                "version": "8.x-3.0-rc1",
+                "datestamp": "1558647185",
                 "security-coverage": {
                     "status": "not-covered",
-                    "message": "Dev releases are not covered by Drupal security advisories."
+                    "message": "RC releases are not covered by Drupal security advisories."
                 }
             },
             "patches_applied": {
-                "The region part of entity view config isn't set for old installs": "https://www.drupal.org/files/issues/2018-11-29/2968184-16.patch",
-                "Incompatibility with inline entity form": "https://www.drupal.org/files/issues/2018-10-30/field_group-inline_entity_form_compatibility-2986704-3.patch"
+                "The region part of entity view config isn't set for old installs": "https://www.drupal.org/files/issues/2018-11-29/2968184-16.patch"
             }
         },
         "installation-source": "source",
