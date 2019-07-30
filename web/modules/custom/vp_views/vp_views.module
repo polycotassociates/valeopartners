@@ -24,50 +24,51 @@ function vp_views_preprocess_views_view_table(&$variables) {
 
       // Get this node.
       $node = \Drupal::routeMatch()->getParameter('node');
+      
+      if ($node) {
+        // Get variables from view
+        $fields = &$view->field;
+        $options = &$view->style_plugin->options;
 
-      // Get variables from view
-      $fields = &$view->field;
-      $options = &$view->style_plugin->options;
+        // Get the vocabulary name.
+        $vid = 'search_columns';
 
-      // Get the vocabulary name.
-      $vid = 'search_columns';
+        // Use the entity manager to load that taxonomy tree.
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid);
 
-      // Use the entity manager to load that taxonomy tree.
-      $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid);
+        // Get all the term ids for the Search Columns vocabulary.
+        foreach ($terms as $term) {
+          $term_ids[] = $term->tid;
+        }
 
-      // Get all the term ids for the Search Columns vocabulary.
-      foreach ($terms as $term) {
-        $term_ids[] = $term->tid;
-      }
+        // Get the display term taxonomy referenced entities.
+        $display_terms_entities = $node->get('field_vp_search_display_columns')->referencedEntities();
 
-      // Get the display term taxonomy referenced entities.
-      $display_terms_entities = $node->get('field_vp_search_display_columns')->referencedEntities();
+        // Loop through the entities referred in the node and assign those values
+        // to an array.
+        $selected_ids = [];
+        foreach ($display_terms_entities as $term) {
+          $selected_ids[] = $term->id();
+        }
 
-      // Loop through the entities referred in the node and assign those values
-      // to an array.
-      $selected_ids = [];
-      foreach ($display_terms_entities as $term) {
-        $selected_ids[] = $term->id();
-      }
+        // Get the difference between available and selected terms.
+        $term_values = [];
+        foreach (array_diff($term_ids, $selected_ids) as $term_id) {
+          $term_object = Term::load($term_id);
+          $term_values[] = $term_object->field_search_column_key->value;
+        }
 
-      // Get the difference between available and selected terms.
-      $term_values = [];
-      foreach (array_diff($term_ids, $selected_ids) as $term_id) {
-        $term_object = Term::load($term_id);
-        $term_values[] = $term_object->field_search_column_key->value;
-      }
-
-      // Go through all the columns, delete the column headers, values
-      // if they're in the term list.
-      foreach ($options['columns'] as $column => $value){
-        foreach ($variables['rows'] as &$column_items) {
-          if (in_array($column, $term_values)) {
-            unset($column_items['columns'][$column]);
-            unset($variables['header'][$column]);
+        // Go through all the columns, delete the column headers, values
+        // if they're in the term list.
+        foreach ($options['columns'] as $column => $value){
+          foreach ($variables['rows'] as &$column_items) {
+            if (in_array($column, $term_values)) {
+              unset($column_items['columns'][$column]);
+              unset($variables['header'][$column]);
+            }
           }
         }
       }
-
       break;
   }
 

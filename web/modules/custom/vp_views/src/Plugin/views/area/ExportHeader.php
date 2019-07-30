@@ -168,6 +168,7 @@ class ExportHeader extends AreaPluginBase {
     }
 
     $rate_date_from = [];
+    $rate_range = [];
     if ($node->get('field_vp_search_rate_year')->getValue()) {
       $rate_date_from = $node->get('field_vp_search_rate_year')->getValue()[0]['from'];
       $rate_date_to = $node->get('field_vp_search_rate_year')->getValue()[0]['to'];
