@@ -26,7 +26,7 @@ function computed_field_field_vp_rate_total_compute($entity_type_manager, $entit
 
   if ($entity->field_vp_rate_hourly->value && $entity->field_vp_rate_hours->value) {
     $value = $entity->field_vp_rate_hourly->value * $entity->field_vp_rate_hours->value;
-    return money_format('%n', $value);
+    return $value;
   }
   return 0;
 }
