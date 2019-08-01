@@ -78,7 +78,7 @@ class ExportHeader extends AreaPluginBase {
 
     // $query = "firm=12857&";
     // Put them together with /export added to the path and format=xls at the end.
-    $export_xls = "/saved/search/export?$query";
+    $export_xls = "/saved/search/block/export?$query";
     $export_xls .= "_format=xls";
     // Create the html for the link.
     $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
@@ -190,7 +190,7 @@ class ExportHeader extends AreaPluginBase {
     $cities_query = $cities ? implode(",", $cities) : 'all';
     $query .= "location=$cities_query&";
 
-    $practice_areas_query = $practice_areas ? implode(",", $practice_areas) : 'all';
+    $practice_areas_query = $practice_areas ? implode("+", $practice_areas) : 'all';
     $query .= "practice_areas=$practice_areas_query&";
 
     $grad_date_query = $grad_date_from ? implode(",", $grad_range) : 'all';
