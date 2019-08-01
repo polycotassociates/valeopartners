@@ -24,7 +24,7 @@ function vp_views_preprocess_views_view_table(&$variables) {
 
       // Get this node.
       $node = \Drupal::routeMatch()->getParameter('node');
-      
+
       if ($node) {
         // Get variables from view
         $fields = &$view->field;
@@ -60,11 +60,15 @@ function vp_views_preprocess_views_view_table(&$variables) {
 
         // Go through all the columns, delete the column headers, values
         // if they're in the term list.
-        foreach ($options['columns'] as $column => $value){
-          foreach ($variables['rows'] as &$column_items) {
-            if (in_array($column, $term_values)) {
-              unset($column_items['columns'][$column]);
-              unset($variables['header'][$column]);
+        // Only hide fields if the array key '2705' (All Fields)
+        // is not selected.
+        if (!in_array('2705', $selected_ids)) {
+          foreach ($options['columns'] as $column => $value) {
+            foreach ($variables['rows'] as &$column_items) {
+              if (in_array($column, $term_values)) {
+                unset($column_items['columns'][$column]);
+                unset($variables['header'][$column]);
+              }
             }
           }
         }
