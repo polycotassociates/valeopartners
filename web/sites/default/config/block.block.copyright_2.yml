@@ -1,0 +1,25 @@
+uuid: dc9975b7-111f-43f0-9f5b-46ec9cde6229
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:4c7efade-24fe-4d56-b07c-15f907eac042'
+  module:
+    - block_content
+  theme:
+    - valeo_classic
+id: copyright_2
+theme: valeo_classic
+region: footer_first
+weight: 0
+provider: null
+plugin: 'block_content:4c7efade-24fe-4d56-b07c-15f907eac042'
+settings:
+  id: 'block_content:4c7efade-24fe-4d56-b07c-15f907eac042'
+  label: Copyright
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

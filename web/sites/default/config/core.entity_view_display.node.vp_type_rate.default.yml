@@ -35,113 +35,7 @@ dependencies:
   module:
     - computed_field
     - entity_reference_revisions
-    - field_group
     - user
-third_party_settings:
-  field_group:
-    group_rate_information:
-      children:
-        - field_vp_rate_hourly
-        - field_vp_rate_standard
-        - field_vp_rate_hours
-        - field_vp_rate_total
-        - field_vp_rate_discount
-      parent_name: ''
-      weight: 3
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: 'Rate Information'
-      region: content
-    group_fee_information:
-      children:
-        - field_vp_rate_flat_fee
-        - field_vp_rate_retainer
-        - field_vp_rate_transactional_fee
-        - field_vp_rate_success_fee
-        - field_vp_rate_total_fees
-        - field_vp_rate_sec_filing
-        - field_vp_rate_total_fees_calc
-      parent_name: ''
-      weight: 4
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: 'Fee Information'
-      region: content
-    group_referenced_company:
-      children:
-        - field_vp_rate_referenced_company
-      parent_name: ''
-      weight: 2
-      format_type: fieldset
-      format_settings:
-        description: ''
-        id: ''
-        classes: ''
-      label: ''
-      region: content
-    group_notes:
-      children:
-        - field_vp_rate_notes
-      parent_name: ''
-      weight: 5
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: Notes
-      region: content
-    group_other:
-      children:
-        - field_vp_rate_primaryfee_calc
-        - field_vp_rate_primaryfeetypecalc
-        - field_vp_rate_record_type
-        - field_vp_rate_transaction_amount
-        - field_vp_rate_transaction_type
-      parent_name: ''
-      weight: 6
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: Other
-      region: content
-    group_individual_firm:
-      children:
-        - links
-        - field_vp_rate_individual
-        - field_vp_rate_position
-        - field_vp_rate_firm
-        - field_vp_rate_filing
-        - field_vp_rate_company
-      parent_name: ''
-      weight: 0
-      format_type: fieldset
-      format_settings:
-        description: ''
-        id: ''
-        classes: ''
-      label: ''
-      region: content
-    group_referenced_attorneys:
-      children:
-        - field_vp_rate_attorneys
-      parent_name: ''
-      weight: 1
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: 'Referenced Attorneys'
-      region: content
 id: node.vp_type_rate.default
 targetEntityType: node
 bundle: vp_type_rate
@@ -352,6 +246,9 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  entity_print_view_epub: true
+  entity_print_view_pdf: true
+  entity_print_view_word_docx: true
   field_standard_rate_tmp: true
   field_vp_rate_fees_listed_calc: true
   field_vp_rate_previous: true

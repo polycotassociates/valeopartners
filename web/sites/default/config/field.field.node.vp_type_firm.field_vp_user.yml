@@ -5,6 +5,16 @@ dependencies:
   config:
     - field.storage.node.field_vp_user
     - node.type.vp_type_firm
+  module:
+    - entityconnect
+third_party_settings:
+  entityconnect:
+    buttons:
+      button_add: '1'
+      button_edit: '1'
+    icons:
+      icon_add: '0'
+      icon_edit: '0'
 id: node.vp_type_firm.field_vp_user
 field_name: field_vp_user
 entity_type: node

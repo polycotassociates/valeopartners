@@ -1,0 +1,22 @@
+uuid: f0f0ea9a-9bb3-49b3-84ec-2ec8dfb0cb47
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: saved_search
+label: 'Saved Search'
+type: 'canonical_entities:node'
+pattern: 'search/[current-user:account-name]/[node:title]'
+selection_criteria:
+  20b49c43-d3af-4008-9e1d-80379d8c0c96:
+    id: node_type
+    bundles:
+      vp_type_saved_search: vp_type_saved_search
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 20b49c43-d3af-4008-9e1d-80379d8c0c96
+selection_logic: and
+weight: -5
+relationships: {  }

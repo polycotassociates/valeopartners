@@ -6,6 +6,7 @@ dependencies:
     - views.view.filing_history
   module:
     - ctools
+    - system
     - views
   theme:
     - valeo_classic
@@ -31,3 +32,8 @@ visibility:
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: "*/edit\r\n*/add/*"
+    negate: true
+    context_mapping: {  }

@@ -20,7 +20,7 @@ settings:
   id: 'views_block:saved_search_detail_block-saved_search_detail_block'
   label: ''
   provider: views
-  label_display: visible
+  label_display: '0'
   views_label: ''
   items_per_page: none
   context_mapping: {  }
@@ -34,6 +34,6 @@ visibility:
       node: '@node.node_route_context:node'
   request_path:
     id: request_path
-    pages: "admin/*\r\nedit/*"
+    pages: "admin/*\r\nedit/*\r\n*/add/*\r\n*/edit"
     negate: true
     context_mapping: {  }

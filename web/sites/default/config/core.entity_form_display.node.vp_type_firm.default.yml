@@ -22,30 +22,15 @@ content:
     type: options_select
     region: content
   field_vp_headquarters:
-    type: entity_reference_autocomplete
+    type: options_shs
     weight: 1
     region: content
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_vp_location:
-    weight: 4
     settings:
       display_node_count: false
       create_new_items: false
       create_new_levels: false
       force_deepest: false
     third_party_settings: {  }
-    type: options_shs
-    region: content
-  field_vp_user:
-    weight: 3
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
   title:
     type: string_textfield
     weight: 0
@@ -56,6 +41,8 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_vp_location: true
+  field_vp_user: true
   path: true
   promote: true
   published_at: true

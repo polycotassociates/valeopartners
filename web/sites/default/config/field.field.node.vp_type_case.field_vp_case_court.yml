@@ -6,12 +6,22 @@ dependencies:
     - field.storage.node.field_vp_case_court
     - node.type.vp_type_case
     - taxonomy.vocabulary.source_court
+  module:
+    - entityconnect
+third_party_settings:
+  entityconnect:
+    buttons:
+      button_add: '1'
+      button_edit: '1'
+    icons:
+      icon_add: '0'
+      icon_edit: '0'
 id: node.vp_type_case.field_vp_case_court
 field_name: field_vp_case_court
 entity_type: node
 bundle: vp_type_case
 label: Court
-description: ''
+description: 'Start typing the name of the court to find it in the database.'
 required: false
 translatable: false
 default_value: {  }

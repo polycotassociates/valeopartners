@@ -1,0 +1,27 @@
+uuid: df5dc414-43c2-49de-b31f-b6e3528b0660
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+  theme:
+    - valeo_classic
+id: userlogin
+theme: valeo_classic
+region: sidebar_first
+weight: -12
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'User login'
+  provider: user
+  label_display: visible
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      anonymous: anonymous
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

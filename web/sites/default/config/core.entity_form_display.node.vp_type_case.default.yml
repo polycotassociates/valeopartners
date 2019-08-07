@@ -60,12 +60,9 @@ content:
     region: content
   field_vp_case_nature_of_suit:
     weight: 5
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: options_select
     region: content
   field_vp_case_number:
     weight: 1
@@ -95,6 +92,13 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
+  status:
+    type: boolean_checkbox
+    weight: 11
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -108,6 +112,5 @@ hidden:
   path: true
   promote: true
   published_at: true
-  status: true
   sticky: true
   uid: true

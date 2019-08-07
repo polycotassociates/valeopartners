@@ -16,33 +16,8 @@ dependencies:
     - node.type.vp_type_case
   module:
     - datetime
-    - field_group
     - options
     - user
-third_party_settings:
-  field_group:
-    group_information:
-      children:
-        - links
-        - field_vp_case_number
-        - field_vp_case_name
-        - field_vp_case_court
-        - field_vp_case_date_filed
-        - field_vp_case_nature_of_suit
-        - field_vp_case_status
-        - field_vp_case_settlement_amount
-        - field_vp_case_judgement_amount
-        - field_vp_case_attorneys_fee
-        - field_vp_case_other_expenses
-      parent_name: ''
-      weight: 0
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: Information
-      region: content
 id: node.vp_type_case.default
 targetEntityType: node
 bundle: vp_type_case
@@ -146,4 +121,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  entity_print_view_epub: true
+  entity_print_view_pdf: true
+  entity_print_view_word_docx: true
   published_at: true

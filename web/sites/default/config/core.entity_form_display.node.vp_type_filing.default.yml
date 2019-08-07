@@ -12,7 +12,6 @@ dependencies:
     - node.type.vp_type_filing
   module:
     - datetime_range
-    - inline_entity_form
 id: node.vp_type_filing.default
 targetEntityType: node
 bundle: vp_type_filing
@@ -21,18 +20,11 @@ content:
   field_vp_filing_case:
     weight: 1
     settings:
-      form_mode: default
-      override_labels: true
-      label_singular: case
-      label_plural: cases
-      allow_new: true
-      allow_existing: true
       match_operator: CONTAINS
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: inline_entity_form_complex
+    type: entity_reference_autocomplete
     region: content
   field_vp_filing_description:
     weight: 4
@@ -56,6 +48,13 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  status:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -71,6 +70,5 @@ hidden:
   path: true
   promote: true
   published_at: true
-  status: true
   sticky: true
   uid: true

@@ -1,0 +1,22 @@
+uuid: a8636844-2a8e-4191-9cec-abaa78f5a7d0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: rate
+label: Rate
+type: 'canonical_entities:node'
+pattern: 'rate/[node:title]'
+selection_criteria:
+  006853cf-6c57-4307-abc9-7b53dc2ea169:
+    id: node_type
+    bundles:
+      vp_type_rate: vp_type_rate
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 006853cf-6c57-4307-abc9-7b53dc2ea169
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -11,7 +11,7 @@ id: node.vp_type_individual.field_vp_graduation
 field_name: field_vp_graduation
 entity_type: node
 bundle: vp_type_individual
-label: 'Year Of Graduation'
+label: 'Law School Graduation Year'
 description: ''
 required: false
 translatable: false

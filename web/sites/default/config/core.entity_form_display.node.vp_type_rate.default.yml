@@ -35,20 +35,17 @@ dependencies:
   module:
     - computed_field
     - field_group
-    - inline_entity_form
     - paragraphs
     - shs
 third_party_settings:
   field_group:
-    group_rate_information:
+    group_rate_in:
       children:
         - field_vp_rate_hourly
-        - field_vp_rate_standard
         - field_vp_rate_hours
-        - field_vp_rate_total
         - field_vp_rate_discount
       parent_name: ''
-      weight: 9
+      weight: 8
       format_type: fieldset
       format_settings:
         id: ''
@@ -57,7 +54,7 @@ third_party_settings:
         required_fields: true
       label: 'Rate Information'
       region: content
-    group_fee_information:
+    group_fee_i:
       children:
         - field_vp_rate_flat_fee
         - field_vp_rate_retainer
@@ -65,13 +62,8 @@ third_party_settings:
         - field_vp_rate_success_fee
         - field_vp_rate_total_fees
         - field_vp_rate_sec_filing
-        - field_vp_rate_notes
-        - field_vp_rate_fees_listed_calc
-        - field_vp_rate_transaction_type
-        - field_vp_rate_total_fees_calc
-        - field_vp_rate_transaction_amount
       parent_name: ''
-      weight: 10
+      weight: 9
       format_type: fieldset
       format_settings:
         id: ''
@@ -80,26 +72,13 @@ third_party_settings:
         required_fields: true
       label: 'Fee Information'
       region: content
-    group_position_fieldset:
-      children:
-        - field_vp_rate_position
-      parent_name: ''
-      weight: 2
-      format_type: fieldset
-      format_settings:
-        description: ''
-        required_fields: true
-        id: ''
-        classes: ''
-      label: 'Individual Position'
-      region: content
 id: node.vp_type_rate.default
 targetEntityType: node
 bundle: vp_type_rate
 mode: default
 content:
   field_vp_rate_attorneys:
-    weight: 7
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: 60
@@ -108,82 +87,61 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_vp_rate_company:
-    weight: 6
+    weight: 5
     settings:
-      form_mode: default
-      override_labels: true
-      label_singular: company
-      label_plural: companies
-      allow_new: true
-      allow_existing: true
       match_operator: CONTAINS
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: inline_entity_form_complex
+    type: entity_reference_autocomplete
     region: content
   field_vp_rate_discount:
-    weight: 21
+    weight: 11
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_fees_listed_calc:
-    weight: 27
+    weight: 13
     settings: {  }
     third_party_settings: {  }
     type: computed_string_widget
     region: content
   field_vp_rate_filing:
-    weight: 5
-    settings:
-      form_mode: default
-      override_labels: true
-      label_singular: 'case / filing'
-      label_plural: 'cases / filings'
-      allow_new: true
-      allow_existing: true
-      match_operator: CONTAINS
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
-    third_party_settings: {  }
-    type: inline_entity_form_complex
-    region: content
-  field_vp_rate_firm:
+    type: entity_reference_autocomplete
     weight: 4
+    region: content
     settings:
-      form_mode: default
-      override_labels: true
-      label_singular: firm
-      label_plural: firms
-      allow_new: true
-      allow_existing: true
       match_operator: CONTAINS
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: inline_entity_form_complex
+  field_vp_rate_firm:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_vp_rate_flat_fee:
-    weight: 19
+    weight: 10
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_hourly:
-    weight: 17
+    weight: 9
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_hours:
-    weight: 19
+    weight: 10
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -192,21 +150,14 @@ content:
   field_vp_rate_individual:
     weight: 1
     settings:
-      form_mode: default
-      override_labels: true
-      label_singular: individual
-      label_plural: individuals
-      allow_new: true
-      allow_existing: true
       match_operator: CONTAINS
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: inline_entity_form_complex
+    type: entity_reference_autocomplete
     region: content
   field_vp_rate_notes:
-    weight: 26
+    weight: 12
     settings:
       rows: 5
       placeholder: ''
@@ -214,7 +165,7 @@ content:
     type: string_textarea
     region: content
   field_vp_rate_position:
-    weight: 3
+    weight: 2
     settings:
       display_node_count: false
       create_new_items: false
@@ -224,50 +175,50 @@ content:
     type: options_shs
     region: content
   field_vp_rate_previous:
-    weight: 14
+    weight: 19
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_vp_rate_primaryfee_calc:
-    weight: 12
+    weight: 17
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_vp_rate_primaryfeetypecalc:
-    weight: 13
+    weight: 18
     settings: {  }
     third_party_settings: {  }
     type: computed_string_widget
     region: content
   field_vp_rate_record_type:
-    weight: 11
+    weight: 16
     settings: {  }
     third_party_settings: {  }
     type: computed_string_widget
     region: content
   field_vp_rate_referenced_company:
     type: entity_reference_paragraphs
-    weight: 8
+    weight: 7
     settings:
       title: Paragraph
       title_plural: Paragraphs
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: referenced_company
     third_party_settings: {  }
     region: content
   field_vp_rate_retainer:
-    weight: 20
+    weight: 11
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_sec_filing:
-    weight: 24
+    weight: 15
     settings:
       size: 60
       placeholder: ''
@@ -275,52 +226,52 @@ content:
     type: string_textfield
     region: content
   field_vp_rate_standard:
-    weight: 18
+    weight: 20
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_vp_rate_success_fee:
-    weight: 22
+    weight: 13
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_total:
-    weight: 20
+    weight: 15
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_vp_rate_total_fees:
-    weight: 23
+    weight: 14
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_total_fees_calc:
-    weight: 29
+    weight: 14
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_vp_rate_transaction_amount:
-    weight: 30
+    weight: 10
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_vp_rate_transaction_type:
-    weight: 28
+    weight: 11
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_vp_rate_transactional_fee:
-    weight: 21
+    weight: 12
     settings:
       placeholder: ''
     third_party_settings: {  }

@@ -1,0 +1,22 @@
+uuid: cf024a33-9ec4-4c02-908d-64474a877dab
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: filing
+label: Filing
+type: 'canonical_entities:node'
+pattern: 'filing/[node:title]'
+selection_criteria:
+  db568679-6543-4a82-b4b7-06bbbe97839d:
+    id: node_type
+    bundles:
+      vp_type_filing: vp_type_filing
+    negate: false
+    context_mapping:
+      node: node
+    uuid: db568679-6543-4a82-b4b7-06bbbe97839d
+selection_logic: and
+weight: 0
+relationships: {  }

@@ -6,6 +6,16 @@ dependencies:
     - field.storage.node.field_vp_rate_transaction_type
     - node.type.vp_type_rate
     - taxonomy.vocabulary.transaction_type
+  module:
+    - entityconnect
+third_party_settings:
+  entityconnect:
+    buttons:
+      button_add: '1'
+      button_edit: '1'
+    icons:
+      icon_add: '0'
+      icon_edit: '0'
 id: node.vp_type_rate.field_vp_rate_transaction_type
 field_name: field_vp_rate_transaction_type
 entity_type: node

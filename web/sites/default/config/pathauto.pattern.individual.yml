@@ -1,0 +1,14 @@
+uuid: e6687a07-26fd-4325-b4e2-a6fdc1a8eb21
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: individual
+label: Individual
+type: 'canonical_entities:node'
+pattern: 'individual/[node:title]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

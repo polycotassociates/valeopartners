@@ -22,75 +22,15 @@ dependencies:
     - node.type.vp_type_individual
   module:
     - entity_reference_revisions
-    - field_group
     - user
     - yearonly
-third_party_settings:
-  field_group:
-    group_practice_areas:
-      children:
-        - field_vp_practice_area_1
-        - field_vp_practice_area_2
-        - field_vp_practice_area_3
-      parent_name: ''
-      weight: 1
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: 'Practice Areas'
-      region: content
-    group_name_and_info:
-      children:
-        - field_vp_first_name
-        - field_vp_middle_name
-        - field_vp_last_name
-        - field_vp_email
-        - field_vp_individual_location
-      parent_name: ''
-      weight: 0
-      format_type: fieldset
-      format_settings:
-        description: ''
-        id: ''
-        classes: ''
-      label: ''
-      region: content
-    group_other:
-      children:
-        - field_vp_state_bar
-        - field_vp_graduation
-        - field_vp_bar_date
-        - field_vp_law_school
-      parent_name: ''
-      weight: 2
-      format_type: fieldset
-      format_settings:
-        description: ''
-        id: ''
-        classes: ''
-      label: ''
-      region: content
-    group_employer:
-      children:
-        - field_vp_employment_history
-      parent_name: ''
-      weight: 3
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: Employer
-      region: content
 id: node.vp_type_individual.default
 targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
   field_vp_bar_date:
-    weight: 5
+    weight: 11
     label: inline
     settings: {  }
     third_party_settings: {  }
@@ -105,7 +45,7 @@ content:
     region: content
   field_vp_employment_history:
     type: entity_reference_revisions_entity_view
-    weight: 4
+    weight: 12
     label: above
     settings:
       view_mode: default
@@ -113,7 +53,7 @@ content:
     third_party_settings: {  }
     region: content
   field_vp_first_name:
-    weight: 1
+    weight: 0
     label: inline
     settings:
       link_to_entity: false
@@ -121,14 +61,14 @@ content:
     type: string
     region: content
   field_vp_graduation:
-    weight: 4
+    weight: 8
     label: inline
     settings: {  }
     third_party_settings: {  }
     type: yearonly_default
     region: content
   field_vp_individual_location:
-    weight: 5
+    weight: 3
     label: above
     settings:
       link: false
@@ -136,22 +76,6 @@ content:
     type: entity_reference_label
     region: content
   field_vp_last_name:
-    weight: 3
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
-  field_vp_law_school:
-    weight: 6
-    label: inline
-    settings:
-      link: false
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_vp_middle_name:
     weight: 2
     label: inline
     settings:
@@ -159,8 +83,24 @@ content:
     third_party_settings: {  }
     type: string
     region: content
+  field_vp_law_school:
+    weight: 9
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_vp_middle_name:
+    weight: 1
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   field_vp_practice_area_1:
-    weight: 6
+    weight: 5
     label: inline
     settings:
       link: false
@@ -168,7 +108,7 @@ content:
     type: entity_reference_label
     region: content
   field_vp_practice_area_2:
-    weight: 7
+    weight: 6
     label: inline
     settings:
       link: false
@@ -176,7 +116,7 @@ content:
     type: entity_reference_label
     region: content
   field_vp_practice_area_3:
-    weight: 8
+    weight: 7
     label: inline
     settings:
       link: false
@@ -184,7 +124,7 @@ content:
     type: entity_reference_label
     region: content
   field_vp_state_bar:
-    weight: 3
+    weight: 10
     label: inline
     settings:
       link: false
@@ -192,6 +132,9 @@ content:
     type: entity_reference_label
     region: content
 hidden:
+  entity_print_view_epub: true
+  entity_print_view_pdf: true
+  entity_print_view_word_docx: true
   field_actual_rate_by_year: true
   field_standard_rate_by_year: true
   field_vp_position: true

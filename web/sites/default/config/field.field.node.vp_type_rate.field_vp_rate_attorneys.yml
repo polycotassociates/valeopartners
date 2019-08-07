@@ -6,6 +6,16 @@ dependencies:
     - field.storage.node.field_vp_rate_attorneys
     - node.type.vp_type_individual
     - node.type.vp_type_rate
+  module:
+    - entityconnect
+third_party_settings:
+  entityconnect:
+    buttons:
+      button_add: '0'
+      button_edit: '1'
+    icons:
+      icon_add: '0'
+      icon_edit: '0'
 id: node.vp_type_rate.field_vp_rate_attorneys
 field_name: field_vp_rate_attorneys
 entity_type: node

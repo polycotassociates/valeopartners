@@ -1,0 +1,22 @@
+uuid: 68c8a45e-6e66-4e16-a8d1-5876274ff160
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: firm
+label: Firm
+type: 'canonical_entities:node'
+pattern: 'firm/[node:title]'
+selection_criteria:
+  b8086f63-3c25-4fe2-b2bf-1f2b432ea07e:
+    id: node_type
+    bundles:
+      vp_type_firm: vp_type_firm
+    negate: false
+    context_mapping:
+      node: node
+    uuid: b8086f63-3c25-4fe2-b2bf-1f2b432ea07e
+selection_logic: and
+weight: -5
+relationships: {  }

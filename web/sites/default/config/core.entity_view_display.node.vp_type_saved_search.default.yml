@@ -28,6 +28,9 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  entity_print_view_epub: true
+  entity_print_view_pdf: true
+  entity_print_view_word_docx: true
   field_vp_search_bar_year: true
   field_vp_search_display_columns: true
   field_vp_search_firms: true

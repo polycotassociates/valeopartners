@@ -26,6 +26,7 @@ permissions:
   - 'edit field_search_position'
   - 'edit field_search_practicearea'
   - 'edit field_search_rateyear'
+  - 'edit own vp_type_saved_search content'
   - 'show format selection for blocks'
   - 'show format selection for comments'
   - 'show format selection for nodes'

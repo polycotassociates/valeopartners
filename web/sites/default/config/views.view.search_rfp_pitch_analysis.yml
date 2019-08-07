@@ -112,7 +112,7 @@ display:
             -
               field: field_vp_filing_year_end
               rendered: false
-              rendered_strip: true
+              rendered_strip: false
             -
               field: parent_target_id
               rendered: false
@@ -281,7 +281,7 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: false
+            alter_text: true
             text: '<h1>Rate Year: {{ field_vp_filing_year_end }}</h1>'
             make_link: false
             path: ''
@@ -699,8 +699,8 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<h2>{{ field_vp_rate_position }}</h2>'
             make_link: false
             path: ''
             absolute: false
@@ -721,7 +721,7 @@ display:
             more_link: false
             more_link_text: ''
             more_link_path: ''
-            strip_tags: false
+            strip_tags: true
             trim: false
             preserve_tags: ''
             html: false
@@ -925,18 +925,6 @@ display:
             value: '<h2>Pitch analysys for {{ title }}</h2>'
             format: basic_html
           plugin_id: text
-        area_entity_print_views:
-          id: area_entity_print_views
-          table: views
-          field: area_entity_print_views
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          export_type: pdf
-          link_text: 'View PDF'
-          display_id: rfp_pitch_analysis_page
-          plugin_id: entity_print_views_link
       footer: {  }
       empty: {  }
       relationships:
@@ -1035,6 +1023,27 @@ display:
         - 'languages:language_interface'
         - request_format
         - url
+        - 'user.node_grants:view'
+        - user.roles
+      tags:
+        - 'config:field.storage.node.field_vp_filing_year_end'
+        - 'config:field.storage.node.field_vp_rate_position'
+        - 'config:views.view.search_rfp_pitch_analysis'
+        - node_list
+  entity_print_views_print_1:
+    display_plugin: entity_print_views_print
+    id: entity_print_views_print_1
+    display_title: Print
+    position: 3
+    display_options:
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
         - 'user.node_grants:view'
         - user.roles
       tags:

@@ -12,26 +12,7 @@ dependencies:
     - node.type.vp_type_filing
   module:
     - datetime_range
-    - field_group
     - user
-third_party_settings:
-  field_group:
-    group_information:
-      children:
-        - links
-        - field_vp_filing_case
-        - field_vp_filing_fee_dates
-        - field_vp_filing_number
-        - field_vp_filing_description
-      parent_name: ''
-      weight: 0
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-      label: Information
-      region: content
 id: node.vp_type_filing.default
 targetEntityType: node
 bundle: vp_type_filing
@@ -76,6 +57,9 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  entity_print_view_epub: true
+  entity_print_view_pdf: true
+  entity_print_view_word_docx: true
   field_vp_filing_year: true
   field_vp_filing_year_end: true
   published_at: true

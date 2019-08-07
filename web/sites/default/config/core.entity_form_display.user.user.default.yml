@@ -9,94 +9,16 @@ dependencies:
     - field.field.user.user.field_user_last_name
     - field.field.user.user.field_user_organization
     - field.field.user.user.field_user_pricing_alert_firms
+    - field.field.user.user.profile_firstname
+    - field.field.user.user.profile_lastname
+    - field.field.user.user.profile_organization
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - field_group
     - image
     - multiselect
     - path
     - user
-third_party_settings:
-  field_group:
-    group_personal_information:
-      children:
-        - field_user_first_name
-        - field_user_last_name
-        - field_user_organization
-        - user_picture
-      parent_name: group_user_profile
-      weight: 10
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-      label: 'Personal Information'
-      region: content
-    group_user_profile:
-      children:
-        - group_account_information
-        - group_alerts
-        - group_personal_information
-      parent_name: ''
-      weight: 0
-      format_type: tabs
-      format_settings:
-        id: ''
-        classes: ''
-        direction: horizontal
-      label: 'User Profile'
-      region: content
-    group_account_information:
-      children:
-        - account
-        - contact
-        - timezone
-        - language
-        - path
-      parent_name: group_user_profile
-      weight: 8
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: open
-        description: ''
-        required_fields: true
-      label: Account
-      region: content
-    group_alerts:
-      children:
-        - group_pricing_alert_fieldset
-        - field_user_2_week_alert
-        - field_user_email_alert_addresses
-      parent_name: group_user_profile
-      weight: 9
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-      label: Profile
-      region: content
-    group_pricing_alert_fieldset:
-      children:
-        - field_user_pricing_alert_firms
-      parent_name: group_alerts
-      weight: 20
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-        required_fields: true
-      label: 'Pricing Alerts'
-      region: content
 _core:
   default_config_hash: K-1rBM8mTIkFp9RqOC2tMRUukOQ1xbRCfSKK8dEddnA
 id: user.user.default
@@ -183,4 +105,7 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-hidden: {  }
+hidden:
+  profile_firstname: true
+  profile_lastname: true
+  profile_organization: true
