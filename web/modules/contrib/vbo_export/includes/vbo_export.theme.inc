@@ -5,6 +5,12 @@
  * Theme implementation for csv output.
  */
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+
 /**
  * Csv content builder function.
  */
@@ -48,63 +54,53 @@ function theme_vbo_export_content_csv($variables) {
  */
 function theme_vbo_export_content_xlsx($variables) {
   $config = $variables['configuration'];
+  $current_user = \Drupal::currentUser();
 
-  // Load PHPExcel library.
-  if (!_vbo_export_load_library('\PHPExcel', '/libraries/PHPExcel')) {
-    \Drupal::logger('vbo_export')->error('PHPExcel library not installed.');
+  // Load PhpSpreadsheet library.
+  if (!_vbo_export_library_exists(Spreadsheet::class)) {
+    \Drupal::logger('vbo_export')->error('PhpSpreadsheet library not installed.');
     return '';
   }
 
-  // Sanitize data.
-  $header = array();
-  foreach ($variables['header'] as $item) {
-    if ($config['strip_tags']) {
-      $item = strip_tags($item);
-    }
-    $header[] = $item;
-  }
-
-  $rows = array();
-  $row_index = 0;
-  foreach ($variables['rows'] as $row) {
-    $rows[$row_index] = array();
-    foreach ($row as $cell) {
-      if ($config['strip_tags']) {
-        $cell = strip_tags($cell);
-      }
-      $rows[$row_index][] = $cell;
-    }
-    $row_index++;
-  }
-
   // Create PHPExcel spreadsheet and add rows to it.
-  $objPHPExcel = new \PHPExcel();
-  $objPHPExcel->removeSheetByIndex();
-  $objPHPExcel->getProperties()
-    ->setCreated('VBO Export')
-    ->setTitle('VBO Export - ' . date('d-m-Y H:i', REQUEST_TIME));
-
-  $worksheet = $objPHPExcel->createSheet();
+  $spreadsheet = new Spreadsheet();
+  $spreadsheet->removeSheetByIndex(0);
+  $spreadsheet->getProperties()
+    ->setCreated(REQUEST_TIME)
+    ->setCreator($current_user->getDisplayName())
+    ->setTitle('VBO Export - ' . date('d-m-Y H:i', REQUEST_TIME))
+    ->setLastModifiedBy($current_user->getDisplayName());
+  $worksheet = $spreadsheet->createSheet();
   $worksheet->setTitle((string) t('Export'));
 
   // Set header.
-  foreach ($header as $col_index => $label) {
-    $worksheet->setCellValueExplicitByColumnAndRow($col_index, 1, $label);
+  $col_index = 1;
+  foreach ($variables['header'] as $label) {
+    // Sanitize data.
+    if ($config['strip_tags']) {
+      $label = strip_tags($label);
+    }
+    $worksheet->setCellValueExplicitByColumnAndRow($col_index++, 1, trim($label), DataType::TYPE_STRING);
   }
 
   // Set rows.
-  foreach ($rows as $row_index => $row) {
+  foreach ($variables['rows'] as $row_index => $row) {
     // Rows start from 1 and we need to account for header.
     $row_index += 2;
-    foreach ($row as $col_index => $cell) {
-      $worksheet->setCellValueExplicitByColumnAndRow($col_index, $row_index, $cell);
+    $col_index = 1;
+    foreach ($row as $cell) {
+      // Sanitize data.
+      if ($config['strip_tags']) {
+        $cell = strip_tags($cell);
+      }
+      $worksheet->setCellValueExplicitByColumnAndRow($col_index++, $row_index, trim($cell), DataType::TYPE_STRING);
     }
   }
 
   // Add some additional styling to the worksheet.
-  $objPHPExcel->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+  $spreadsheet->getDefaultStyle()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
   $last_column = $worksheet->getHighestColumn();
-  $last_column_index = PHPExcel_Cell::columnIndexFromString($last_column);
+  $last_column_index = Coordinate::columnIndexFromString($last_column);
 
   // Define the range of the first row.
   $first_row_range = 'A1:' . $last_column . '1';
@@ -119,16 +115,7 @@ function theme_vbo_export_content_xlsx($variables) {
   $full_range = 'A1:' . $last_column . $worksheet->getHighestRow();
   $worksheet->getStyle($full_range)->getAlignment()
     ->setWrapText(TRUE)
-    ->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
-
-  // Adjust the column size for each column. Added a try-catch block
-  // due to https://github.com/PHPOffice/PHPExcel/issues/556.
-  try {
-    PHPExcel_Shared_Font::setAutoSizeMethod(PHPExcel_Shared_Font::AUTOSIZE_METHOD_EXACT);
-  }
-  catch (Exception $e) {
-
-  }
+    ->setVertical(Alignment::VERTICAL_TOP);
 
   for ($column = 0; $column <= $last_column_index; $column++) {
     $worksheet->getColumnDimensionByColumn($column)->setAutoSize(TRUE);
@@ -160,8 +147,7 @@ function theme_vbo_export_content_xlsx($variables) {
     }
   }
 
-  $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-
+  $objWriter = new Xlsx($spreadsheet);
   // Catch the output of the spreadsheet.
   ob_start();
   $objWriter->save('php://output');

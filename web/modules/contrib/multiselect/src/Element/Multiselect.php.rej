@@ -1,0 +1,12 @@
+--- src/Element/Multiselect.php
++++ src/Element/Multiselect.php
+@@ -27,6 +27,9 @@ class Multiselect extends Select {
+       '#theme' => 'multiselect',
+       '#input' => TRUE,
+       '#multiple' => TRUE,
++      '#process' => array(
++        array($class, 'processSelect'),
++      ),
+       '#default_value' => NULL,
+       '#theme_wrappers' => array('form_element'),
+       '#attached' => array(

@@ -1,0 +1,13 @@
+--- src/Plugin/Field/FieldWidget/MultiselectWidget.php
++++ src/Plugin/Field/FieldWidget/MultiselectWidget.php
+@@ -51,10 +51,6 @@ class MultiselectWidget extends OptionsWidgetBase {
+       // Do not display a 'multiple' select box if there is only one option.
+       '#multiple' => $this->multiple && count($this->options) > 1,
+     );
+-
+-    // Run Select processSelect processing, sets up #multiple, name[], and more.
+-    Multiselect::processSelect($element, $form_state, $form);
+-
+     return $element;
+   }
+ 

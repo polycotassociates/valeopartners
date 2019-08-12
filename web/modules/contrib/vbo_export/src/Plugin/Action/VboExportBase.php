@@ -141,7 +141,7 @@ abstract class VboExportBase extends ViewsBulkOperationsActionBase implements Co
       }
 
       // Generate the output file if the last row has been processed.
-      if ($index >= $this->context['sandbox']['total']) {
+      if (!isset($this->context['sandbox']['total']) || $index >= $this->context['sandbox']['total']) {
         $output = $this->generateOutput();
         $this->sendToFile($output);
       }

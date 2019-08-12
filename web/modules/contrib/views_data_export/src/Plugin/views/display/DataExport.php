@@ -107,6 +107,10 @@ class DataExport extends RestExport {
     if ($custom_redirect) {
       $redirect_path = $view->display_handler->getOption('redirect_path');
       if (isset($redirect_path)) {
+        // Replace tokens in the redirect_path.
+        $token_service = \Drupal::token();
+        $redirect_path = $token_service->replace($redirect_path, ['view' => $view]);
+
         if ($include_query_params) {
           $redirect_url = Url::fromUserInput(trim($redirect_path), ['query' => $query_parameters]);
         }

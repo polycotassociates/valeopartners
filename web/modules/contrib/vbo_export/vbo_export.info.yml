@@ -6,8 +6,8 @@ package: 'Views Bulk Operations'
 dependencies:
   - views_bulk_operations:views_bulk_operations
 
-# Information added by Drupal.org packaging script on 2018-11-09
-version: '8.x-2.1'
+# Information added by Drupal.org packaging script on 2019-05-15
+version: '8.x-3.0'
 core: '8.x'
 project: 'vbo_export'
-datestamp: 1541771006
+datestamp: 1557928989

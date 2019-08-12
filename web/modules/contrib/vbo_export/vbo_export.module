@@ -68,26 +68,19 @@ function vbo_export_help($route_name, RouteMatchInterface $route_match) {
  * Loads the library if not already available and
  * optionally checks its version.
  */
-function _vbo_export_load_library($classname, $path = '', $details = FALSE) {
+function _vbo_export_library_exists($classname, $details = FALSE) {
   static $output;
-  $path = DRUPAL_ROOT . $path;
   if (!isset($output[$classname])) {
     $output[$classname] = FALSE;
 
     // If composer was used to add dependancy, the class should exist,
     // Otherwise check given path.
     if (class_exists($classname)) {
-      $reflector = new ReflectionClass($classname);
-      $path = dirname(dirname($reflector->getFileName()));
-    }
-    elseif (file_exists($path)) {
-      require_once $path . '/Classes/PHPExcel.php';
-    }
-
-    if (class_exists($classname)) {
       if ($details) {
-        if (file_exists($path . '/changelog.txt') && $content = file_get_contents($path . '/changelog.txt')) {
-          preg_match('/\d{4}-\d{2}-\d{2} \(v(\d+\.\d+\.\d+)\):/', $content, $matches);
+        $reflector = new ReflectionClass($classname);
+        $path = dirname(dirname(dirname($reflector->getFileName())));
+        if (file_exists($path . '/CHANGELOG.md') && $content = file_get_contents($path . '/CHANGELOG.md')) {
+          preg_match('/##\s+\[(\d+\.\d+\.\d+)\]\s+-?\s+\d{4}-\d{2}-\d{2}/', $content, $matches);
           if (!empty($matches[1])) {
             $output[$classname] = trim($matches[1]);
           }
