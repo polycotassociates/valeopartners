@@ -16,7 +16,7 @@
           show: { duration: 800 },
           position: { my: "top", at: "top"},
           buttons: {
-            "Ok": function() {
+            "I accept": function() {
               window.location = link;
           },
           }

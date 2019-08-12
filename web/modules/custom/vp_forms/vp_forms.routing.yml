@@ -1,0 +1,7 @@
+vp_forms.rate_change:
+  path: '/rate-change'
+  defaults:
+    _form: '\Drupal\vp_forms\Form\RateChangeSetupForm'
+    _title: 'Update your rate change alerts.'
+  requirements:
+    _permission: 'access content'

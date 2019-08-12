@@ -1,0 +1,21 @@
+uuid: ec082044-509f-4e60-9d9e-dcb7178050b6
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - node
+id: node.field_2017_standard_rate
+field_name: field_2017_standard_rate
+entity_type: node
+type: computed_decimal
+settings:
+  precision: '14'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -112,6 +112,14 @@ function vp_views_views_data_alter(&$data) {
     ),
   );
 
-
+  $data['node_field_data']['field_paragraph_actual_rate_year_value'] = array(
+    'title' => t('Has Rate Year'),
+    'filter' => array(
+      'title' => t('Has Rate Year'),
+      'help' => t('Check to see if this year existas and has a rate.'),
+      'field' => 'title',
+      'id' => 'has_actual_rate_by_year',
+    ),
+  );
 }
 

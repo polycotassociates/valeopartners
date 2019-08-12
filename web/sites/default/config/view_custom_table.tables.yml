@@ -1,0 +1,12 @@
+vw_2019_field_rate_hourly:
+  table_name: vw_2019_field_rate_hourly
+  table_database: default
+  description: 'Rate averages from the vw_2019_field_rate_hourly table.'
+  column_relations: 'a:1:{s:3:"nid";s:4:"node";}'
+  created_by: '1'
+paragraph__field_paragraph_actual_rate:
+  table_name: paragraph__field_paragraph_actual_rate
+  table_database: default
+  description: paragraph__field_paragraph_actual_rate
+  column_relations: 'a:4:{s:7:"deleted";s:9:"paragraph";s:9:"entity_id";s:9:"paragraph";s:11:"revision_id";s:9:"paragraph";s:5:"delta";s:9:"paragraph";}'
+  created_by: '1'

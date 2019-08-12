@@ -1,0 +1,24 @@
+uuid: f4243b7b-eb4c-4989-9ca9-8d3bd35719fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_most_recent_position
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_most_recent_position
+field_name: field_most_recent_position
+entity_type: node
+bundle: vp_type_individual
+label: 'Most Recent Position'
+description: 'Most Recent Position (Calculated)'
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings:
+  code: '$value = '''';'
+field_type: computed_string

@@ -10,6 +10,7 @@ namespace Drupal\vp_views\Plugin\views\field;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Field handler show a rate value by given year.
@@ -81,15 +82,16 @@ class ActualRateByYearParagraph extends FieldPluginBase {
         $paragraph = $values->_entity->get('field_actual_rate_by_year')->getValue();
 
         // Loop through the result set.
-        foreach ( $paragraph as $element ) {
+        foreach ($paragraph as $element) {
 
-          $p = \Drupal\paragraphs\Entity\Paragraph::load( $element['target_id'] );
+          $p = Paragraph::load($element['target_id']);
 
           $this_year = $p->get('field_paragraph_actual_rate_year')->getValue()[0]['value'];
 
-          if ($this_year == $year) {
+          if ($this_year == 2019) {
             return $p->get('field_paragraph_actual_rate')->getValue()[0]['value'];
           }
+          return 1000;
         }
 
 
@@ -108,7 +110,7 @@ class ActualRateByYearParagraph extends FieldPluginBase {
         $year = $this->options['year'];
         // Call getRateByYear method.
         $results = $this->getRateByYear($year, $individual_nid);
-
+        return 2000;
         break;
 
     }

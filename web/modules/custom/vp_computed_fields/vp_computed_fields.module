@@ -396,3 +396,138 @@ function computed_field_field_paragraph_standard_rate_compute($entity_type_manag
     }
   }
 }
+
+/**
+ * Get the most recent position held by a person for a given rate.
+ */
+function computed_field_field_most_recent_position_compute($entity_type_manager, $entity, $fields, $delta) {
+
+  $individual_id = $entity->id();
+  // Do a database query for the individual node id/year and get the
+  // latest hourly rate value.
+  $db = \Drupal::database();
+
+  $query = $db->select('node', 'node')->fields('node');
+  $query->join('node_field_data', 'data', 'node.nid = data.nid');
+  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->join('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
+  $query->join('taxonomy_term_field_data', 'term', 'term.tid = position.field_vp_rate_position_target_id');
+  $query->fields('node', ['nid']);
+  $query->fields('individual', ['field_vp_rate_individual_target_id']);
+  $query->fields('position', ['field_vp_rate_position_target_id']);
+  $query->fields('data', ['created']);
+  $query->fields('term', ['name']);
+  $group = $query->andConditionGroup()
+    ->condition('field_vp_rate_individual_target_id', $individual_id, '=');
+  $query->orderBy('created', 'DESC');
+  $query->range(0, 1);
+  $result = $query->condition($group)->execute()->fetchAll();
+
+  if ($result) {
+    return $result[0]->name;
+  }
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2019.
+ */
+function computed_field_field_2019_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2019);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2019.
+ */
+function computed_field_field_2019_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2019);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2018.
+ */
+function computed_field_field_2018_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2018);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2018.
+ */
+function computed_field_field_2018_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2018);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2017.
+ */
+function computed_field_field_2017_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2017);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2017.
+ */
+function computed_field_field_2017_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2017);
+}
+
+/**
+ * Get the highest hourly rate from an attorney for a year.
+ */
+function get_highest_hourly_rate($nid, $year) {
+
+  // Do a database query for the individual node id/year and get the
+  // latest hourly rate value.
+  $db = \Drupal::database();
+
+  $query = $db->select('node', 'node')->fields('node');
+  $query->join('node__field_vp_rate_hourly', 'hourly', 'node.nid = hourly.entity_id');
+  $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->join('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->fields('node', ['nid']);
+  $query->fields('hourly', ['field_vp_rate_hourly_value']);
+  $query->fields('year', ['field_vp_filing_year_end_value']);
+  $query->fields('individual', ['field_vp_rate_individual_target_id']);
+  $group = $query->andConditionGroup()
+    ->condition('field_vp_filing_year_end_value', $year, '=')
+    ->condition('field_vp_rate_individual_target_id', $nid, '=');
+  $query->orderBy('field_vp_rate_hourly_value', 'DESC');
+  $query->range(0, 1);
+  $result = $query->condition($group)->execute()->fetchAll();
+
+  if ($result) {
+    $rate = $result[0]->field_vp_rate_hourly_value;
+    return $rate;
+  }
+}
+
+/**
+ * Get the highest standard rate from an attorney for a particular year.
+ */
+function get_highest_standard_rate($nid, $year) {
+
+  // Do a database query for the individual node id/year and get the
+  // latest hourly rate value.
+  $db = \Drupal::database();
+
+  $query = $db->select('node', 'node')->fields('node');
+  $query->join('node__field_vp_rate_standard', 'standard', 'node.nid = standard.entity_id');
+  $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->join('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->fields('node', ['nid']);
+  $query->fields('standard', ['field_vp_rate_standard_value']);
+  $query->fields('year', ['field_vp_filing_year_end_value']);
+  $query->fields('individual', ['field_vp_rate_individual_target_id']);
+  $group = $query->andConditionGroup()
+    ->condition('field_vp_filing_year_end_value', $year, '=')
+    ->condition('field_vp_rate_individual_target_id', $nid, '=');
+  $query->orderBy('field_vp_rate_standard_value', 'DESC');
+  $query->range(0, 1);
+  $result = $query->condition($group)->execute()->fetchAll();
+
+  if ($result) {
+    $rate = $result[0]->field_vp_rate_standard_value;
+    return $rate;
+  }
+}

@@ -59,8 +59,8 @@ function _execute_batch($type, $time, array &$context) {
       }
 
       $type_title = "Individual";
-      $standard_rate_paragraphs = generate_standard_rate_paragraphs();
-      $actual_rate_paragraphs = generate_actual_rate_paragraphs();
+      // $standard_rate_paragraphs = generate_standard_rate_paragraphs();
+      // $actual_rate_paragraphs = generate_actual_rate_paragraphs();
       break;
 
   }
@@ -95,7 +95,7 @@ function _execute_batch($type, $time, array &$context) {
 
     switch ($type) {
       case 'vp_type_individual':
-        $code = load_and_save_individual($ids[$i], $actual_rate_paragraphs, $standard_rate_paragraphs);
+        $code = load_and_save_individual($ids[$i]);
         break;
 
       default:
@@ -171,10 +171,10 @@ function generate_standard_rate_paragraphs() {
 /**
  * @return string
  */
-function load_and_save_individual($nid, $actual_rate_paragraphs, $standard_rate_paragraphs) {
+function load_and_save_individual($nid) {
   $node = Node::load($nid);
-  $node->field_actual_rate_by_year = $actual_rate_paragraphs;
-  $node->field_standard_rate_by_year = $standard_rate_paragraphs;
+  // $node->field_actual_rate_by_year = $actual_rate_paragraphs;
+  // $node->field_standard_rate_by_year = $standard_rate_paragraphs;
   $node->save();
   return $node->getTitle();
 }

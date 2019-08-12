@@ -1,0 +1,26 @@
+uuid: e33f871c-1a08-4e4e-94b3-2b7350707a56
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2017_standard_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2017_standard_rate
+field_name: field_2017_standard_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2017 Standard Rate'
+description: '2017 Standard Rate (Computed)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

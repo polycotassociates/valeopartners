@@ -3,7 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.vp_type_individual.field_actual_rate_by_year
+    - field.field.node.vp_type_individual.field_2017_actual_rate
+    - field.field.node.vp_type_individual.field_2017_standard_rate
+    - field.field.node.vp_type_individual.field_2018_actual_rate
+    - field.field.node.vp_type_individual.field_2018_standard_rate
+    - field.field.node.vp_type_individual.field_2019_actual_rate
+    - field.field.node.vp_type_individual.field_2019_standard_rate
+    - field.field.node.vp_type_individual.field_most_recent_position
     - field.field.node.vp_type_individual.field_standard_rate_by_year
     - field.field.node.vp_type_individual.field_vp_bar_date
     - field.field.node.vp_type_individual.field_vp_email
@@ -21,6 +27,7 @@ dependencies:
     - field.field.node.vp_type_individual.field_vp_state_bar
     - node.type.vp_type_individual
   module:
+    - computed_field
     - paragraphs
     - shs
     - yearonly
@@ -29,6 +36,48 @@ targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
+  field_2017_actual_rate:
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2017_standard_rate:
+    weight: 31
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2018_actual_rate:
+    weight: 27
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2018_standard_rate:
+    weight: 30
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2019_actual_rate:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2019_standard_rate:
+    weight: 29
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_most_recent_position:
+    weight: 32
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_string_widget
+    region: content
   field_vp_bar_date:
     weight: 12
     settings: {  }
@@ -145,7 +194,6 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_actual_rate_by_year: true
   field_standard_rate_by_year: true
   field_vp_position: true
   path: true

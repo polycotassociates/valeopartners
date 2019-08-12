@@ -133,4 +133,12 @@ class ActualRateByYear extends FieldPluginBase {
     }
   }
 
+  /**
+   * Quicksort function.
+   */
+  public function clickSort($order) {
+    $alias = $this->query->addField(NULL, "field_vp_rate_hourly_value", 'actual_rate_by_year');
+    $this->query->addOrderBy(NULL, NULL, $order, $alias);
+  }
+
 }

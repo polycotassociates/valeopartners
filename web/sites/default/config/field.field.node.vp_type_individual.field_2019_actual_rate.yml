@@ -1,0 +1,26 @@
+uuid: 92e0ba93-9cd3-44fd-8f1d-b616cbe5696b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2019_actual_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2019_actual_rate
+field_name: field_2019_actual_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2019 Actual Rate'
+description: '2019 Actual Rate (Calculated)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

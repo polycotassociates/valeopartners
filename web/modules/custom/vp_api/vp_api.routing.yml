@@ -1,4 +1,4 @@
-vp_api.filings:
+vp_api.refresh_nodes:
   path: '/admin/refresh-nodes'
   defaults:
     _form: '\Drupal\vp_api\Form\ResaveNodes'

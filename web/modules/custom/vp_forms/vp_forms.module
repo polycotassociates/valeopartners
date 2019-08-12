@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
  */
 function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
 
-  //kint($form['#id']);
+  // kint($form['#id']);
   // Attach javascript library to all forms.
   $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
 
@@ -34,6 +34,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
     case "views-exposed-form-search-rates-by-firm-detail-search-rates-by-firm-detail":
     case "views-exposed-form-search-fees-by-firm-search-fees-by-firm-page":
     case "views-exposed-form-search-by-firm-master-search-by-firm-page":
+    case "views-exposed-form-rates-by-firm-summary-individual-rates-by-firm-summary-page":
 
       // Remove the practice area 2 and 3 from the form.
       $form['field_vp_practice_area_2_target_id']['#access'] = FALSE;
@@ -195,4 +196,12 @@ function vp_forms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
     }
   }
+
+
+
+  // switch ($form['#id']) {
+  //   case 'node-vp-type-case-form':
+  //     break;
+  // }
+
 }

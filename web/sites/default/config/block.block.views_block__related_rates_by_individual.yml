@@ -6,6 +6,7 @@ dependencies:
     - views.view.search_rates_by_individual
   module:
     - ctools
+    - system
     - views
   theme:
     - valeo_classic
@@ -31,3 +32,8 @@ visibility:
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: '*/edit'
+    negate: true
+    context_mapping: {  }
