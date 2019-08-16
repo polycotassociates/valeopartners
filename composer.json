@@ -75,6 +75,7 @@
         "drupal/publication_date": "^2.0",
         "drupal/range": "^1.1",
         "drupal/redirect_after_login": "^2.3",
+        "drupal/redis": "^1.1",
         "drupal/rules": "^3.0",
         "drupal/shs": "^1.0",
         "drupal/simple_block": "^1.0@beta",

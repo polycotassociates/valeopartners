@@ -197,6 +197,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         ),
         'D' => 
         array (
+            'Drupal\\redis\\' => 13,
             'Drupal\\Driver\\' => 14,
             'Drupal\\Core\\' => 12,
             'Drupal\\Console\\Core\\' => 20,
@@ -474,6 +475,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+        ),
+        'Drupal\\redis\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/web/modules/contrib/redis/src',
         ),
         'Drupal\\Driver\\' => 
         array (
@@ -3192,6 +3197,32 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Drupal\\Core\\Validation\\Plugin\\Validation\\Constraint\\UniqueFieldValueValidator' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Validation/Plugin/Validation/Constraint/UniqueFieldValueValidator.php',
         'Drupal\\Core\\Validation\\Plugin\\Validation\\Constraint\\UuidConstraint' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Validation/Plugin/Validation/Constraint/UuidConstraint.php',
         'Drupal\\Core\\Validation\\TranslatorInterface' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Validation/TranslatorInterface.php',
+        'Drupal\\redis\\Cache\\CacheBackendFactory' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Cache/CacheBackendFactory.php',
+        'Drupal\\redis\\Cache\\CacheBase' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Cache/CacheBase.php',
+        'Drupal\\redis\\Cache\\PhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Cache/PhpRedis.php',
+        'Drupal\\redis\\Cache\\Predis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Cache/Predis.php',
+        'Drupal\\redis\\Cache\\RedisCacheTagsChecksum' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Cache/RedisCacheTagsChecksum.php',
+        'Drupal\\redis\\ClientFactory' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/ClientFactory.php',
+        'Drupal\\redis\\ClientInterface' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/ClientInterface.php',
+        'Drupal\\redis\\Client\\PhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Client/PhpRedis.php',
+        'Drupal\\redis\\Client\\Predis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Client/Predis.php',
+        'Drupal\\redis\\Flood\\FloodFactory' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Flood/FloodFactory.php',
+        'Drupal\\redis\\Flood\\PhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Flood/PhpRedis.php',
+        'Drupal\\redis\\Flood\\Predis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Flood/Predis.php',
+        'Drupal\\redis\\Lock\\LockFactory' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Lock/LockFactory.php',
+        'Drupal\\redis\\Lock\\PhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Lock/PhpRedis.php',
+        'Drupal\\redis\\Lock\\Predis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Lock/Predis.php',
+        'Drupal\\redis\\PersistentLock\\PhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/PersistentLock/PhpRedis.php',
+        'Drupal\\redis\\PersistentLock\\Predis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/PersistentLock/Predis.php',
+        'Drupal\\redis\\Queue\\PhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/PhpRedis.php',
+        'Drupal\\redis\\Queue\\Predis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/Predis.php',
+        'Drupal\\redis\\Queue\\QueueBase' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/QueueBase.php',
+        'Drupal\\redis\\Queue\\QueueRedisFactory' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/QueueRedisFactory.php',
+        'Drupal\\redis\\Queue\\ReliablePhpRedis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/ReliablePhpRedis.php',
+        'Drupal\\redis\\Queue\\ReliablePredis' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/ReliablePredis.php',
+        'Drupal\\redis\\Queue\\ReliableQueueBase' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/ReliableQueueBase.php',
+        'Drupal\\redis\\Queue\\ReliableQueueRedisFactory' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/Queue/ReliableQueueRedisFactory.php',
+        'Drupal\\redis\\RedisPrefixTrait' => __DIR__ . '/../..' . '/web/modules/contrib/redis/src/RedisPrefixTrait.php',
         'EasyRdf_Collection' => __DIR__ . '/..' . '/easyrdf/easyrdf/lib/EasyRdf/Collection.php',
         'EasyRdf_Container' => __DIR__ . '/..' . '/easyrdf/easyrdf/lib/EasyRdf/Container.php',
         'EasyRdf_Exception' => __DIR__ . '/..' . '/easyrdf/easyrdf/lib/EasyRdf/Exception.php',
