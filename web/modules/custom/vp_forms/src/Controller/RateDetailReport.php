@@ -105,7 +105,7 @@ class RateDetailReport extends ControllerBase {
    */
   public function export() {
 
-    $title = $this->getCurrentTitle();
+    $title = $this->getPageTitle();
     // $client = new \Redis();
     // $client->connect('cache', 6379);
     // $pool = new RedisCachePool($client);
@@ -116,7 +116,7 @@ class RateDetailReport extends ControllerBase {
     // print_r($this->getFirstName('100825'));
     // print "<br>";
     //kint($_GET);
-  //kint($this->uniqueObjectList($this->generateDynamicQuery()));
+    //kint($this->generateDynamicQuery());
 
     // kint($this->getFirmName('257600'));
 
@@ -146,7 +146,7 @@ class RateDetailReport extends ControllerBase {
     $worksheet = $spreadsheet->getActiveSheet();
 
     //Rename sheet
-    $worksheet->setTitle('Rates by Firm - Detail');
+    $worksheet->setTitle('Valeo Reports');
 
     /*
     * TITLE
@@ -393,6 +393,12 @@ class RateDetailReport extends ControllerBase {
     $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
     $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
+    // Filter by title.
+    if (isset($_GET['title'])) {
+      $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
+      $query->addField('individual_title', 'title', 'individual_title');
+    }
+
     // Joins for fields to query upon.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
     $query->leftjoin('node__field_vp_case_nature_of_suit', 'nature_of_suit', 'nature_of_suit.entity_id = filing_case.field_vp_filing_case_target_id');
@@ -499,6 +505,11 @@ class RateDetailReport extends ControllerBase {
     // Filter by nature of suit ids.
     if (isset($_GET['field_vp_company_industry_target_id'])) {
       $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
+    }
+
+    // Filter by title.
+    if (isset($_GET['title'])) {
+      $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
     }
 
     // Filter by practice area ids.
@@ -651,7 +662,10 @@ class RateDetailReport extends ControllerBase {
     return $query->execute()->fetchField();
   }
 
-  private function getCurrentTitle() {
+  /**
+   * Get the title of the current page.
+   */
+  private function getPageTitle() {
     $request = \Drupal::request();
     if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
       $title = \Drupal::service('title_resolver')->getTitle($request, $route);
