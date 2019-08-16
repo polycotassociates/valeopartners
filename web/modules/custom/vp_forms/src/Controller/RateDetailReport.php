@@ -7,6 +7,7 @@ namespace Drupal\vp_forms\Controller;
  * Contains \Drupal\vp_forms\Controller\RateDetailReport.
  */
 
+// print $_SERVER['DOCUMENT_ROOT'] . '/libraries/spout/src/Spout/Autoloader/autoload.php';
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,7 +20,9 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Settings;
 use Cache\Adapter\Redis\RedisCachePool;
 use Cache\Bridge\SimpleCache\SimpleCacheBridge;
-
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+// use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+// use Box\Spout\Common\Entity\Row;
 
 use Cache\Adapter\Apcu\ApcuCachePool;
 
@@ -42,21 +45,73 @@ class RateDetailReport extends ControllerBase {
       $keys[] = $obj->nid;
     }
 
-    kint(array_unique($keys));
+    //kint(array_unique($keys));
     return $objects;
   }
+
+
+  /**
+   * Export a report using Box\Sprout
+   */
+
+  public function export_xls() {
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/libraries/spout/src/Spout/Autoloader/autoload.php';
+    // require_once '/vendor/box/sprout/src/Spout/Autoloader/autoload.php';
+
+    //print $_SERVER['DOCUMENT_ROOT'];
+    //require_once '..' . DRUPAL_ROOT . '/vendor/src/Spout/Autoloader/autoload.php';
+    //require_once __DIR__ . '/web/vendor/src/Spout/Autoloader/autoload.php';
+
+
+
+    $writer = WriterEntityFactory::createXLSXWriter();
+    // $writer = WriterEntityFactory::createODSWriter();
+    // $writer = WriterEntityFactory::createCSVWriter();
+    $fileName = "Test";
+
+    //$writer->openToFile($filePath); // write data to a file or to a PHP stream
+    $writer->openToBrowser($fileName); // stream data directly to the browser
+
+    $cells = [
+        WriterEntityFactory::createCell('Carl'),
+        WriterEntityFactory::createCell('is'),
+        WriterEntityFactory::createCell('great!'),
+    ];
+
+    /** add a row at a time */
+    $singleRow = WriterEntityFactory::createRow($cells);
+    $writer->addRow($singleRow);
+
+    /** add multiple rows at a time */
+    $multipleRows = [
+        WriterEntityFactory::createRow($cells),
+        WriterEntityFactory::createRow($cells),
+    ];
+    $writer->addRows($multipleRows);
+
+    /** Shortcut: add a row from an array of values */
+    $values = ['Carl', 'is', 'great!'];
+    $rowFromValues = WriterEntityFactory::createRowFromArray($values);
+    $writer->addRow($rowFromValues);
+
+    $writer->close();
+
+
+  }
+
 
   /**
    * Export a report using phpSpreadsheet
    */
   public function export() {
 
-    $client = new \Redis();
-    $client->connect('cache', 6379);
-    $pool = new RedisCachePool($client);
-    $simpleCache = new SimpleCacheBridge($pool);
+    $title = $this->getCurrentTitle();
+    // $client = new \Redis();
+    // $client->connect('cache', 6379);
+    // $pool = new RedisCachePool($client);
+    // $simpleCache = new SimpleCacheBridge($pool);
 
-    Settings::setCache($simpleCache);
+    // Settings::setCache($simpleCache);
 
     // print_r($this->getFirstName('100825'));
     // print "<br>";
@@ -72,7 +127,7 @@ class RateDetailReport extends ControllerBase {
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', 'attachment; filename=Fates_By_Firm_Detail.xlsx');
+    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
     $spreadsheet = new Spreadsheet();
 
@@ -441,6 +496,11 @@ class RateDetailReport extends ControllerBase {
       $query->condition('field_vp_case_nature_of_suit_target_id', $_GET['field_vp_case_nature_of_suit_target_id_verf'], 'IN');
     }
 
+    // Filter by nature of suit ids.
+    if (isset($_GET['field_vp_company_industry_target_id'])) {
+      $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
+    }
+
     // Filter by practice area ids.
     if (isset($_GET['field_vp_practice_area_1_target_id'])) {
       $group = $query->orConditionGroup()
@@ -589,6 +649,14 @@ class RateDetailReport extends ControllerBase {
     $query->condition('term.tid', $id, '=');
     $query->fields('term', ['name']);
     return $query->execute()->fetchField();
+  }
+
+  private function getCurrentTitle() {
+    $request = \Drupal::request();
+    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
+      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
+    }
+    return $title;
   }
 
 }
