@@ -18,6 +18,7 @@
           buttons: {
             "I accept": function() {
               window.location = link;
+              $( this ).dialog( "close" );
           },
           }
         });

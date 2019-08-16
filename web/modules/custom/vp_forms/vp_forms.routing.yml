@@ -5,3 +5,11 @@ vp_forms.rate_change:
     _title: 'Update your rate change alerts.'
   requirements:
     _permission: 'access content'
+
+vp_forms.rate_detail_report:
+  path: '/reports/export/detail'
+  defaults:
+    _controller: '\Drupal\vp_forms\Controller\RateDetailReport::export'
+    _title: 'Detail Rate Report.'
+  requirements:
+    _permission: 'access content'

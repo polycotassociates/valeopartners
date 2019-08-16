@@ -34,7 +34,6 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
     case "views-exposed-form-search-rates-by-firm-detail-search-rates-by-firm-detail":
     case "views-exposed-form-search-fees-by-firm-search-fees-by-firm-page":
     case "views-exposed-form-search-by-firm-master-search-by-firm-page":
-    case "views-exposed-form-rates-by-firm-summary-individual-rates-by-firm-summary-page":
 
       // Remove the practice area 2 and 3 from the form.
       $form['field_vp_practice_area_2_target_id']['#access'] = FALSE;
@@ -93,6 +92,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
 
     case "views-exposed-form-search-rates-by-firm-summary-search-rates-by-firm-summary":
     case "views-exposed-form-search-rates-by-firm-summary-rates-search-rates-by-firm-summary":
+    case "views-exposed-form-rates-by-firm-summary-individual-rates-by-firm-summary-page":
 
       // Remove the practice area 2 and 3 from the form.
       $form['field_vp_practice_area_2_target_id']['#access'] = FALSE;
