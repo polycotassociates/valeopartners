@@ -48,7 +48,7 @@ class RateDetailReport extends ControllerBase {
     // print_r($this->getFirstName('100825'));
     // print "<br>";
     //kint($_GET);
-  kint($this->uniqueObjectList($this->generateDynamicQuery()));
+  //kint($this->uniqueObjectList($this->generateDynamicQuery()));
 
     // kint($this->getFirmName('257600'));
 
@@ -59,7 +59,7 @@ class RateDetailReport extends ControllerBase {
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', 'attachment; filename=demo.xlsx');
+    $response->headers->set('Content-Disposition', 'attachment; filename=Fates_By_Firm_Detail.xlsx');
 
     $spreadsheet = new Spreadsheet();
 
@@ -300,7 +300,7 @@ class RateDetailReport extends ControllerBase {
 
 
     $response->setContent($content);
-    //return $response;
+    return $response;
   }
 
   /**
@@ -311,15 +311,12 @@ class RateDetailReport extends ControllerBase {
     // Connect to the database.
     $db = \Drupal::database();
     $db->query("SET SESSION sql_mode = ''")->execute();
+
     // Query node data.
     $query = $db->select('node_field_data', 'node');
     $query->fields('node', ['nid', 'type', 'status']);
-    // $query->addExpression('DISTINCT ON nid', 'nid');
     $query->condition('node.type', 'vp_type_rate', '=');
     $query->condition('node.status', 1);
-    // $query->addField('node_field_data', 'nid');
-
-
 
     // Join Firm, Filing, Individual, Case to Rate.
     $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
@@ -328,7 +325,6 @@ class RateDetailReport extends ControllerBase {
     $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
     $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
-    $query->groupBy('individual.entity_id');
     // Joins for fields to query upon.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
     $query->leftjoin('node__field_vp_case_nature_of_suit', 'nature_of_suit', 'nature_of_suit.entity_id = filing_case.field_vp_filing_case_target_id');
@@ -442,7 +438,7 @@ class RateDetailReport extends ControllerBase {
     }
 
     // Maximum 50,000 records.
-    $query->range(0, 500);
+    $query->range(0, 50000);
 
     // Order by Actual Rate.
     $query->orderBy('actual.field_vp_rate_hourly_value', 'DESC');
