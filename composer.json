@@ -90,6 +90,7 @@
         "drupal/views_bulk_operations": "3.x-dev",
         "drupal/views_data_export": "1.x-dev",
         "drupal/views_field_view": "^1.0",
+        "drupal/views_index_hint": "^1.0",
         "drupal/views_raw_sql": "1.x-dev",
         "drupal/viewsreference": "^2.0",
         "drupal/webform": "^5.0",
@@ -148,7 +149,7 @@
             "VERF Performance Problem": "https://www.drupal.org/files/issues/2018-09-11/performance-problem-2998697-7.patch"
         },
         "drupal/views_data_export": {
-            "Support for batch operations patch": "https://www.drupal.org/files/issues/2019-07-12/views-data-export-support-for-batch-operations-2789531-264.patch"
+            "Support for batch operations patch": "https://www.drupal.org/files/issues/2019-06-12/views-data-export-support-for-batch-operations-2789531-259.patch"
         },
         "drupal/devel": {
             "protected property issues": "https://www.drupal.org/files/issues/devel.ksm_.2857361.18.patch"

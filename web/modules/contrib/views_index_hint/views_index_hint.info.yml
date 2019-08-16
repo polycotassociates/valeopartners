@@ -1,0 +1,11 @@
+name: Views Index Hint
+description: Provides option to add index hint to views.
+package: Views
+# core: 8.x
+type: module
+
+# Information added by Drupal.org packaging script on 2018-07-23
+version: '8.x-1.0-alpha1'
+core: '8.x'
+project: 'views_index_hint'
+datestamp: 1532306284
