@@ -16,6 +16,12 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Settings;
+use Cache\Adapter\Redis\RedisCachePool;
+use Cache\Bridge\SimpleCache\SimpleCacheBridge;
+
+
+use Cache\Adapter\Apcu\ApcuCachePool;
 
 /**
  * Initialize class.
@@ -44,6 +50,13 @@ class RateDetailReport extends ControllerBase {
    * Export a report using phpSpreadsheet
    */
   public function export() {
+
+    $client = new \Redis();
+    $client->connect('cache', 6379);
+    $pool = new RedisCachePool($client);
+    $simpleCache = new SimpleCacheBridge($pool);
+
+    Settings::setCache($simpleCache);
 
     // print_r($this->getFirstName('100825'));
     // print "<br>";
