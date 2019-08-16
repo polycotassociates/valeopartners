@@ -161,6 +161,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
+            'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PantheonSystems\\CDNBehatHelpers\\' => 32,
@@ -216,6 +217,11 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'Composer\\Installers\\' => 20,
             'Complex\\' => 8,
             'CommerceGuys\\Addressing\\' => 24,
+            'Cache\\TagInterop\\' => 17,
+            'Cache\\Hierarchy\\' => 16,
+            'Cache\\Bridge\\SimpleCache\\' => 25,
+            'Cache\\Adapter\\Redis\\' => 20,
+            'Cache\\Adapter\\Common\\' => 21,
         ),
         'B' => 
         array (
@@ -409,6 +415,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -532,6 +542,26 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'CommerceGuys\\Addressing\\' => 
         array (
             0 => __DIR__ . '/..' . '/commerceguys/addressing/src',
+        ),
+        'Cache\\TagInterop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/tag-interop',
+        ),
+        'Cache\\Hierarchy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/hierarchical-cache',
+        ),
+        'Cache\\Bridge\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/simple-cache-bridge',
+        ),
+        'Cache\\Adapter\\Redis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/redis-adapter',
+        ),
+        'Cache\\Adapter\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/adapter-common',
         ),
         'Brumann\\Polyfill\\' => 
         array (
@@ -727,6 +757,24 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Brumann\\Polyfill\\Unserialize' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/Unserialize.php',
+        'Cache\\Adapter\\Common\\AbstractCachePool' => __DIR__ . '/..' . '/cache/adapter-common/AbstractCachePool.php',
+        'Cache\\Adapter\\Common\\CacheItem' => __DIR__ . '/..' . '/cache/adapter-common/CacheItem.php',
+        'Cache\\Adapter\\Common\\Exception\\CacheException' => __DIR__ . '/..' . '/cache/adapter-common/Exception/CacheException.php',
+        'Cache\\Adapter\\Common\\Exception\\CachePoolException' => __DIR__ . '/..' . '/cache/adapter-common/Exception/CachePoolException.php',
+        'Cache\\Adapter\\Common\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/cache/adapter-common/Exception/InvalidArgumentException.php',
+        'Cache\\Adapter\\Common\\HasExpirationTimestampInterface' => __DIR__ . '/..' . '/cache/adapter-common/HasExpirationTimestampInterface.php',
+        'Cache\\Adapter\\Common\\JsonBinaryArmoring' => __DIR__ . '/..' . '/cache/adapter-common/JsonBinaryArmoring.php',
+        'Cache\\Adapter\\Common\\PhpCacheItem' => __DIR__ . '/..' . '/cache/adapter-common/PhpCacheItem.php',
+        'Cache\\Adapter\\Common\\PhpCachePool' => __DIR__ . '/..' . '/cache/adapter-common/PhpCachePool.php',
+        'Cache\\Adapter\\Common\\TagSupportWithArray' => __DIR__ . '/..' . '/cache/adapter-common/TagSupportWithArray.php',
+        'Cache\\Adapter\\Redis\\RedisCachePool' => __DIR__ . '/..' . '/cache/redis-adapter/RedisCachePool.php',
+        'Cache\\Bridge\\SimpleCache\\Exception\\CacheException' => __DIR__ . '/..' . '/cache/simple-cache-bridge/Exception/CacheException.php',
+        'Cache\\Bridge\\SimpleCache\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/cache/simple-cache-bridge/Exception/InvalidArgumentException.php',
+        'Cache\\Bridge\\SimpleCache\\SimpleCacheBridge' => __DIR__ . '/..' . '/cache/simple-cache-bridge/SimpleCacheBridge.php',
+        'Cache\\Hierarchy\\HierarchicalCachePoolTrait' => __DIR__ . '/..' . '/cache/hierarchical-cache/HierarchicalCachePoolTrait.php',
+        'Cache\\Hierarchy\\HierarchicalPoolInterface' => __DIR__ . '/..' . '/cache/hierarchical-cache/HierarchicalPoolInterface.php',
+        'Cache\\TagInterop\\TaggableCacheItemInterface' => __DIR__ . '/..' . '/cache/tag-interop/TaggableCacheItemInterface.php',
+        'Cache\\TagInterop\\TaggableCacheItemPoolInterface' => __DIR__ . '/..' . '/cache/tag-interop/TaggableCacheItemPoolInterface.php',
         'Caxy\\HtmlDiff\\AbstractDiff' => __DIR__ . '/..' . '/caxy/php-htmldiff/lib/Caxy/HtmlDiff/AbstractDiff.php',
         'Caxy\\HtmlDiff\\DiffCache' => __DIR__ . '/..' . '/caxy/php-htmldiff/lib/Caxy/HtmlDiff/DiffCache.php',
         'Caxy\\HtmlDiff\\HtmlDiff' => __DIR__ . '/..' . '/caxy/php-htmldiff/lib/Caxy/HtmlDiff/HtmlDiff.php',
@@ -4099,6 +4147,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'PhpParser\\Parser\\Tokens' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Parser/Tokens.php',
         'PhpParser\\PrettyPrinterAbstract' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php',
         'PhpParser\\PrettyPrinter\\Standard' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/PrettyPrinter/Standard.php',
+        'Psr\\Cache\\CacheException' => __DIR__ . '/..' . '/psr/cache/src/CacheException.php',
+        'Psr\\Cache\\CacheItemInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemInterface.php',
+        'Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemPoolInterface.php',
+        'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
         'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
