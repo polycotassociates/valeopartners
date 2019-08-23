@@ -4,5 +4,5 @@ status: true
 dependencies: {  }
 id: d555bc43-ac7c-42fd-adb7-9a4ca7d6419f
 label: 'Menu token link configuration'
-linkid: 'internal:/user/[current-user:uid]/edit#edit-group-alerts'
+linkid: 'internal:/rate-change'
 configurationSerialized: 'a:4:{s:18:"menu_token_enabled";i:1;s:36:"remove_if_replacement_is_not_present";i:0;s:4:"node";a:2:{i:0;s:4:"none";i:1;i:0;}s:4:"user";a:2:{i:0;s:4:"none";i:1;i:0;}}'

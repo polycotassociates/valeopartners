@@ -31,8 +31,6 @@ dependencies:
     - user.role.fee_search_add_on
     - user.role.pilot_account
     - user.role.superuser
-  content:
-    - 'taxonomy_term:practice_area:cbc7b0a6-bd4d-4647-84cf-4ac7ff05b5c9'
   module:
     - computed_field
     - datetime
@@ -3776,83 +3774,6 @@ display:
           empty: false
           plugin_id: export_header
       fields:
-        views_bulk_operations_bulk_form:
-          id: views_bulk_operations_bulk_form
-          table: views
-          field: views_bulk_operations_bulk_form
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Views bulk operations'
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          batch: true
-          batch_size: 10
-          form_step: true
-          buttons: false
-          clear_on_exposed: false
-          action_title: Action
-          selected_actions:
-            comment_delete_action: 0
-            node_assign_owner_action: 0
-            node_unpromote_action: 0
-            node_promote_action: 0
-            node_publish_action: 0
-            node_save_action: 0
-            node_make_sticky_action: 0
-            node_unpublish_by_keyword_action: 0
-            node_unpublish_action: 0
-            node_make_unsticky_action: 0
-            views_bulk_edit: 0
-            views_bulk_operations_delete_entity: 0
-            pathauto_update_alias: 0
-            'entity:delete_action:node': 0
-            'entity:publish_action:node': 0
-            'entity:save_action:node': 0
-            'entity:unpublish_action:node': 0
-          preconfiguration:
-            vbo_export_generate_xlsx_action:
-              label_override: ''
-              strip_tags: 1
-          plugin_id: views_bulk_operations_bulk_form
         view_node:
           id: view_node
           table: node
@@ -5358,7 +5279,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
           type: select
           limit: true
           vid: practice_area
@@ -5373,8 +5294,7 @@ display:
           group_type: group
           admin_label: ''
           operator: or
-          value:
-            423: 423
+          value: {  }
           group: 2
           exposed: true
           expose:
@@ -5415,7 +5335,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
           type: select
           limit: true
           vid: practice_area
@@ -5430,8 +5350,7 @@ display:
           group_type: group
           admin_label: ''
           operator: or
-          value:
-            423: 423
+          value: {  }
           group: 2
           exposed: true
           expose:
@@ -5472,7 +5391,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
           type: select
           limit: true
           vid: practice_area
@@ -5485,7 +5404,7 @@ display:
           1: AND
           2: OR
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'

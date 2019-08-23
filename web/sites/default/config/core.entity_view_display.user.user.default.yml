@@ -3,12 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_pricing_alert_firms_title
     - field.field.user.user.field_user_2_week_alert
     - field.field.user.user.field_user_email_alert_addresses
     - field.field.user.user.field_user_first_name
     - field.field.user.user.field_user_last_name
     - field.field.user.user.field_user_organization
     - field.field.user.user.field_user_pricing_alert_firms
+    - field.field.user.user.profile_firstname
+    - field.field.user.user.profile_lastname
+    - field.field.user.user.profile_organization
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -21,6 +25,14 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
+  field_pricing_alert_firms_title:
+    weight: 12
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   field_user_2_week_alert:
     weight: 10
     label: above
@@ -82,4 +94,10 @@ content:
       image_link: content
     third_party_settings: {  }
     label: hidden
-hidden: {  }
+hidden:
+  entity_print_view_epub: true
+  entity_print_view_pdf: true
+  entity_print_view_word_docx: true
+  profile_firstname: true
+  profile_lastname: true
+  profile_organization: true

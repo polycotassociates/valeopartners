@@ -65,7 +65,6 @@ module:
   node_access_rebuild_progressive: 0
   options: 0
   page_cache: 0
-  pantheon_advanced_page_cache: 0
   paragraphs_clean: 0
   paragraphs_library: 0
   paragraphs_type_permissions: 0

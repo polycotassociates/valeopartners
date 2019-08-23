@@ -91,7 +91,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<li>{{ title }} </li>'
+            text: '{{ title }}'
             make_link: false
             path: ''
             absolute: false
