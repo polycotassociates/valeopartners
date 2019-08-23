@@ -3,6 +3,9 @@
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\views\Plugin\views\join\JoinPluginBase;
+use Drupal\views\Plugin\ViewsPluginManager;
+use Drupal\views\Views;
 
 /**
  * Implements hook_preprocess_views_view_table().
@@ -83,68 +86,117 @@ function vp_views_preprocess_views_view_table(&$variables) {
  */
 function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
 
-  switch ($view->storage->id()) {
-    case 'search_rates_by_firm_summary_rates':
-    case 'rates_by_firm_summary_individual':
-    case 'firm_history':
-      $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
-      $query->addGroupBy('node_field_data.nid');
-      break;
-  }
-
-  $view_ids = [
-    'search_by_firm',
-    'search_rates_by_firm_summary_rates',
-    'search_rates_by_firm_detail',
-    'search_fees_by_firm',
-    'search_fees_by_company',
-  ];
-  $view_displays = [
-    'data_export_xls',
-  ];
+  $query->setWhereGroup('OR', 2);
 
 
-  if (in_array($view->id(), $view_ids) && $view->exposed_data && $view->current_display != 'data_export_xls') {
-    // Get the value of the exposed filter Practice Area 1,
-    // set to NULL if it doesn't exist.
-    $pa1 = $view->exposed_data['field_vp_practice_area_1_target_id'] ? $view->exposed_data['field_vp_practice_area_1_target_id'] : NULL;
+  // switch ($view->storage->id()) {
+  //   case 'search_rates_by_firm_summary_rates':
+  //   case 'rates_by_firm_summary_individual':
+  //   case 'firm_history':
+  //     $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
+  //     $query->addGroupBy('node_field_data.nid');
+  //     break;
+  // }
 
-    // If there is no exposed data for practice area 1.
-    if (!isset($pa1)) {
-      // Get rid of the practice area "OR" block entirely.
-      unset($query->where[2]);
+  // $view_ids = [
+  //   'search_by_firm',
+  //   'search_rates_by_firm_summary_rates',
+  //   'search_rates_by_firm_detail',
+  //   'search_fees_by_firm',
+  //   'search_fees_by_company',
+  // ];
+  // $view_displays = [
+  //   'data_export_xls',
+  // ];
 
-      // We add practice areas with default values in the view so the
-      // proper relationships are created.
-      // Get the tableQueue so we can manipulate it,
-      // and clear the default practice area values.
-      $tables =& $query->getTableQueue();
-      unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2']);
-      unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3']);
-    }
-    else {
-      // Traverse through the 'where' part of the query,
-      // eliminate the value of practice area 2 and 3,
-      // add value of practice area 1 to practice areas 2 and 3.
-      foreach ($query->where as &$condition_group) {
-        foreach ($condition_group['conditions'] as &$condition) {
 
-          if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id = :node__field_vp_practice_area_2_field_vp_practice_area_2_target_id') {
-            $condition['value'][':node__field_vp_practice_area_2_field_vp_practice_area_2_target_id'] = NULL;
-          }
-          if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id = :node__field_vp_practice_area_3_field_vp_practice_area_3_target_id') {
-            $condition['value'][':node__field_vp_practice_area_3_field_vp_practice_area_3_target_id'] = NULL;
-          }
-          if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_1.field_vp_practice_area_1_target_id = :node__field_vp_practice_area_1_field_vp_practice_area_1_target_id') {
-            $field = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id';
-            $field2 = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id';
-            $value = $pa1;
-            $operator = '=';
-            $query->addWhere(2, $field, $value, $operator);
-            $query->addWhere(2, $field2, $value, $operator);
-          }
-        }
-      }
-    }
-  }
+  // if (in_array($view->id(), $view_ids) && $view->exposed_data && $view->current_display != 'data_export_xls') {
+  //   // Get the value of the exposed filter Practice Area 1,
+  //   // set to NULL if it doesn't exist.
+  //   $pa1 = $view->exposed_data['field_vp_practice_area_1_target_id'] ? $view->exposed_data['field_vp_practice_area_1_target_id'] : NULL;
+
+  //   // If there is no exposed data for practice area 1.
+  //   if (!isset($pa1)) {
+  //     // Get rid of the practice area "OR" block entirely.
+  //     unset($query->where[2]);
+
+  //     // We add practice areas with default values in the view so the
+  //     // proper relationships are created.
+  //     // Get the tableQueue so we can manipulate it,
+  //     // and clear the default practice area values.
+  //     $tables =& $query->getTableQueue();
+  //     unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2']);
+  //     unset($tables['node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3']);
+  //   }
+  //   else {
+  //     // Traverse through the 'where' part of the query,
+  //     // eliminate the value of practice area 2 and 3,
+  //     // add value of practice area 1 to practice areas 2 and 3.
+  //     foreach ($query->where as &$condition_group) {
+  //       foreach ($condition_group['conditions'] as &$condition) {
+
+  //         // if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id = :node__field_vp_practice_area_2_field_vp_practice_area_2_target_id') {
+  //         //   $condition['value'][':node__field_vp_practice_area_2_field_vp_practice_area_2_target_id'] = NULL;
+  //         // }
+  //         // if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id = :node__field_vp_practice_area_3_field_vp_practice_area_3_target_id') {
+  //         //   $condition['value'][':node__field_vp_practice_area_3_field_vp_practice_area_3_target_id'] = NULL;
+  //         // }
+  //         if ($condition['field'] == 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_1.field_vp_practice_area_1_target_id = :node__field_vp_practice_area_1_field_vp_practice_area_1_target_id') {
+  //           $field = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2.field_vp_practice_area_2_target_id';
+  //           $field2 = 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3.field_vp_practice_area_3_target_id';
+  //           $value = $pa1;
+  //           $operator = 'IN';
+
+
+  //           // kint($condition['value'][':node__field_vp_practice_area_1_field_vp_practice_area_1_target_id']);
+  //           // kint($pa1);
+
+  //           $configuration_1 = [
+  //             'table' => 'node__field_vp_practice_area_2',
+  //             'field' => 'field_vp_practice_area_2_target_id',
+  //             'left_table' => 'node__field_vp_rate_individual',
+  //             'left_field' => 'entity_id',
+  //             'operatior' => '=',
+  //           ];
+
+  //           $join_1 = Views::pluginManager('join')->createInstance('standard', $configuration_1);
+  //           $query->addRelationship('node__field_vp_practice_area_2', $join_1, 'node__field_vp_practice_area_2', 'node__field_vp_rate_individual');
+
+  //           $query->addField('node__field_vp_practice_area_2', 'field_vp_practice_area_2_target_id', 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_2');
+
+  //           $configuration_2 = [
+  //             'table' => 'node__field_vp_practice_area_3',
+  //             'field' => 'field_vp_practice_area_3_target_id',
+  //             'left_table' => 'node__field_vp_rate_individual',
+  //             'left_field' => 'entity_id',
+  //             'operatior' => '=',
+  //           ];
+
+  //           $join_2 = Views::pluginManager('join')->createInstance('standard', $configuration_2);
+  //           $query->addRelationship('node__field_vp_practice_area_2', $join_2, 'node__field_vp_practice_area_2', 'node__field_vp_rate_individual');
+
+  //           $query->addField('node__field_vp_practice_area_3', 'field_vp_practice_area_3_target_id', 'node_field_data_node__field_vp_rate_individual__node__field_vp_practice_area_3');
+
+  //           //$query->setGroupOperator('OR');
+  //           // $group = $query->andConditionGroup()
+  //           //   ->condition('field_vp_practice_area_2_target_id', $value, $operator)
+  //           //   ->condition('field_vp_practice_area_3_target_id', $value, $operator);
+  //           // $query->condition($group);
+
+  //           //kint($value);
+
+  //           // $rel = $query->addRelationship('node__field_characs', $join, 'taxonomy_index');
+  //           // $query->addTable('node__field_characs', $rel, $join, 'node__field_characs');
+
+  //           $query->addWhere(2, db_or()
+  //             ->condition('node__field_vp_practice_area_2.field_vp_practice_area_2_target_id', $pa1, 'IN')
+  //             ->condition('node__field_vp_practice_area_3.field_vp_practice_area_3_target_id', $pa1, 'IN'));
+
+  //             // kint($value);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+    // kint($query);
 }

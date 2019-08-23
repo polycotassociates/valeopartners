@@ -17,6 +17,28 @@
     }
   };
 
+  // Copies values from Practice Area 1 to 2 and 3
+  Drupal.behaviors.vpFormsCopyToPa2Pa3 = {
+    attach: function (context, settings) {
+
+      $(context).change( function () {
+
+        var practice_areas = [];
+          $( "#edit-field-vp-practice-area-1-target-id"  ).each(function() {
+            practice_areas.push( $( this ).val());
+          });
+
+          $('#edit-field-vp-practice-area-2-target-id').val(practice_areas[0]).prop('selected', true);
+          $('#edit-field-vp-practice-area-3-target-id').val(practice_areas[0]).prop('selected', true);
+
+        });
+    }
+  };
+
+
+
+
+
 
   // Resets the interface min/max dates to 4 digits intead of 2010-01-01
   Drupal.behaviors.vpMaxDateBehavior = {

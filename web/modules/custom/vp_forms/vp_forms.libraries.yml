@@ -5,3 +5,6 @@ vp_forms_library:
   dependencies:
     - core/jquery
     - core/jquery.once
+  css:
+    theme:
+      libraries/css/vp_forms.css: {}

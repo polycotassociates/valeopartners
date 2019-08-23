@@ -121,5 +121,12 @@ function vp_views_views_data_alter(&$data) {
       'id' => 'has_actual_rate_by_year',
     ),
   );
-}
 
+  // $data['node_field_data_node__field_vp_rate_individual']['node__field_vp_practice_area_3']['relationship'] = [
+  //   'id' => 'standard',
+  //   'base' => 'node__field_vp_practice_area_3',
+  //   'base field' => 'entity_id',
+  //   'field' => 'nid',
+  // ];
+
+}

@@ -513,11 +513,11 @@ class RateDetailReport extends ControllerBase {
     }
 
     // Filter by practice area ids.
-    if (isset($_GET['field_vp_practice_area_1_target_id'])) {
+    if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
       $group = $query->orConditionGroup()
         ->condition('field_vp_practice_area_1_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN')
-        ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN')
-        ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN');
+        ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_2_target_id'], 'IN')
+        ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_3_target_id'], 'IN');
       $query->condition($group);
     }
 
