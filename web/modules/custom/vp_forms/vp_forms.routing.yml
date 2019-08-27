@@ -13,3 +13,11 @@ vp_forms.rate_detail_report:
     _title: 'Detail Rate Report.'
   requirements:
     _permission: 'access content'
+
+vp_forms.rate_summary_report:
+  path: '/reports/export/summary'
+  defaults:
+    _controller: '\Drupal\vp_forms\Controller\RateSummaryReport::export'
+    _title: 'Summary Rate Report.'
+  requirements:
+    _permission: 'access content'

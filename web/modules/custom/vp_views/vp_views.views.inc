@@ -18,6 +18,16 @@ function vp_views_views_data() {
       'id' => 'export_header',
     ],
   ];
+
+  // Add an export header with a link to the xls export for Summary View.
+  $data['views']['export_summary_header'] = [
+    'title' => t('Export Summary Link Header'),
+    'help' => t('An area containing links with current arguments (For summary page)'),
+    'area' => [
+      'id' => 'export_summary_header',
+    ],
+  ];
+
   return $data;
 }
 
