@@ -86,17 +86,17 @@ function vp_views_preprocess_views_view_table(&$variables) {
  */
 function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
 
-  $query->setWhereGroup('OR', 2);
+  // $query->setWhereGroup('OR', 2);
 
 
-  // switch ($view->storage->id()) {
-  //   case 'search_rates_by_firm_summary_rates':
-  //   case 'rates_by_firm_summary_individual':
-  //   case 'firm_history':
-  //     $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
-  //     $query->addGroupBy('node_field_data.nid');
-  //     break;
-  // }
+  switch ($view->storage->id()) {
+    case 'search_rates_by_firm_summary_rates':
+    case 'rates_by_firm_summary_individual':
+    case 'firm_history':
+      $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
+      $query->addGroupBy('node_field_data.nid');
+      break;
+  }
 
   // $view_ids = [
   //   'search_by_firm',
