@@ -1,0 +1,4 @@
+/* Hide the second and third practice area fields. */
+.js-form-item-field-vp-practice-area-2-target-id, .js-form-item-field-vp-practice-area-3-target-id  {
+  display:none;
+}

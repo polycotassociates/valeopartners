@@ -95,8 +95,8 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
     case "views-exposed-form-rates-by-firm-summary-individual-rates-by-firm-summary-page":
 
       // Remove the practice area 2 and 3 from the form.
-      $form['field_vp_practice_area_2_target_id']['#access'] = FALSE;
-      $form['field_vp_practice_area_3_target_id']['#access'] = FALSE;
+      $form['field_vp_practice_area_2_target_id']['#access'] = TRUE;
+      $form['field_vp_practice_area_3_target_id']['#access'] = TRUE;
 
       // Change the form from textfield to a dropdown.
       $form['field_vp_graduation_value']['min']['#title'] = "Grad Date:<br>From date:";
@@ -135,8 +135,8 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
     case "views-exposed-form-search-fees-by-company-search-fees-by-company-page":
 
       // Remove the practice area 2 and 3 from the form.
-      $form['field_vp_practice_area_2_target_id']['#access'] = FALSE;
-      $form['field_vp_practice_area_3_target_id']['#access'] = FALSE;
+      $form['field_vp_practice_area_2_target_id']['#access'] = TRUE;
+      $form['field_vp_practice_area_3_target_id']['#access'] = TRUE;
 
       // Change the form from a date picker to a dropdown.
       $form['field_vp_filing_fee_dates_value']['min']['#title'] = "Rate Year:<br>From date:";
