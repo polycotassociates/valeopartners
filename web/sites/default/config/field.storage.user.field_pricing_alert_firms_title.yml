@@ -1,0 +1,21 @@
+uuid: 45d99221-c79b-4253-84f6-b2a4b8fba42e
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_pricing_alert_firms_title
+field_name: field_pricing_alert_firms_title
+entity_type: user
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

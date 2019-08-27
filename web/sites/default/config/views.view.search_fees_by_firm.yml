@@ -41,8 +41,6 @@ dependencies:
     - user.role.administrator
     - user.role.fee_search_add_on
     - user.role.superuser
-  content:
-    - 'taxonomy_term:practice_area:cbc7b0a6-bd4d-4647-84cf-4ac7ff05b5c9'
   module:
     - computed_field
     - datetime
@@ -4976,7 +4974,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
           type: select
           limit: true
           vid: practice_area
@@ -4991,8 +4989,7 @@ display:
           group_type: group
           admin_label: ''
           operator: or
-          value:
-            423: 423
+          value: {  }
           group: 2
           exposed: true
           expose:
@@ -5033,7 +5030,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
           type: select
           limit: true
           vid: practice_area
@@ -5048,8 +5045,7 @@ display:
           group_type: group
           admin_label: ''
           operator: or
-          value:
-            423: 423
+          value: {  }
           group: 2
           exposed: true
           expose:
@@ -5090,7 +5086,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
           type: select
           limit: true
           vid: practice_area
