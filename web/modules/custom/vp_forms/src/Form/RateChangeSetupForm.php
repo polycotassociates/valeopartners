@@ -38,6 +38,8 @@ class RateChangeSetupForm extends FormBase {
       $selected[] = $reference->id();
     }
 
+    // Form Title.
+    $form_title = $user->get('field_pricing_alert_firms_title')->value;
 
     // kint($user);
 
@@ -46,8 +48,9 @@ class RateChangeSetupForm extends FormBase {
 
     $form['actions'] = ['#type' => 'actions'];
 
-    $form['title'] = [
+    $form['field_pricing_alert_firms_title'] = [
       '#type' => 'textfield',
+      '#default_value' => $form_title,
       '#title' => $this
         ->t('Report Title:'),
     ];
@@ -88,14 +91,17 @@ class RateChangeSetupForm extends FormBase {
    */
   public function saveRateChangeHandler(array &$form, FormStateInterface $form_state) {
 
-    // Get the form value.
+    // Get the form values.
     $firms = $form['field_user_pricing_alert_firms']['#value'];
+    $title = $form['field_pricing_alert_firms_title']['#value'];
 
     // Get the current user.
     $user = User::load(\Drupal::currentUser()->id());
 
     // Set the target ids for the field_user_pricing_alert_firms.
     $user->set('field_user_pricing_alert_firms', $firms);
+
+    $user->set('field_pricing_alert_firms_title', $title);
 
     // Save updated user.
     $user->save();
