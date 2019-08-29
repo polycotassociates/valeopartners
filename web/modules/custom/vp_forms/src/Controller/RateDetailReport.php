@@ -7,7 +7,6 @@ namespace Drupal\vp_forms\Controller;
  * Contains \Drupal\vp_forms\Controller\RateDetailReport.
  */
 
-// print $_SERVER['DOCUMENT_ROOT'] . '/libraries/spout/src/Spout/Autoloader/autoload.php';
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -21,8 +20,8 @@ use PhpOffice\PhpSpreadsheet\Settings;
 use Cache\Adapter\Redis\RedisCachePool;
 use Cache\Bridge\SimpleCache\SimpleCacheBridge;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-// use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-// use Box\Spout\Common\Entity\Row;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Common\Entity\Row;
 
 use Cache\Adapter\Apcu\ApcuCachePool;
 
@@ -54,56 +53,174 @@ class RateDetailReport extends ControllerBase {
    * Export a report using Box\Sprout
    */
 
-  public function export_xls() {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/libraries/spout/src/Spout/Autoloader/autoload.php';
-    // require_once '/vendor/box/sprout/src/Spout/Autoloader/autoload.php';
+  public function export() {
 
-    //print $_SERVER['DOCUMENT_ROOT'];
-    //require_once '..' . DRUPAL_ROOT . '/vendor/src/Spout/Autoloader/autoload.php';
-    //require_once __DIR__ . '/web/vendor/src/Spout/Autoloader/autoload.php';
-
+    $response = new Response();
+    $response->headers->set('Pragma', 'no-cache');
+    $response->headers->set('Expires', '0');
+    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+    $response->headers->set('Content-Disposition', "attachment; filename=text.xlsx");
 
 
     $writer = WriterEntityFactory::createXLSXWriter();
     // $writer = WriterEntityFactory::createODSWriter();
     // $writer = WriterEntityFactory::createCSVWriter();
-    $fileName = "Test";
+    $fileName = "Test.xlsx";
 
     //$writer->openToFile($filePath); // write data to a file or to a PHP stream
     $writer->openToBrowser($fileName); // stream data directly to the browser
 
-    $cells = [
-        WriterEntityFactory::createCell('Carl'),
-        WriterEntityFactory::createCell('is'),
-        WriterEntityFactory::createCell('great!'),
+    $header = [
+      WriterEntityFactory::createCell('Last Name'),
+      WriterEntityFactory::createCell('Middle Name'),
+      WriterEntityFactory::createCell('First Name'),
+      WriterEntityFactory::createCell('Firm'),
+      WriterEntityFactory::createCell('Position'),
+      WriterEntityFactory::createCell('Client Represented'),
+      WriterEntityFactory::createCell('Industry'),
+      WriterEntityFactory::createCell('Practice Area 1'),
+      WriterEntityFactory::createCell('Practice Area 2'),
+      WriterEntityFactory::createCell('Practice Area 3'),
+      WriterEntityFactory::createCell('Grad Year'),
+      WriterEntityFactory::createCell('Bar Year'),
+      WriterEntityFactory::createCell('Bar State'),
+      WriterEntityFactory::createCell('City'),
+      WriterEntityFactory::createCell('Actual Rate'),
+      WriterEntityFactory::createCell('Standard Rate'),
+      WriterEntityFactory::createCell('Hours'),
+      WriterEntityFactory::createCell('Total'),
+      WriterEntityFactory::createCell('Flat Fee'),
+      WriterEntityFactory::createCell('Retainer Fee'),
+      WriterEntityFactory::createCell('Transaction Amount'),
+      WriterEntityFactory::createCell('Transactional Fee'),
+      WriterEntityFactory::createCell('Transaction Type'),
+      WriterEntityFactory::createCell('Case Name'),
+      WriterEntityFactory::createCell('Case Number'),
+      WriterEntityFactory::createCell('Court'),
+      WriterEntityFactory::createCell('Date Filed'),
+      WriterEntityFactory::createCell('Nature of Suit'),
+      WriterEntityFactory::createCell('Filing Name'),
+      WriterEntityFactory::createCell('Filing Description'),
+      WriterEntityFactory::createCell('Filing Number'),
+      WriterEntityFactory::createCell('Fee Date Range Begin'),
+      WriterEntityFactory::createCell('Fee Date Range End'),
     ];
 
-    /** add a row at a time */
-    $singleRow = WriterEntityFactory::createRow($cells);
-    $writer->addRow($singleRow);
+    // Header Row.
+    $header_row = WriterEntityFactory::createRow($header);
+    $writer->addRow($header_row);
 
-    /** add multiple rows at a time */
-    $multipleRows = [
-        WriterEntityFactory::createRow($cells),
-        WriterEntityFactory::createRow($cells),
-    ];
-    $writer->addRows($multipleRows);
+    // /** add a row at a time */
+    // $singleRow = WriterEntityFactory::createRow($cells);
+    // $writer->addRow($singleRow);
 
-    /** Shortcut: add a row from an array of values */
-    $values = ['Carl', 'is', 'great!'];
-    $rowFromValues = WriterEntityFactory::createRowFromArray($values);
-    $writer->addRow($rowFromValues);
+    // /** add multiple rows at a time */
+    // $multipleRows = [
+    //     WriterEntityFactory::createRow($cells),
+    //     WriterEntityFactory::createRow($cells),
+    // ];
+    // $writer->addRows($multipleRows);
+
+    // /** Shortcut: add a row from an array of values */
+    // $values = ['Carl', 'is', 'great!'];
+    // $rowFromValues = WriterEntityFactory::createRowFromArray($values);
+    // $writer->addRow($rowFromValues);
+
+    foreach ($this->generateDynamicQuery() as $result) {
+      if ($result->field_vp_rate_hourly_value > 0) {
+        $row = [
+          // Last Name.
+          WriterEntityFactory::createCell($this->getLastName($result->field_vp_rate_individual_target_id)),
+          // Middle Name.
+          WriterEntityFactory::createCell($this->getMiddleName($result->field_vp_rate_individual_target_id)),
+          // First Name.
+          WriterEntityFactory::createCell($this->getFirstName($result->field_vp_rate_individual_target_id)),
+          // Firm.
+          WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_rate_firm_target_id)),
+          // Position.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_rate_position_target_id)),
+          // Client Name.
+          WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_rate_company_target_id)),
+          // Industry.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_company_industry_target_id)),
+          // Practice Area 1.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_practice_area_1_target_id)),
+          // Practice Area 2.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_practice_area_2_target_id)),
+          // Practice Area 3.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_practice_area_3_target_id)),
+          // Grad Year.
+          WriterEntityFactory::createCell($result->field_vp_graduation_value),
+          // Bar Year.
+          WriterEntityFactory::createCell($result->field_vp_bar_date_value),
+          // Bar State.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_state_bar_target_id)),
+          // City.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_individual_location_target_id)),
+          // Actual Rate.
+          WriterEntityFactory::createCell($result->field_vp_rate_hourly_value),
+          // $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Standard Rate.
+          WriterEntityFactory::createCell($result->field_vp_rate_standard_value),
+          // $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Hours.
+          WriterEntityFactory::createCell($result->field_vp_rate_hours_value),
+          // Total.
+          WriterEntityFactory::createCell($result->field_vp_rate_total_value),
+          // $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Flat Fee.
+          WriterEntityFactory::createCell($result->field_vp_rate_flat_fee_value),
+          // $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Retainer Fee.
+          WriterEntityFactory::createCell($result->field_vp_rate_retainer_value),
+          // $spreadsheet->getActiveSheet()->getStyle('T' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Transaction Amount.
+          WriterEntityFactory::createCell($result->field_vp_rate_transaction_amount_value),
+          // $spreadsheet->getActiveSheet()->getStyle('U' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Transactional Fee.
+          WriterEntityFactory::createCell($result->field_vp_rate_transactional_fee_value),
+          // $spreadsheet->getActiveSheet()->getStyle('V' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Transaction Type.
+          WriterEntityFactory::createCell($this->getTermName($result->field_vp_rate_transaction_type_target_id)),
+          // Case Name.
+          WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_filing_case_target_id)),
+          // Case Number.
+          WriterEntityFactory::createCell($this->getCaseNumber($result->field_vp_filing_case_target_id)),
+          // Court.
+          WriterEntityFactory::createCell($this->getCaseCourt($result->field_vp_filing_case_target_id)),
+          // Date Filed.
+          WriterEntityFactory::createCell($this->getFilingDate($result->field_vp_filing_case_target_id)),
+          // $spreadsheet->getActiveSheet()->getStyle('AA' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+          // Nature of Suit.
+          WriterEntityFactory::createCell($this->getNatureOfSuit($result->field_vp_filing_case_target_id)),
+          // Filing Name.
+          WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_rate_filing_target_id)),
+          // Filing Description.
+          WriterEntityFactory::createCell($this->getFilingDescription($result->field_vp_rate_filing_target_id)),
+          // Filing Number.
+          WriterEntityFactory::createCell($this->getFilingNumber($result->field_vp_rate_filing_target_id)),
+          // Fee Date Range Begin.
+          WriterEntityFactory::createCell($this->getFeeDateBegin($result->field_vp_rate_filing_target_id)),
+          // $spreadsheet->getActiveSheet()->getStyle('AF' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+          // Fee Date Range End.
+          WriterEntityFactory::createCell($this->getFeeDateEnd($result->field_vp_rate_filing_target_id)),
+          // $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+        ];
+        $data = WriterEntityFactory::createRow($row);
+        $writer->addRow($data);
+      }
+    }
 
     $writer->close();
 
-
+    $response->setContent(NULL);
+    return $response;
   }
 
-
   /**
-   * Export a report using phpSpreadsheet
+   * Export a report using phpSpreadsheet.
    */
-  public function export() {
+  public function export_2() {
 
     $title = $this->getPageTitle();
     // $client = new \Redis();
@@ -115,9 +232,9 @@ class RateDetailReport extends ControllerBase {
 
     // print_r($this->getFirstName('100825'));
     // print "<br>";
-    //kint($_GET);
-    //kint($this->generateDynamicQuery());
-
+//     kint($_GET);
+//     kint($this->generateDynamicQuery());
+// die();
     // kint($this->getFirmName('257600'));
 
     // Generate and output code will be inserted here.
@@ -202,11 +319,11 @@ class RateDetailReport extends ControllerBase {
      * HEADER
      */
     //Set Background
-    $worksheet->getStyle('A3:E3')
-      ->getFill()
-      ->setFillType(Fill::FILL_SOLID)
-      ->getStartColor()
-      ->setARGB('085efd');
+    // $worksheet->getStyle('A3:E3')
+    //   ->getFill()
+    //   ->setFillType(Fill::FILL_SOLID)
+    //   ->getStartColor()
+    //   ->setARGB('085efd');
 
     //Set style Head
     $styleArrayHead = array(
@@ -467,6 +584,9 @@ class RateDetailReport extends ControllerBase {
     // Only if there's an actual rate.
     //$query->condition('actual.field_vp_rate_hourly_value', 0, '>');
 
+
+
+
     // Filter by Rate Year.
     if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
       $query->condition('field_vp_filing_year_end_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
@@ -487,10 +607,21 @@ class RateDetailReport extends ControllerBase {
       $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
     }
 
-    // Filter by location ids.
-    if (isset($_GET['term_node_tid_depth'])) {
-      $query->condition('field_vp_individual_location_target_id', $_GET['term_node_tid_depth'], 'IN');
-    }
+    // // $query->condition('field_vp_individual_location_target_id', '2817', '=');
+    // // Filter by location ids (by parent).
+    // if (isset($_GET['term_node_tid_depth'])) {
+
+    //   echo "Is2";
+    //   echo 'field_vp_individual_location_target_id';
+    //   //$nodes = $this->getTermParentIds($_GET['term_node_tid_depth']);
+    //   //kint($nodes);
+    //   // // die();
+    //   //$query->condition('field_vp_individual_location_target_id', 2871, '=');
+    // }
+
+    // $location_group = $query->orConditionGroup()
+    //   ->condition('field_vp_individual_location_target_id', '2817', '=');
+    // $query->condition($location_group);
 
     // Filter by position ids.
     if (isset($_GET['term_node_tid_depth_position'])) {
@@ -661,6 +792,58 @@ class RateDetailReport extends ControllerBase {
     $query->fields('term', ['name']);
     return $query->execute()->fetchField();
   }
+
+  /**
+   * Get Term Parent IDs.
+   */
+  private function getTermParentIds($ids) {
+// kint($ids);
+//     $query = db_select('taxonomy_term_data', 'term');
+
+// //select entity_id, name from taxonomy_term__parent as p inner join taxonomy_term_field_data as tfd on tfd.tid = p.entity_id where p.parent_target_id in ('2158');
+
+//     //$query->join('node__field_vp_location', 'location', 'location.field_vp_location_target_id  = term.tid');
+
+//     $query->leftjoin('taxonomy_term__parent', 'tp', 'tp.entity_id  = term.tid');
+//     // $query->leftjoin('taxonomy_term__parent', 'tp1', 'tp.parent_target_id  = tp1.entity_id');
+//     // $query->leftjoin('taxonomy_term__parent', 'tp2', 'tp1.parent_target_id  = tp2.entity_id');
+//     // $query->leftjoin('taxonomy_term__parent', 'tp3', 'tp2.parent_target_id  = tp3.entity_id');
+//     // $query->leftjoin('taxonomy_term__parent', 'tp4', 'tp3.parent_target_id  = tp4.entity_id');
+
+//     $query->fields('tp', ['parent_target_id']);
+//     $query->fields('term');
+
+//     $group = $query->orConditionGroup()
+//       ->condition('tp.parent_target_id', $ids, 'IN');
+
+//     $query->condition($group);
+
+
+
+    //kint($ids);
+    // kint($query);
+    // kint(array_keys($query->execute()->fetchAllAssoc('tid')));
+    // die();
+//     $results = $query->execute()->fetchAllAssoc('tid');
+    //return array_keys($results);
+
+    return ['2817'];
+
+  }
+
+
+  /**
+   * Get Children Term IDs.
+   */
+  private function getTermChildrenIDs($ids) {
+
+    $query = db_select('taxonomy_term_data', 't');
+    $query->join('taxonomy_term__parent', 'h', 'h.tid = t.tid');
+    $query->addField('t', 'tid');
+    $query->condition('h.parent', $tid);
+    $tids = $query->execute()->fetchCol();
+  }
+
 
   /**
    * Get the title of the current page.

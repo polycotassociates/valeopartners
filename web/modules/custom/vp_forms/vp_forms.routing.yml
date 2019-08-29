@@ -21,3 +21,11 @@ vp_forms.rate_summary_report:
     _title: 'Summary Rate Report.'
   requirements:
     _permission: 'access content'
+
+vp_forms.rate_detail_spout:
+  path: '/reports/export/spout'
+  defaults:
+    _controller: '\Drupal\vp_forms\Controller\RateDetailReport::export_xls'
+    _title: 'Detail Rate Report (Spout).'
+  requirements:
+    _permission: 'access content'
