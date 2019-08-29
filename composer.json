@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0.8",
-        "box/spout": "^2.7",
+        "php": ">=7.1",
+        "box/spout": "^3.0.1",
         "cache/redis-adapter": "^1.0",
         "cache/simple-cache-bridge": "^1.0",
         "composer/installers": "^1.0.20",
@@ -145,6 +145,15 @@
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/contrib/{$name}": ["type:drupal-drush"]
         },
+    "merge-plugin": {
+        "include": [
+            "core/composer.json",
+            "vendor/box/spout/composer.json"
+        ],
+        "recurse": false,
+        "replace": false,
+        "merge-extra": false
+        },
     "patches": {
         "drupal/field_group": {
             "The region part of entity view config isn't set for old installs": "https://www.drupal.org/files/issues/2018-11-29/2968184-16.patch"
@@ -198,7 +207,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-            "php": "7.0.8"
+            "php": "7.1"
         }
     }
 }
