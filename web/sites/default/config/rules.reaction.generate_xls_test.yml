@@ -8,8 +8,7 @@ events:
   -
     event_name: rules_system_cron
 description: ''
-tags:
-  - ''
+tags: {  }
 config_version: '3'
 expression:
   id: rules_rule

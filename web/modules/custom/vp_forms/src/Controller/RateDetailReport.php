@@ -53,7 +53,7 @@ class RateDetailReport extends ControllerBase {
    * Export a report using Box\Sprout
    */
 
-  public function export() {
+  public function exportSpout() {
 
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
@@ -220,7 +220,7 @@ class RateDetailReport extends ControllerBase {
   /**
    * Export a report using phpSpreadsheet.
    */
-  public function export_2() {
+  public function export() {
 
     $title = $this->getPageTitle();
     // $client = new \Redis();
@@ -510,12 +510,6 @@ class RateDetailReport extends ControllerBase {
     $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
     $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
-    // Filter by title.
-    if (isset($_GET['title'])) {
-      $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
-      $query->addField('individual_title', 'title', 'individual_title');
-    }
-
     // Joins for fields to query upon.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
     $query->leftjoin('node__field_vp_case_nature_of_suit', 'nature_of_suit', 'nature_of_suit.entity_id = filing_case.field_vp_filing_case_target_id');
@@ -584,8 +578,11 @@ class RateDetailReport extends ControllerBase {
     // Only if there's an actual rate.
     //$query->condition('actual.field_vp_rate_hourly_value', 0, '>');
 
-
-
+    // Filter by title.
+    if (isset($_GET['title'])) {
+      $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
+      $query->addField('individual_title', 'title', 'individual_title');
+    }
 
     // Filter by Rate Year.
     if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {

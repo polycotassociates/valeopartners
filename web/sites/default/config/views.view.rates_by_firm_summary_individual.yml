@@ -61,7 +61,7 @@ display:
         type: views_query
         options:
           disable_sql_rewrite: false
-          distinct: true
+          distinct: false
           replica: false
           query_comment: ''
           query_tags: {  }
@@ -69,10 +69,10 @@ display:
         type: basic
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
+          expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
@@ -1349,7 +1349,7 @@ display:
           id: field_vp_rate_firm_target_id_verf
           table: node__field_vp_rate_firm
           field: field_vp_rate_firm_target_id_verf
-          relationship: field_vp_rate_firm
+          relationship: reverse__node__field_vp_rate_individual
           group_type: group
           admin_label: ''
           operator: in

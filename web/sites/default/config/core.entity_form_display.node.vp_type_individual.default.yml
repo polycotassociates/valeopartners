@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.vp_type_individual.field_2018_standard_rate
     - field.field.node.vp_type_individual.field_2019_actual_rate
     - field.field.node.vp_type_individual.field_2019_standard_rate
+    - field.field.node.vp_type_individual.field_most_recent_firm
     - field.field.node.vp_type_individual.field_most_recent_position
     - field.field.node.vp_type_individual.field_standard_rate_by_year
     - field.field.node.vp_type_individual.field_vp_bar_date
@@ -37,43 +38,52 @@ bundle: vp_type_individual
 mode: default
 content:
   field_2017_actual_rate:
-    weight: 28
+    weight: 17
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_2017_standard_rate:
-    weight: 31
+    weight: 20
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_2018_actual_rate:
-    weight: 27
+    weight: 16
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_2018_standard_rate:
-    weight: 30
+    weight: 19
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_2019_actual_rate:
-    weight: 26
+    weight: 15
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_2019_standard_rate:
-    weight: 29
+    weight: 18
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
+  field_most_recent_firm:
+    type: entity_reference_autocomplete
+    weight: 22
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_most_recent_position:
-    weight: 32
+    weight: 21
     settings: {  }
     third_party_settings: {  }
     type: computed_string_widget

@@ -5808,7 +5808,7 @@ display:
           vid: city
           hierarchy: true
           error_message: true
-          depth: 4
+          depth: 3
           entity_type: node
           plugin_id: taxonomy_index_tid_depth
         term_node_tid_depth_1:
