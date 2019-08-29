@@ -90,6 +90,7 @@ return array(
     'Cache\\Adapter\\Redis\\' => array($vendorDir . '/cache/redis-adapter'),
     'Cache\\Adapter\\Common\\' => array($vendorDir . '/cache/adapter-common'),
     'Brumann\\Polyfill\\' => array($vendorDir . '/brumann/polyfill-unserialize/src'),
+    'Box\\Spout\\' => array($vendorDir . '/box/spout/src/Spout'),
     'Asm89\\Stack\\' => array($vendorDir . '/asm89/stack-cors/src/Asm89/Stack'),
     'Alchemy\\Zippy\\' => array($vendorDir . '/alchemy/zippy/src'),
 );
