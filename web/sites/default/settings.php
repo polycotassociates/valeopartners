@@ -1,6 +1,7 @@
 <?php
 
-ini_set('memory_limit', '16384M');
+//ini_set('memory_limit', '16384M');
+ini_set('max_execution_time', '360');
 /**
  * @file
  * Drupal site-specific configuration file.
