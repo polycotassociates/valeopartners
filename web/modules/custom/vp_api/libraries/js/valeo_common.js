@@ -9,7 +9,6 @@
       $( '#export-xls-link', context).once('vpXLSPopup').click(function (e) {
          var link = $(this).find("a[href]").attr('href');
          e.preventDefault();
-         console.log(link);
         // Open the xlsModal set in the Export Header.
         $( "#xlsModal" ).dialog({
           modal: false,
@@ -27,5 +26,20 @@
 
     }
   };
+
+
+  // Invoke the print dialog
+  Drupal.behaviors.printThisPage = {
+    attach: function (context, settings) {
+
+      // On click, reveal the modal.
+      $( '#print-this-page', context).once('printThisPage').click(function (e) {
+        e.preventDefault();
+        window.print();
+     });
+
+    }
+  };
+
 
 })(jQuery, Drupal);

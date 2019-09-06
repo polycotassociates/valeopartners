@@ -22,6 +22,14 @@ vp_forms.rate_summary_report:
   requirements:
     _permission: 'access content'
 
+vp_forms.rate_master_report:
+  path: '/reports/export/master'
+  defaults:
+    _controller: '\Drupal\vp_forms\Controller\RateMasterReport::export'
+    _title: 'Master Rate Report.'
+  requirements:
+    _permission: 'access content'
+
 vp_forms.rate_detail_spout:
   path: '/reports/export/spout'
   defaults:

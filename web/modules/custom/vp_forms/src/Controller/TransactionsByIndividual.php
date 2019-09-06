@@ -632,19 +632,6 @@ class RateDetailReport extends ControllerBase {
       $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
     }
 
-    // if (isset($_GET['title_1'])) {
-    //   $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
-    //   $query->addField('individual_title', 'title', 'individual_title');
-    // }
-
-    if (isset($_GET['combine'])) {
-      $group = $query->orConditionGroup()
-        ->condition('field_vp_first_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE')
-        ->condition('field_vp_last_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE');
-      $query->condition($group);
-    }
-
-
     // Filter by practice area ids.
     if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
       $group = $query->orConditionGroup()

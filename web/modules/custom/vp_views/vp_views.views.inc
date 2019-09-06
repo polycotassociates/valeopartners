@@ -28,6 +28,24 @@ function vp_views_views_data() {
     ],
   ];
 
+  // Add an export header with a link to the xls export for Master Search View.
+  $data['views']['export_master_header'] = [
+    'title' => t('Export Master Search Link Header'),
+    'help' => t('An area containing links with current arguments (For master search page)'),
+    'area' => [
+      'id' => 'export_master_header',
+    ],
+  ];
+
+  // Add a simple print button.
+  $data['views']['print_button'] = [
+    'title' => t('Simple Print Button'),
+    'help' => t('A link that invokes the "print page" dialog'),
+    'area' => [
+      'id' => 'print_button',
+    ],
+  ];
+
   return $data;
 }
 
@@ -126,7 +144,7 @@ function vp_views_views_data_alter(&$data) {
     'title' => t('Has Rate Year'),
     'filter' => array(
       'title' => t('Has Rate Year'),
-      'help' => t('Check to see if this year existas and has a rate.'),
+      'help' => t('Check to see if this year exists and has a rate.'),
       'field' => 'title',
       'id' => 'has_actual_rate_by_year',
     ),

@@ -4,7 +4,7 @@ namespace Drupal\vp_forms\Controller;
 
 /**
  * @file
- * Contains \Drupal\vp_forms\Controller\RateDetailReport.
+ * Contains \Drupal\vp_forms\Controller\RateMasterReport.
  */
 
 use Drupal\Core\Controller\ControllerBase;
@@ -29,7 +29,7 @@ use Cache\Adapter\Apcu\ApcuCachePool;
 /**
  * Initialize class.
  */
-class RateDetailReport extends ControllerBase {
+class RateMasterReport extends ControllerBase {
   /**
    * Runs query based on $_GET string.
    */
@@ -60,13 +60,13 @@ class RateDetailReport extends ControllerBase {
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=text.xlsx");
+    $response->headers->set('Content-Disposition', "attachment; filename=Master_Search_By_Firm.xlsx");
 
 
     $writer = WriterEntityFactory::createXLSXWriter();
     // $writer = WriterEntityFactory::createODSWriter();
     // $writer = WriterEntityFactory::createCSVWriter();
-    $fileName = "Test.xlsx";
+    $fileName = "Master_Search.xlsx";
 
     //$writer->openToFile($filePath); // write data to a file or to a PHP stream
     $writer->openToBrowser($fileName); // stream data directly to the browser
@@ -133,7 +133,7 @@ class RateDetailReport extends ControllerBase {
         // Last Name.
         WriterEntityFactory::createCell($this->getLastName($result->field_vp_rate_individual_target_id)),
         // Middle Name.
-        WriterEntityFactory::createCell($this->getMiddleName($result->field_vp_rate_individual_target_id)),
+        WriterEntityFactory::createCell('' . $this->getMiddleName($result->field_vp_rate_individual_target_id)),
         // First Name.
         WriterEntityFactory::createCell($this->getFirstName($result->field_vp_rate_individual_target_id)),
         // Firm.
@@ -632,19 +632,6 @@ class RateDetailReport extends ControllerBase {
       $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
     }
 
-    // if (isset($_GET['title_1'])) {
-    //   $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
-    //   $query->addField('individual_title', 'title', 'individual_title');
-    // }
-
-    if (isset($_GET['combine'])) {
-      $group = $query->orConditionGroup()
-        ->condition('field_vp_first_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE')
-        ->condition('field_vp_last_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE');
-      $query->condition($group);
-    }
-
-
     // Filter by practice area ids.
     if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
       $group = $query->orConditionGroup()
@@ -658,7 +645,7 @@ class RateDetailReport extends ControllerBase {
     $query->range(0, 50000);
 
     // Order by Transaction Amount Rate.
-    $query->orderBy('actual.field_vp_rate_hourly_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
+    $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
     return $query->execute()->fetchAll();
 
