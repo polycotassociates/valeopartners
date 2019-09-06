@@ -14,7 +14,7 @@ use Drupal\user\Entity\User;
  * Implements template_views_pre_render().
  */
 function vp_views_views_pre_render(ViewExecutable $view) {
-
+  //  kint($view->id());
   switch ($view->id()) {
 
     // case 'search_by_firm':
@@ -31,6 +31,32 @@ function vp_views_views_pre_render(ViewExecutable $view) {
         $view->field['field_vp_rate_hourly']->options['label'] = $year . " Rate";
         $view->field['field_vp_rate_previous']->options['label'] = $year - 1 . " Rate";
       }
+
+      // If there is no change from year to year, remove the result.
+      $result = [];
+      $ids = [];
+      foreach ($view->result as $key => $row) {
+
+
+        $node = $row->_entity;
+        $relationship = $row->_relationship_entities['field_vp_rate_individual'];
+        $uid = $relationship->id();
+        // kint($uid);
+        $current = $node->get('field_vp_rate_hourly')->getValue()[0]['value'];
+        $previous = $node->get('field_vp_rate_previous')->getValue()[0]['value'];
+
+        if ($current !== $previous && !in_array($uid, $ids)) {
+          $result[$key] = $row;
+        }
+        $ids[] = $uid;
+      }
+
+      // Adjust the results, count & pager of the view.
+      $view->total_rows = count($result);
+      $view->pager->total_items = count($result);
+      $view->pager->updatePageInfo();
+      $view->result = $result;
+
       break;
   }
 }
