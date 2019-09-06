@@ -1,23 +1,23 @@
-uuid: 8f3981ac-3dd2-4c09-8b18-fc372ae3f589
+uuid: 8e05e76f-5aea-405b-8c9c-1729499c4a8e
 langcode: en
 status: true
 dependencies:
   config:
-    - system.menu.rate-afa-searches
+    - system.menu.admin-rates
   module:
     - system
     - user
   theme:
     - valeo_classic
-id: valeo_classic_rateafasearches
+id: adminrates
 theme: valeo_classic
 region: sidebar_first
-weight: -10
+weight: -8
 provider: null
-plugin: 'system_menu_block:rate-afa-searches'
+plugin: 'system_menu_block:admin-rates'
 settings:
-  id: 'system_menu_block:rate-afa-searches'
-  label: 'Rate and Transactional Searches'
+  id: 'system_menu_block:admin-rates'
+  label: 'Admin Rates'
   provider: system
   label_display: visible
   level: 1
@@ -30,7 +30,6 @@ visibility:
       administrator: administrator
       superuser: superuser
       data_entry: data_entry
-      fee_search_add_on: fee_search_add_on
     negate: false
     context_mapping:
       user: '@user.current_user_context:current_user'

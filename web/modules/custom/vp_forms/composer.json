@@ -1,0 +1,30 @@
+{
+  "name": "vp_forms",
+  "description": "Forms and xls downloads for Valeo Partners",
+  "type": "drupal-module",
+  "require": {
+      "box/spout": "^2.7"
+  },
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Aaron Engler",
+          "email": "aaron@polycotassociates.com"
+      }
+  ],
+  "extra": {
+    "_readme": [
+        "By default Drupal loads the autoloader from ./vendor/autoload.php.",
+        "To change the autoloader you can edit ./autoload.php."
+    ],
+    "merge-plugin": {
+        "include": [
+            "core/composer.json",
+            "/vendor/box/spout/composer.json"
+        ],
+        "recurse": false,
+        "replace": false,
+        "merge-extra": false
+    }
+}
+  }

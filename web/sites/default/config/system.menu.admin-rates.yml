@@ -1,0 +1,8 @@
+uuid: dd921e4a-58d5-46ad-b6e0-f4550c7f1dc3
+langcode: en
+status: true
+dependencies: {  }
+id: admin-rates
+label: 'Admin Rates'
+description: 'Rates for Admins only'
+locked: false

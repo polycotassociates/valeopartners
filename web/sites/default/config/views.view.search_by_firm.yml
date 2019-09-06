@@ -3736,6 +3736,18 @@ display:
           expose:
             label: ''
           plugin_id: standard
+        field_vp_last_name_value:
+          id: field_vp_last_name_value
+          table: node__field_vp_last_name
+          field: field_vp_last_name_value
+          relationship: field_vp_rate_individual
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          plugin_id: standard
       defaults:
         sorts: false
         footer: false
@@ -3743,16 +3755,7 @@ display:
         fields: false
         filters: false
         filter_groups: false
-      footer:
-        export_header:
-          id: export_header
-          table: views
-          field: export_header
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          plugin_id: export_header
+      footer: {  }
       header:
         result:
           id: result
@@ -3764,15 +3767,15 @@ display:
           empty: true
           content: 'Displaying @start - @end of @total'
           plugin_id: result
-        export_header:
-          id: export_header
+        export_master_header:
+          id: export_master_header
           table: views
-          field: export_header
+          field: export_master_header
           relationship: none
           group_type: group
           admin_label: ''
           empty: false
-          plugin_id: export_header
+          plugin_id: export_master_header
       fields:
         view_node:
           id: view_node
@@ -4635,7 +4638,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Fee Amount'
+          label: 'AFA Amount'
           exclude: false
           alter:
             alter_text: false
@@ -4703,7 +4706,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Fee Type'
+          label: 'AFA Type'
           exclude: false
           alter:
             alter_text: false

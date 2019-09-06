@@ -1,0 +1,25 @@
+uuid: ad3d049a-4c1f-419e-94e6-65d0d5775639
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.my_saved_searches
+  module:
+    - views
+  theme:
+    - valeo_classic
+id: views_block__my_saved_searches_my_saved_searches_block
+theme: valeo_classic
+region: sidebar_first
+weight: -9
+provider: null
+plugin: 'views_block:my_saved_searches-my_saved_searches_block'
+settings:
+  id: 'views_block:my_saved_searches-my_saved_searches_block'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility: {  }

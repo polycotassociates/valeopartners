@@ -12,7 +12,7 @@ dependencies:
 id: valeo_classic_datamanagement
 theme: valeo_classic
 region: sidebar_first
-weight: -10
+weight: -11
 provider: null
 plugin: 'system_menu_block:data-management'
 settings:

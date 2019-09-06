@@ -3887,10 +3887,11 @@ display:
         title: 'All Rates by Company / Industry'
         description: ''
         expanded: false
-        parent: 'menu_link_content:a05213ea-87bc-4af3-9c75-ff7d0d7ba098'
+        parent: 'menu_link_content:8a87f133-8813-4cd5-8531-303b03acb5c2'
         weight: -49
         context: '0'
         menu_name: rate-afa-searches
+        enabled: false
       display_description: 'Search All Rates by Company / Industry'
     cache_metadata:
       max-age: -1

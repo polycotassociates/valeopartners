@@ -48,12 +48,15 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
-        type: full
+        type: mini
         options:
           items_per_page: 10
           offset: 0
           id: 0
           total_pages: null
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
@@ -62,21 +65,12 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
-            first: '« First'
-            last: 'Last »'
-          quantity: 9
       style:
-        type: html_list
+        type: default
         options:
           grouping: {  }
           row_class: ''
           default_row_class: true
-          type: ul
-          wrapper_class: item-list
-          class: ''
       row:
         type: fields
       fields:
@@ -212,7 +206,7 @@ display:
           empty: true
           tokenize: false
           content:
-            value: "\r\n<ul>\r\n<li><a href=\"/node/add/vp_type_saved_search\" title=\"Create a new Saved Search\">Create a New Search...</a></li>"
+            value: '<a href="/node/add/vp_type_saved_search" title="Create a new Saved Search">Create a New Search...</a>'
             format: full_html
           plugin_id: text
       footer:
@@ -226,7 +220,7 @@ display:
           empty: false
           tokenize: false
           content:
-            value: '</ul>'
+            value: ''
             format: basic_html
           plugin_id: text
       empty: {  }
@@ -280,13 +274,14 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  block_1:
+  my_saved_searches_block:
     display_plugin: block
-    id: block_1
-    display_title: Block
+    id: my_saved_searches_block
+    display_title: 'My Saved Searches'
     position: 1
     display_options:
       display_extenders: {  }
+      display_description: 'A block showing the users saved searches'
     cache_metadata:
       max-age: -1
       contexts:

@@ -912,6 +912,15 @@ display:
           plugin_id: standard
       title: 'RFP Pitch Analysis'
       header:
+        print_button:
+          id: print_button
+          table: views
+          field: print_button
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          plugin_id: print_button
         area:
           id: area
           table: views
@@ -922,10 +931,23 @@ display:
           empty: false
           tokenize: true
           content:
-            value: '<h2>Pitch analysys for {{ title }}</h2>'
+            value: '<h2>Pitch analysis for {{ title }}</h2>'
             format: basic_html
           plugin_id: text
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          tokenize: false
+          content:
+            value: 'Note: not all Actual Rates have a Reported Standard Rate.'
+            format: basic_html
+          plugin_id: text
       empty: {  }
       relationships:
         field_vp_rate_firm:
