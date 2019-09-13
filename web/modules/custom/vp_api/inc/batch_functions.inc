@@ -45,7 +45,7 @@ function _execute_batch($type, $time, array &$context) {
         $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_rate' AND created > $time");
       }
       else {
-        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_rate'");
+        $query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_rate' AND title = '- -'");
       }
       $type_title = "Rate";
       break;
