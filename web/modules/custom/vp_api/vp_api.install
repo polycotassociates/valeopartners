@@ -3,7 +3,7 @@
 /**
  * Update the database.
  */
-function vp_api_update_8005() {
+function vp_api_update_8006() {
 
   /*
    * Increase the precision of "field_vp_rate_discount_value" to 4.
@@ -11,8 +11,8 @@ function vp_api_update_8005() {
    * Increase the number of decimals in fees to 14.
    */
 
-  //module_load_include('inc', 'vp_api', 'inc/update_field_discount_to_10_4');
- // module_load_include('inc', 'vp_api', 'inc/update_field_fees_to_14_2');
+  module_load_include('inc', 'vp_api', 'inc/update_field_discount_to_10_4');
+  module_load_include('inc', 'vp_api', 'inc/update_field_fees_to_14_2');
   module_load_include('inc', 'vp_api', 'inc/update_field_transaction_amount_14_2');
 
 }
