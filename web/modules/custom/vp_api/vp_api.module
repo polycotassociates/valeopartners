@@ -16,10 +16,15 @@ use Drupal\paragraphs\Entity\Paragraph;
  */
 function vp_api_node_update(NodeInterface $node) {
 
+  // Resave individual on rate modification.
   if ($node->getType() == 'vp_type_rate') {
-    $individual_id = $node->get('field_vp_rate_individual')->getValue()[0]['target_id'];
-    $individual = Node::load($individual_id);
-    $individual->save();
+    $individual_id = $node->get('field_vp_rate_individual')->getValue() ? $node->get('field_vp_rate_individual')->getValue()[0]['target_id'] : NULL;
+    if ($individual_id) {
+      $individual = Node::load($individual_id);
+      if ($individual) {
+        $individual->save();
+      }
+    }
   }
 }
 
@@ -30,10 +35,15 @@ function vp_api_node_update(NodeInterface $node) {
  */
 function vp_api_node_insert(NodeInterface $node) {
 
+  // Resave individual on rate insert.
   if ($node->getType() == 'vp_type_rate') {
-    $individual_id = $node->get('field_vp_rate_individual')->getValue()[0]['target_id'];
-    $individual = Node::load($individual_id);
-    $individual->save();
+    $individual_id = $node->get('field_vp_rate_individual')->getValue() ? $node->get('field_vp_rate_individual')->getValue()[0]['target_id'] : NULL;
+    if ($individual_id) {
+      $individual = Node::load($individual_id);
+      if ($individual) {
+        $individual->save();
+      }
+    }
   }
 
   // if ($node->getType() == 'vp_type_rate') {
@@ -200,4 +210,13 @@ function vp_api_get_vocabulary_terms($vocabulary) {
   }
 
   return $options;
+}
+
+/**
+ * Return a list of vocabulary terms to create a dropdown.
+ */
+function vp_api_mail_query($email, $querystring) {
+
+  drupal_mail('example', 'notice', $account->mail, user_preferred_language($account), $params);
+
 }
