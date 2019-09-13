@@ -11,7 +11,7 @@ dependencies:
 id: views_block__my_saved_searches_my_saved_searches_block
 theme: valeo_classic
 region: sidebar_first
-weight: -9
+weight: -8
 provider: null
 plugin: 'views_block:my_saved_searches-my_saved_searches_block'
 settings:
