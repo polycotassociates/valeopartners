@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies: {  }
+id: test_insert
+label: Test Insert
+generators:
+  node:
+    id: node
+    log:
+      value: "The content [node:title] has been created by [current-user:display-name]. Log with the generator test_insert."
+      format: plain_text
+    status: true
+    published: true
+    operation: insert
+    bundles:
+      article: '0'
+      page: '0'
+    subscribed_on: reference
+    referenced_by:
+      uid: uid
+    include_parents_term: true
+    use_cron: false

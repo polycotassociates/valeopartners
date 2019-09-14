@@ -5,7 +5,7 @@ namespace Drupal\entity_activity;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\MemoryCache\MemoryCacheInterface;
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
@@ -30,12 +30,15 @@ class EntityActivityContentEntityStorage extends SqlContentEntityStorage {
   /**
    * Constructs a new EntityActivityContentEntityStorage object.
    *
+   * @TODO Add EntityTypeBundleInfoInterface and EntityTypeManagerInterface as
+   * arguments for the parent constructor before 9.0. Supported since 8.7.0.
+   *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
    *   The entity type definition.
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection to be used.
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache
    *   The cache backend to be used.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
@@ -45,9 +48,8 @@ class EntityActivityContentEntityStorage extends SqlContentEntityStorage {
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
    *   The event dispatcher.
    */
-  public function __construct(EntityTypeInterface $entity_type, Connection $database, EntityManagerInterface $entity_manager, CacheBackendInterface $cache, LanguageManagerInterface $language_manager, MemoryCacheInterface $memory_cache, EventDispatcherInterface $event_dispatcher) {
-    parent::__construct($entity_type, $database, $entity_manager, $cache, $language_manager, $memory_cache);
-
+  public function __construct(EntityTypeInterface $entity_type, Connection $database, EntityFieldManagerInterface $entity_field_manager, CacheBackendInterface $cache, LanguageManagerInterface $language_manager, MemoryCacheInterface $memory_cache, EventDispatcherInterface $event_dispatcher) {
+    parent::__construct($entity_type, $database, $entity_field_manager, $cache, $language_manager, $memory_cache);
     $this->eventDispatcher = $event_dispatcher;
   }
 
@@ -58,7 +60,7 @@ class EntityActivityContentEntityStorage extends SqlContentEntityStorage {
     return new static(
       $entity_type,
       $container->get('database'),
-      $container->get('entity.manager'),
+      $container->get('entity_field.manager'),
       $container->get('cache.entity'),
       $container->get('language_manager'),
       $container->get('entity.memory_cache'),

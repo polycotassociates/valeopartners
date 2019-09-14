@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\Entity\ContentEntityInterface;
+
 /**
  * @file
  * Install, update and uninstall functions for the Entity Activity module.
@@ -15,4 +17,49 @@ function entity_activity_update_8101(&$sandbox) {
     $module_installer = \Drupal::service('module_installer');
     $module_installer->install(['serialization']);
   }
+}
+
+/**
+ * Delete all subscriptions for which a source entity has been deleted.
+ */
+function entity_activity_update_8102(&$sandbox) {
+  /** @var \Drupal\entity_activity\SubscriptionStorageInterface $subscriptions_storage */
+  $subscriptions_storage = \Drupal::entityTypeManager()->getStorage('entity_activity_subscription');
+  // Initialize some variables during the first pass through.
+  if (!isset($sandbox['total'])) {
+    $query = $subscriptions_storage->getQuery();
+    $query->count();
+    $total = $query->execute();
+    $sandbox['total'] = $total;
+    $sandbox['current'] = 0;
+    $sandbox['items_deleted'] = 0;
+  }
+  // Do not continue if no subscriptions are found.
+  if (empty($sandbox['total'])) {
+    $sandbox['#finished'] = 1;
+    return t('No Subscriptions to be processed.');
+  }
+
+  $subscriptions_per_batch = 50;
+  $query = $subscriptions_storage->getQuery();
+  $query->range($sandbox['current'] - $sandbox['items_deleted'], $subscriptions_per_batch);
+  $query->sort('id', 'DESC');
+  $result = $query->execute();
+  foreach ($result as $id) {
+    /** @var \Drupal\entity_activity\Entity\SubscriptionInterface $subscription */
+    $subscription = $subscriptions_storage->load($id);
+    $source_entity = \Drupal::entityTypeManager()
+      ->getStorage($subscription->getSourceEntityTypeId())
+      ->load($subscription->getSourceEntityId());
+    if (!$source_entity instanceof ContentEntityInterface) {
+      $subscription->delete();
+      $sandbox['items_deleted']++;
+      $sandbox['current']++;
+    }
+    else {
+      $sandbox['current']++;
+    }
+  }
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  return t('@count Subscriptions processed with a cumulative total of @items_deleted subscriptions deleted.', ['@count' => $sandbox['current'], '@items_deleted' => $sandbox['items_deleted']]);
 }

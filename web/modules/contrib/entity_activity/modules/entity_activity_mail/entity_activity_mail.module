@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * @file
+ * Contains entity_activity_mail.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\entity_activity_mail\ReportServiceInterface;
+
+/**
+ * Implements hook_help().
+ */
+function entity_activity_mail_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the entity_activity module.
+    case 'help.page.entity_activity_mail':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Entity Activity Mail allow users to receive a logs report by mail according a frequency.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function entity_activity_mail_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+
+  if ($entity_type->id() === 'user') {
+    $fields['entity_activity_mail_frequency'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Logs report frequency'))
+      ->setDescription(t('Select the frequency at which you want receive logs report by mail. Leave empty to not receive any reports by mail.'))
+      ->setRevisionable(FALSE)
+      ->setTranslatable(TRUE)
+      ->setRequired(FALSE)
+      ->setSettings([
+        'allowed_values' => [
+          'immediately' => t('Immediately (for each individual log)'),
+          'daily' => t('Daily'),
+          'weekly' => t('Weekly'),
+          'monthly' => t('Monthly'),
+        ],
+      ])
+      ->setDefaultValue(NULL)
+      ->setDisplayOptions('form', [
+        'type' => 'options_select',
+        'weight' => 50,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['entity_activity_mail_last'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Last sending date of logs report'))
+      ->setDescription(t('The last date that the logs report has been sent to the user.'))
+      ->setDisplayConfigurable('view', TRUE);
+  }
+
+  if ($entity_type->id() === 'entity_activity_log') {
+    $fields['sent'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Sent'))
+      ->setDescription(t('A boolean indicating whether the Log has been sent by mail'))
+      ->setDefaultValue(FALSE)
+      ->setDisplayConfigurable('view', TRUE);
+  }
+
+  return $fields;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function entity_activity_mail_cron() {
+  /** @var \Drupal\entity_activity_mail\ReportServiceInterface $reportService */
+  $reportService = \Drupal::service('entity_activity_mail.report');
+  $request_time = \Drupal::time()->getCurrentTime();
+  $time = $reportService->getCronTime();
+  $default_timestamp = strtotime($time);
+  $next_cron = \Drupal::state()->get(ReportServiceInterface::NEXT_CRON, $default_timestamp);
+  if ($next_cron < $request_time) {
+    $new_next_cron = strtotime('tomorrow ' . $time);
+    \Drupal::state()->set(ReportServiceInterface::NEXT_CRON, $new_next_cron);
+    $reportService->sendLogsReportUsers($next_cron);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function entity_activity_mail_theme() {
+  $themes = [];
+
+  $themes['entity_activity_mail_report'] = [
+    'variables' => [
+      'logs' => [],
+      'logs_content' => [],
+      'user' => NULL,
+      'body' => [],
+      'footer' => [],
+      '#report_timestamp' => '',
+      '#frequency' => '',
+    ],
+  ];
+
+  return $themes;
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Prepares emails sent by the MailHandler service.
+ */
+function entity_activity_mail_mail($key, &$message, $params) {
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
+
+  if (isset($params['headers'])) {
+    $message['headers'] = array_merge($message['headers'], $params['headers']);
+  }
+  if (!empty($params['from'])) {
+    $message['from'] = $params['from'];
+  }
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $renderer->render($params['body']);
+}

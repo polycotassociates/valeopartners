@@ -1,0 +1,15 @@
+﻿[37;41;1m[error][39;49;22m [37;41;1m Drupal\Core\Entity\EntityStorageException: Update existing 'node' entity revision while changing the revision ID is not supported. in Drupal\Core\Entity\ContentEntityStorageBase->doPreSave() (line 703 of /app/web/core/lib/Drupal/Core/Entity/ContentEntityStorageBase.php). [39;49;22m
+ [37;41;1m[error][39;49;22m [37;41;1m Update existing 'node' entity revision while changing the revision ID is not supported. (/app/web/core/lib/Drupal/Core/Entity/Sql/SqlContentEntityStorage.php:847) [39;49;22m
+ [37;41;1m[error][39;49;22m [37;41;1m Drupal\Core\Entity\EntityStorageException: Update existing 'node' entity revision while changing the revision ID is not supported. in Drupal\Core\Entity\ContentEntityStorageBase->doPreSave() (line 703 of /app/web/core/lib/Drupal/Core/Entity/ContentEntityStorageBase.php). [39;49;22m
+ [37;41;1m[error][39;49;22m [37;41;1m Update existing 'node' entity revision while changing the revision ID is not supported. (/app/web/core/lib/Drupal/Core/Entity/Sql/SqlContentEntityStorage.php:847) [39;49;22m
+ [37;41;1m[error][39;49;22m [37;41;1m Drupal\Core\Entity\EntityStorageException: Update existing 'node' entity revision while changing the revision ID is not supported. in Drupal\Core\Entity\ContentEntityStorageBase->doPreSave() (line 703 of /app/web/core/lib/Drupal/Core/Entity/ContentEntityStorageBase.php). [39;49;22m
+ [37;41;1m[error][39;49;22m [37;41;1m Update existing 'node' entity revision while changing the revision ID is not supported. (/app/web/core/lib/Drupal/Core/Entity/Sql/SqlContentEntityStorage.php:847) [39;49;22m
+2015 2019 2017 2019 2018 2019  [37;46;1m[notice][39;49;22m Processed 19 items (16 created, 0 updated, 3 failed, 0 ignored) - done with 'valeo_search'
+
+[33mIn MigrateToolsCommands.php line 785:[39m
+[37;41m                                      [39;49m
+[37;41m  valeo_search Migration - 3 failed.  [39;49m
+[37;41m                                      [39;49m
+
+[32mmigrate:import [--all [ALL]] [--group [GROUP]] [--tag [TAG]] [--limit [LIMIT]] [--feedback [FEEDBACK]] [--idlist [IDLIST]] [--idlist-delimiter [IDLIST-DELIMITER]] [--update [UPDATE]] [--force [FORCE]] [--execute-dependencies [EXECUTE-DEPENDENCIES]] [-h|--help] [-q|--quiet] [-v|vv|vvv|--verbose] [-V|--version] [--ansi] [--no-ansi] [-n|--no-interaction] [-d|--debug] [-y|--yes] [--no] [--remote-host REMOTE-HOST] [--remote-user REMOTE-USER] [-r|--root ROOT] [-l|--uri URI] [--simulate] [--pipe] [-D|--define DEFINE] [--druplicon] [--notify [NOTIFY]] [--xh-link XH-LINK] [--] [39m[32m<command>[39m[32m [[39m[32m<migration_names>[39m[32m] [[39m[32m<options>[39m[32m]...[39m
+

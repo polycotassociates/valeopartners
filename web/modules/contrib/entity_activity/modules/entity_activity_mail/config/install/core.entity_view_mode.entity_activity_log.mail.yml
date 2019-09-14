@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_activity
+  enforced:
+    module:
+    - entity_activity_mail
+id: entity_activity_log.mail
+label: Mail
+targetEntityType: entity_activity_log
+cache: true

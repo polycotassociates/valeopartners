@@ -19,6 +19,7 @@ use Drupal\entity_activity\Entity\SubscriptionInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\cache\CachePluginBase;
 use Drupal\entity_activity\Entity\LogInterface;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Implements hook_help().
@@ -68,6 +69,8 @@ function entity_activity_entity_delete(EntityInterface $entity) {
       $entityActivityManager = \Drupal::service('entity_activity.manager');
       $entityActivityManager->dispatch(EntityActivityEvents::ENTITY_ACTIVITY_DELETE, $entity);
       $entityActivityManager->deleteSubscriptions($entity);
+      // @TODO should we handle translations deletion with
+      // hook_entity_translation_delete() also ?
     }
   }
 }
@@ -418,24 +421,50 @@ function entity_activity_preprocess_views_view(&$variables) {
  * Implements hook_views_post_render().
  */
 function entity_activity_views_post_render(ViewExecutable $view, &$output, CachePluginBase $cache) {
-  // We remove the global list cache tags, because then all user's logs
-  // views will be invalidated every time a log is created / updated. Instead
-  // we use our custom list cache tag per user.
-  // @See Log::getCacheTagsToInvalidate()()
   if ($view->id() == 'user_logs') {
-    $tags = $output['#cache']['tags'];
-    if ($tags) {
-      $tags = array_diff($tags, ['entity_activity_log_list']);
-      $output['#cache']['tags'] = $tags;
+    // We remove the global list cache tags, because then all user's logs
+    // views will be invalidated every time a log is created / updated. Instead
+    // we use our custom list cache tag per user.
+    // @See Log::getCacheTagsToInvalidate()()
+    $tags = isset($output['#cache']['tags']) ? $output['#cache']['tags'] : [];
+    $tags = array_diff($tags, ['entity_activity_log_list']);
+    // We must ensure that the custom Log cache tag is always here.
+    $uid = NULL;
+    $arguments = $view->argument;
+    /** @var \Drupal\views\Plugin\views\argument\ArgumentPluginBase $argument */
+    foreach ($arguments as $plugin_id => $argument) {
+      $real_Field = $argument->realField;
+      $entity_type = $argument->getEntityType();
+      if ($real_Field === 'uid' && $entity_type === 'entity_activity_log') {
+        $uid = $argument->getValue();
+        break;
+      }
     }
+    if ($uid) {
+      $tags = Cache::mergeTags($tags, ['entity_activity_log:user:' . $uid]);
+    }
+    $output['#cache']['tags'] = $tags;
   }
-  // Same thing here but for subscription.
   if ($view->id() == 'user_subscriptions') {
-    $tags = $output['#cache']['tags'];
-    if ($tags) {
-      $tags = array_diff($tags, ['entity_activity_subscription_list']);
-      $output['#cache']['tags'] = $tags;
+    // Same thing here but for subscription.
+    $tags = isset($output['#cache']['tags']) ? $output['#cache']['tags'] : [];
+    $tags = array_diff($tags, ['entity_activity_subscription_list']);
+    // We must ensure that the custom subscription cache tag is always here.
+    $uid = NULL;
+    $arguments = $view->argument;
+    /** @var \Drupal\views\Plugin\views\argument\ArgumentPluginBase $argument */
+    foreach ($arguments as $plugin_id => $argument) {
+      $real_Field = $argument->realField;
+      $entity_type = $argument->getEntityType();
+      if ($real_Field === 'uid' && $entity_type === 'entity_activity_subscription') {
+        $uid = $argument->getValue();
+        break;
+      }
     }
+    if ($uid) {
+      $tags = Cache::mergeTags($tags, ['entity_activity_subscription:user:' . $uid]);
+    }
+    $output['#cache']['tags'] = $tags;
   }
 }
 

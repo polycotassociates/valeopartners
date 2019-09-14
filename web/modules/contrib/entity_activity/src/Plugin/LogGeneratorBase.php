@@ -546,21 +546,24 @@ abstract class LogGeneratorBase extends PluginBase implements LogGeneratorInterf
    * {@inheritdoc}
    */
   public function useCron() {
-    return (bool) $this->configuration['use_cron'];
+    $configuration = $this->getConfiguration();
+    return (bool) $configuration['use_cron'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function isEnabled() {
-    return (bool) $this->configuration['status'];
+    $configuration = $this->getConfiguration();
+    return (bool) $configuration['status'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function isPublished() {
-    return (bool) $this->configuration['published'];
+    $configuration = $this->getConfiguration();
+    return (bool) $configuration['published'];
   }
 
   /**

@@ -144,3 +144,19 @@ log_generator.plugin.comment:
 log_generator.plugin.taxonomy_term:
   type: log_generator.plugin
   label: 'Log Generator Taxonomy term'
+
+field.formatter.settings.entity_activity_log_read_unread:
+  type: mapping
+  mapping:
+    format:
+      type: string
+      label: 'Output format'
+    format_custom_false:
+      type: label
+      label: 'Custom output for FALSE'
+    format_custom_true:
+      type: label
+      label: 'Custom output for TRUE'
+    enable_update_read_status:
+      type: boolean
+      label: 'Enable mark as read or unread'

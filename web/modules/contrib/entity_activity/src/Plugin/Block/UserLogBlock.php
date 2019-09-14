@@ -5,10 +5,13 @@ namespace Drupal\entity_activity\Plugin\Block;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\Entity\EntityViewMode;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\views\Entity\View;
+use Drupal\views\ViewEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
@@ -36,6 +39,13 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
+  /**
+   * Drupal\Core\Extension\ModuleHandlerInterface definition.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The log storage.
@@ -71,14 +81,17 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   The entity type manager.
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   The current user.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $current_user) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $current_user, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
+    $this->moduleHandler = $module_handler;
     $this->logStorage = $this->entityTypeManager->getStorage('entity_activity_log');
   }
 
@@ -91,7 +104,8 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('module_handler')
     );
   }
 
@@ -101,8 +115,10 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function defaultConfiguration() {
     return [
       'total_unread_label' => '',
+      'total_unread_class' => '',
       'number' => 10,
-      'link_page' => 1,
+      'view_mode' => 'default',
+      'logs_user_page_url' => 1,
     ] + parent::defaultConfiguration();
   }
 
@@ -129,38 +145,6 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#maxlength' => 128,
       '#size' => 64,
       '#weight' => 22,
-    ];
-
-    $form['real_time'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Update total real time'),
-      '#default_value' => $this->configuration['real_time'],
-      '#weight' => 24,
-      '#access' => FALSE,
-    ];
-
-    $options = [
-      '300' => $this->t('5 min'),
-      '600' => $this->t('10 min'),
-      '900' => $this->t('15 min'),
-      '1200' => $this->t('20 min'),
-      '1800' => $this->t('30 min'),
-      '3600' => $this->t('60 min'),
-    ];
-    $form['interval'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Interval'),
-      '#description' => $this->t('Select the interval for updating the total unread logs in real time'),
-      '#options' => $options,
-      '#default_value' => $this->configuration['interval'],
-      '#weight' => 26,
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[real_time]"]' =>
-            ['checked' => TRUE],
-        ],
-      ],
-      '#access' => FALSE,
     ];
 
     $form['number'] = [
@@ -217,8 +201,6 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->configuration['total_unread_label'] = $form_state->getValue('total_unread_label');
     $this->configuration['total_unread_class'] = $form_state->getValue('total_unread_class');
-    // $this->configuration['real_time'] = $form_state->getValue('real_time');
-    // $this->configuration['interval'] = $form_state->getValue('interval');.
     $this->configuration['number'] = $form_state->getValue('number');
     $this->configuration['view_mode'] = $form_state->getValue('view_mode');
     $this->configuration['logs_user_page_url'] = $form_state->getValue('logs_user_page_url');
@@ -273,9 +255,15 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     // The link to the user's log page.
     $url = NULL;
-    if ($configuration['logs_user_page_url']) {
-      $url = Url::fromRoute('view.user_logs.page_1', ['user' => $this->currentUser->id()]);
+    if ($this->moduleHandler->moduleExists('views')) {
+      if ($configuration['logs_user_page_url']) {
+        $view = View::load('user_logs');
+        if ($view instanceof ViewEntityInterface && $view->getDisplay('page_1')) {
+          $url = Url::fromRoute('view.user_logs.page_1', ['user' => $this->currentUser->id()]);
+        }
+      }
     }
+
 
     $build = [
       '#theme' => 'user_log_block',
@@ -293,8 +281,6 @@ class UserLogBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#cache']['contexts'][] = 'user';
     $build['#cache']['tags'][] = 'entity_activity_log:user:' . $this->currentUser->id();
     $build['#attached']['library'][] = 'entity_activity/user_log_unread_block';
-    $build['#attached']['drupalSettings']['entity_activity']['user_log_total_unread']['real_time'] = (bool) $configuration['real_time'];
-    $build['#attached']['drupalSettings']['entity_activity']['user_log_total_unread']['interval'] = (int) $configuration['interval'];
     return $build;
   }
 

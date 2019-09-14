@@ -29,7 +29,18 @@ interface SubscriptionStorageInterface extends ContentEntityStorageInterface {
   public function generate(ContentEntityInterface $source, AccountInterface $owner = NULL, $langcode = NULL,  array $parameters = []);
 
   /**
-   * Loads all subscriptions for a source entity.
+   * Loads all subscriptions for a source entity for any langcode.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity.
+   *
+   * @return \Drupal\entity_activity\Entity\SubscriptionInterface[]
+   *   The subscriptions.
+   */
+  public function loadMultipleByEntityAnyLangcode(ContentEntityInterface $entity);
+
+  /**
+   * Loads all subscriptions for a source entity and a langcode.
    *
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
    *   The entity.

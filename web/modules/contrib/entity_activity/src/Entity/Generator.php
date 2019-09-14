@@ -44,6 +44,14 @@ use Drupal\entity_activity\Plugin\LogGeneratorPluginCollection;
  *     "disable" = "/admin/config/content/entity-activity/generators/{entity_activity_generator}/disable",
  *     "duplicate" = "/admin/config/content/entity-activity/generators/{entity_activity_generator}/duplicate",
  *     "collection" = "/admin/config/content/entity-activity/generators"
+ *   },
+ *   config_export = {
+ *     "id",
+ *     "label",
+ *     "uuid",
+ *     "status",
+ *     "langcode",
+ *     "generators",
  *   }
  * )
  */

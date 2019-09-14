@@ -1,0 +1,12 @@
+services:
+  entity_activity_mail.report:
+    class: Drupal\entity_activity_mail\ReportService
+    arguments: ['@config.factory', '@entity_type.manager', '@email.validator', '@queue', '@entity_activity_mail.mail_handler', '@token', '@language_manager', '@state']
+  entity_activity_mail.mail_handler:
+    class: Drupal\entity_activity_mail\MailHandler
+    arguments: ['@language.default', '@language_manager', '@plugin.manager.mail']
+  entity_activity_mail.log_report_subscriber:
+    class: Drupal\entity_activity_mail\EventSubscriber\LogReportSubscriber
+    arguments: ['@entity_type.manager', '@entity_activity_mail.report']
+    tags:
+    - { name: event_subscriber }

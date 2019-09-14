@@ -90,9 +90,8 @@ class EntityconnectController extends ControllerBase implements ContainerInjecti
       $options['query'][$key] = $value;
     }
     $options['absolute'] = TRUE;
-    /** @var RouteMatchInterface $routeMatch */
     $routeMatch = $cache_data['dest'];
-    $url = Url::fromRouteMatch($routeMatch);
+    $url = Url::fromUri('internal:'.$routeMatch);
     $url->setOptions($options);
     return new RedirectResponse($url->toString());
   }

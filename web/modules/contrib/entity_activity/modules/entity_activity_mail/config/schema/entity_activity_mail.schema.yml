@@ -1,0 +1,51 @@
+entity_activity_mail.settings:
+  type: config_object
+  label: 'Commerce Product Reminder settings.'
+  mapping:
+    general:
+      type: mapping
+      label: 'General settings'
+      mapping:
+        hide_message:
+          type: boolean
+          label: 'Hide message'
+        enabled:
+          type: boolean
+          label: 'Enabled'
+        only_unread:
+          type: boolean
+          label: 'Send only unread logs'
+        cron_time:
+          type: string
+          label: 'Cron time'
+        log_report:
+          type: boolean
+          label: 'Log report'
+    mail:
+      type: mapping
+      label: 'Mail settings'
+      mapping:
+        from:
+          type: string
+          label: 'Mail from'
+        subject:
+          type: label
+          label: 'Mail subject'
+        body:
+          type: mapping
+          mapping:
+            value:
+              type: text
+              label: 'Mail body'
+            format:
+              type: string
+              label: 'Format'
+        footer:
+          type: mapping
+          mapping:
+            value:
+              type: text
+              label: 'Mail footer'
+            format:
+              type: string
+              label: 'Format'

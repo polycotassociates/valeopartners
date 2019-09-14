@@ -286,8 +286,7 @@ class EntityActivityManager implements EntityActivityManagerInterface {
    * {@inheritdoc}
    */
   public function deleteSubscriptions(ContentEntityInterface $entity) {
-    $langcode = $this->getEntityLangcode($entity);
-    $subscriptions = $this->subscriptionStorage->loadMultipleByEntity($entity, $langcode);
+    $subscriptions = $this->subscriptionStorage->loadMultipleByEntityAnyLangcode($entity);
     foreach ($subscriptions as $subscription) {
       $subscription->delete();
     }
@@ -319,7 +318,7 @@ class EntityActivityManager implements EntityActivityManagerInterface {
 
     elseif ($config['method'] == 'time' && !empty($config['time']['number']) && !empty($config['time']['unit'])) {
       $current_date = new DrupalDateTime('now');
-      $interval = new PurgeInterval($config['time']['number'], $config['time']['unit']);
+      $interval = new Interval($config['time']['number'], $config['time']['unit']);
       $expiration_date = $interval->subtract($current_date);
       $expiration = $expiration_date->getTimestamp();
       // Logs to be purged in groups of 50.

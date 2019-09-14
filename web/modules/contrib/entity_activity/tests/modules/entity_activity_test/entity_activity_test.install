@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Test install for Entity Activity.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function entity_activity_test_install() {
+  $configFactory = \Drupal::configFactory();
+  $config = $configFactory->getEditable('entity_activity.settings');
+  $config->set('entity_type.node.enable', TRUE);
+  $config->set('entity_type.user.enable', TRUE);
+  $config->set('entity_type.taxonomy_term.enable', TRUE);
+  $config->save(TRUE);
+}
+

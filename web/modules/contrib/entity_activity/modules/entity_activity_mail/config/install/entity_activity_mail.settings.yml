@@ -1,0 +1,13 @@
+general:
+  hide_message: false
+  enabled: true
+  only_unread: false
+  cron_time: '01:00:00'
+  log_report: false
+mail:
+  from: ''
+  subject: 'Logs report'
+  body:
+    value: 'Logs report for [user:display-name]'
+  footer:
+    value: 'You receive this email because you opt in to receive this report on site [site:name]. You can change your settings from your profile : [user:edit-url].'

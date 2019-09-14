@@ -1,0 +1,33 @@
+{#
+/**
+ * @file entity-activity-mail-report.html.twig
+ * Default theme implementation for a logs report mail.
+ *
+ * This template is used when sending an logs report mail.
+ *
+ * Available variables:
+ *   - user: The user entity.
+ *   - logs: An array of log entity.
+ *   - logs_content: A renderable array of log entities in the view mode
+       mail (or default if the view mode mail is not configured or deleted). You
+       should consider to theme the log entity in the view mode mail if using
+       this renderable array.
+ *   - body : The body content configurable in the settings form.
+ *   - footer : The footer content configurable in the settings form
+ *   - report_timestamp: the timestamp when the report has been built.
+ *   - frequency : The frequency value at the origin of the report.
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="email__body">
+  {{ body }}
+</div>
+
+<div class="email__report">
+  {{ logs_content }}
+</div>
+
+<div class="email__footer">
+  {{ footer }}
+</div>

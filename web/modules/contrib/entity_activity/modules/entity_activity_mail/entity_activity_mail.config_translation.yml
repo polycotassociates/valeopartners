@@ -1,0 +1,5 @@
+entity_activity_mail.settings_form:
+  title: 'Entity Activity Mail settings'
+  base_route_name: entity_activity_mail.settings_form
+  names:
+    - entity_activity_mail.settings

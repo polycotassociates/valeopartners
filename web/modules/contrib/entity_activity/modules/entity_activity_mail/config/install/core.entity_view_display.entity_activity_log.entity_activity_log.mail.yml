@@ -1,0 +1,54 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.entity_activity_log.mail
+  module:
+    - entity_activity
+    - text
+    - user
+  enforced:
+    module:
+      - entity_activity_mail
+id: entity_activity_log.entity_activity_log.mail
+targetEntityType: entity_activity_log
+bundle: entity_activity_log
+mode: mail
+content:
+  created:
+    label: hidden
+    type: timestamp
+    region: content
+    weight: 2
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  log:
+    type: text_default
+    region: content
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+  subscription:
+    label: hidden
+    type: entity_reference_label
+    region: content
+    weight: 3
+    settings:
+      link: false
+    third_party_settings: {  }
+  uid:
+    label: hidden
+    type: author
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  log_remove: true
+  read: true
+  sent: true

@@ -4,3 +4,26 @@ views.area.log_read_all:
 views.area.log_total_unread:
   type: views_area
   label: 'log_total_unread'
+  mapping:
+    content:
+      type: text
+      label: 'Content displayed'
+views_field_log:
+  type: views_field
+  mapping:
+    link_to_entity:
+      type: boolean
+      label: 'Link this field to the entity'
+views.field.entity_activity_log_source_entity:
+  type: views_field_log
+  label: 'Source entity'
+views.field.entity_activity_log_reference_source_entity:
+  type: views_field_log
+  label: 'Reference source entity'
+views.field.entity_activity_subscription_source_entity:
+  type: views_field
+  label: 'Subscription source entity'
+  mapping:
+    link_to_entity:
+      type: boolean
+      label: 'Link this field to the entity'

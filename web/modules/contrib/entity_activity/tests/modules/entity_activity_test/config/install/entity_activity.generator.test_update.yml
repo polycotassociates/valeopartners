@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies: {  }
+id: test_update
+label: Test Update
+generators:
+  node:
+    id: node
+    log:
+      value: "The content [node:title] has been updated by [current-user:display-name]. Log with the generator test_update."
+      format: plain_text
+    status: true
+    published: true
+    operation: update
+    bundles:
+      article: '0'
+      page: '0'
+    subscribed_on: reference
+    referenced_by:
+      uid: uid
+    include_parents_term: true
+    use_cron: false

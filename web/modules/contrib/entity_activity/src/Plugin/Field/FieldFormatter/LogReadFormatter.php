@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\entity_Activity\Plugin\Field\FieldFormatter;
+namespace Drupal\entity_activity\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldFormatter\BooleanFormatter;

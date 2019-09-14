@@ -1,0 +1,9 @@
+entity_activity_mail.settings_form:
+  path: '/admin/config/content/entity-activity/mail-settings'
+  defaults:
+    _form: '\Drupal\entity_activity_mail\Form\SettingsForm'
+    _title: 'Entity Activity Mail Settings'
+  requirements:
+    _permission: 'administer entity activity mail'
+  options:
+    _admin_route: TRUE

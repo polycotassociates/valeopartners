@@ -181,7 +181,7 @@ class EntityconnectSubmit extends Submit {
     $data = array(
       'form'       => $form,
       'form_state' => $form_state,
-      'dest'       => \Drupal::routeMatch(),
+      'dest'       => $current_path = \Drupal::service('path.current')->getPath(),
       'params'     => \Drupal::request()->query->all(),
       'field'      => $field,
       'field_info' => $fieldInfo,
