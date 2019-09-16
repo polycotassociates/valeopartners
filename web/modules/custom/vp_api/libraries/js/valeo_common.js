@@ -41,5 +41,13 @@
     }
   };
 
+  // Invoke the print dialog
+  Drupal.behaviors.addPrintClassToContent = {
+    attach: function (context, settings) {
+      // Add class to specific div.
+      $( 'div#block-valeo-classic-content').addClass('print-only');
+    }
+  };
+
 
 })(jQuery, Drupal);

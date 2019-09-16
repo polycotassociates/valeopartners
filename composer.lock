@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c90f61acb94f86dee09f9b351ccdf82a",
+    "content-hash": "bbac820b575aba79e5633eeaa3629bae",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -6663,6 +6663,61 @@
             "homepage": "https://www.drupal.org/project/permissions_by_term",
             "support": {
                 "source": "http://cgit.drupalcode.org/permissions_by_term"
+            }
+        },
+        {
+            "name": "drupal/printfriendly",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/printfriendly.git",
+                "reference": "8.x-3.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/printfriendly-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "3c244a1f42282d368a284091dcc6545b44cad254"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.4",
+                    "datestamp": "1552999084",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "anon",
+                    "homepage": "https://www.drupal.org/user/464598"
+                },
+                {
+                    "name": "babusaheb.vikas",
+                    "homepage": "https://www.drupal.org/user/128359"
+                },
+                {
+                    "name": "printfriendly",
+                    "homepage": "https://www.drupal.org/user/2220908"
+                }
+            ],
+            "description": "Easily print any page through Printfriendly.",
+            "homepage": "https://www.drupal.org/project/printfriendly",
+            "support": {
+                "source": "https://git.drupalcode.org/project/printfriendly"
             }
         },
         {

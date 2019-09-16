@@ -72,6 +72,7 @@
         "drupal/paragraphs_clean": "^1.1",
         "drupal/pathauto": "^1.4",
         "drupal/permissions_by_term": "^2.3",
+        "drupal/printfriendly": "^3.4",
         "drupal/profile": "^1.0@RC",
         "drupal/publication_date": "^2.0",
         "drupal/range": "^1.1",
