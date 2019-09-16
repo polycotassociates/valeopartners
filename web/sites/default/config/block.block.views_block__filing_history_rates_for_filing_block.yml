@@ -13,7 +13,7 @@ dependencies:
 id: views_block__filing_history_rates_for_filing_block
 theme: valeo_classic
 region: content
-weight: -5
+weight: -6
 provider: null
 plugin: 'views_block:filing_history-rates_for_filing_block'
 settings:

@@ -13,7 +13,7 @@ dependencies:
 id: views_block__related_rates_by_individual
 theme: valeo_classic
 region: content
-weight: -6
+weight: -7
 provider: null
 plugin: 'views_block:search_rates_by_individual-related_rates_by_individual'
 settings:

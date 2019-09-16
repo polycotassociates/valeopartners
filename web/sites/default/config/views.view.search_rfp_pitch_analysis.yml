@@ -87,7 +87,7 @@ display:
       pager:
         type: full
         options:
-          items_per_page: 50
+          items_per_page: 0
           offset: 0
           id: 0
           total_pages: null
@@ -885,6 +885,48 @@ display:
           hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
+        field_vp_filing_year_end_value:
+          id: field_vp_filing_year_end_value
+          table: node__field_vp_filing_year_end
+          field: field_vp_filing_year_end_value
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
       sorts:
         field_vp_filing_year_end_value:
           id: field_vp_filing_year_end_value
@@ -912,15 +954,6 @@ display:
           plugin_id: standard
       title: 'RFP Pitch Analysis'
       header:
-        print_button:
-          id: print_button
-          table: views
-          field: print_button
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          plugin_id: print_button
         area:
           id: area
           table: views
@@ -931,7 +964,7 @@ display:
           empty: false
           tokenize: true
           content:
-            value: '<h2>Pitch analysis for {{ title }}</h2>'
+            value: "<div class=\"print-only\">\r\n<h2>Pitch analysis for {{ title }}</h2>\r\n"
             format: basic_html
           plugin_id: text
       footer:
@@ -945,7 +978,7 @@ display:
           empty: false
           tokenize: false
           content:
-            value: 'Note: not all Actual Rates have a Reported Standard Rate.'
+            value: "Note: not all Actual Rates have a Reported Standard Rate.\r\n</div>"
             format: basic_html
           plugin_id: text
       empty: {  }

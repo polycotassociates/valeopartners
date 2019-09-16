@@ -1,0 +1,34 @@
+uuid: f1adaac9-fd20-467a-84f4-a91075b1c2e3
+langcode: en
+status: true
+dependencies:
+  module:
+    - printfriendly
+    - system
+    - user
+  theme:
+    - valeo_classic
+id: printfriendly
+theme: valeo_classic
+region: content
+weight: -13
+provider: null
+plugin: block_printfriendly
+settings:
+  id: block_printfriendly
+  label: printfriendly
+  provider: printfriendly
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: "/alerts/rates-ytd\r\n/profile/firm"
+    negate: false
+    context_mapping: {  }
+  user_role:
+    id: user_role
+    roles:
+      authenticated: authenticated
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

@@ -69,6 +69,7 @@ module:
   paragraphs_library: 0
   paragraphs_type_permissions: 0
   path: 0
+  printfriendly: 0
   quickedit: 0
   range: 0
   rdf: 0

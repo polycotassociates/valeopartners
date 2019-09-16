@@ -979,6 +979,7 @@ display:
           plugin_id: standard
       defaults:
         sorts: false
+      enabled: false
     cache_metadata:
       max-age: -1
       contexts:

@@ -12,7 +12,7 @@ dependencies:
 id: views_block__related_fees_by_company_related_fees_block
 theme: valeo_classic
 region: content
-weight: -1
+weight: -3
 provider: null
 plugin: 'views_block:related_fees_by_company-related_fees_block'
 settings:
