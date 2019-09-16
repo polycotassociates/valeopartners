@@ -159,7 +159,7 @@ class RateMasterReport extends ControllerBase {
         // City.
         WriterEntityFactory::createCell($this->getTermName($result->field_vp_individual_location_target_id)),
         // Actual Rate.
-        WriterEntityFactory::createCell($result->field_vp_rate_hourly_value),
+        WriterEntityFactory::createCell((double) $result->field_vp_rate_hourly_value),
         // $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
         // Standard Rate.
         WriterEntityFactory::createCell($result->field_vp_rate_standard_value),
@@ -234,8 +234,8 @@ class RateMasterReport extends ControllerBase {
     // print_r($this->getFirstName('100825'));
     // print "<br>";
 //     kint($_GET);
-//     kint($this->generateDynamicQuery());
-// die();
+    // kint($this->generateDynamicQuery());
+    // die();
     // kint($this->getFirmName('257600'));
 
     // Generate and output code will be inserted here.
@@ -294,23 +294,24 @@ class RateMasterReport extends ControllerBase {
     $worksheet->getCell('N1')->setValue('City');
     $worksheet->getCell('O1')->setValue('Actual Rate');
     $worksheet->getCell('P1')->setValue('Standard Rate');
-    $worksheet->getCell('Q1')->setValue('Hours');
-    $worksheet->getCell('R1')->setValue('Total');
-    $worksheet->getCell('S1')->setValue('Flat Fee');
-    $worksheet->getCell('T1')->setValue('Retainer Fee');
-    $worksheet->getCell('U1')->setValue('Transaction Amount');
-    $worksheet->getCell('V1')->setValue('Transactional Fee');
-    $worksheet->getCell('W1')->setValue('Transaction Type');
-    $worksheet->getCell('X1')->setValue('Case Name');
-    $worksheet->getCell('Y1')->setValue('Case Number');
-    $worksheet->getCell('Z1')->setValue('Court');
-    $worksheet->getCell('AA1')->setValue('Date Filed');
-    $worksheet->getCell('AB1')->setValue('Nature of Suit');
-    $worksheet->getCell('AC1')->setValue('Filing Name');
-    $worksheet->getCell('AD1')->setValue('Filing Description');
-    $worksheet->getCell('AE1')->setValue('Filing Number');
-    $worksheet->getCell('AF1')->setValue('Fee Date Range Begin');
-    $worksheet->getCell('AG1')->setValue('Fee Date Range End');
+    $worksheet->getCell('Q1')->setValue('Rate or Fee Year');
+    $worksheet->getCell('R1')->setValue('Hours');
+    $worksheet->getCell('S1')->setValue('Total');
+    $worksheet->getCell('T1')->setValue('Flat Fee');
+    $worksheet->getCell('U1')->setValue('Retainer Fee');
+    $worksheet->getCell('V1')->setValue('Transaction Amount');
+    $worksheet->getCell('W1')->setValue('Transactional Fee');
+    $worksheet->getCell('X1')->setValue('Transaction Type');
+    $worksheet->getCell('Y1')->setValue('Case Name');
+    $worksheet->getCell('Z1')->setValue('Case Number');
+    $worksheet->getCell('AA1')->setValue('Court');
+    $worksheet->getCell('AB1')->setValue('Date Filed');
+    $worksheet->getCell('AC1')->setValue('Nature of Suit');
+    $worksheet->getCell('AD1')->setValue('Filing Name');
+    $worksheet->getCell('AE1')->setValue('Filing Description');
+    $worksheet->getCell('AF1')->setValue('Filing Number');
+    $worksheet->getCell('AG1')->setValue('Fee Date Range Begin');
+    $worksheet->getCell('AH1')->setValue('Fee Date Range End');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
 
@@ -333,9 +334,9 @@ class RateMasterReport extends ControllerBase {
         'color' => array('rgb' => 'ffffff'),
       ));
 
-    // $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
     // $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
     // $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
     // $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
@@ -367,17 +368,17 @@ class RateMasterReport extends ControllerBase {
     // $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(TRUE);
     // $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(TRUE);
 
-    $worksheet->getStyle('A3:E3')->applyFromArray($styleArrayHead);
+    //$worksheet->getStyle('A3:E3')->applyFromArray($styleArrayHead);
 
     $i = 2;
     // Query loop.
     foreach ($this->generateDynamicQuery() as $result) {
       // Last Name.
-      $worksheet->setCellValue('A' . $i, '' . $this->getLastName($result->field_vp_rate_individual_target_id));
+      $worksheet->setCellValue('A' . $i,  $result->field_vp_last_name_value);
       // Middle Name.
-      $worksheet->setCellValue('B' . $i, '' . $this->getMiddleName($result->field_vp_rate_individual_target_id));
+      $worksheet->setCellValue('B' . $i, '' . $result->field_vp_middle_name_value);
       // First Name.
-      $worksheet->setCellValue('C' . $i, '' . $this->getFirstName($result->field_vp_rate_individual_target_id));
+      $worksheet->setCellValue('C' . $i, '' . $result->field_vp_first_name_value);
       // Firm.
       $worksheet->setCellValue('D' . $i, '' . $this->getNodeTitle($result->field_vp_rate_firm_target_id));
       // Position.
@@ -406,47 +407,49 @@ class RateMasterReport extends ControllerBase {
       // Standard Rate.
       $worksheet->setCellValue('P' . $i, $result->field_vp_rate_standard_value);
       $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      // Filing Year.
+      $worksheet->setCellValue('Q' . $i, $result->field_vp_filing_year_value);
       // Hours.
-      $worksheet->setCellValue('Q' . $i, $result->field_vp_rate_hours_value);
+      $worksheet->setCellValue('R' . $i, $result->field_vp_rate_hours_value);
       // Total.
-      $worksheet->setCellValue('R' . $i, $result->field_vp_rate_total_value);
+      $worksheet->setCellValue('S' . $i, $result->field_vp_rate_total_value);
       $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Flat Fee.
-      $worksheet->setCellValue('S' . $i, $result->field_vp_rate_flat_fee_value);
+      $worksheet->setCellValue('T' . $i, $result->field_vp_rate_flat_fee_value);
       $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Retainer Fee.
-      $worksheet->setCellValue('T' . $i, $result->field_vp_rate_retainer_value);
+      $worksheet->setCellValue('U' . $i, $result->field_vp_rate_retainer_value);
       $spreadsheet->getActiveSheet()->getStyle('T' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transaction Amount.
-      $worksheet->setCellValue('U' . $i, $result->field_vp_rate_primaryfee_calc_value);
+      $worksheet->setCellValue('V' . $i, $result->field_vp_rate_primaryfee_calc_value);
       $spreadsheet->getActiveSheet()->getStyle('U' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transactional Fee.
-      $worksheet->setCellValue('V' . $i, $result->field_vp_rate_transactional_fee_value);
+      $worksheet->setCellValue('W' . $i, $result->field_vp_rate_transactional_fee_value);
       $spreadsheet->getActiveSheet()->getStyle('V' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transaction Type.
-      $worksheet->setCellValue('W' . $i, '' . $this->getTermName($result->field_vp_rate_transaction_type_target_id));
+      $worksheet->setCellValue('X' . $i, '' . $this->getTermName($result->field_vp_rate_transaction_type_target_id));
       // Case Name.
-      $worksheet->setCellValue('X' . $i, '' . $this->getNodeTitle($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('Y' . $i, '' . $this->getNodeTitle($result->field_vp_filing_case_target_id));
       // Case Number.
-      $worksheet->setCellValue('Y' . $i, '' . $this->getCaseNumber($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('Z' . $i, '' . $this->getCaseNumber($result->field_vp_filing_case_target_id));
       // Court.
-      $worksheet->setCellValue('Z' . $i, '' . $this->getCaseCourt($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('AA' . $i, '' . $this->getCaseCourt($result->field_vp_filing_case_target_id));
       // Date Filed.
-      $worksheet->setCellValue('AA' . $i, $this->getFilingDate($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('AB' . $i, $this->getFilingDate($result->field_vp_filing_case_target_id));
       $spreadsheet->getActiveSheet()->getStyle('AA' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
       // Nature of Suit.
-      $worksheet->setCellValue('AB' . $i, '' . $this->getNatureOfSuit($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('AC' . $i, '' . $this->getNatureOfSuit($result->field_vp_filing_case_target_id));
       // Filing Name.
-      $worksheet->setCellValue('AC' . $i, '' . $this->getNodeTitle($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AD' . $i, '' . $this->getNodeTitle($result->field_vp_rate_filing_target_id));
       // Filing Description.
-      $worksheet->setCellValue('AD' . $i, '' . $this->getFilingDescription($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AE' . $i, '' . $this->getFilingDescription($result->field_vp_rate_filing_target_id));
       // Filing Number.
-      $worksheet->setCellValue('AE' . $i, '' . $this->getFilingNumber($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AF' . $i, '' . $this->getFilingNumber($result->field_vp_rate_filing_target_id));
       // Fee Date Range Begin.
-      $worksheet->setCellValue('AF' . $i, $this->getFeeDateBegin($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AG' . $i, $this->getFeeDateBegin($result->field_vp_rate_filing_target_id));
       $spreadsheet->getActiveSheet()->getStyle('AF' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
       // Fee Date Range End.
-      $worksheet->setCellValue('AG' . $i, $this->getFeeDateEnd($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AH' . $i, $this->getFeeDateEnd($result->field_vp_rate_filing_target_id));
       $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
 
       $i++;
@@ -499,7 +502,7 @@ class RateMasterReport extends ControllerBase {
 
     // Query node data.
     $query = $db->select('node_field_data', 'node');
-    $query->fields('node', ['nid', 'type', 'status']);
+    $query->fields('node', ['nid', 'type', 'status', 'title']);
     $query->condition('node.type', 'vp_type_rate', '=');
     $query->condition('node.status', 1);
 
@@ -538,7 +541,7 @@ class RateMasterReport extends ControllerBase {
     $query->leftjoin('node__field_vp_rate_transaction_amount', 'transaction_amount', 'node.nid = transaction_amount.entity_id');
     $query->leftjoin('node__field_vp_rate_transactional_fee', 'transaction_fee', 'node.nid = transaction_fee.entity_id');
     $query->leftjoin('node__field_vp_rate_transaction_type', 'transaction_type', 'node.nid = transaction_type.entity_id');
-    $query->leftjoin('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Filing, Case, Company, Individual, and Firm fields.
     $query->fields('firm', ['field_vp_rate_firm_target_id']);
@@ -571,7 +574,7 @@ class RateMasterReport extends ControllerBase {
     $query->fields('transaction_amount', ['field_vp_rate_transaction_amount_value']);
     $query->fields('transaction_fee', ['field_vp_rate_transactional_fee_value']);
     $query->fields('transaction_type', ['field_vp_rate_transaction_type_target_id']);
-    $query->fields('year', ['field_vp_filing_year_end_value']);
+    $query->fields('year', ['field_vp_filing_year_value']);
 
     // Case/Filing Fields.
     $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
@@ -627,10 +630,10 @@ class RateMasterReport extends ControllerBase {
       $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
     }
 
-    // Filter by title.
-    if (isset($_GET['title'])) {
-      $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
-    }
+    // // Filter by title.
+    // if (isset($_GET['title'])) {
+    //   $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
+    // }
 
     // Filter by practice area ids.
     if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
