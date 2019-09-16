@@ -36,8 +36,13 @@
   };
 
 
-
-
+  // Invoke the print dialog
+  Drupal.behaviors.addPrintClassToContent = {
+    attach: function (context, settings) {
+      // Add class to specific div.
+      $( 'div#block-valeo-classic-content').addClass('print-only');
+    }
+  };
 
 
   // Resets the interface min/max dates to 4 digits intead of 2010-01-01
