@@ -24,6 +24,9 @@ function vp_views_views_pre_render(ViewExecutable $view) {
     //   break;
 
     case 'search_rate_trending_analysis':
+      // Attach javascript.
+      $view->element['#attached']['library'][] = 'vp_views/vp_views_library';
+
       // If a year is passed as an argument, change the column lables to
       // reference that year.
       $year = $view->argument['field_vp_filing_fee_dates_value_year']->argument;
@@ -36,7 +39,6 @@ function vp_views_views_pre_render(ViewExecutable $view) {
       $result = [];
       $ids = [];
       foreach ($view->result as $key => $row) {
-
 
         $node = $row->_entity;
         $relationship = $row->_relationship_entities['field_vp_rate_individual'];

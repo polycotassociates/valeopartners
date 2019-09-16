@@ -1,0 +1,7 @@
+vp_views_library:
+  version: 1.x
+  js:
+    libraries/js/vp_views.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
