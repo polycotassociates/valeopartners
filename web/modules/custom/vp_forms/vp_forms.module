@@ -88,6 +88,20 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       $form['field_vp_bar_date_value']['max']['#options'] = vp_api_bar_grad_year_options();
       unset($form['field_vp_bar_date_value']['max']['#size']);
 
+      // Positioning.
+      $form['field_vp_rate_firm_target_id_verf']['#weight'] = 5; // firm
+      $form['term_node_tid_depth_position']['#weight'] = 20; // position
+      $form['term_node_tid_depth_1']['#weight'] = 20; // position
+      $form['field_vp_practice_area_1_target_id']['#weight'] = 30; // practice area
+      $form['term_node_tid_depth']['#weight'] = 40; // location
+      $form['field_vp_graduation_value']['#weight'] = 50; // grad date
+      $form['field_vp_bar_date_value']['#weight'] = 65; // bar date
+      $form['field_vp_filing_fee_dates_value']['#weight'] = 70; // rate year
+      $form['field_vp_case_nature_of_suit_target_id_verf']['#weight'] = 80; // nature of suit
+
+      // Sizing.
+      $form['term_node_tid_depth']['#size'] = 8;
+
       break;
 
     case "views-exposed-form-search-rates-by-firm-summary-search-rates-by-firm-summary":
@@ -130,6 +144,17 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       $form['field_vp_bar_date_value']['max']['#options'] = vp_api_bar_grad_year_options();
       unset($form['field_vp_bar_date_value']['max']['#size']);
 
+      // Positioning.
+      $form['field_vp_rate_firm_target_id_verf']['#weight'] = 10; // firm
+      $form['term_node_tid_depth_1']['#weight'] = 20; // position
+      $form['field_vp_practice_area_1_target_id']['#weight'] = 30; // practice area
+      $form['term_node_tid_depth']['#weight'] = 40; // location
+      $form['field_vp_graduation_value']['#weight'] = 50;
+      $form['field_vp_bar_date_value']['#weight'] = 55;
+
+      // Sizing.
+      $form['term_node_tid_depth']['#size'] = 8;
+
       break;
 
     case "views-exposed-form-search-fees-by-company-search-fees-by-company-page":
@@ -153,6 +178,18 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       $form['field_vp_filing_fee_dates_value']['max']['#empty_option'] = '-All-';
       $form['field_vp_filing_fee_dates_value']['max']['#options'] = vp_api_year_options_max();
       unset($form['field_vp_filing_fee_dates_value']['max']['#size']);
+
+      // Positioning.
+      $form['field_vp_company_industry_target_id']['#weight'] = 10; // industry
+      $form['term_node_tid_depth_1']['#weight'] = 20; // position
+      $form['field_vp_practice_area_1_target_id']['#weight'] = 30; // practice area
+      $form['term_node_tid_depth']['#weight'] = 40; // location
+      $form['field_vp_filing_fee_dates_value']['#weight'] = 50; // fee year
+      $form['field_vp_rate_company_target_id_verf']['#weight'] = 60; // company
+      $form['field_vp_rate_company_target_id_verf_1']['#weight'] = 70; // referenced company
+
+      // Sizing.
+      $form['term_node_tid_depth']['#size'] = 8;
 
       break;
 
