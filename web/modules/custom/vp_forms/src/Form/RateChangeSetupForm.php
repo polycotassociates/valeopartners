@@ -26,9 +26,12 @@ class RateChangeSetupForm extends FormBase {
 
     $options = [];
 
-    $entities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'vp_type_firm']);
+    $result = \Drupal::entityQuery('node')
+      ->condition('type', 'vp_type_firm')
+      ->sort('title')->execute();
+    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
 
-    foreach ($entities as $firm) {
+    foreach ($nodes as $firm) {
       $options[$firm->id()] = $firm->get('title')->value;
     }
 
@@ -41,9 +44,6 @@ class RateChangeSetupForm extends FormBase {
     // Form Title.
     $form_title = $user->get('field_pricing_alert_firms_title')->value;
 
-    // kint($user);
-
-    $existing = [1 => 'test 1'];
     $form['#prefix'] = "";
 
     $form['actions'] = ['#type' => 'actions'];
@@ -59,8 +59,8 @@ class RateChangeSetupForm extends FormBase {
       '#type' => 'multiselect',
       '#title' => $this
         ->t('Select Firms:'),
-      '#options' => $options,
       '#default_value' => $selected,
+      '#options' => $options,
       '#multiple' => TRUE,
       '#process' => array(
         array('Drupal\multiselect\Element\MultiSelect', 'processSelect'),
