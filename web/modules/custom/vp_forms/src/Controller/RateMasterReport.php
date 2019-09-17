@@ -245,7 +245,7 @@ class RateMasterReport extends ControllerBase {
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
+    $response->headers->set('Content-Disposition', "attachment; filename=Valeo Master Search.xlsx");
 
     $spreadsheet = new Spreadsheet();
 
@@ -264,7 +264,7 @@ class RateMasterReport extends ControllerBase {
     $worksheet = $spreadsheet->getActiveSheet();
 
     //Rename sheet
-    $worksheet->setTitle('Valeo Reports');
+    $worksheet->setTitle('Valeo Master Search');
 
     /*
     * TITLE
@@ -334,47 +334,48 @@ class RateMasterReport extends ControllerBase {
         'color' => array('rgb' => 'ffffff'),
       ));
 
-    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('U')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('V')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('W')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('X')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(TRUE);
+    // $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
+    // $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
+    // $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('U')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('V')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('W')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('X')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(TRUE);
 
     //$worksheet->getStyle('A3:E3')->applyFromArray($styleArrayHead);
 
     $i = 2;
+    $j = 1;
     // Query loop.
     foreach ($this->generateDynamicQuery() as $result) {
       // Last Name.
-      $worksheet->setCellValue('A' . $i,  $result->field_vp_last_name_value);
+      $worksheet->setCellValue('A' . $i, $j . $result->field_vp_last_name_value);
       // Middle Name.
       $worksheet->setCellValue('B' . $i, '' . $result->field_vp_middle_name_value);
       // First Name.
@@ -413,19 +414,19 @@ class RateMasterReport extends ControllerBase {
       $worksheet->setCellValue('R' . $i, $result->field_vp_rate_hours_value);
       // Total.
       $worksheet->setCellValue('S' . $i, $result->field_vp_rate_total_value);
-      $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Flat Fee.
       $worksheet->setCellValue('T' . $i, $result->field_vp_rate_flat_fee_value);
-      $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      $spreadsheet->getActiveSheet()->getStyle('T' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Retainer Fee.
       $worksheet->setCellValue('U' . $i, $result->field_vp_rate_retainer_value);
-      $spreadsheet->getActiveSheet()->getStyle('T' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      $spreadsheet->getActiveSheet()->getStyle('U' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transaction Amount.
       $worksheet->setCellValue('V' . $i, $result->field_vp_rate_primaryfee_calc_value);
-      $spreadsheet->getActiveSheet()->getStyle('U' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      $spreadsheet->getActiveSheet()->getStyle('V' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transactional Fee.
       $worksheet->setCellValue('W' . $i, $result->field_vp_rate_transactional_fee_value);
-      $spreadsheet->getActiveSheet()->getStyle('V' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      $spreadsheet->getActiveSheet()->getStyle('W' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transaction Type.
       $worksheet->setCellValue('X' . $i, '' . $this->getTermName($result->field_vp_rate_transaction_type_target_id));
       // Case Name.
@@ -436,7 +437,7 @@ class RateMasterReport extends ControllerBase {
       $worksheet->setCellValue('AA' . $i, '' . $this->getCaseCourt($result->field_vp_filing_case_target_id));
       // Date Filed.
       $worksheet->setCellValue('AB' . $i, $this->getFilingDate($result->field_vp_filing_case_target_id));
-      $spreadsheet->getActiveSheet()->getStyle('AA' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+      $spreadsheet->getActiveSheet()->getStyle('AB' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
       // Nature of Suit.
       $worksheet->setCellValue('AC' . $i, '' . $this->getNatureOfSuit($result->field_vp_filing_case_target_id));
       // Filing Name.
@@ -447,12 +448,13 @@ class RateMasterReport extends ControllerBase {
       $worksheet->setCellValue('AF' . $i, '' . $this->getFilingNumber($result->field_vp_rate_filing_target_id));
       // Fee Date Range Begin.
       $worksheet->setCellValue('AG' . $i, $this->getFeeDateBegin($result->field_vp_rate_filing_target_id));
-      $spreadsheet->getActiveSheet()->getStyle('AF' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+      $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
       // Fee Date Range End.
       $worksheet->setCellValue('AH' . $i, $this->getFeeDateEnd($result->field_vp_rate_filing_target_id));
-      $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+      $spreadsheet->getActiveSheet()->getStyle('AH' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
 
       $i++;
+      $j++;
 
     }
 
@@ -812,7 +814,8 @@ class RateMasterReport extends ControllerBase {
     if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
       $title = \Drupal::service('title_resolver')->getTitle($request, $route);
     }
-    return $title;
+    //return $title;
+    return "Valeo Rates Report";
   }
 
 }
