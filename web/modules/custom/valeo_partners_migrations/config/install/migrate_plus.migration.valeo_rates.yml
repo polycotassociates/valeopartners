@@ -53,19 +53,19 @@ process:
   field_vp_rate_transactional_fee: field_rate_transactional
   field_vp_rate_transaction_amount: field_rate_transactionamount
 
-  field_vp_rate_position: 
+  field_vp_rate_position:
     plugin: generic_taxonomy_item
     source: field_rate_position1
 
-  field_vp_rate_transaction_type: 
+  field_vp_rate_transaction_type:
     plugin: generic_taxonomy_item
     source: field_rate_transactiontype
 
-  field_vp_rate_filing: 
+  field_vp_rate_filing:
     plugin: generic_taxonomy_item
     source: field_rate_filing
 
-  field_vp_rate_company: 
+  field_vp_rate_company:
     plugin: generic_taxonomy_item
     source: field_rate_client
 
@@ -73,11 +73,11 @@ process:
     plugin: generic_taxonomy_item
     source: field_rate_firm
 
-  field_vp_rate_individual: 
+  field_vp_rate_individual:
     plugin: generic_taxonomy_item
     source: field_rate_individual
 
-  field_vp_rate_attorneys: 
+  field_vp_rate_attorneys:
     plugin: generic_taxonomy_item
     source: field_rate_referencedattorneys
 
