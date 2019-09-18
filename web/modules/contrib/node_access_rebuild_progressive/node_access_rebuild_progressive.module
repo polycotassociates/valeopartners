@@ -43,9 +43,12 @@ function node_access_rebuild_progressive_trigger() {
   $highest = db_query("SELECT nid FROM {node} ORDER BY nid DESC LIMIT 0,1")->fetchField();
   $count = db_query("SELECT count(nid) FROM {node}")->fetchField();
   \Drupal::state()->set('node_access_rebuild_progressive.current', $highest + 1);
-  \Drupal::logger('node_access_rebuild_progressive')->notice('%count nodes queued for node access rebuild.', array('%count' => $count));
+  \Drupal::logger('node_access_rebuild_progressive')->info('%count nodes queued for node access rebuild.', ['%count' => $count]);
 }
 
+/**
+ * Reset grants to a clean state.
+ */
 function node_access_rebuild_progressive_set_default() {
   $access_control_handler = \Drupal::entityManager()->getAccessControlHandler('node');
   $access_control_handler->deleteGrants();
@@ -64,6 +67,7 @@ function node_access_rebuild_progressive_process_cron() {
 
 /**
  * Processes a chunk of nodes.
+ *
  * @return array
  *   An array with the following keys:
  *   - total: the number of nodes retrieved for processing.
@@ -72,29 +76,29 @@ function node_access_rebuild_progressive_process_cron() {
 function node_access_rebuild_progressive_process_chunk() {
   $current = \Drupal::state()->get('node_access_rebuild_progressive.current');
   $chunk_size = \Drupal::config('node_access_rebuild_progressive.settings')->get('chunk');
-  $nids = db_query("SELECT nid FROM {node} WHERE nid < :current ORDER BY nid DESC LIMIT 0,$chunk_size", array(':current' => $current))->fetchCol();
+  $nids = db_query("SELECT nid FROM {node} WHERE nid < :current ORDER BY nid DESC LIMIT 0,$chunk_size", [':current' => $current])->fetchCol();
   $total = count($nids);
   $processed = 0;
   if ($total) {
     $access_control_handler = \Drupal::entityManager()->getAccessControlHandler('node');
     $node_storage = \Drupal::entityManager()->getStorage('node');
-    $node_storage->resetCache($nids);
     $nodes = $node_storage->loadMultiple($nids);
+    $node_storage->resetCache();
     foreach ($nodes as $node) {
       // Make sure the node can be loaded properly.
       if (!empty($node->id())) {
         $grants = $access_control_handler->acquireGrants($node);
         \Drupal::service('node.grant_storage')->write($node, $grants);
         $current = $node->id();
-        $processed ++;
+        $processed++;
       }
     }
     \Drupal::state()->set('node_access_rebuild_progressive.current', $current);
   }
-  return array(
+  return [
     'total' => $total,
     'processed' => $processed,
-  );
+  ];
 }
 
 /**
@@ -103,4 +107,58 @@ function node_access_rebuild_progressive_process_chunk() {
 function node_access_rebuild_progressive_finished() {
   \Drupal::state()->set('node_access_rebuild_progressive.current', 0);
   \Drupal::logger('node_access_rebuild_progressive')->notice('Node access rebuild finished.', []);
+}
+
+/**
+ * Rebuilds the node access grants table.
+ */
+function _drush_node_access_rebuild_progressive_rebuild() {
+  node_access_rebuild_progressive_trigger();
+  $finished = FALSE;
+  $total = db_query("SELECT count(nid) FROM {node}")->fetchField();
+  $processed = 0;
+  while (!$finished) {
+    $cmd = '_drush_node_access_rebuild_progressive_process(' . $total . ',' . $processed . ');';
+    $data = drush_invoke_process('@self', 'php-eval', [$cmd]);
+    $processed = $data['context']['_drush_node_access_rebuild_progressive_processed'];
+    $finished = drush_get_error() || !$data || (isset($data['context']['_drush_node_access_rebuild_progressive_finished']) && $data['context']['_drush_node_access_rebuild_progressive_finished'] === TRUE);
+  }
+}
+
+/**
+ * Processes a pass of nodes.
+ *
+ * @param int $total
+ *   Number of nodes to process.
+ * @param int $processed
+ *   Number of nodes processed.
+ */
+function _drush_node_access_rebuild_progressive_process(int $total, int $processed) {
+  $pass = node_access_rebuild_progressive_process_chunk();
+  $processed += $pass['processed'];
+  drush_set_option('_drush_node_access_rebuild_progressive_processed', $processed);
+  $figures = [
+    '@pass' => $pass['processed'],
+    '@nodes' => $pass['total'],
+    '@processed' => $processed,
+    '@total' => $total,
+  ];
+  if (empty($pass['total'])) {
+    drush_set_option('_drush_node_access_rebuild_progressive_finished', TRUE);
+    return;
+  }
+  drush_print(dt('Processed @pass of @nodes nodes (@processed/@total).', $figures));
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function node_access_rebuild_progressive_form_node_configure_rebuild_confirm_alter(&$form) {
+  $config = \Drupal::config('node_access_rebuild_progressive.settings');
+  $form['description']['#markup'] = '<p>This form has been disabled by the node_access_rebuild_progressive module.</p>';
+  $form['description']['#markup'] .= '<p>You can manually rebuild the permissions using Drush: <strong>drush node-access-rebuild-progressive</strong>.</p>';
+  if ($config->get('cron')) {
+    $form['description']['#markup'] .= '<p>Else they will be rebuilt incrementally during Drupal cron run.</p>';
+  }
+  $form['#disabled'] = TRUE;
 }
