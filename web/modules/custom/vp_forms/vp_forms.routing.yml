@@ -37,3 +37,12 @@ vp_forms.rate_detail_spout:
     _title: 'Detail Rate Report (Spout).'
   requirements:
     _permission: 'access content'
+
+vp_forms.rate_trending_analysis_report:
+  path: '/reports/export/rta'
+  defaults:
+    _controller: '\Drupal\vp_forms\Controller\RateTrendingReport::export'
+    _title: 'Rate Trending Analysis Report.'
+  requirements:
+    _permission: 'access content'
+

@@ -371,11 +371,10 @@ class RateMasterReport extends ControllerBase {
     //$worksheet->getStyle('A3:E3')->applyFromArray($styleArrayHead);
 
     $i = 2;
-    $j = 1;
     // Query loop.
     foreach ($this->generateDynamicQuery() as $result) {
       // Last Name.
-      $worksheet->setCellValue('A' . $i, $j . $result->field_vp_last_name_value);
+      $worksheet->setCellValue('A' . $i, $result->field_vp_last_name_value);
       // Middle Name.
       $worksheet->setCellValue('B' . $i, '' . $result->field_vp_middle_name_value);
       // First Name.
@@ -454,7 +453,6 @@ class RateMasterReport extends ControllerBase {
       $spreadsheet->getActiveSheet()->getStyle('AH' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
 
       $i++;
-      $j++;
 
     }
 

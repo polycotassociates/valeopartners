@@ -22,7 +22,7 @@ function vp_views_views_data() {
   // Add an export header with a link to the xls export for Summary View.
   $data['views']['export_summary_header'] = [
     'title' => t('Export Summary Link Header'),
-    'help' => t('An area containing links with current arguments (For summary page)'),
+    'help' => t('An area containing links with current arguments (For Summary)'),
     'area' => [
       'id' => 'export_summary_header',
     ],
@@ -31,9 +31,18 @@ function vp_views_views_data() {
   // Add an export header with a link to the xls export for Master Search View.
   $data['views']['export_master_header'] = [
     'title' => t('Export Master Search Link Header'),
-    'help' => t('An area containing links with current arguments (For master search page)'),
+    'help' => t('An area containing links with current arguments (For Master Search)'),
     'area' => [
       'id' => 'export_master_header',
+    ],
+  ];
+
+  // Add an export header with a link to the xls export for Rate Trending Analysys.
+  $data['views']['export_rate_trending'] = [
+    'title' => t('Export Rate Trending Analysis Link Header'),
+    'help' => t('An area containing links to export page (For Rate Trending Analysis)'),
+    'area' => [
+      'id' => 'export_rate_trending',
     ],
   ];
 
