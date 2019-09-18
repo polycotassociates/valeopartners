@@ -1643,7 +1643,7 @@ display:
           value:
             min: ''
             max: ''
-            value: '1'
+            value: '0.01'
           group: 2
           exposed: false
           expose:
@@ -1685,7 +1685,7 @@ display:
           value:
             min: ''
             max: ''
-            value: '1'
+            value: '0.01'
           group: 2
           exposed: false
           expose:
@@ -1727,7 +1727,7 @@ display:
           value:
             min: ''
             max: ''
-            value: '1'
+            value: '0.01'
           group: 2
           exposed: false
           expose:
