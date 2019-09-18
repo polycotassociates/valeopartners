@@ -1,4 +1,4 @@
-status: 1
+status: 3
 pattern: '[node:field_vp_rate_individual] - [node:field_vp_rate_firm] - [node:field_vp_rate_filing]'
 php: false
 escape: false

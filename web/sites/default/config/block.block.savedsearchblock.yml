@@ -1,0 +1,34 @@
+uuid: 757912e8-190d-47d3-8d19-714b57186f08
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - system
+    - vp_blocks
+  theme:
+    - valeo_classic
+id: savedsearchblock
+theme: valeo_classic
+region: content
+weight: -2
+provider: null
+plugin: saved_search_view_block
+settings:
+  id: saved_search_view_block
+  label: 'Saved Search Block'
+  provider: vp_blocks
+  label_display: '0'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      vp_type_saved_search: vp_type_saved_search
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: '*/edit'
+    negate: true
+    context_mapping: {  }
