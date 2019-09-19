@@ -305,14 +305,16 @@ class RateSummaryReport extends ControllerBase {
       $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
     }
 
-    // Filter by location ids.
-    if (isset($_GET['term_node_tid_depth'])) {
-      $query->condition('field_vp_individual_location_target_id', $_GET['term_node_tid_depth'], 'IN');
+    // Filter by location ids (by parent).
+    if (isset($_GET['term_node_tid_depth_location'])) {
+      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
+      if ($nodes) {
+        $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      }
     }
-
     // Filter by position ids.
-    if (isset($_GET['field_vp_rate_position_target_id_verf'])) {
-      $query->condition('field_vp_rate_position_target_id', $_GET['field_vp_rate_position_target_id_verf'], 'IN');
+    if (isset($_GET['term_node_tid_depth_position'])) {
+      $query->condition('field_vp_rate_position_target_id', $_GET['term_node_tid_depth_position'], 'IN');
     }
 
     // Filter by practice area ids.
@@ -486,74 +488,23 @@ class RateSummaryReport extends ControllerBase {
     return $title;
   }
 
+
   /**
-   * Test query.
+   * Get Term Parent IDs.
    */
-  public function generateTestQuery() {
+  private function getTermParentIds($ids) {
+    // Create an array for the child term ids.
+    $childTerms = [];
 
-    // Connect to the database.
-    $db = \Drupal::database();
-
-    // Query node data.
-    $query = $db->select('node_field_data', 'node');
-    $query->fields('node', ['nid', 'type', 'status']);
-    $query->condition('node.type', 'vp_type_individual', '=');
-    $query->condition('node.status', 1);
-
-    // Join Firm, Filing, Individual, Case to Rate.
-    $query->join('node__field_vp_rate_individual', 'rate', 'node.nid = rate.field_vp_rate_individual_target_id');
-    $query->join('node__field_vp_rate_firm', 'firm', 'rate.entity_id = firm.entity_id');
-
-    $query->leftjoin('node__field_vp_rate_position', 'position', 'rate.entity_id = position.entity_id');
-
-    $query->leftjoin('node__field_vp_individual_location', 'location', 'location.entity_id = node.nid');
-
-    $query->leftjoin('node__field_2017_actual_rate', '2017_actual_rate', '2017_actual_rate.entity_id = node.nid');
-    $query->leftjoin('node__field_2017_standard_rate', '2017_standard_rate', '2017_standard_rate.entity_id = node.nid');
-    $query->leftjoin('node__field_2018_actual_rate', '2018_actual_rate', '2018_actual_rate.entity_id = node.nid');
-    $query->leftjoin('node__field_2018_standard_rate', '2018_standard_rate', '2018_standard_rate.entity_id = node.nid');
-    $query->leftjoin('node__field_2019_actual_rate', '2019_actual_rate', '2019_actual_rate.entity_id = node.nid');
-    $query->leftjoin('node__field_2019_standard_rate', '2019_standard_rate', '2019_standard_rate.entity_id = node.nid');
-
-    // Individual Joins.
-    $query->leftjoin('node__field_vp_first_name', 'fname', 'fname.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_middle_name', 'mname', 'mname.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_last_name', 'lname', 'lname.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_bar_date', 'bar_year', 'bar_year.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_state_bar', 'bar_state', 'bar_state.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_practice_area_1', 'pa1', 'pa1.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_practice_area_2', 'pa2', 'pa2.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_practice_area_3', 'pa3', 'pa3.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_individual_location', 'location', 'location.entity_id = node.nid');
-    $query->leftjoin('node__field_2017_actual_rate', '2017_actual_rate', '2017_actual_rate.entity_id = node.nid');
-
-    // Filing, Case, Company, Individual, and Firm fields.
-    $query->fields('firm', ['field_vp_rate_firm_target_id']);
-
-    // Individual Fields.
-    $query->fields('fname', ['field_vp_first_name_value']);
-    $query->fields('mname', ['field_vp_middle_name_value']);
-    $query->fields('lname', ['field_vp_last_name_value']);
-    $query->fields('location', ['field_vp_individual_location_target_id']);
-    $query->fields('pa1', ['field_vp_practice_area_1_target_id']);
-    $query->fields('pa2', ['field_vp_practice_area_2_target_id']);
-    $query->fields('pa3', ['field_vp_practice_area_3_target_id']);
-    $query->fields('position', ['field_vp_rate_position_target_id']);
-    $query->fields('bar_year', ['field_vp_bar_date_value']);
-    $query->fields('bar_state', ['field_vp_state_bar_target_id']);
-    $query->fields('grad_year', ['field_vp_graduation_value']);
-    $query->fields('2017_actual_rate', ['field_2017_actual_rate_value']);
-    $query->fields('2017_standard_rate', ['field_2017_standard_rate_value']);
-    $query->fields('2018_actual_rate', ['field_2018_actual_rate_value']);
-    $query->fields('2018_standard_rate', ['field_2018_standard_rate_value']);
-    $query->fields('2019_actual_rate', ['field_2019_actual_rate_value']);
-    $query->fields('2019_standard_rate', ['field_2019_standard_rate_value']);
-
-
-    $query->range(0, 10);
-
-    return $query->execute()->fetchAll();
+    // For each term_node_tid_depth get the children and
+    // add them to the child terms array.
+    foreach ($ids as $tid) {
+      $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
+      foreach ($terms as $term) {
+        $childTerms[] = $term->get('tid')->value;
+      }
+    }
+    return $childTerms;
   }
 
 }

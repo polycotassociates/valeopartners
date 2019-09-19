@@ -610,9 +610,11 @@ class RateMasterReport extends ControllerBase {
     }
 
     // Filter by location ids (by parent).
-    if (isset($_GET['term_node_tid_depth'])) {
-      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth']);
-      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+    if (isset($_GET['term_node_tid_depth_location'])) {
+      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
+      if ($nodes) {
+        $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      }
     }
 
     // Filter by position ids.
@@ -625,7 +627,7 @@ class RateMasterReport extends ControllerBase {
       $query->condition('field_vp_case_nature_of_suit_target_id', $_GET['field_vp_case_nature_of_suit_target_id_verf'], 'IN');
     }
 
-    // Filter by nature of suit ids.
+    // Filter by target industry.
     if (isset($_GET['field_vp_company_industry_target_id'])) {
       $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
     }
