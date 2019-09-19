@@ -5770,7 +5770,7 @@ display:
             description: ''
             use_operator: false
             operator: term_node_tid_depth_op
-            identifier: term_node_tid_depth
+            identifier: term_node_tid_depth_location
             required: false
             remember: false
             multiple: true
