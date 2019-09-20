@@ -29,6 +29,7 @@ dependencies:
     - taxonomy
     - user
     - views_data_export
+    - vp_views
     - xls_serialization
     - yearonly
 id: search_rate_trending_analysis
@@ -2444,6 +2445,15 @@ display:
         menu_name: rate-afa-searches
         enabled: true
       header:
+        export_rate_trending:
+          id: export_rate_trending
+          table: views
+          field: export_rate_trending
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          plugin_id: export_rate_trending
         area:
           id: area
           table: views

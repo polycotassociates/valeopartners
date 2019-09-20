@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Settings;
 
 /**
  * Initialize class.
@@ -33,9 +32,6 @@ class RateTrendingReport extends ControllerBase {
       $nids[] = $reference->id();
     }
 
-    kint($this->generateDynamicQuery($nids));
-    die();
-
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
@@ -44,7 +40,7 @@ class RateTrendingReport extends ControllerBase {
 
     $spreadsheet = new Spreadsheet();
 
-    //Set metadata.
+    // Set metadata.
     $spreadsheet->getProperties()
       ->setCreator('Valeo Partners')
       ->setLastModifiedBy('Valeo Partners')
@@ -54,73 +50,79 @@ class RateTrendingReport extends ControllerBase {
       ->setKeywords('Valeo Rates')
       ->setCategory('legal');
 
-    // Get the active sheet.
-    $spreadsheet->setActiveSheetIndex(0);
-    $worksheet = $spreadsheet->getActiveSheet();
+    $s = 0;
+    foreach ($nids as $nid) {
 
-    //Rename sheet
-    $worksheet->setTitle('Valeo Reports');
+      $spreadsheet->createSheet($s);
+      // Get the active sheet.
+      $spreadsheet->setActiveSheetIndex($s);
+      $worksheet = $spreadsheet->getActiveSheet();
 
-    $worksheet->getCell('A1')->setValue('Firm');
-    $worksheet->getCell('B1')->setValue('Individual');
-    $worksheet->getCell('C1')->setValue('Position');
-    $worksheet->getCell('D1')->setValue('Practice Area 1');
-    $worksheet->getCell('E1')->setValue('Practice Area 2');
-    $worksheet->getCell('F1')->setValue('Practice Area 3');
-    $worksheet->getCell('G1')->setValue('City');
-    $worksheet->getCell('H1')->setValue('Former Rate');
-    $worksheet->getCell('I1')->setValue('New Rate');
-    $worksheet->getCell('J1')->setValue('Percent Change');
+      //Rename sheet.
+      $worksheet->setTitle($this->getNodeTitle($nid));
 
-    $spreadsheet->getActiveSheet()->freezePane('A2');
+      $worksheet->getCell('A1')->setValue('Firm');
+      $worksheet->getCell('B1')->setValue('Individual');
+      $worksheet->getCell('C1')->setValue('Position');
+      $worksheet->getCell('D1')->setValue('Practice Area 1');
+      $worksheet->getCell('E1')->setValue('Practice Area 2');
+      $worksheet->getCell('F1')->setValue('Practice Area 3');
+      $worksheet->getCell('G1')->setValue('City');
+      $worksheet->getCell('H1')->setValue('Grad Year');
+      $worksheet->getCell('I1')->setValue('Former Rate');
+      $worksheet->getCell('J1')->setValue('New Rate');
+      $worksheet->getCell('K1')->setValue('Percent Change');
 
-    //Set style Head
-    $styleArrayHead = array(
-      'font' => array(
-        'bold' => true,
-        'color' => array('rgb' => 'ffffff'),
-      ));
+      $spreadsheet->getActiveSheet()->freezePane('A2');
 
-    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
+      $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
 
-    $i = 2;
-    // Query loop.
-    foreach ($this->generateDynamicQuery($nids) as $result) {
-      // Firm.
-      $worksheet->setCellValue('A' . $i, '' . $this->getNodeTitle($result->field_vp_rate_firm_target_id));
-      // Individual.
-      $worksheet->setCellValue('B' . $i, $result->field_vp_last_name_value . ', ' . $result->field_vp_first_name_value . ' ' . $result->field_vp_middle_name_value);
-      // Position.
-      $worksheet->setCellValue('C' . $i, '' . $this->getTermName($result->field_vp_rate_position_target_id));
-      // Practice Area 1.
-      $worksheet->setCellValue('D' . $i, '' . $this->getTermName($result->field_vp_practice_area_1_target_id));
-      // Practice Area 2.
-      $worksheet->setCellValue('E' . $i, '' . $this->getTermName($result->field_vp_practice_area_2_target_id));
-      // Practice Area 3.
-      $worksheet->setCellValue('F' . $i, '' . $this->getTermName($result->field_vp_practice_area_3_target_id));
-      // Grad Year.
-      $worksheet->setCellValue('G' . $i, $result->field_vp_graduation_value);
-      // 2018 Rate.
-      $worksheet->setCellValue('H' . $i, $result->field_2018_actual_rate_value);
-      $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2019 Rate.
-      $worksheet->setCellValue('I' . $i, $result->field_2019_actual_rate_value);
-      $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      $i = 2;
+      // Query loop.
+      foreach ($this->generateDynamicQuery($nid) as $result) {
 
-      // Rate of Change.
-      $worksheet->setCellValue('I' . $i, $this->percentChange($result->field_2018_actual_rate_value, $result->field_2019_actual_rate_value) . '%');
+        $change = $this->percentChange($result->field_2018_actual_rate_value, $result->field_2019_actual_rate_value);
 
-      $i++;
+        if ($change != 0) {
+
+          // Firm.
+          $worksheet->setCellValue('A' . $i, '' . $this->getNodeTitle($result->field_vp_rate_firm_target_id));
+          // Individual.
+          $worksheet->setCellValue('B' . $i, $result->field_vp_last_name_value . ', ' . $result->field_vp_first_name_value . ' ' . $result->field_vp_middle_name_value);
+          // Position.
+          $worksheet->setCellValue('C' . $i, '' . $this->getTermName($result->field_vp_rate_position_target_id));
+          // Practice Area 1.
+          $worksheet->setCellValue('D' . $i, '' . $this->getTermName($result->field_vp_practice_area_1_target_id));
+          // Practice Area 2.
+          $worksheet->setCellValue('E' . $i, '' . $this->getTermName($result->field_vp_practice_area_2_target_id));
+          // Practice Area 3.
+          $worksheet->setCellValue('F' . $i, '' . $this->getTermName($result->field_vp_practice_area_3_target_id));
+          // City.
+          $worksheet->setCellValue('G' . $i, '' . $this->getTermName($result->field_vp_individual_location_target_id));
+          // Grad Year.
+          $worksheet->setCellValue('H' . $i, $result->field_vp_graduation_value);
+          // 2018 Rate.
+          $worksheet->setCellValue('I' . $i, $result->field_2018_actual_rate_value);
+          $spreadsheet->getActiveSheet()->getStyle('I' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // 2019 Rate.
+          $worksheet->setCellValue('J' . $i, $result->field_2019_actual_rate_value);
+          $spreadsheet->getActiveSheet()->getStyle('J' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+          // Rate of Change.
+          $worksheet->setCellValue('K' . $i, $change . '%');
+
+          $i++;
+        }
+      }
 
     }
 
@@ -141,7 +143,7 @@ class RateTrendingReport extends ControllerBase {
   /**
    * Generate the Dyamic Query based on GET variables.
    */
-  public function generateDynamicQuery($ids) {
+  public function generateDynamicQuery($id) {
 
     // Connect to the database.
     $db = \Drupal::database();
@@ -149,7 +151,7 @@ class RateTrendingReport extends ControllerBase {
 
     // Query node data.
     $query = $db->select('node_field_data', 'node');
-    $query->fields('node', ['nid', 'type', 'status']);
+    $query->fields('node', ['nid', 'type', 'status', 'nid']);
     $query->condition('node.type', 'vp_type_rate', '=');
     $query->condition('node.status', 1);
 
@@ -173,8 +175,9 @@ class RateTrendingReport extends ControllerBase {
     $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = individual.field_vp_rate_individual_target_id');
 
     // Rate values.
-    $query->leftjoin('node__field_2018_actual_rate', 'rate_2018', 'node.nid = rate_2018.entity_id');
-    $query->leftjoin('node__field_2019_actual_rate', 'rate_2019', 'node.nid = rate_2019.entity_id');
+    $query->join('node__field_vp_rate_hourly', 'actual', 'node.nid = actual.entity_id');
+    $query->join('node__field_2018_actual_rate', 'rate_2018', 'individual.field_vp_rate_individual_target_id = rate_2018.entity_id');
+    $query->join('node__field_2019_actual_rate', 'rate_2019', 'individual.field_vp_rate_individual_target_id = rate_2019.entity_id');
 
     // Filing, Case, Company, Individual, and Firm fields.
     $query->fields('firm', ['field_vp_rate_firm_target_id']);
@@ -196,15 +199,25 @@ class RateTrendingReport extends ControllerBase {
     // Fee fields.
     $query->fields('rate_2018', ['field_2018_actual_rate_value']);
     $query->fields('rate_2019', ['field_2019_actual_rate_value']);
+    $query->fields('actual', ['field_vp_rate_hourly_value']);
 
-    // Get only selected ids.
-    $query->condition('firm.field_vp_rate_firm_target_id', $ids, 'IN');
+    // Group by individual.
+    $query->groupBy('individual.field_vp_rate_individual_target_id');
+
+    // Conditions.
+    $query->condition('actual.field_vp_rate_hourly_value', '0', '>');
+    $query->condition('rate_2018.field_2018_actual_rate_value', '0', '>');
+    $query->condition('rate_2019.field_2019_actual_rate_value', '0', '>');
+    $query->condition('firm.field_vp_rate_firm_target_id', $id, '=');
+
+    // Order by Transaction Amount Rate.
+    $query->orderBy('position.field_vp_rate_position_target_id', 'ASC');
+    $query->orderBy('lname.field_vp_last_name_value', 'ASC');
+    $query->orderBy('actual.field_vp_rate_hourly_value', 'ASC');
+    $query->orderBy('firm.entity_id', 'ASC');
 
     // Maximum 50,000 records.
     $query->range(0, 50000);
-
-    // Order by Transaction Amount Rate.
-    $query->orderBy('lname.field_vp_last_name_value', 'ASC')->orderBy('firm.entity_id', 'ASC');
 
     return $query->execute()->fetchAll();
 
@@ -218,7 +231,7 @@ class RateTrendingReport extends ControllerBase {
     if ($previous != NULL) {
       $difference = $current - $previous;
       $rate = $difference / $current * 100;
-      return $rate;
+      return round($rate, 2);
     }
   }
 
@@ -229,7 +242,7 @@ class RateTrendingReport extends ControllerBase {
     $query = db_select('node_field_data', 'node');
     $query->condition('node.nid', $id, '=');
     $query->fields('node', ['title']);
-    return $query->execute()->fetchField();
+    return substr($query->execute()->fetchField(), 0, 30);
   }
 
   /**
