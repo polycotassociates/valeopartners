@@ -4,6 +4,7 @@ namespace Drupal\verf\Plugin\views\filter;
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -11,6 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\TranslatableInterface;
 use Drupal\views\Plugin\views\filter\InOperator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -114,18 +116,22 @@ class EntityReference extends InOperator implements ContainerFactoryPluginInterf
    */
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
-    if ($this->targetEntityType->hasKey('bundle')) {
-      $options = [];
-      foreach ($this->entityTypeBundleInfo->getBundleInfo($this->targetEntityType->id()) as $bundle_id => $bundle_info) {
-        $options[$bundle_id] = $bundle_info['label'];
-      }
-      $form['verf_target_bundles'] = [
-        '#type' => 'checkboxes',
-        '#title' => $this->t('Target entity bundles to filter by'),
-        '#options' => $options,
-        '#default_value' => array_filter($this->options['verf_target_bundles']),
-      ];
+    if (!$this->targetEntityType->hasKey('bundle')) {
+      return $form;
     }
+
+    $options = [];
+    $bundleInfo = $this->entityTypeBundleInfo->getBundleInfo($this->targetEntityType->id());
+    foreach ($bundleInfo as $id => $info) {
+      $options[$id] = $info['label'];
+    }
+
+    $form['verf_target_bundles'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Target entity bundles to filter by'),
+      '#options' => $options,
+      '#default_value' => array_filter($this->options['verf_target_bundles']),
+    ];
 
     return $form;
   }
@@ -147,27 +153,26 @@ class EntityReference extends InOperator implements ContainerFactoryPluginInterf
    * {@inheritdoc}
    */
   public function getValueOptions() {
-    if (!is_null($this->valueOptions)) {
+    if ($this->valueOptions !== NULL) {
       return $this->valueOptions;
     }
 
     $this->valueOptions = [];
-
-    // Filter by bundle if if the plugin was configured to do so.
-    $target_bundles = array_filter($this->options['verf_target_bundles']);
-
-    if ($target_bundles) {
-      foreach ($this->getReferenceableEntities($target_bundles) as $entity) {
-        $current_content_language_id = $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-        if ($entity instanceof TranslatableInterface && $entity->hasTranslation($current_content_language_id)) {
-          $entity = $entity->getTranslation($current_content_language_id);
-        }
-
-        $this->valueOptions[$entity->id()] = $entity->label();
+    foreach ($this->getReferenceableEntities() as $entity) {
+      $current_content_language_id = $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+      if ($entity instanceof TranslatableInterface && $entity->hasTranslation($current_content_language_id)) {
+        $entity = $entity->getTranslation($current_content_language_id);
       }
 
-      natcasesort($this->valueOptions);
+      // Use the special view label, since some entities allow the label to be
+      // viewed, even if the entity is not allowed to be viewed.
+      if (!$entity->access('view label')) {
+        $this->valueOptions[$entity->id()] = new TranslatableMarkup('- Restricted access -');
+        continue;
+      }
+      $this->valueOptions[$entity->id()] = $entity->label();
     }
+    natcasesort($this->valueOptions);
 
     return $this->valueOptions;
   }
@@ -175,24 +180,23 @@ class EntityReference extends InOperator implements ContainerFactoryPluginInterf
   /**
    * Gets the entities that can be filtered by.
    *
-   * @param array $target_bundles
-   *   Selected bundles.
-   *
    * @return \Drupal\Core\Entity\EntityInterface[]
-   *   An array of entity objects indexed by their IDs.
    */
-  protected function getReferenceableEntities(array $target_bundles) {
+  protected function getReferenceableEntities() {
     if ($this->referenceableEntities !== NULL) {
       return $this->referenceableEntities;
     }
+    $target_ids = NULL;
 
+    // Filter by bundle if if the plugin was configured to do so.
+    $target_bundles = array_filter($this->options['verf_target_bundles']);
     if ($this->targetEntityType->hasKey('bundle') && $target_bundles) {
       $query = $this->targetEntityStorage->getQuery();
       $query->condition($this->targetEntityType->getKey('bundle'), $target_bundles, 'IN');
       $target_ids = $query->execute();
-      $this->referenceableEntities = $this->targetEntityStorage->loadMultiple($target_ids);
     }
 
+    $this->referenceableEntities = $this->targetEntityStorage->loadMultiple($target_ids);
     return $this->referenceableEntities;
   }
 
