@@ -1,9 +1,0 @@
-uuid: fcaf7f31-79f1-4519-b87d-1b7aa42b53f3
-langcode: en
-status: true
-dependencies: {  }
-name: 'Search Columns'
-vid: search_columns
-description: 'The columns that can be selected for Saved Searches'
-hierarchy: 0
-weight: 0

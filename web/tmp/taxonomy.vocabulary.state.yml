@@ -1,9 +1,0 @@
-uuid: 390067cc-b2fe-4368-b749-4eb71a744abc
-langcode: en
-status: true
-dependencies: {  }
-name: State
-vid: state
-description: ''
-hierarchy: 0
-weight: -3

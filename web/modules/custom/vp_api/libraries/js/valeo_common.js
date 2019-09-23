@@ -1,5 +1,6 @@
 (function ($, Drupal) {
 
+  // Hide the "I agree" modal.
   $( "#xlsModal" ).hide();
 
   Drupal.behaviors.vpXLSPopup = {
@@ -28,7 +29,8 @@
   };
 
 
-  // Invoke the print dialog
+  // Invoke the print dialog.
+  // In use before switching to print friendly module. Deprecated.
   Drupal.behaviors.printThisPage = {
     attach: function (context, settings) {
 
@@ -41,7 +43,8 @@
     }
   };
 
-  // Invoke the print dialog
+  // Attach the "print-only" class to divs. This is for the print friendly module.
+  // See https://support.printfriendly.com/button/developer-questions/include-exclude-content/
   Drupal.behaviors.addPrintClassToContent = {
     attach: function (context, settings) {
       // Add class to specific div.

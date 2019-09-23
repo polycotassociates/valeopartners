@@ -1,6 +1,6 @@
-name: 'vp_forms'
+name: 'Valeo Partners Forms and Reports'
 type: module
-description: 'Valeo Partners Form Customizations'
+description: 'Valeo Partners Forms and Reports'
 core: 8.x
 package: 'Valeo Partners'
 dependencies:

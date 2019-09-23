@@ -1,9 +1,0 @@
-uuid: ed719169-0f22-42ec-bbcf-3caecf92419b
-langcode: en
-status: true
-dependencies: {  }
-name: Type
-vid: type
-description: ''
-hierarchy: 0
-weight: -2

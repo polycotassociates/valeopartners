@@ -5,9 +5,6 @@ namespace Drupal\vp_blocks\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 
 use Drupal\views\Views;
-use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Render\Renderer;
 
 /**
  * Provides a block that renders a view contextually.
@@ -27,7 +24,6 @@ class SavedSearchViewBlock extends BlockBase {
     $node = \Drupal::routeMatch()->getParameter('node');
 
     // 0 = detailed results, 1 = summary results.
-
     $search_type = $node->get('field_vp_search_type')->getValue()[0]['value'];
 
     switch ($search_type) {

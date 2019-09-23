@@ -1,9 +1,0 @@
-uuid: e8a65e87-8562-4215-99e6-1697182222bd
-langcode: en
-status: true
-dependencies: {  }
-name: Position
-vid: position
-description: ''
-hierarchy: 1
-weight: 0

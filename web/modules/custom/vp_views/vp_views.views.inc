@@ -1,9 +1,8 @@
 <?php
-// $Id$
 
 /**
  * @file
- * Hooks for Valeo Partners Views.
+ * Views Data configurations.
  */
 
 /**

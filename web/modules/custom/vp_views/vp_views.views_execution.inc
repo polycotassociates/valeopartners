@@ -5,8 +5,6 @@
  * Executable hooks for Valeo Partners Views.
  */
 
-use Drupal\views\Views;
-use Drupal\node\Entity\Node;
 use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
 
@@ -14,14 +12,8 @@ use Drupal\user\Entity\User;
  * Implements template_views_pre_render().
  */
 function vp_views_views_pre_render(ViewExecutable $view) {
-  //  kint($view->id());
-  switch ($view->id()) {
 
-    // case 'search_by_firm':
-    //   // If a year is passed as an argument, change the column lables to
-    //   // reference that year.
-    //   $view->exposed_data['field_vp_practice_area_2_target_id'] = $view->exposed_data['field_vp_practice_area_1_target_id'];
-    //   break;
+  switch ($view->id()) {
 
     case 'search_rate_trending_analysis':
       // Attach javascript.
@@ -177,7 +169,6 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           $args[7] = $bar_date_from ? implode(",", $bar_range) : 'all';
           $args[8] = $rate_range ? implode("+", $rate_range) : 'all';
 
-          // kint($args);
         }
       }
 
@@ -227,50 +218,6 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
       // Assign the node id to the contextual filter argument.
       if ($node) {
         $args[0] = $node->id();
-      }
-
-      break;
-
-    case 'saved_search_test':
-      /*
-       * Set arguments to the view equal to
-       * whatever is selected in the saved search node
-       * and render that view.
-       */
-
-      $node = \Drupal::routeMatch()->getParameter('node');
-
-      if ($display_id != 'saved_search_data_export' && $node) {
-        // Get the current node.
-
-
-        $cities = [];
-        if ($node->get('field_vp_search_region_city')) {
-          $search_cities = $node->get('field_vp_search_region_city')->getValue();
-          foreach ($search_cities as $city) {
-            $cities[] = $city['target_id'];
-          }
-        }
-
-        $rate_range = [];
-        $rate_date_from = [];
-        if ($node->get('field_vp_search_rate_year')->getValue()) {
-          $rate_date_from = $node->get('field_vp_search_rate_year')->getValue()[0]['from'];
-          $rate_date_to = $node->get('field_vp_search_rate_year')->getValue()[0]['to'];
-          if (!$rate_date_to) {
-            $rate_date_to = $rate_date_from;
-          }
-          $rate_range = range($rate_date_from, $rate_date_to);
-        }
-
-        $args[0] = $cities ? implode(",", $cities) : 'all';
-        $args[1] = $rate_range ? implode("+", $rate_range) : 'all';
-
-        //$args[1] = "1990--2010";
-        //$args[8] = "20000101--20100101";
-        //$args[8] = $rate_date_from ? implode(",", $rate_range) : 'all';
-
-        //kint($args);
       }
 
       break;

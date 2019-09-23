@@ -1,1 +1,1 @@
-Code for various computed fields
+Code containing custom blocks for the Valeo Partners site.

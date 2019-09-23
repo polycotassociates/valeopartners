@@ -1,9 +1,0 @@
-uuid: 7c93ee57-62c9-49bd-978c-3ab9b6d68dd2
-langcode: en
-status: true
-dependencies: {  }
-id: company_industry_add_on
-label: 'Company/Industry Add-On'
-weight: 8
-is_admin: null
-permissions: {  }

@@ -1,1 +1,0 @@
-﻿[37;46;1m[notice][39;49;22m Processed 154 items (154 created, 0 updated, 0 failed, 0 ignored) - done with 'valeo_case'

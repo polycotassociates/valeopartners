@@ -1,9 +1,0 @@
-uuid: 908f5f31-009b-467c-8e7d-609b3dd35792
-langcode: en
-status: true
-dependencies: {  }
-id: download_add_on
-label: 'Download Add-On'
-weight: 13
-is_admin: null
-permissions: {  }

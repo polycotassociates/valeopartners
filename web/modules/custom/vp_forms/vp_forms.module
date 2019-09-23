@@ -12,7 +12,6 @@
  */
 function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
 
-  // kint($form['#id']);
   // Attach javascript library to all forms.
   $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
 
@@ -232,12 +231,5 @@ function vp_forms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
     }
   }
-
-
-
-  // switch ($form['#id']) {
-  //   case 'node-vp-type-case-form':
-  //     break;
-  // }
 
 }
