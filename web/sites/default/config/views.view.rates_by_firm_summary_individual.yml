@@ -38,9 +38,9 @@ dependencies:
     - vp_views
     - yearonly
 id: rates_by_firm_summary_individual
-label: 'Rates By Firm Summary Individual'
+label: 'Search Rates By Firm - Summary'
 module: views
-description: ''
+description: 'Search Rates By Firm, Summary View'
 tag: ''
 base_table: node_field_data
 base_field: nid

@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.vp_type_individual.field_2018_standard_rate
     - field.field.node.vp_type_individual.field_2019_actual_rate
     - field.field.node.vp_type_individual.field_2019_standard_rate
+    - field.field.node.vp_type_individual.field_actual_rate_by_year
     - field.field.node.vp_type_individual.field_most_recent_firm
     - field.field.node.vp_type_individual.field_most_recent_position
     - field.field.node.vp_type_individual.field_standard_rate_by_year
@@ -28,7 +29,6 @@ dependencies:
     - field.field.node.vp_type_individual.field_vp_state_bar
     - node.type.vp_type_individual
   module:
-    - computed_field
     - entity_reference_revisions
     - user
     - yearonly
@@ -37,102 +37,6 @@ targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
-  field_2017_actual_rate:
-    weight: 17
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2017_standard_rate:
-    weight: 20
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2018_actual_rate:
-    weight: 16
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2018_standard_rate:
-    weight: 19
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2019_actual_rate:
-    weight: 15
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2019_standard_rate:
-    weight: 18
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_most_recent_firm:
-    weight: 14
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_most_recent_position:
-    weight: 13
-    label: above
-    settings:
-      sanitized: true
-      cache_unit: -1
-      cache_duration: 1
-    third_party_settings: {  }
-    type: computed_string
-    region: content
   field_vp_bar_date:
     weight: 11
     label: inline
@@ -239,6 +143,15 @@ hidden:
   entity_print_view_epub: true
   entity_print_view_pdf: true
   entity_print_view_word_docx: true
+  field_2017_actual_rate: true
+  field_2017_standard_rate: true
+  field_2018_actual_rate: true
+  field_2018_standard_rate: true
+  field_2019_actual_rate: true
+  field_2019_standard_rate: true
+  field_actual_rate_by_year: true
+  field_most_recent_firm: true
+  field_most_recent_position: true
   field_standard_rate_by_year: true
   field_vp_position: true
   links: true
