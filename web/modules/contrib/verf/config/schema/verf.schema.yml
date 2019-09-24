@@ -6,8 +6,3 @@ views.filter.verf:
       label: Entity reference selection ID
       sequence:
         - type: string
-    value:
-      type: sequence
-      label: Value
-      sequence:
-        - type: string
