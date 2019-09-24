@@ -47,10 +47,14 @@ class HighActualRate extends FieldPluginBase {
         // Get the related filing.
         $filing = $relationships['field_vp_rate_filing'];
         // Get the end year from the rate.
-        $rate_year = $filing->get('field_vp_filing_year_end')->getValue()[0]['value'];
-        // Get the results from the method.
-        $results = $this->getHighActualRate($rate_year, $position, $firm);
-
+        if ($filing) {
+          $rate_year = $filing->get('field_vp_filing_year_end')->getValue()[0]['value'];
+          // Get the results from the method.
+          $results = $this->getHighActualRate($rate_year, $position, $firm);
+        }
+        else {
+          $results = 0;
+        }
         break;
 
     }
