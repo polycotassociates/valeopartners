@@ -514,7 +514,7 @@ display:
         description: 'Set the ranking of firms in the database with drag-and-drop'
         expanded: false
         parent: ''
-        weight: -35
+        weight: -34
         context: '0'
         menu_name: data-management
         enabled: true

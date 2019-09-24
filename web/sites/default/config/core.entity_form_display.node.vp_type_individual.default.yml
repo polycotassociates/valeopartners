@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.vp_type_individual.field_2018_standard_rate
     - field.field.node.vp_type_individual.field_2019_actual_rate
     - field.field.node.vp_type_individual.field_2019_standard_rate
+    - field.field.node.vp_type_individual.field_actual_rate_by_year
     - field.field.node.vp_type_individual.field_most_recent_firm
     - field.field.node.vp_type_individual.field_most_recent_position
     - field.field.node.vp_type_individual.field_standard_rate_by_year
@@ -73,6 +74,15 @@ content:
     third_party_settings: {  }
     type: computed_number_widget
     region: content
+  field_most_recent_firm:
+    type: entity_reference_autocomplete
+    weight: 22
+    region: content
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_most_recent_position:
     weight: 21
     settings: {  }
@@ -195,7 +205,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_most_recent_firm: true
+  field_actual_rate_by_year: true
   field_standard_rate_by_year: true
   field_vp_position: true
   path: true

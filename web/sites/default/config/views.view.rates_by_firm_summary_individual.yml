@@ -21,6 +21,7 @@ dependencies:
     - field.storage.node.field_vp_practice_area_3
     - field.storage.node.field_vp_rate_position
     - field.storage.node.field_vp_state_bar
+    - field.storage.paragraph.field_firm
     - node.type.vp_type_individual
     - system.menu.rate-afa-searches
     - taxonomy.vocabulary.city
@@ -29,6 +30,7 @@ dependencies:
   module:
     - computed_field
     - node
+    - paragraphs
     - rest
     - serialization
     - taxonomy
@@ -80,13 +82,13 @@ display:
       pager:
         type: full
         options:
-          items_per_page: 100
+          items_per_page: 50
           offset: 0
           id: 0
           total_pages: null
           tags:
-            previous: ‹‹
-            next: ››
+            previous: '‹ Previous'
+            next: 'Next ›'
             first: '« First'
             last: 'Last »'
           expose:
@@ -309,11 +311,11 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-        title_1:
-          id: title_1
-          table: node_field_data
-          field: title
-          relationship: field_vp_rate_firm
+        field_firm:
+          id: field_firm
+          table: paragraph__field_firm
+          field: field_firm
+          relationship: field_vp_employment_history
           group_type: group
           admin_label: ''
           label: Firm
@@ -357,11 +359,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: string
+          click_sort_column: target_id
+          type: entity_reference_label
           settings:
-            link_to_entity: true
-          group_column: value
+            link: true
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -371,8 +373,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: title
           plugin_id: field
         field_vp_rate_position:
           id: field_vp_rate_position
@@ -1345,11 +1345,11 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: string
-        field_vp_rate_firm_target_id_verf:
-          id: field_vp_rate_firm_target_id_verf
-          table: node__field_vp_rate_firm
-          field: field_vp_rate_firm_target_id_verf
-          relationship: reverse__node__field_vp_rate_individual
+        field_firm_target_id_verf:
+          id: field_firm_target_id_verf
+          table: paragraph__field_firm
+          field: field_firm_target_id_verf
+          relationship: field_vp_employment_history
           group_type: group
           admin_label: ''
           operator: in
@@ -1357,12 +1357,12 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_vp_rate_firm_target_id_verf_op
+            operator_id: field_firm_target_id_verf_op
             label: Firm
             description: ''
             use_operator: false
-            operator: field_vp_rate_firm_target_id_verf_op
-            identifier: field_vp_rate_firm_target_id_verf
+            operator: field_firm_target_id_verf_op
+            identifier: field_firm_target_id_verf
             required: false
             remember: false
             multiple: true
@@ -1396,15 +1396,15 @@ display:
             group_items: {  }
           verf_target_bundles:
             vp_type_firm: vp_type_firm
-            article: '0'
-            page: '0'
-            vp_type_case: '0'
-            vp_type_company: '0'
-            vp_type_contact: '0'
-            vp_type_filing: '0'
-            vp_type_individual: '0'
-            vp_type_rate: '0'
-            vp_type_saved_search: '0'
+            article: 0
+            page: 0
+            vp_type_case: 0
+            vp_type_company: 0
+            vp_type_contact: 0
+            vp_type_filing: 0
+            vp_type_individual: 0
+            vp_type_rate: 0
+            vp_type_saved_search: 0
           plugin_id: verf
         term_node_tid_depth:
           id: term_node_tid_depth
@@ -1996,6 +1996,15 @@ display:
           admin_label: Firm
           required: false
           plugin_id: standard
+        field_vp_employment_history:
+          id: field_vp_employment_history
+          table: node__field_vp_employment_history
+          field: field_vp_employment_history
+          relationship: none
+          group_type: group
+          admin_label: 'Employment History: Paragraph'
+          required: false
+          plugin_id: standard
       arguments: {  }
       display_extenders: {  }
       filter_groups:
@@ -2029,6 +2038,7 @@ display:
         - 'config:field.storage.node.field_vp_practice_area_3'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
+        - 'config:field.storage.paragraph.field_firm'
         - 'config:views.view.rates_by_firm_summary_individual'
         - node_list
   data_export_xls:
@@ -3296,5 +3306,6 @@ display:
         - 'config:field.storage.node.field_vp_practice_area_3'
         - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
+        - 'config:field.storage.paragraph.field_firm'
         - 'config:views.view.rates_by_firm_summary_individual'
         - node_list

@@ -30,13 +30,36 @@ dependencies:
     - node.type.vp_type_individual
   module:
     - entity_reference_revisions
+    - field_group
     - user
     - yearonly
+third_party_settings:
+  field_group:
+    group_employment_history:
+      children:
+        - field_vp_employment_history
+      parent_name: ''
+      weight: 13
+      format_type: fieldset
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+      label: ''
+      region: content
 id: node.vp_type_individual.default
 targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
+  field_most_recent_firm:
+    type: entity_reference_label
+    weight: 12
+    region: content
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
   field_vp_bar_date:
     weight: 11
     label: inline
@@ -53,7 +76,7 @@ content:
     region: content
   field_vp_employment_history:
     type: entity_reference_revisions_entity_view
-    weight: 12
+    weight: 14
     label: above
     settings:
       view_mode: default
@@ -150,7 +173,6 @@ hidden:
   field_2019_actual_rate: true
   field_2019_standard_rate: true
   field_actual_rate_by_year: true
-  field_most_recent_firm: true
   field_most_recent_position: true
   field_standard_rate_by_year: true
   field_vp_position: true
