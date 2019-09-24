@@ -7,24 +7,12 @@ namespace Drupal\vp_forms\Controller;
  * Contains \Drupal\vp_forms\Controller\RateSummaryReport.
  */
 
-// print $_SERVER['DOCUMENT_ROOT'] . '/libraries/spout/src/Spout/Autoloader/autoload.php';
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Settings;
-use Cache\Adapter\Redis\RedisCachePool;
-use Cache\Bridge\SimpleCache\SimpleCacheBridge;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-// use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-// use Box\Spout\Common\Entity\Row;
-
-use Cache\Adapter\Apcu\ApcuCachePool;
 
 /**
  * Initialize class.
@@ -39,8 +27,6 @@ class RateSummaryReport extends ControllerBase {
    */
   public function export() {
 
-    // kint($this->generateDynamicQuery());
-    // die();
     $title = $this->getPageTitle();
 
     $response = new Response();
@@ -89,122 +75,78 @@ class RateSummaryReport extends ControllerBase {
     $worksheet->getCell('S1')->setValue('2017 Standard Rate');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
-
-    // $worksheet->getStyle('A1')->applyFromArray($styleArrayTitle);
-
-    /*
-     * HEADER
-     */
-    //Set Background
-    $worksheet->getStyle('A3:E3')
-      ->getFill()
-      ->setFillType(Fill::FILL_SOLID)
-      ->getStartColor()
-      ->setARGB('085efd');
-
-    //Set style Head
-    $styleArrayHead = array(
-      'font' => array(
-        'bold' => true,
-        'color' => array('rgb' => 'ffffff'),
-      ));
-
-    // $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
-
-    $worksheet->getStyle('A3:E3')->applyFromArray($styleArrayHead);
+    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
+    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
 
     $i = 2;
     // Query loop.
     foreach ($this->generateDynamicQuery() as $result) {
 
-        // Last Name.
-        $worksheet->setCellValue('A' . $i, '' . $this->getLastName($result->nid));
-        // Middle Name.
-        $worksheet->setCellValue('B' . $i, '' . $this->getMiddleName($result->nid));
-        // First Name.
-        $worksheet->setCellValue('C' . $i, '' . $this->getFirstName($result->nid));
-        // Firm.
-        $worksheet->setCellValue('D' . $i, '' . $this->getNodeTitle($result->field_vp_rate_firm_target_id));
-        // Position.
-        $worksheet->setCellValue('E' . $i, '' . $this->getTermName($result->field_vp_rate_position_target_id));
-        // Client Name.
-        $worksheet->setCellValue('F' . $i, '' . $this->getNodeTitle($result->field_vp_rate_company_target_id));
-        // Industry.
-        $worksheet->setCellValue('G' . $i, '' . $this->getTermName($result->field_vp_company_industry_target_id));
-        // Practice Area 1.
-        $worksheet->setCellValue('H' . $i, '' . $this->getTermName($result->field_vp_practice_area_1_target_id));
-        // Practice Area 2.
-        $worksheet->setCellValue('I' . $i, '' . $this->getTermName($result->field_vp_practice_area_2_target_id));
-        // Practice Area 3.
-        $worksheet->setCellValue('J' . $i, '' . $this->getTermName($result->field_vp_practice_area_3_target_id));
-        // Grad Year.
-        $worksheet->setCellValue('K' . $i, $result->field_vp_graduation_value);
-        // Bar Year.
-        $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
-        // Bar State.
-        $worksheet->setCellValue('M' . $i, '' . $this->getTermName($result->field_vp_state_bar_target_id));
+      // Last Name.
+      $worksheet->setCellValue('A' . $i, $result->field_vp_last_name_value);
+      // Middle Name.
+      $worksheet->setCellValue('B' . $i, '' . $result->field_vp_middle_name_value);
+      // First Name.
+      $worksheet->setCellValue('C' . $i, '' . $result->field_vp_first_name_value);
+      // Firm.
+      $worksheet->setCellValue('D' . $i, '' . $this->getNodeTitle($result->field_firm_target_id));
+      // Position.
+      $worksheet->setCellValue('E' . $i, '' . $this->getTermName($result->field_vp_rate_position_target_id));
+      // Client Name.
+      $worksheet->setCellValue('F' . $i, '' . $this->getNodeTitle($result->field_vp_rate_company_target_id));
+      // Industry.
+      $worksheet->setCellValue('G' . $i, '' . $this->getTermName($result->field_vp_company_industry_target_id));
+      // Practice Area 1.
+      $worksheet->setCellValue('H' . $i, '' . $this->getTermName($result->field_vp_practice_area_1_target_id));
+      // Practice Area 2.
+      $worksheet->setCellValue('I' . $i, '' . $this->getTermName($result->field_vp_practice_area_2_target_id));
+      // Practice Area 3.
+      $worksheet->setCellValue('J' . $i, '' . $this->getTermName($result->field_vp_practice_area_3_target_id));
+      // Grad Year.
+      $worksheet->setCellValue('K' . $i, $result->field_vp_graduation_value);
+      // Bar Year.
+      $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
+      // Bar State.
+      $worksheet->setCellValue('M' . $i, '' . $this->getTermName($result->field_vp_state_bar_target_id));
+      // 2019 Actual Rate.
+      $worksheet->setCellValue('N' . $i, $result->field_2019_actual_rate_value);
+      $spreadsheet->getActiveSheet()->getStyle('N' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      // 2019 Standard Rate.
+      $worksheet->setCellValue('O' . $i, $result->field_2019_standard_rate_value);
+      $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      // 2018 Actual Rate.
+      $worksheet->setCellValue('P' . $i, $result->field_2018_actual_rate_value);
+      $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      // 2018 Standard Rate.
+      $worksheet->setCellValue('Q' . $i, $result->field_2018_standard_rate_value);
+      $spreadsheet->getActiveSheet()->getStyle('Q' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      // 2017 Actual Rate.
+      $worksheet->setCellValue('R' . $i, $result->field_2017_actual_rate_value);
+      $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+      // 2017 Standard Rate.
+      $worksheet->setCellValue('S' . $i, $result->field_2017_standard_rate_value);
+      $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-        $worksheet->setCellValue('N' . $i, $result->field_2019_actual_rate_value);
-        $spreadsheet->getActiveSheet()->getStyle('N' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-        $worksheet->setCellValue('O' . $i, $result->field_2019_standard_rate_value);
-        $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-        $worksheet->setCellValue('P' . $i, $result->field_2018_actual_rate_value);
-        $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-        $worksheet->setCellValue('Q' . $i, $result->field_2018_standard_rate_value);
-        $spreadsheet->getActiveSheet()->getStyle('Q' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-        $worksheet->setCellValue('R' . $i, $result->field_2017_actual_rate_value);
-        $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-        $worksheet->setCellValue('S' . $i, $result->field_2017_standard_rate_value);
-        $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-
-        $i++;
+      $i++;
 
     }
-
-    // for ($i = 4; $i < 10; $i++) {
-    //   $worksheet->setCellValue('A' . $i, $i);
-    //   $worksheet->setCellValue('B' . $i, 'Test C2');
-    //   $worksheet->setCellValue('C' . $i, 'Test C3');
-    // }
-
-    // // This inserts the SUM() formula with some styling.
-    // $worksheet->setCellValue('A10', '=SUM(A4:A9)');
-    // $worksheet->getStyle('A10')
-    //   ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-    // $worksheet->getStyle('A10')
-    //   ->getBorders()->getTop()->setBorderStyle(Border::BORDER_THICK);
-
-    // // This inserts the formula as text.
-    // $worksheet->setCellValueExplicit(
-    //   'A11',
-    //   '=SUM(A4:A9)',
-    //   DataType::TYPE_STRING
-    // );
-
     // Get the writer and export in memory.
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
     ob_start();
@@ -224,7 +166,6 @@ class RateSummaryReport extends ControllerBase {
    */
   public function generateDynamicQuery() {
 
-
     // Connect to the database.
     $db = \Drupal::database();
 
@@ -243,7 +184,6 @@ class RateSummaryReport extends ControllerBase {
     $query->join('node__field_vp_rate_firm', 'firm', 'rate.entity_id = firm.entity_id');
     $query->join('node__field_vp_rate_company', 'company', 'firm.entity_id = company.entity_id');
     $query->leftjoin('node__field_vp_company_industry', 'industry', 'industry.entity_id = company.field_vp_rate_company_target_id');
-
 
     // Rates from individual record.
     $query->leftjoin('node__field_2017_actual_rate', '2017_actual_rate', '2017_actual_rate.entity_id = node.nid');
@@ -265,11 +205,11 @@ class RateSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_vp_practice_area_3', 'pa3', 'pa3.entity_id = node.nid');
     $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = node.nid');
     $query->leftjoin('node__field_vp_individual_location', 'location', 'location.entity_id = node.nid');
-
-    // Filing, Case, Company, Individual, and Firm fields.
-    $query->fields('firm', ['field_vp_rate_firm_target_id']);
+    $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = node.nid');
+    $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
 
     // Individual Fields.
+    $query->fields('employment', ['field_firm_target_id']);
     $query->fields('fname', ['field_vp_first_name_value']);
     $query->fields('mname', ['field_vp_middle_name_value']);
     $query->fields('lname', ['field_vp_last_name_value']);
@@ -301,8 +241,8 @@ class RateSummaryReport extends ControllerBase {
     }
 
     // Filter by firm ids.
-    if (isset($_GET['field_vp_rate_firm_target_id_verf'])) {
-      $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
+    if (isset($_GET['field_firm_target_id_verf'])) {
+      $query->condition('employment.field_firm_target_id', $_GET['field_firm_target_id_verf'], 'IN');
     }
 
     // Filter by location ids (by parent).
@@ -312,6 +252,7 @@ class RateSummaryReport extends ControllerBase {
         $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
       }
     }
+
     // Filter by position ids.
     if (isset($_GET['term_node_tid_depth_position'])) {
       $query->condition('field_vp_rate_position_target_id', $_GET['term_node_tid_depth_position'], 'IN');
@@ -333,7 +274,7 @@ class RateSummaryReport extends ControllerBase {
       ->condition('field_2017_actual_rate_value', 0, '>');
     $query->condition($hasRategroup);
 
-    // $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
+    // Group By Node ID.
     $query->groupBy('nid');
 
     // Maximum 50,000 records.
@@ -341,120 +282,9 @@ class RateSummaryReport extends ControllerBase {
 
     // Order by Actual Rate.
     $query->orderBy('2019_actual_rate.field_2019_actual_rate_value', 'DESC');
+
     return $query->execute()->fetchAll();
 
-  }
-
-  /**
-   * Get First Name Query.
-   */
-  private function getFirstName($id) {
-    $query = db_select('node__field_vp_first_name', 'first_name');
-    $query->condition('first_name.entity_id', $id, '=');
-    $query->fields('first_name', ['field_vp_first_name_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Middle Name Query.
-   */
-  private function getMiddleName($id) {
-    $query = db_select('node__field_vp_middle_name', 'middle_name');
-    $query->condition('middle_name.entity_id', $id, '=');
-    $query->fields('middle_name', ['field_vp_middle_name_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Last Name Query.
-   */
-  private function getLastName($id) {
-    $query = db_select('node__field_vp_last_name', 'last_name');
-    $query->condition('last_name.entity_id', $id, '=');
-    $query->fields('last_name', ['field_vp_last_name_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Fiiling Number Query.
-   */
-  private function getFilingNumber($id) {
-    $query = db_select('node__field_vp_filing_number', 'number');
-    $query->condition('number.entity_id', $id, '=');
-    $query->fields('number', ['field_vp_filing_number_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Fiiling Description Query.
-   */
-  private function getFilingDescription($id) {
-    $query = db_select('node__field_vp_filing_description', 'description');
-    $query->condition('description.entity_id', $id, '=');
-    $query->fields('description', ['field_vp_filing_description_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Case Number Query.
-   */
-  private function getCaseNumber($id) {
-    $query = db_select('node__field_vp_case_number', 'case_number');
-    $query->condition('case_number.entity_id', $id, '=');
-    $query->fields('case_number', ['field_vp_case_number_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Case Court Query.
-   */
-  private function getCaseCourt($id) {
-    $query = db_select('node__field_vp_case_court', 'case_court');
-    $query->join('taxonomy_term_field_data', 'term', 'case_court.field_vp_case_court_target_id = term.tid');
-    $query->condition('case_court.entity_id', $id, '=');
-    $query->fields('term', ['name']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Nature Of Suit Query.
-   */
-  private function getNatureOfSuit($id) {
-    $query = db_select('node__field_vp_case_nature_of_suit', 'suit');
-    $query->join('taxonomy_term_field_data', 'term', 'suit.field_vp_case_nature_of_suit_target_id = term.tid');
-    $query->condition('suit.entity_id', $id, '=');
-    $query->fields('term', ['name']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Date Filed Query.
-   */
-  private function getFilingDate($id) {
-    $query = db_select('node__field_vp_case_date_filed', 'date_filed');
-    $query->condition('date_filed.entity_id', $id, '=');
-    $query->fields('date_filed', ['field_vp_case_date_filed_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Fee Date Begin Query.
-   */
-  private function getFeeDateBegin($id) {
-    $query = db_select('node__field_vp_filing_fee_dates', 'date_begin');
-    $query->condition('date_begin.entity_id', $id, '=');
-    $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Fee Date End Query.
-   */
-  private function getFeeDateEnd($id) {
-    $query = db_select('node__field_vp_filing_fee_dates', 'date_end');
-    $query->condition('date_end.entity_id', $id, '=');
-    $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
-    return $query->execute()->fetchField();
   }
 
   /**
@@ -487,7 +317,6 @@ class RateSummaryReport extends ControllerBase {
     }
     return $title;
   }
-
 
   /**
    * Get Term Parent IDs.
