@@ -26,6 +26,7 @@ function vp_api_node_update(NodeInterface $node) {
       }
     }
   }
+
 }
 
 /**
@@ -44,6 +45,26 @@ function vp_api_node_insert(NodeInterface $node) {
       if ($individual) {
         $individual->save();
       }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Runs code when a particular content type is created.
+ */
+function vp_api_node_presave($node) {
+
+  // Update Individual field Most Recent Firm.
+  if ($node->getType() == 'vp_type_individual') {
+    $id = $node->id();
+
+    $employer_id = vp_api_get_most_recent_employer($id);
+
+    if ($employer_id) {
+      $node->field_most_recent_firm[] = $employer_id;
     }
   }
 
@@ -168,5 +189,35 @@ function vp_api_cron() {
     }
     \Drupal::state()
       ->set('cp_api.next_execution', REQUEST_TIME + $interval);
+  }
+}
+
+/**
+ * Get the latest firm ID for a person from their most recent rate.
+ */
+function vp_api_get_most_recent_employer($id) {
+
+  // Do a database query for the most recent rate for an individual.
+  $db = \Drupal::database();
+
+  $query = $db->select('node_field_data', 'node');
+  $query->fields('node', ['nid', 'type', 'status']);
+  $query->condition('node.type', 'vp_type_rate', '=');
+  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+  $query->join('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
+  $query->fields('individual', ['field_vp_rate_individual_target_id']);
+  $query->fields('node', ['nid']);
+  $query->fields('year', ['field_vp_filing_year_end_value']);
+  $query->fields('firm', ['field_vp_rate_firm_target_id']);
+  $query->orderBy('field_vp_filing_year_end_value', 'DESC');
+  $query->condition('field_vp_rate_individual_target_id', $id, '=');
+  $query->range(0, 1);
+  $result = $query->execute()->fetchAll();
+
+  if ($result) {
+    $firm = $result[0]->field_vp_rate_firm_target_id;
+    return $firm;
   }
 }
