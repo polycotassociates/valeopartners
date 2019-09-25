@@ -50,22 +50,27 @@ class ExportHeader extends AreaPluginBase {
    */
   private function makeLinks() {
 
-    // Get the query from the url.
-    $q = $_GET;
-    // Build the query from the query variables.
-    $query = http_build_query($q);
-    // Get the current path.
-    $path = \Drupal::request()->getpathInfo();
-    // Put them together with /export added to the path and format=xls at the end.
-    $export_xls = "/reports/export/detail?$query";
-    //$export_xls = "$path/export?$query&_format=xls";
-    // Create the html for the link.
-    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
-    // Get the modal text.
-    $modal = $this->xlsModal();
-    // Return the link.
-    return "$modal $export_xls_link";
+    // Only display if the user has the download_add_on role.
+    $user = \Drupal::currentUser();
+    if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
+      // Get the query from the url.
+      $q = $_GET;
+      // Build the query from the query variables.
+      $query = http_build_query($q);
+      // Get the current path.
+      $path = \Drupal::request()->getpathInfo();
+      // Put them together with /export added to the path and format=xls at the end.
+      $export_xls = "/reports/export/detail?$query";
+      //$export_xls = "$path/export?$query&_format=xls";
+      // Create the html for the link.
+      $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
+      // Get the modal text.
+      $modal = $this->xlsModal();
+      // Return the link.
+      return "$modal $export_xls_link";
+
+    }
   }
 
   /**
@@ -73,21 +78,24 @@ class ExportHeader extends AreaPluginBase {
    */
   private function makeLinksForSearch($nid) {
 
-    // Build the query from the saved search items for the node $nid.
-    $query = $this->generateQueryFromNode($nid);
+    // Only display if the user has the download_add_on role.
+    $user = \Drupal::currentUser();
+    if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
+      // Build the query from the saved search items for the node $nid.
+      $query = $this->generateQueryFromNode($nid);
 
-    // $query = "firm=12857&";
-    // Put them together with /export added to the path and format=xls at the end.
-    $export_xls = "/saved/search/block/export?$query";
-    $export_xls .= "_format=xls";
-    // Create the html for the link.
-    $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
-    // Get the modal text.
-    $modal = $this->xlsModal();
-    // Return the link.
-    return "$modal $export_xls_link";
-
+      // $query = "firm=12857&";
+      // Put them together with /export added to the path and format=xls at the end.
+      $export_xls = "/saved/search/block/export?$query";
+      $export_xls .= "_format=xls";
+      // Create the html for the link.
+      $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
+      // Get the modal text.
+      $modal = $this->xlsModal();
+      // Return the link.
+      return "$modal $export_xls_link";
+    }
   }
 
   /**
