@@ -51,6 +51,7 @@
         "drupal/druadmin_lte_theme": "^1.0",
         "drupal/entity_activity": "^1.0",
         "drupal/entity_print": "^2.1",
+        "drupal/entity_reference_unpublished": "^1.1",
         "drupal/entity_usage": "^2.0",
         "drupal/entityconnect": "^2.0",
         "drupal/features": "3.8",
@@ -91,6 +92,7 @@
         "drupal/vefl": "^2.0",
         "drupal/verf": "^1.0",
         "drupal/view_custom_table": "^1.3",
+        "drupal/views_aggregator": "^1.0",
         "drupal/views_bulk_edit": "^2.2",
         "drupal/views_bulk_operations": "3.x-dev",
         "drupal/views_data_export": "1.x-dev",
@@ -181,7 +183,9 @@
             "Malformed migration_dependencies breaks all migrations": "https://www.drupal.org/files/issues/2019-03-24/2815895-malformed-migration-dependencies-4.patch",
             "Contextual filters: Taxonomy filter validation using multiple term names": "https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch",
             "Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2019-05-04/drupal_2230909_138.patch",
-            "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch"
+            "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch",
+            "User can't reference unpublished content even when he has access to it": "https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch",
+            "Hardcoded result size limit in the entity reference autocomplete widget": "https://www.drupal.org/files/issues/2018-11-08/2863188-66.patch"
 
         }
     },

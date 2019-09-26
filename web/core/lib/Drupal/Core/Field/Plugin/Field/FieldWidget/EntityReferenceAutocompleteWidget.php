@@ -28,7 +28,8 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
   public static function defaultSettings() {
     return [
       'match_operator' => 'CONTAINS',
-      'size' => '60',
+      'match_limit' => 10,
+      'size' => 60,
       'placeholder' => '',
     ] + parent::defaultSettings();
   }
@@ -43,6 +44,13 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
       '#default_value' => $this->getSetting('match_operator'),
       '#options' => $this->getMatchOperatorOptions(),
       '#description' => t('Select the method used to collect autocomplete suggestions. Note that <em>Contains</em> can cause performance issues on sites with thousands of entities.'),
+    ];
+    $element['match_limit'] = [
+      '#type' => 'number',
+      '#title' => t('Number of results'),
+      '#default_value' => $this->getSetting('match_limit'),
+      '#min' => 0,
+      '#description' => t('The number of suggestions that will be listed. Use <em>0</em> to remove the limit.'),
     ];
     $element['size'] = [
       '#type' => 'number',
@@ -68,6 +76,10 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
 
     $operators = $this->getMatchOperatorOptions();
     $summary[] = t('Autocomplete matching: @match_operator', ['@match_operator' => $operators[$this->getSetting('match_operator')]]);
+    $match_limit = $this->getSetting('match_limit');
+    if ($match_limit) {
+      $summary[] = t('Autocomplete suggestion list size: @size', ['@size' => $match_limit]);
+    }
     $summary[] = t('Textfield size: @size', ['@size' => $this->getSetting('size')]);
     $placeholder = $this->getSetting('placeholder');
     if (!empty($placeholder)) {
@@ -88,7 +100,10 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
     $referenced_entities = $items->referencedEntities();
 
     // Append the match operation to the selection settings.
-    $selection_settings = $this->getFieldSetting('handler_settings') + ['match_operator' => $this->getSetting('match_operator')];
+    $selection_settings = $this->getFieldSetting('handler_settings') + [
+      'match_operator' => $this->getSetting('match_operator'),
+      'match_limit' => $this->getSetting('match_limit'),
+    ];
 
     $element += [
       '#type' => 'entity_autocomplete',

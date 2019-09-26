@@ -25,3 +25,11 @@ Going to page 2 on list terms page doesn't display additional terms
 Source: https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch
 
 
+User can't reference unpublished content even when he has access to it
+Source: https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch
+
+
+Hardcoded result size limit in the entity reference autocomplete widget
+Source: https://www.drupal.org/files/issues/2018-11-08/2863188-66.patch
+
+

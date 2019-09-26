@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6cafa0dc93109d5edb065de9191aa93a",
+    "content-hash": "58094050406ee3118251528784f67769",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4428,7 +4428,9 @@
                     "Malformed migration_dependencies breaks all migrations": "https://www.drupal.org/files/issues/2019-03-24/2815895-malformed-migration-dependencies-4.patch",
                     "Contextual filters: Taxonomy filter validation using multiple term names": "https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch",
                     "Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2019-05-04/drupal_2230909_138.patch",
-                    "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch"
+                    "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch",
+                    "User can't reference unpublished content even when he has access to it": "https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch",
+                    "Hardcoded result size limit in the entity reference autocomplete widget": "https://www.drupal.org/files/issues/2018-11-08/2863188-66.patch"
                 }
             },
             "autoload": {
@@ -5330,6 +5332,53 @@
             "homepage": "https://www.drupal.org/project/entity_reference_revisions",
             "support": {
                 "source": "http://cgit.drupalcode.org/entity_reference_revisions"
+            }
+        },
+        {
+            "name": "drupal/entity_reference_unpublished",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/entity_reference_unpublished.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_reference_unpublished-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "864124a181f587d243fd891d36f86f4494d0432f"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1508332743",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "lahoosascoots",
+                    "homepage": "https://www.drupal.org/user/1933614"
+                }
+            ],
+            "description": "Allows unpublished content to be referenced in an entity reference.",
+            "homepage": "https://www.drupal.org/project/entity_reference_unpublished",
+            "support": {
+                "source": "https://git.drupalcode.org/project/entity_reference_unpublished"
             }
         },
         {
@@ -6623,17 +6672,17 @@
         },
         {
             "name": "drupal/permissions_by_term",
-            "version": "2.10.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/permissions_by_term.git",
-                "reference": "8.x-2.10"
+                "reference": "8.x-2.12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/permissions_by_term-8.x-2.10.zip",
-                "reference": "8.x-2.10",
-                "shasum": "e23b500de3645b42416652830b1300f37a68c5df"
+                "url": "https://ftp.drupal.org/files/projects/permissions_by_term-8.x-2.12.zip",
+                "reference": "8.x-2.12",
+                "shasum": "e0992054ba1712bef3ab603d33e8a0d00ce6572b"
             },
             "require": {
                 "drupal/core": "^8.0"
@@ -6644,8 +6693,8 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.10",
-                    "datestamp": "1552509784",
+                    "version": "8.x-2.12",
+                    "datestamp": "1569507486",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6665,12 +6714,16 @@
                 {
                     "name": "SaschaHannes",
                     "homepage": "https://www.drupal.org/user/3536189"
+                },
+                {
+                    "name": "marcoliver",
+                    "homepage": "https://www.drupal.org/user/1529744"
                 }
             ],
             "description": "Restricts access to nodes by taxonomy terms in relation to users and their roles.",
             "homepage": "https://www.drupal.org/project/permissions_by_term",
             "support": {
-                "source": "http://cgit.drupalcode.org/permissions_by_term"
+                "source": "https://git.drupalcode.org/project/permissions_by_term"
             }
         },
         {
@@ -7816,6 +7869,65 @@
             }
         },
         {
+            "name": "drupal/views_aggregator",
+            "version": "1.0.0-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/views_aggregator.git",
+                "reference": "8.x-1.0-alpha1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/views_aggregator-8.x-1.0-alpha1.zip",
+                "reference": "8.x-1.0-alpha1",
+                "shasum": "7ab571f34a4416bfd3f8e956c38dd659862092da"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha1",
+                    "datestamp": "1562892485",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Graber",
+                    "homepage": "https://www.drupal.org/user/1599440"
+                },
+                {
+                    "name": "JordiK",
+                    "homepage": "https://www.drupal.org/user/3472907"
+                },
+                {
+                    "name": "RdeBoer",
+                    "homepage": "https://www.drupal.org/user/404007"
+                },
+                {
+                    "name": "TR",
+                    "homepage": "https://www.drupal.org/user/202830"
+                }
+            ],
+            "description": "A Views plugin that operates on the results <em>after</em> the database query has run, thus offering aggregation functions not otherwise possible.",
+            "homepage": "https://www.drupal.org/project/views_aggregator",
+            "support": {
+                "source": "https://git.drupalcode.org/project/views_aggregator"
+            }
+        },
+        {
             "name": "drupal/views_bulk_edit",
             "version": "2.3.0",
             "source": {
@@ -7939,7 +8051,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/views_data_export.git",
-                "reference": "05bd75f39d15f214728e40600aed6fbdffc8295e"
+                "reference": "13e1099f92f46fb5deaf74fa5785dee97de727e8"
             },
             "require": {
                 "drupal/core": "*",
@@ -7951,16 +8063,14 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0-beta1+15-dev",
-                    "datestamp": "1552327381",
+                    "version": "8.x-1.0-beta1+16-dev",
+                    "datestamp": "1569358987",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 },
-                "patches_applied": {
-                    "Support for batch operations patch": "https://www.drupal.org/files/issues/2019-06-12/views-data-export-support-for-batch-operations-2789531-259.patch"
-                }
+                "patches_applied": []
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
@@ -7996,8 +8106,7 @@
             "homepage": "https://www.drupal.org/project/views_data_export",
             "support": {
                 "source": "https://git.drupalcode.org/project/views_data_export"
-            },
-            "time": "2019-03-11T17:58:52+00:00"
+            }
         },
         {
             "name": "drupal/views_field_view",
