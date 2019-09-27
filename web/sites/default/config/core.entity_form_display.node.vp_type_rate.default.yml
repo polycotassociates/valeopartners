@@ -83,6 +83,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
@@ -92,6 +93,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
@@ -116,6 +118,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
   field_vp_rate_firm:
     weight: 3
@@ -123,6 +126,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
@@ -150,7 +154,8 @@ content:
   field_vp_rate_individual:
     weight: 1
     settings:
-      match_operator: CONTAINS
+      match_operator: STARTS_WITH
+      match_limit: 100
       size: 60
       placeholder: ''
     third_party_settings: {  }
