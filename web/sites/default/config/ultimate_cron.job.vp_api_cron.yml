@@ -1,0 +1,29 @@
+uuid: 241e4f31-3d95-4ff3-bac4-9aa4ae7d4302
+langcode: en
+status: true
+dependencies:
+  module:
+    - vp_api
+title: 'Valeo Partners Cron Tasks (save database to xls)'
+id: vp_api_cron
+weight: 0
+module: vp_api
+callback: vp_api_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '0+@ 0 * * *'
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000
