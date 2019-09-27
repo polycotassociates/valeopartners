@@ -46,9 +46,11 @@
   // Attach the "print-only" class to divs. This is for the print friendly module.
   // See https://support.printfriendly.com/button/developer-questions/include-exclude-content/
   Drupal.behaviors.addPrintClassToContent = {
-    attach: function (context, settings) {
+    attach: function () {
       // Add class to specific div.
       $( 'div#block-valeo-classic-content').addClass('print-only');
+      $( 'div.visually-hidden').addClass('print-no');
+      $( 'div.view-filters').addClass('print-no');
     }
   };
 
