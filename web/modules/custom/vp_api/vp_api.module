@@ -153,43 +153,14 @@ function vp_api_get_vocabulary_terms($vocabulary) {
 // }
 
 /**
- * Cron job to export the database to XLS once an hour.
+ * Various cron tasks.
  */
 function vp_api_cron() {
 
-  // We access our configuration.
-  $cron_config = \Drupal::configFactory()
-    ->getEditable('vp_api.settings');
-
-  // Default to an hourly interval. Of course, cron has to be running at least
-  // hourly for this to work.
-  $interval = $cron_config
-    ->get('interval');
-  $interval = !empty($interval) ? $interval : 3600;
-
-  // We usually don't want to act every time cron runs (which could be every
-  // minute) so keep a time for the next run in the site state.
-  $next_execution = \Drupal::state()
-    ->get('vp_api.next_execution', 0);
-  if (REQUEST_TIME >= $next_execution) {
-
-    // This is a silly example of a cron job.
-    // It just makes it obvious that the job has run without
-    // making any changes to your database.
-    \Drupal::logger('vp_api')
-      ->notice('vp_api cron ran');
-    if (\Drupal::state()
-      ->get('vp_api_cron_show_status_message')) {
-      \Drupal::messenger()
-        ->addMessage(t('vp_api cron executed at %time', [
-        '%time' => date('c'),
-      ]));
-      \Drupal::state()
-        ->set('vp_api_cron_show_status_message', FALSE);
-    }
-    \Drupal::state()
-      ->set('cp_api.next_execution', REQUEST_TIME + $interval);
-  }
+  // Load the database export code.
+  module_load_include('inc', 'vp_api', 'cron/vp_cron_generate_xls_export');
+  // Run export.
+  vp_api_cron_export_xls();
 }
 
 /**
