@@ -61,5 +61,4 @@ Thumbs.db
 ########
 .lando.yml
 ignored_files/
-*.drush
 web/perms.php
