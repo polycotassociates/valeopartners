@@ -157,6 +157,13 @@ class RateSummaryReport extends ControllerBase {
     $spreadsheet->disconnectWorksheets();
     unset($spreadsheet);
 
+    // Send a report to an administrator with the user ID, the
+    // uri, and time of export.
+    $uid = \Drupal::currentUser()->id();
+    $uri = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $time = \Drupal::time()->getCurrentTime();
+    vp_api_report_send($uid, $uri, $time);
+
     $response->setContent($content);
     return $response;
   }

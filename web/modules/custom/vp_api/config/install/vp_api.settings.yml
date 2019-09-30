@@ -1,1 +1,3 @@
 interval: 36
+vp_api.report_email:
+  emails: 'aaron@polycotassociates.com'

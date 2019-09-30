@@ -1,0 +1,6 @@
+vp_api.admin_report_email_form:
+  title: 'Report Emails'
+  route_name: vp_api.change_report_email
+  description: 'Change Report Email Addresses'
+  parent: system.admin_config_system
+  weight: 99

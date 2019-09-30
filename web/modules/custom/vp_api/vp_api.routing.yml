@@ -4,4 +4,16 @@ vp_api.refresh_nodes:
     _form: '\Drupal\vp_api\Form\ResaveNodes'
     _title: 'Loads and saves nodes with batch API'
   requirements:
-    _permission: 'administer node'
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
+vp_api.change_report_email:
+  path: '/admin/report-email'
+  defaults:
+    _form: '\Drupal\vp_api\Form\ChangeReportEmails'
+    _title: 'Changes default report email'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
