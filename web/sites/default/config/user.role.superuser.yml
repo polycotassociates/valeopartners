@@ -66,6 +66,7 @@ permissions:
   - 'create profile content'
   - 'create rate content'
   - 'create search content'
+  - 'create terms in law_school'
   - 'create url aliases'
   - 'create webform content'
   - 'delete all webform submissions'

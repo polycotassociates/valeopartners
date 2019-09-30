@@ -32,7 +32,6 @@ permissions:
   - 'create search content'
   - 'create terms in city'
   - 'create terms in industry'
-  - 'create terms in law_school'
   - 'create terms in nature_of_suit'
   - 'create terms in position'
   - 'create terms in practice_area'
