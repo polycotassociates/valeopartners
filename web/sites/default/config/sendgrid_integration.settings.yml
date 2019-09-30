@@ -1,0 +1,12 @@
+apikey: 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
+test_defaults:
+  to: aaron@polycotassociates.com
+  subject: 'Test Email from SendGrid Module'
+  body:
+    value: 'Test Message for SendGrid.'
+    format: plain_text
+  from_name: test
+  to_name: ace808@gmail.com
+  reply_to: ''
+_core:
+  default_config_hash: g4qz7cPnloXFwtnLYfIKI2VS0gf_UFOz_I2uQiiulC8
