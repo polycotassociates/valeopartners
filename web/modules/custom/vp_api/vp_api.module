@@ -143,41 +143,41 @@ function vp_api_get_vocabulary_terms($vocabulary) {
   return $options;
 }
 
-/**
- * Email admin when a spreadsheet is downloaded and send querystring.
- */
-function vp_api_send_mail($email = FALSE, $uid = FALSE, $date = FALSE, $querystring = FALSE) {
-
-  $to = 'ace808@gmail.com';
-  $langcode = 'en';
-
-  $mailManager = \Drupal::service('plugin.manager.mail');
-  //$mailManager->mail('vp_api_callback', $to, $langcode, $params = [], $reply = NULL, $send = TRUE);
-  $mailManager->mail('vp_api_callback', 'vp_mail', $to, 'en', $params = [], $reply = NULL, $send = TRUE);
-  //drupal_set_message('Mail has been sent.', 'status');
-
-
-}
 
 /**
  * Implements hook_mail().
  */
-function vp_api_callback_mail($key, &$message, $params) {
-  $query = $_GET;
-  $body =
-"Hi,
+function vp_api_mail($key, &$message, $params) {
+  $options = ['langcode' => $message['langcode']];
 
-I'm just showing off my work ...
-Works nicely huh?
-Should probably add a password here somewhere?
+  switch ($key) {
+    case 'report_downloaded':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Report downloaded');
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
 
-$query
-
-See ya!";
-
-  $message['subject'] = "EuRA account registration";
-  $message['body'][] = Drupal\Core\Mail\MailFormatHelper::htmlToText($body);
-
+/**
+ * Send a mail on report download.
+ */
+function vp_api_report_send($uid = FALSE, $query = FALSE, $date = FALSE) {
+  $mailManager = \Drupal::service('plugin.manager.mail');
+  $module = 'vp_api';
+  $key = 'report_downloaded';
+  //$to = \Drupal::currentUser()->getEmail();
+  $to = 'ace808@gmail.com';
+  $params['message'] = "test message";
+  $langcode = 'en';
+  $send = TRUE;
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+  if ($result['result'] !== TRUE) {
+    \Drupal::logger('vp_api')->error("Email error, message not sent.");
+  }
+  else {
+    \Drupal::logger('vp_api')->notice("Report downloaded, email sent.");
+  }
 }
 
 /**
