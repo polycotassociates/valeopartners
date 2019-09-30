@@ -155,7 +155,7 @@ content:
     weight: 1
     settings:
       match_operator: STARTS_WITH
-      match_limit: 100
+      match_limit: 0
       size: 60
       placeholder: ''
     third_party_settings: {  }

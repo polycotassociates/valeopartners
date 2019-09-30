@@ -8,9 +8,9 @@ palette:
   titleslogan: '#0B3B6B'
   text: '#3b3b3b'
   link: '#0071b3'
-logo: 'public://color/valeo_classic-9c163bed/logo.svg'
+logo: 'public://color/valeo_classic-f7da5b6b/logo.svg'
 stylesheets:
-  - 'public://color/valeo_classic-9c163bed/colors.css'
+  - 'public://color/valeo_classic-f7da5b6b/colors.css'
 files:
-  - 'public://color/valeo_classic-9c163bed/logo.svg'
-  - 'public://color/valeo_classic-9c163bed/colors.css'
+  - 'public://color/valeo_classic-f7da5b6b/logo.svg'
+  - 'public://color/valeo_classic-f7da5b6b/colors.css'

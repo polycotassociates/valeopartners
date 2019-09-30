@@ -11,7 +11,7 @@ dependencies:
 third_party_settings:
   entityconnect:
     buttons:
-      button_add: '0'
+      button_add: '1'
       button_edit: '1'
     icons:
       icon_add: '0'
