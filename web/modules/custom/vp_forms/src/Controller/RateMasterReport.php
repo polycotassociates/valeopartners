@@ -486,6 +486,7 @@ class RateMasterReport extends ControllerBase {
     $spreadsheet->disconnectWorksheets();
     unset($spreadsheet);
 
+    vp_api_send_mail();
 
     $response->setContent($content);
     return $response;

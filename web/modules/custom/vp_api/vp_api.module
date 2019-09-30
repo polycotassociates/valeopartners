@@ -143,14 +143,42 @@ function vp_api_get_vocabulary_terms($vocabulary) {
   return $options;
 }
 
-// /**
-//  * Return a list of vocabulary terms to create a dropdown.
-//  */
-// function vp_api_mail_query($email, $querystring) {
+/**
+ * Email admin when a spreadsheet is downloaded and send querystring.
+ */
+function vp_api_send_mail($email = FALSE, $uid = FALSE, $date = FALSE, $querystring = FALSE) {
 
-//   drupal_mail('example', 'notice', $account->mail, user_preferred_language($account), $params);
+  $to = 'ace808@gmail.com';
+  $langcode = 'en';
 
-// }
+  $mailManager = \Drupal::service('plugin.manager.mail');
+  //$mailManager->mail('vp_api_callback', $to, $langcode, $params = [], $reply = NULL, $send = TRUE);
+  $mailManager->mail('vp_api_callback', 'vp_mail', $to, 'en', $params = [], $reply = NULL, $send = TRUE);
+  //drupal_set_message('Mail has been sent.', 'status');
+
+
+}
+
+/**
+ * Implements hook_mail().
+ */
+function vp_api_callback_mail($key, &$message, $params) {
+  $query = $_GET;
+  $body =
+"Hi,
+
+I'm just showing off my work ...
+Works nicely huh?
+Should probably add a password here somewhere?
+
+$query
+
+See ya!";
+
+  $message['subject'] = "EuRA account registration";
+  $message['body'][] = Drupal\Core\Mail\MailFormatHelper::htmlToText($body);
+
+}
 
 /**
  * Various cron tasks.
