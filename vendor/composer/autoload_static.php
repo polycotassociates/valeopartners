@@ -155,6 +155,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
             'Svg\\' => 4,
             'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
+            'SendGrid\\' => 9,
             'SelfUpdate\\' => 11,
         ),
         'R' => 
@@ -192,6 +193,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'I' => 
         array (
             'Interop\\Container\\' => 18,
+        ),
+        'H' => 
+        array (
+            'Html2Text\\' => 10,
         ),
         'G' => 
         array (
@@ -425,6 +430,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         array (
             0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
         ),
+        'SendGrid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fastglass/sendgrid/src',
+        ),
         'SelfUpdate\\' => 
         array (
             0 => __DIR__ . '/..' . '/consolidation/self-update/src',
@@ -500,6 +509,11 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Interop\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
+        ),
+        'Html2Text\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/html2text/html2text/src',
+            1 => __DIR__ . '/..' . '/html2text/html2text/test',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -695,6 +709,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'Stack' => 
             array (
                 0 => __DIR__ . '/..' . '/stack/builder/src',
+            ),
+            'Smtpapi' => 
+            array (
+                0 => __DIR__ . '/..' . '/sendgrid/smtpapi/lib',
             ),
             'Sabberworm\\CSS' => 
             array (
@@ -4423,6 +4441,21 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'HTMLPurifier_VarParser_Flexible' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Flexible.php',
         'HTMLPurifier_VarParser_Native' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Native.php',
         'HTMLPurifier_Zipper' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/Zipper.php',
+        'Html2Text\\BasicTest' => __DIR__ . '/..' . '/html2text/html2text/test/BasicTest.php',
+        'Html2Text\\BlockquoteTest' => __DIR__ . '/..' . '/html2text/html2text/test/BlockquoteTest.php',
+        'Html2Text\\ConstructorTest' => __DIR__ . '/..' . '/html2text/html2text/test/ConstructorTest.php',
+        'Html2Text\\DefinitionListTest' => __DIR__ . '/..' . '/html2text/html2text/test/DefinitionListTest.php',
+        'Html2Text\\Html2Text' => __DIR__ . '/..' . '/html2text/html2text/src/Html2Text.php',
+        'Html2Text\\HtmlCharsTest' => __DIR__ . '/..' . '/html2text/html2text/test/HtmlCharsTest.php',
+        'Html2Text\\ImageTest' => __DIR__ . '/..' . '/html2text/html2text/test/ImageTest.php',
+        'Html2Text\\LinkTest' => __DIR__ . '/..' . '/html2text/html2text/test/LinkTest.php',
+        'Html2Text\\ListTest' => __DIR__ . '/..' . '/html2text/html2text/test/ListTest.php',
+        'Html2Text\\PreTest' => __DIR__ . '/..' . '/html2text/html2text/test/PreTest.php',
+        'Html2Text\\PrintTest' => __DIR__ . '/..' . '/html2text/html2text/test/PrintTest.php',
+        'Html2Text\\SearchReplaceTest' => __DIR__ . '/..' . '/html2text/html2text/test/SearchReplaceTest.php',
+        'Html2Text\\SpanTest' => __DIR__ . '/..' . '/html2text/html2text/test/SpanTest.php',
+        'Html2Text\\StrToUpperTest' => __DIR__ . '/..' . '/html2text/html2text/test/HeaderTest.php',
+        'Html2Text\\TableTest' => __DIR__ . '/..' . '/html2text/html2text/test/TableTest.php',
         'Interop\\Container\\ContainerInterface' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/ContainerInterface.php',
         'Interop\\Container\\Exception\\ContainerException' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/Exception/ContainerException.php',
         'Interop\\Container\\Exception\\NotFoundException' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/Exception/NotFoundException.php',
@@ -5329,7 +5362,14 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Sabberworm\\CSS\\Value\\Value' => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/Value.php',
         'Sabberworm\\CSS\\Value\\ValueList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/ValueList.php',
         'SelfUpdate\\SelfUpdateCommand' => __DIR__ . '/..' . '/consolidation/self-update/src/SelfUpdateCommand.php',
+        'SendGrid\\API' => __DIR__ . '/..' . '/fastglass/sendgrid/src/API.php',
+        'SendGrid\\Client' => __DIR__ . '/..' . '/fastglass/sendgrid/src/Client.php',
+        'SendGrid\\Email' => __DIR__ . '/..' . '/fastglass/sendgrid/src/Email.php',
+        'SendGrid\\Exception' => __DIR__ . '/..' . '/fastglass/sendgrid/src/Exception.php',
+        'SendGrid\\Response' => __DIR__ . '/..' . '/fastglass/sendgrid/src/Response.php',
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
+        'Smtpapi' => __DIR__ . '/..' . '/sendgrid/smtpapi/lib/Smtpapi.php',
+        'Smtpapi\\Header' => __DIR__ . '/..' . '/sendgrid/smtpapi/lib/Smtpapi/Header.php',
         'Stack\\Builder' => __DIR__ . '/..' . '/stack/builder/src/Stack/Builder.php',
         'Stack\\StackedHttpKernel' => __DIR__ . '/..' . '/stack/builder/src/Stack/StackedHttpKernel.php',
         'Stecman\\Component\\Symfony\\Console\\BashCompletion\\Completion' => __DIR__ . '/..' . '/stecman/symfony-console-completion/src/Completion.php',
