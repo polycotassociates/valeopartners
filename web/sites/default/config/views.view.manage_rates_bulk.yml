@@ -1630,7 +1630,7 @@ display:
         description: 'Bulk Rates'
         expanded: false
         parent: ''
-        weight: -36
+        weight: -35
         context: '0'
         menu_name: data-management
         enabled: true

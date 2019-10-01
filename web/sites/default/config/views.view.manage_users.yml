@@ -1153,7 +1153,7 @@ display:
         description: 'Manage Website Users'
         expanded: false
         parent: ''
-        weight: -37
+        weight: -36
         context: '0'
         menu_name: data-management
         enabled: true

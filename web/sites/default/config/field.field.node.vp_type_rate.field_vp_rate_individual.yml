@@ -32,7 +32,7 @@ settings:
     target_bundles:
       vp_type_individual: vp_type_individual
     sort:
-      field: field_vp_last_name
+      field: title
       direction: ASC
     auto_create: true
     auto_create_bundle: ''
