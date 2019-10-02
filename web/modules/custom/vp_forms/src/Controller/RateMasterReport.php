@@ -379,6 +379,11 @@ class RateMasterReport extends ControllerBase {
       $query->condition('field_vp_graduation_value', [$_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['max']], 'BETWEEN');
     }
 
+    // Filter by Partner Date.
+    if (isset($_GET['field_vp_partner_date_value']['min']) && $_GET['field_vp_partner_date_value']['min'] != '') {
+      $query->condition('field_vp_partner_date_value', [$_GET['field_vp_partner_date_value']['min'], $_GET['field_vp_partner_date_value']['max']], 'BETWEEN');
+    }
+
     // Filter by firm ids.
     if (isset($_GET['field_vp_rate_firm_target_id_verf'])) {
       $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
@@ -418,6 +423,16 @@ class RateMasterReport extends ControllerBase {
         ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_3_target_id'], 'IN');
       $query->condition($group);
     }
+
+    // Filter by practice range.
+    if (isset($_GET['field_vp_practice_area_range'])) {
+      $group = $query->orConditionGroup()
+        ->condition('field_vp_practice_area_1_target_id', $_GET['field_vp_practice_area_range'], 'IN')
+        ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_range'], 'IN')
+        ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_range'], 'IN');
+      $query->condition($group);
+    }
+
 
     // Maximum 50,000 records.
     $query->range(0, 50000);
