@@ -30,19 +30,19 @@ vp_forms.rate_master_report:
   requirements:
     _permission: 'access content'
 
-vp_forms.rate_detail_spout:
-  path: '/reports/export/spout'
-  defaults:
-    _controller: '\Drupal\vp_forms\Controller\RateDetailReport::exportSpout'
-    _title: 'Detail Rate Report (Spout).'
-  requirements:
-    _permission: 'access content'
-
 vp_forms.rate_trending_analysis_report:
   path: '/reports/export/rta'
   defaults:
     _controller: '\Drupal\vp_forms\Controller\RateTrendingReport::export'
     _title: 'Rate Trending Analysis Report.'
+  requirements:
+    _permission: 'access content'
+
+vp_forms.transactions_by_firm_report:
+  path: '/reports/export/transactions-by-firm'
+  defaults:
+    _controller: '\Drupal\vp_forms\Controller\TransactionsByFirm::export'
+    _title: 'Transactions By Firm Report.'
   requirements:
     _permission: 'access content'
 

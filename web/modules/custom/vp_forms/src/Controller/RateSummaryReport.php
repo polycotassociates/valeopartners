@@ -2,6 +2,9 @@
 
 namespace Drupal\vp_forms\Controller;
 
+ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
+
 /**
  * @file
  * Contains \Drupal\vp_forms\Controller\RateSummaryReport.
@@ -75,28 +78,47 @@ class RateSummaryReport extends ControllerBase {
     $worksheet->getCell('S1')->setValue('2017 Standard Rate');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
-    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
+    // Last name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+    // Middle Name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+    // First Name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+    // Firm.
+    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+    // Position.
+    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+    // Client Represented.
+    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    // Industry.
+    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    // Practice Area 1.
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    // Practice Area 2.
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+    // Practice Area 3.
+    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+    // Grad Year.
+    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+    // Bar Year.
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
+    // Bar State.
+    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(25);
+    // 2019 Actual Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(25);
+    // 2019 Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(25);
+    // 2018 Actual Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
+    // 2018 Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(25);
+    // 2017 Actual Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(25);
+    // 2017 Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(25);
 
-    $i = 2;
     // Query loop.
+    $i = 2;
     foreach ($this->generateDynamicQuery() as $result) {
 
       // Last Name.
@@ -255,9 +277,13 @@ class RateSummaryReport extends ControllerBase {
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
       $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
-      if ($nodes) {
-        $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
-      }
+      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+    }
+
+    // Filter by location ids (by parent).
+    if (isset($_GET['term_node_tid_depth_location'])) {
+      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
+      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
     }
 
     // Filter by position ids.
@@ -338,7 +364,16 @@ class RateSummaryReport extends ControllerBase {
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
       foreach ($terms as $term) {
         $childTerms[] = $term->get('tid')->value;
+        // Loop through again to get any children of children.
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+        foreach ($terms as $term) {
+          $childTerms[] = $term->get('tid')->value;
+        }
       }
+    }
+    if (count($childTerms) == 0) {
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+      return $term->get('tid')->value;
     }
     return $childTerms;
   }

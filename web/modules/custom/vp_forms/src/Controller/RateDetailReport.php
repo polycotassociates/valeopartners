@@ -1,30 +1,21 @@
 <?php
 
 namespace Drupal\vp_forms\Controller;
+
 ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
+
 /**
  * @file
  * Contains \Drupal\vp_forms\Controller\RateDetailReport.
  */
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Taxonomy\TermStorage;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Settings;
-use Cache\Adapter\Redis\RedisCachePool;
-use Cache\Bridge\SimpleCache\SimpleCacheBridge;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Common\Entity\Row;
-
-use Cache\Adapter\Apcu\ApcuCachePool;
 
 /**
  * Initialize class.
@@ -34,213 +25,13 @@ class RateDetailReport extends ControllerBase {
    * Runs query based on $_GET string.
    */
 
-  private function uniqueObjectList($objects) {
-
-    $keys = [];
-    foreach ($objects as $key => $obj) {
-
-      if (in_array($obj->nid, $keys)) {
-        unset($objects[$key]);
-      }
-      $keys[] = $obj->nid;
-    }
-
-    //kint(array_unique($keys));
-    return $objects;
-  }
-
-
-  /**
-   * Export a report using Box\Sprout
-   */
-
-  public function exportSpout() {
-
-    $response = new Response();
-    $response->headers->set('Pragma', 'no-cache');
-    $response->headers->set('Expires', '0');
-    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=text.xlsx");
-
-
-    $writer = WriterEntityFactory::createXLSXWriter();
-    // $writer = WriterEntityFactory::createODSWriter();
-    // $writer = WriterEntityFactory::createCSVWriter();
-    $fileName = "Test.xlsx";
-
-    //$writer->openToFile($filePath); // write data to a file or to a PHP stream
-    $writer->openToBrowser($fileName); // stream data directly to the browser
-
-    $header = [
-      WriterEntityFactory::createCell('Last Name'),
-      WriterEntityFactory::createCell('Middle Name'),
-      WriterEntityFactory::createCell('First Name'),
-      WriterEntityFactory::createCell('Firm'),
-      WriterEntityFactory::createCell('Position'),
-      WriterEntityFactory::createCell('Client Represented'),
-      WriterEntityFactory::createCell('Industry'),
-      WriterEntityFactory::createCell('Practice Area 1'),
-      WriterEntityFactory::createCell('Practice Area 2'),
-      WriterEntityFactory::createCell('Practice Area 3'),
-      WriterEntityFactory::createCell('Grad Year'),
-      WriterEntityFactory::createCell('Bar Year'),
-      WriterEntityFactory::createCell('Bar State'),
-      WriterEntityFactory::createCell('City'),
-      WriterEntityFactory::createCell('Actual Rate'),
-      WriterEntityFactory::createCell('Standard Rate'),
-      WriterEntityFactory::createCell('Hours'),
-      WriterEntityFactory::createCell('Total'),
-      WriterEntityFactory::createCell('Flat Fee'),
-      WriterEntityFactory::createCell('Retainer Fee'),
-      WriterEntityFactory::createCell('Transaction Amount'),
-      WriterEntityFactory::createCell('Transactional Fee'),
-      WriterEntityFactory::createCell('Transaction Type'),
-      WriterEntityFactory::createCell('Case Name'),
-      WriterEntityFactory::createCell('Case Number'),
-      WriterEntityFactory::createCell('Court'),
-      WriterEntityFactory::createCell('Date Filed'),
-      WriterEntityFactory::createCell('Nature of Suit'),
-      WriterEntityFactory::createCell('Filing Name'),
-      WriterEntityFactory::createCell('Filing Description'),
-      WriterEntityFactory::createCell('Filing Number'),
-      WriterEntityFactory::createCell('Fee Date Range Begin'),
-      WriterEntityFactory::createCell('Fee Date Range End'),
-    ];
-
-    // Header Row.
-    $header_row = WriterEntityFactory::createRow($header);
-    $writer->addRow($header_row);
-
-    // /** add a row at a time */
-    // $singleRow = WriterEntityFactory::createRow($cells);
-    // $writer->addRow($singleRow);
-
-    // /** add multiple rows at a time */
-    // $multipleRows = [
-    //     WriterEntityFactory::createRow($cells),
-    //     WriterEntityFactory::createRow($cells),
-    // ];
-    // $writer->addRows($multipleRows);
-
-    // /** Shortcut: add a row from an array of values */
-    // $values = ['Carl', 'is', 'great!'];
-    // $rowFromValues = WriterEntityFactory::createRowFromArray($values);
-    // $writer->addRow($rowFromValues);
-
-    foreach ($this->generateDynamicQuery() as $result) {
-
-      $row = [
-        // Last Name.
-        WriterEntityFactory::createCell($this->getLastName($result->field_vp_rate_individual_target_id)),
-        // Middle Name.
-        WriterEntityFactory::createCell($this->getMiddleName($result->field_vp_rate_individual_target_id)),
-        // First Name.
-        WriterEntityFactory::createCell($this->getFirstName($result->field_vp_rate_individual_target_id)),
-        // Firm.
-        WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_rate_firm_target_id)),
-        // Position.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_rate_position_target_id)),
-        // Client Name.
-        WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_rate_company_target_id)),
-        // Industry.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_company_industry_target_id)),
-        // Practice Area 1.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_practice_area_1_target_id)),
-        // Practice Area 2.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_practice_area_2_target_id)),
-        // Practice Area 3.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_practice_area_3_target_id)),
-        // Grad Year.
-        WriterEntityFactory::createCell($result->field_vp_graduation_value),
-        // Bar Year.
-        WriterEntityFactory::createCell($result->field_vp_bar_date_value),
-        // Bar State.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_state_bar_target_id)),
-        // City.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_individual_location_target_id)),
-        // Actual Rate.
-        WriterEntityFactory::createCell($result->field_vp_rate_hourly_value),
-        // $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Standard Rate.
-        WriterEntityFactory::createCell($result->field_vp_rate_standard_value),
-        // $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Hours.
-        WriterEntityFactory::createCell($result->field_vp_rate_hours_value),
-        // Total.
-        WriterEntityFactory::createCell($result->field_vp_rate_total_value),
-        // $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Flat Fee.
-        WriterEntityFactory::createCell($result->field_vp_rate_flat_fee_value),
-        // $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Retainer Fee.
-        WriterEntityFactory::createCell($result->field_vp_rate_retainer_value),
-        // $spreadsheet->getActiveSheet()->getStyle('T' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Transaction Amount.
-        WriterEntityFactory::createCell($result->field_vp_rate_transaction_amount_value),
-        // $spreadsheet->getActiveSheet()->getStyle('U' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Transactional Fee.
-        WriterEntityFactory::createCell($result->field_vp_rate_transactional_fee_value),
-        // $spreadsheet->getActiveSheet()->getStyle('V' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        // Transaction Type.
-        WriterEntityFactory::createCell($this->getTermName($result->field_vp_rate_transaction_type_target_id)),
-        // Case Name.
-        WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_filing_case_target_id)),
-        // Case Number.
-        WriterEntityFactory::createCell($this->getCaseNumber($result->field_vp_filing_case_target_id)),
-        // Court.
-        WriterEntityFactory::createCell($this->getCaseCourt($result->field_vp_filing_case_target_id)),
-        // Date Filed.
-        WriterEntityFactory::createCell($this->getFilingDate($result->field_vp_filing_case_target_id)),
-        // $spreadsheet->getActiveSheet()->getStyle('AA' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
-        // Nature of Suit.
-        WriterEntityFactory::createCell($this->getNatureOfSuit($result->field_vp_filing_case_target_id)),
-        // Filing Name.
-        WriterEntityFactory::createCell($this->getNodeTitle($result->field_vp_rate_filing_target_id)),
-        // Filing Description.
-        WriterEntityFactory::createCell($this->getFilingDescription($result->field_vp_rate_filing_target_id)),
-        // Filing Number.
-        WriterEntityFactory::createCell($this->getFilingNumber($result->field_vp_rate_filing_target_id)),
-        // Fee Date Range Begin.
-        WriterEntityFactory::createCell($this->getFeeDateBegin($result->field_vp_rate_filing_target_id)),
-        // $spreadsheet->getActiveSheet()->getStyle('AF' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
-        // Fee Date Range End.
-        WriterEntityFactory::createCell($this->getFeeDateEnd($result->field_vp_rate_filing_target_id)),
-        // $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
-      ];
-      $data = WriterEntityFactory::createRow($row);
-      $writer->addRow($data);
-
-    }
-
-    $writer->close();
-
-    $response->setContent(NULL);
-    return $response;
-  }
-
   /**
    * Export a report using phpSpreadsheet.
    */
   public function export() {
 
     $title = $this->getPageTitle();
-    // $client = new \Redis();
-    // $client->connect('cache', 6379);
-    // $pool = new RedisCachePool($client);
-    // $simpleCache = new SimpleCacheBridge($pool);
 
-    // Settings::setCache($simpleCache);
-
-    // print_r($this->getFirstName('100825'));
-    // print "<br>";
-//     kint($_GET);
-//     kint($this->generateDynamicQuery());
-// die();
-    // kint($this->getFirmName('257600'));
-
-    // Generate and output code will be inserted here.
-
-    //$response->setContent($content);
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
@@ -249,7 +40,7 @@ class RateDetailReport extends ControllerBase {
 
     $spreadsheet = new Spreadsheet();
 
-    //Set metadata.
+    // Set metadata.
     $spreadsheet->getProperties()
       ->setCreator('Valeo Partners')
       ->setLastModifiedBy('Valeo Partners')
@@ -265,18 +56,6 @@ class RateDetailReport extends ControllerBase {
 
     //Rename sheet
     $worksheet->setTitle('Valeo Reports');
-
-    /*
-    * TITLE
-    */
-    //Set style Title
-    $styleArrayTitle = array(
-      'font' => array(
-        'bold' => true,
-        'color' => array('rgb' => '161617'),
-        'size' => 12,
-        'name' => 'Verdana'
-      ));
 
     $worksheet->getCell('A1')->setValue('Last Name');
     $worksheet->getCell('B1')->setValue('Middle Name');
@@ -314,59 +93,74 @@ class RateDetailReport extends ControllerBase {
     $worksheet->getCell('AH1')->setValue('Fee Date Range End');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
-
-    // $worksheet->getStyle('A1')->applyFromArray($styleArrayTitle);
-
-    /*
-     * HEADER
-     */
-    //Set Background
-    // $worksheet->getStyle('A3:E3')
-    //   ->getFill()
-    //   ->setFillType(Fill::FILL_SOLID)
-    //   ->getStartColor()
-    //   ->setARGB('085efd');
-
-    //Set style Head
-    $styleArrayHead = array(
-      'font' => array(
-        'bold' => true,
-        'color' => array('rgb' => 'ffffff'),
-      ));
-
-    // $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-    // $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('U')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('V')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('W')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('X')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(TRUE);
-    $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(TRUE);
+    // Last name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+    // Middle Name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+    // First Name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+    // Firm.
+    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+    // Position.
+    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+    // Client Represented.
+    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    // Industry.
+    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    // Practice Area 1.
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    // Practice Area 2.
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+    // Practice Area 3.
+    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+    // Grad Year.
+    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+    // Bar Year.
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
+    // Bar State.
+    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(25);
+    // City.
+    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(25);
+    // Actual Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(25);
+    // Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
+    // Rate or Fee Year.
+    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(25);
+    // Hours.
+    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(25);
+    // Total.
+    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(25);
+    // Flat Fee.
+    $spreadsheet->getActiveSheet()->getColumnDimension('T')->setWidth(25);
+    // Retainer Fee.
+    $spreadsheet->getActiveSheet()->getColumnDimension('U')->setWidth(25);
+    // Transaction Amount.
+    $spreadsheet->getActiveSheet()->getColumnDimension('V')->setWidth(25);
+    // Transactional Fee.
+    $spreadsheet->getActiveSheet()->getColumnDimension('W')->setWidth(25);
+    // Transaction Type.
+    $spreadsheet->getActiveSheet()->getColumnDimension('X')->setWidth(25);
+    // Case Name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setWidth(25);
+    // Case Number.
+    $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setWidth(25);
+    // Court.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setWidth(25);
+    // Date Filed.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setWidth(25);
+    // Nature of Suit.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setWidth(25);
+    // Filing Name.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setWidth(25);
+    // Filing Description.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setWidth(25);
+    // Filing Number.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setWidth(25);
+    // Fee Date Range Begin.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setWidth(25);
+    // Fee Date Range End.
+    $spreadsheet->getActiveSheet()->getColumnDimension('AH')->setWidth(25);
 
     $i = 2;
 
@@ -454,27 +248,6 @@ class RateDetailReport extends ControllerBase {
       $i++;
 
     }
-
-
-    // for ($i = 4; $i < 10; $i++) {
-    //   $worksheet->setCellValue('A' . $i, $i);
-    //   $worksheet->setCellValue('B' . $i, 'Test C2');
-    //   $worksheet->setCellValue('C' . $i, 'Test C3');
-    // }
-
-    // // This inserts the SUM() formula with some styling.
-    // $worksheet->setCellValue('A10', '=SUM(A4:A9)');
-    // $worksheet->getStyle('A10')
-    //   ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-    // $worksheet->getStyle('A10')
-    //   ->getBorders()->getTop()->setBorderStyle(Border::BORDER_THICK);
-
-    // // This inserts the formula as text.
-    // $worksheet->setCellValueExplicit(
-    //   'A11',
-    //   '=SUM(A4:A9)',
-    //   DataType::TYPE_STRING
-    // );
 
     // Get the writer and export in memory.
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -616,8 +389,8 @@ class RateDetailReport extends ControllerBase {
     }
 
     // Filter by location ids (by parent).
-    if (isset($_GET['term_node_tid_depth'])) {
-      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth']);
+    if (isset($_GET['term_node_tid_depth_location'])) {
+      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
       $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
     }
 
@@ -631,9 +404,14 @@ class RateDetailReport extends ControllerBase {
       $query->condition('field_vp_case_nature_of_suit_target_id', $_GET['field_vp_case_nature_of_suit_target_id_verf'], 'IN');
     }
 
-    // Filter by nature of suit ids.
+    // Filter by company/industry.
     if (isset($_GET['field_vp_company_industry_target_id'])) {
       $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
+    }
+
+    // Filter by Company.
+    if (isset($_GET['field_vp_rate_company_target_id_verf'])) {
+      $query->condition('field_vp_rate_company_target_id', $_GET['field_vp_rate_company_target_id_verf'], 'IN');
     }
 
     // Filter by title.
@@ -652,7 +430,6 @@ class RateDetailReport extends ControllerBase {
         ->condition('field_vp_last_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE');
       $query->condition($group);
     }
-
 
     // Filter by practice area ids.
     if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
@@ -818,7 +595,16 @@ class RateDetailReport extends ControllerBase {
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
       foreach ($terms as $term) {
         $childTerms[] = $term->get('tid')->value;
+        // Loop through again to get any children of children.
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+        foreach ($terms as $term) {
+          $childTerms[] = $term->get('tid')->value;
+        }
       }
+    }
+    if (count($childTerms) == 0) {
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+      return $term->get('tid')->value;
     }
     return $childTerms;
   }

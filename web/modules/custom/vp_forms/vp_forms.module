@@ -179,7 +179,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
 
       // Positioning.
       $form['field_vp_company_industry_target_id']['#weight'] = 10; // industry
-      $form['term_node_tid_depth_1']['#weight'] = 20; // position
+      $form['term_node_tid_depth_position']['#weight'] = 20; // position
       $form['field_vp_practice_area_1_target_id']['#weight'] = 30; // practice area
       $form['term_node_tid_depth_location']['#weight'] = 40; // location
       $form['field_vp_filing_fee_dates_value']['#weight'] = 50; // fee year
@@ -230,6 +230,17 @@ function vp_forms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     ) {
       $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
     }
+  }
+
+  switch ($form_id) {
+    case "node_vp_type_rate_form":
+
+      $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
+      // $form['field_vp_rate_individual'] = array(
+      //   '#type' => 'select2',
+      // );
+
+      break;
   }
 
 }

@@ -45,6 +45,15 @@ function vp_views_views_data() {
     ],
   ];
 
+  // Add an export header with a link to the xls export for Transactions By Firm.
+  $data['views']['export_transactions_by_firm'] = [
+    'title' => t('Export Transactions By Firm Link Header'),
+    'help' => t('An area containing links to export page (For Transactions By Firm)'),
+    'area' => [
+      'id' => 'export_transactions_by_firm',
+    ],
+  ];
+
   // Add a simple print button.
   $data['views']['print_button'] = [
     'title' => t('Simple Print Button'),

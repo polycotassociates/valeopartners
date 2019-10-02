@@ -7,7 +7,7 @@ ini_set('memory_limit', '16384M');
 
 /**
  * @file
- * Contains \Drupal\vp_forms\Controller\RateMasterReport.
+ * Contains \Drupal\vp_forms\Controller\TransactionsByFirm.
  */
 
 use Drupal\Core\Controller\ControllerBase;
@@ -15,11 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 
 /**
  * Initialize class.
  */
-class RateMasterReport extends ControllerBase {
+class TransactionsByFirm extends ControllerBase {
   /**
    * Runs query based on $_GET string.
    */
@@ -29,15 +30,19 @@ class RateMasterReport extends ControllerBase {
    */
   public function export() {
 
+    // kint($this->generateDynamicQuery());
+    // die();
+    $title = $this->getPageTitle();
+
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=Valeo Master Search.xlsx");
+    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
     $spreadsheet = new Spreadsheet();
 
-    //Set metadata.
+    // Set metadata.
     $spreadsheet->getProperties()
       ->setCreator('Valeo Partners')
       ->setLastModifiedBy('Valeo Partners')
@@ -52,7 +57,7 @@ class RateMasterReport extends ControllerBase {
     $worksheet = $spreadsheet->getActiveSheet();
 
     //Rename sheet.
-    $worksheet->setTitle('Valeo Master Search');
+    $worksheet->setTitle('Valeo Reports');
 
     $worksheet->getCell('A1')->setValue('Last Name');
     $worksheet->getCell('B1')->setValue('Middle Name');
@@ -159,11 +164,12 @@ class RateMasterReport extends ControllerBase {
     // Fee Date Range End.
     $spreadsheet->getActiveSheet()->getColumnDimension('AH')->setWidth(25);
 
-    // Query loop.
     $i = 2;
+
+    // Query loop.
     foreach ($this->generateDynamicQuery() as $result) {
       // Last Name.
-      $worksheet->setCellValue('A' . $i, $result->field_vp_last_name_value);
+      $worksheet->setCellValue('A' . $i,  $result->field_vp_last_name_value);
       // Middle Name.
       $worksheet->setCellValue('B' . $i, '' . $result->field_vp_middle_name_value);
       // First Name.
@@ -277,7 +283,7 @@ class RateMasterReport extends ControllerBase {
 
     // Query node data.
     $query = $db->select('node_field_data', 'node');
-    $query->fields('node', ['nid', 'type', 'status', 'title']);
+    $query->fields('node', ['nid', 'type', 'status']);
     $query->condition('node.type', 'vp_type_rate', '=');
     $query->condition('node.status', 1);
 
@@ -316,6 +322,7 @@ class RateMasterReport extends ControllerBase {
     $query->leftjoin('node__field_vp_rate_transaction_amount', 'transaction_amount', 'node.nid = transaction_amount.entity_id');
     $query->leftjoin('node__field_vp_rate_transactional_fee', 'transaction_fee', 'node.nid = transaction_fee.entity_id');
     $query->leftjoin('node__field_vp_rate_transaction_type', 'transaction_type', 'node.nid = transaction_type.entity_id');
+    $query->leftjoin('node__field_vp_rate_success_fee', 'success_fee', 'node.nid = success_fee.entity_id');
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Filing, Case, Company, Individual, and Firm fields.
@@ -349,24 +356,31 @@ class RateMasterReport extends ControllerBase {
     $query->fields('transaction_amount', ['field_vp_rate_transaction_amount_value']);
     $query->fields('transaction_fee', ['field_vp_rate_transactional_fee_value']);
     $query->fields('transaction_type', ['field_vp_rate_transaction_type_target_id']);
+    $query->fields('success_fee', ['field_vp_rate_success_fee_value']);
     $query->fields('year', ['field_vp_filing_year_value']);
 
     // Case/Filing Fields.
     $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
     $query->fields('industry', ['field_vp_company_industry_target_id']);
 
-    // Only if there's an actual rate.
-    //$query->condition('field_vp_rate_hourly_value', 0, '>');
+    $fee_group = $query->orConditionGroup()
+      ->condition('field_vp_rate_transactional_fee_value', 0, '>')
+      ->condition('field_vp_rate_success_fee_value', 0, '>')
+      ->condition('field_vp_rate_flat_fee_value', 0, '>')
+      ->condition('field_vp_rate_retainer_value', 0, '>');
+    $query->condition($fee_group);
 
-    // Filter by title.
-    if (isset($_GET['title'])) {
-      $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
-      $query->addField('individual_title', 'title', 'individual_title');
+    // Filter by firm ids.
+    if (isset($_GET['field_vp_rate_firm_target_id_verf'])) {
+      $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
     }
 
-    // Filter by Rate Year.
-    if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
-      $query->condition('field_vp_filing_year_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
+    // Search by individual name.
+    if (isset($_GET['combine'])) {
+      $group = $query->orConditionGroup()
+        ->condition('field_vp_first_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE')
+        ->condition('field_vp_last_name_value', '%' . db_like($_GET['combine']) . '%', 'LIKE');
+      $query->condition($group);
     }
 
     // Filter by Bar Date.
@@ -379,11 +393,6 @@ class RateMasterReport extends ControllerBase {
       $query->condition('field_vp_graduation_value', [$_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['max']], 'BETWEEN');
     }
 
-    // Filter by firm ids.
-    if (isset($_GET['field_vp_rate_firm_target_id_verf'])) {
-      $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
-    }
-
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
       $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
@@ -393,21 +402,6 @@ class RateMasterReport extends ControllerBase {
     // Filter by position ids.
     if (isset($_GET['term_node_tid_depth_position'])) {
       $query->condition('field_vp_rate_position_target_id', $_GET['term_node_tid_depth_position'], 'IN');
-    }
-
-    // Filter by nature of suit ids.
-    if (isset($_GET['field_vp_case_nature_of_suit_target_id_verf'])) {
-      $query->condition('field_vp_case_nature_of_suit_target_id', $_GET['field_vp_case_nature_of_suit_target_id_verf'], 'IN');
-    }
-
-    // Filter by target industry.
-    if (isset($_GET['field_vp_company_industry_target_id'])) {
-      $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
-    }
-
-    // Filter by title.
-    if (isset($_GET['title'])) {
-      $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
     }
 
     // Filter by practice area ids.
@@ -423,14 +417,14 @@ class RateMasterReport extends ControllerBase {
     $query->range(0, 50000);
 
     // Order by Transaction Amount Rate.
-    $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
+    $query->orderBy('actual.field_vp_rate_hourly_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
     return $query->execute()->fetchAll();
 
   }
 
   /**
-   * Get Fiiling Number Query.
+   * Get Filing Number Query.
    */
   private function getFilingNumber($id) {
     $query = db_select('node__field_vp_filing_number', 'number');
@@ -556,6 +550,18 @@ class RateMasterReport extends ControllerBase {
       return $term->get('tid')->value;
     }
     return $childTerms;
+  }
+
+  /**
+   * Get the title of the current page.
+   */
+  private function getPageTitle() {
+    $request = \Drupal::request();
+    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
+      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
+    }
+    //return $title;
+    return "Rates By Firm - Detail";
   }
 
 }

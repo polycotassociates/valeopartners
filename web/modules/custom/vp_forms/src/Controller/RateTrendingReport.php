@@ -2,6 +2,9 @@
 
 namespace Drupal\vp_forms\Controller;
 
+ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
+
 /**
  * @file
  * Contains \Drupal\vp_forms\Controller\RateTrendingReport.
@@ -75,20 +78,31 @@ class RateTrendingReport extends ControllerBase {
 
       $spreadsheet->getActiveSheet()->freezePane('A2');
 
-      $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-      $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
+      // Firm
+      $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+      // Individual.
+      $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+      // Position.
+      $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+      // Practice Area 1.
+      $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+      // Practice Area 2.
+      $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+      // Practice Area 3.
+      $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+      // City.
+      $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+      // Grad Year.
+      $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+      // Former Rate.
+      $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+      // New Rate.
+      $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+      // Percent Change.
+      $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
 
-      $i = 2;
       // Query loop.
+      $i = 2;
       foreach ($this->generateDynamicQuery($nid) as $result) {
 
         $change = $this->percentChange($result->field_2018_actual_rate_value, $result->field_2019_actual_rate_value);
