@@ -83,12 +83,12 @@ class ExportHeader extends AreaPluginBase {
     if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
       // Build the query from the saved search items for the node $nid.
-      $query = $this->generateQueryFromNode($nid);
+      //$query = $this->generateQueryFromNode($nid);
 
+      $query = "";
       // $query = "firm=12857&";
       // Put them together with /export added to the path and format=xls at the end.
-      $export_xls = "/saved/search/block/export?$query";
-      $export_xls .= "_format=xls";
+      $export_xls = "/reports/export/master?$query";
       // Create the html for the link.
       $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
       // Get the modal text.
@@ -187,32 +187,55 @@ class ExportHeader extends AreaPluginBase {
       $rate_range = range($rate_date_from, $rate_date_to);
     }
 
-    $firms_query = $firms ? implode(",", $firms) : 'all';
-    $query .= "firm=$firms_query&";
+    foreach ($firms as $firm) {
+      $query .= "field_vp_rate_firm_target_id_verf[]=$firm&";
+    }
 
-    $positions_query = $positions ? implode(",", $positions) : 'all';
-    $query .= "position=$positions_query&";
+    if ($positions) {
+      foreach ($positions as $position) {
+        $query .= "term_node_tid_depth_position[]=$position&";
+      }
+    }
 
-    $industries_query = $industries ? implode("+", $industries) : 'all';
-    $query .= "industry=$industries_query&";
+    if ($industries) {
+      foreach ($industries as $industry) {
+        $query .= "field_vp_company_industry_target_id[]=$industry&";
+      }
+    }
 
-    $cities_query = $cities ? implode(",", $cities) : 'all';
-    $query .= "location=$cities_query&";
+    if ($cities) {
+      foreach ($cities as $city) {
+        $query .= "term_node_tid_depth_location[]=$city&";
+      }
+    }
 
-    $practice_areas_query = $practice_areas ? implode("+", $practice_areas) : 'all';
-    $query .= "practice_areas=$practice_areas_query&";
+    if ($practice_areas) {
+      foreach ($practice_areas as $practice_area) {
+        $query .= "field_vp_practice_area_range[]=$practice_area&";
+      }
+    }
 
-    $grad_date_query = $grad_date_from ? implode(",", $grad_range) : 'all';
-    $query .= "graduation_year=$grad_date_query&";
+    if ($grad_date_from) {
+      $query .= "field_vp_graduation_value[min]=$grad_date_from&";
+      $query .= "field_vp_graduation_value[max]=$grad_date_to&";
+    }
 
-    $partner_date_query = $partner_date_from ? implode(",", $partner_range) : 'all';
-    $query .= "partner=$partner_date_query&";
+    // $partner_date_query = $partner_date_from ? implode(",", $partner_range) : 'all';
+    // $query .= "partner=$partner_date_query&";
+    // if ($partner_date_from) {
+    //   $query .= "field_vp_partner_date_value[min]=$partner_date_from&";
+    //   $query .= "field_vp_partner_date_value[max]=$partner_date_to&";
+    // }
 
-    $bar_date_query = $bar_date_from ? implode(",", $bar_range) : 'all';
-    $query .= "bar_year=$bar_date_query&";
+    if ($bar_date_from) {
+      $query .= "field_vp_bar_date_value[min]=$bar_date_from&";
+      $query .= "field_vp_bar_date_value[max]=$bar_date_to&";
+    }
 
-    $rate_range_query = $rate_range ? implode("+", $rate_range) : 'all';
-    $query .= "filing_year_end=$rate_range_query&";
+    if ($rate_date_from) {
+      $query .= "field_vp_filing_fee_dates_value[min]=$rate_date_from&";
+      $query .= "field_vp_filing_fee_dates_value[max]=$rate_date_to&";
+    }
 
     return $query;
 
