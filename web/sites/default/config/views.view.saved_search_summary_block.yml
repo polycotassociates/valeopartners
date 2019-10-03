@@ -3,26 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_vp_bar_date
-    - field.storage.node.field_vp_case_nature_of_suit
-    - field.storage.node.field_vp_company_industry
     - field.storage.node.field_vp_filing_fee_dates
-    - field.storage.node.field_vp_first_name
-    - field.storage.node.field_vp_graduation
-    - field.storage.node.field_vp_individual_location
-    - field.storage.node.field_vp_last_name
-    - field.storage.node.field_vp_middle_name
-    - field.storage.node.field_vp_practice_area_1
-    - field.storage.node.field_vp_practice_area_2
-    - field.storage.node.field_vp_practice_area_3
-    - field.storage.node.field_vp_rate_company
-    - field.storage.node.field_vp_rate_hourly
-    - field.storage.node.field_vp_rate_hours
-    - field.storage.node.field_vp_rate_position
-    - field.storage.node.field_vp_rate_standard
-    - field.storage.node.field_vp_rate_total
-    - field.storage.node.field_vp_state_bar
-    - field.storage.paragraph.field_partner_date
     - node.type.vp_type_rate
     - user.role.administrator
     - user.role.data_entry
@@ -30,18 +11,12 @@ dependencies:
     - user.role.rate_report_user
     - user.role.superuser
   module:
-    - computed_field
     - datetime_range
     - node
     - paragraphs
-    - rest
-    - serialization
     - taxonomy
     - user
-    - views_data_export
     - vp_views
-    - xls_serialization
-    - yearonly
 id: saved_search_summary_block
 label: 'Saved Search Summary Block'
 module: views
@@ -1331,15 +1306,15 @@ display:
           empty: false
           content: 'Displaying @start - @end of @total'
           plugin_id: result
-        export_header:
-          id: export_header
+        export_saved_search_summary_block:
+          id: export_saved_search_summary_block
           table: views
-          field: export_header
+          field: export_saved_search_summary_block
           relationship: none
           group_type: group
           admin_label: ''
           empty: false
-          plugin_id: export_header
+          plugin_id: export_saved_search_summary_block
       display_description: 'Block for saved search - summary view'
       block_category: 'Valeo Partners Custom Blocks'
     cache_metadata:
