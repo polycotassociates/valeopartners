@@ -4,37 +4,23 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_vp_bar_date
-    - field.storage.node.field_vp_case_court
-    - field.storage.node.field_vp_case_date_filed
-    - field.storage.node.field_vp_case_name
-    - field.storage.node.field_vp_case_nature_of_suit
-    - field.storage.node.field_vp_case_number
     - field.storage.node.field_vp_company_industry
-    - field.storage.node.field_vp_filing_description
     - field.storage.node.field_vp_filing_fee_dates
-    - field.storage.node.field_vp_filing_number
     - field.storage.node.field_vp_filing_year_end
-    - field.storage.node.field_vp_first_name
     - field.storage.node.field_vp_graduation
     - field.storage.node.field_vp_individual_location
-    - field.storage.node.field_vp_last_name
-    - field.storage.node.field_vp_middle_name
     - field.storage.node.field_vp_practice_area_1
     - field.storage.node.field_vp_practice_area_2
     - field.storage.node.field_vp_practice_area_3
     - field.storage.node.field_vp_rate_company
     - field.storage.node.field_vp_rate_flat_fee
     - field.storage.node.field_vp_rate_hourly
-    - field.storage.node.field_vp_rate_hours
     - field.storage.node.field_vp_rate_position
     - field.storage.node.field_vp_rate_primaryfee_calc
     - field.storage.node.field_vp_rate_primaryfeetypecalc
     - field.storage.node.field_vp_rate_retainer
     - field.storage.node.field_vp_rate_standard
     - field.storage.node.field_vp_rate_success_fee
-    - field.storage.node.field_vp_rate_total
-    - field.storage.node.field_vp_rate_transaction_amount
-    - field.storage.node.field_vp_rate_transaction_type
     - field.storage.node.field_vp_rate_transactional_fee
     - field.storage.node.field_vp_state_bar
     - node.type.vp_type_rate
@@ -51,14 +37,10 @@ dependencies:
     - datetime
     - datetime_range
     - node
-    - rest
-    - serialization
     - taxonomy
     - user
     - verf
-    - views_data_export
     - vp_views
-    - xls_serialization
     - yearonly
 id: search_fees_by_company
 label: 'Search Fees By Company'
@@ -3104,15 +3086,15 @@ display:
           empty: true
           content: 'Displaying @start - @end of @total'
           plugin_id: result
-        export_header:
-          id: export_header
+        export_transactions_by_firm:
+          id: export_transactions_by_firm
           table: views
-          field: export_header
+          field: export_transactions_by_firm
           relationship: none
           group_type: group
           admin_label: ''
           empty: false
-          plugin_id: export_header
+          plugin_id: export_transactions_by_firm
       defaults:
         header: false
         fields: false
@@ -4365,7 +4347,7 @@ display:
             description: ''
             use_operator: false
             operator: term_node_tid_depth_1_op
-            identifier: term_node_tid_depth_1
+            identifier: term_node_tid_depth_position
             required: false
             remember: false
             multiple: true
@@ -4423,7 +4405,7 @@ display:
             description: ''
             use_operator: false
             operator: term_node_tid_depth_op
-            identifier: term_node_tid_depth
+            identifier: term_node_tid_depth_location
             required: false
             remember: false
             multiple: true
