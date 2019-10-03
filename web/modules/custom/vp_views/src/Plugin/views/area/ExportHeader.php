@@ -83,10 +83,7 @@ class ExportHeader extends AreaPluginBase {
     if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
       // Build the query from the saved search items for the node $nid.
-      //$query = $this->generateQueryFromNode($nid);
-
-      $query = "";
-      // $query = "firm=12857&";
+      $query = $this->generateQueryFromNode($nid);
       // Put them together with /export added to the path and format=xls at the end.
       $export_xls = "/reports/export/master?$query";
       // Create the html for the link.
@@ -220,12 +217,10 @@ class ExportHeader extends AreaPluginBase {
       $query .= "field_vp_graduation_value[max]=$grad_date_to&";
     }
 
-    // $partner_date_query = $partner_date_from ? implode(",", $partner_range) : 'all';
-    // $query .= "partner=$partner_date_query&";
-    // if ($partner_date_from) {
-    //   $query .= "field_vp_partner_date_value[min]=$partner_date_from&";
-    //   $query .= "field_vp_partner_date_value[max]=$partner_date_to&";
-    // }
+    if ($partner_date_from) {
+      $query .= "field_vp_partner_date_value[min]=$partner_date_from&";
+      $query .= "field_vp_partner_date_value[max]=$partner_date_to&";
+    }
 
     if ($bar_date_from) {
       $query .= "field_vp_bar_date_value[min]=$bar_date_from&";

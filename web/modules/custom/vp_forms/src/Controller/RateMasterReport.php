@@ -419,8 +419,8 @@ class RateMasterReport extends ControllerBase {
     if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
       $group = $query->orConditionGroup()
         ->condition('field_vp_practice_area_1_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN')
-        ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_2_target_id'], 'IN')
-        ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_3_target_id'], 'IN');
+        ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN')
+        ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN');
       $query->condition($group);
     }
 
@@ -432,7 +432,6 @@ class RateMasterReport extends ControllerBase {
         ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_range'], 'IN');
       $query->condition($group);
     }
-
 
     // Maximum 50,000 records.
     $query->range(0, 50000);

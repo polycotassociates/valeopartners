@@ -54,6 +54,16 @@ function vp_views_views_data() {
     ],
   ];
 
+  // Add an export header with a link to the xls export for Saved Search Summary Block.
+  $data['views']['export_saved_search_summary_block'] = [
+    'title' => t('Export Transactions For Saved Search Summary'),
+    'help' => t('An area containing links to export page (Saved Search Summary)'),
+    'area' => [
+      'id' => 'export_saved_search_summary_block',
+    ],
+  ];
+
+
   // Add a simple print button.
   $data['views']['print_button'] = [
     'title' => t('Simple Print Button'),

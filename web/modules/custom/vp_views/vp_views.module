@@ -98,5 +98,10 @@ function vp_views_views_query_alter(ViewExecutable $view, QueryPluginBase $query
       $query->addGroupBy('node_field_data.nid');
       break;
 
+    case 'saved_search_summary_block':
+      $query->addField('node__field_vp_rate_individual', 'entity_id', '', ['function' => 'groupby']);
+      $query->addGroupBy('node__field_vp_rate_individual.entity_id');
+      break;
+
   }
 }

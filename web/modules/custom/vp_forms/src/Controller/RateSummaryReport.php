@@ -280,12 +280,6 @@ class RateSummaryReport extends ControllerBase {
       $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
     }
 
-    // Filter by location ids (by parent).
-    if (isset($_GET['term_node_tid_depth_location'])) {
-      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
-      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
-    }
-
     // Filter by position ids.
     if (isset($_GET['term_node_tid_depth_position'])) {
       $query->condition('field_vp_rate_position_target_id', $_GET['term_node_tid_depth_position'], 'IN');
@@ -297,6 +291,15 @@ class RateSummaryReport extends ControllerBase {
         ->condition('field_vp_practice_area_1_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN')
         ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN')
         ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_1_target_id'], 'IN');
+      $query->condition($group);
+    }
+
+    // Filter by practice range.
+    if (isset($_GET['field_vp_practice_area_range'])) {
+      $group = $query->orConditionGroup()
+        ->condition('field_vp_practice_area_1_target_id', $_GET['field_vp_practice_area_range'], 'IN')
+        ->condition('field_vp_practice_area_2_target_id', $_GET['field_vp_practice_area_range'], 'IN')
+        ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_range'], 'IN');
       $query->condition($group);
     }
 
