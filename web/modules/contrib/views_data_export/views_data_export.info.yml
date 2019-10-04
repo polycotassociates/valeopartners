@@ -5,8 +5,4 @@ package: 'Views'
 core: 8.x
 dependencies:
   - drupal:rest
-  - drupal:views
   - csv_serialization:csv_serialization
-test_dependencies:
-  - xls_serialization:xls_serialization
-  - search_api:search_api

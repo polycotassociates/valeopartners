@@ -174,6 +174,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PantheonSystems\\CDNBehatHelpers\\' => 32,
         ),
+        'O' => 
+        array (
+            'OomphInc\\ComposerInstallersExtender\\' => 36,
+        ),
         'M' => 
         array (
             'Michelf\\' => 8,
@@ -251,6 +255,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
             'Cache\\Hierarchy\\' => 16,
             'Cache\\Bridge\\SimpleCache\\' => 25,
             'Cache\\Adapter\\Redis\\' => 20,
+            'Cache\\Adapter\\Memcache\\' => 23,
             'Cache\\Adapter\\Common\\' => 21,
         ),
         'B' => 
@@ -478,6 +483,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         array (
             0 => __DIR__ . '/../..' . '/web/modules/contrib/pantheon_advanced_page_cache/tests/behat/helper_classes',
         ),
+        'OomphInc\\ComposerInstallersExtender\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/oomphinc/composer-installers-extender/src',
+        ),
         'Michelf\\' => 
         array (
             0 => __DIR__ . '/..' . '/michelf/php-markdown/Michelf',
@@ -673,6 +682,10 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Cache\\Adapter\\Redis\\' => 
         array (
             0 => __DIR__ . '/..' . '/cache/redis-adapter',
+        ),
+        'Cache\\Adapter\\Memcache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cache/memcache-adapter',
         ),
         'Cache\\Adapter\\Common\\' => 
         array (
@@ -1024,6 +1037,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Cache\\Adapter\\Common\\PhpCacheItem' => __DIR__ . '/..' . '/cache/adapter-common/PhpCacheItem.php',
         'Cache\\Adapter\\Common\\PhpCachePool' => __DIR__ . '/..' . '/cache/adapter-common/PhpCachePool.php',
         'Cache\\Adapter\\Common\\TagSupportWithArray' => __DIR__ . '/..' . '/cache/adapter-common/TagSupportWithArray.php',
+        'Cache\\Adapter\\Memcache\\MemcacheCachePool' => __DIR__ . '/..' . '/cache/memcache-adapter/MemcacheCachePool.php',
         'Cache\\Adapter\\Redis\\RedisCachePool' => __DIR__ . '/..' . '/cache/redis-adapter/RedisCachePool.php',
         'Cache\\Bridge\\SimpleCache\\Exception\\CacheException' => __DIR__ . '/..' . '/cache/simple-cache-bridge/Exception/CacheException.php',
         'Cache\\Bridge\\SimpleCache\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/cache/simple-cache-bridge/Exception/InvalidArgumentException.php',
@@ -4541,6 +4555,9 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Michelf\\MarkdownExtra' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownExtra.php',
         'Michelf\\MarkdownInterface' => __DIR__ . '/..' . '/michelf/php-markdown/Michelf/MarkdownInterface.php',
         'OS_Guess' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/OS/Guess.php',
+        'OomphInc\\ComposerInstallersExtender\\Installer' => __DIR__ . '/..' . '/oomphinc/composer-installers-extender/src/Installer.php',
+        'OomphInc\\ComposerInstallersExtender\\InstallerHelper' => __DIR__ . '/..' . '/oomphinc/composer-installers-extender/src/InstallerHelper.php',
+        'OomphInc\\ComposerInstallersExtender\\Plugin' => __DIR__ . '/..' . '/oomphinc/composer-installers-extender/src/Plugin.php',
         'PEAR' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/PEAR.php',
         'PEAR_Error' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/PEAR.php',
         'PEAR_ErrorStack' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/PEAR/ErrorStack.php',

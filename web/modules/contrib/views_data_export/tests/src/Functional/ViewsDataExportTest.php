@@ -20,8 +20,6 @@ class ViewsDataExportTest extends ViewTestBase {
     'rest',
     'views_data_export',
     'views_data_export_test',
-    'csv_serialization',
-    'xls_serialization',
   ];
 
   /**

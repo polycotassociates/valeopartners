@@ -1,0 +1,11 @@
+--- tests/src/Functional/ViewsDataExportTest.php
++++ tests/src/Functional/ViewsDataExportTest.php
+@@ -20,6 +20,8 @@ class ViewsDataExportTest extends ViewTestBase {
+     'rest',
+     'views_data_export',
+     'views_data_export_test',
++    'csv_serialization',
++    'xls_serialization',
+   ];
+ 
+   /**

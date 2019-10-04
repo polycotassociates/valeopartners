@@ -1,0 +1,11 @@
+--- views_data_export.info.yml
++++ views_data_export.info.yml
+@@ -5,4 +5,8 @@ package: 'Views'
+ core: 8.x
+ dependencies:
+   - drupal:rest
++  - drupal:views
+   - csv_serialization:csv_serialization
++test_dependencies:
++  - xls_serialization:xls_serialization
++  - search_api:search_api

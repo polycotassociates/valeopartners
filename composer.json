@@ -7,11 +7,17 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
+
     ],
     "require": {
         "php": ">=7.1",
         "box/spout": "^3.0.1",
+        "cache/memcache-adapter": "^1.0",
         "cache/redis-adapter": "^1.0",
         "cache/simple-cache-bridge": "^1.0",
         "composer/installers": "^1.0.20",
@@ -24,6 +30,8 @@
         "drupal/advanced_help": "^1.0@alpha",
         "drupal/apachesolr_paragraphs": "1.x-dev",
         "drupal/auto_entitylabel": "3.x-dev",
+        "drupal/autocomplete_deluxe": "1.x-dev",
+        "drupal/autocomplete_field_match": "^1.0",
         "drupal/backup_migrate": "^4.0",
         "drupal/better_exposed_filters": "^3.0",
         "drupal/better_formats": "1.x-dev",
@@ -31,6 +39,7 @@
         "drupal/bootstrap_layouts": "^5.1",
         "drupal/bulk_update_fields": "^2.0",
         "drupal/cer": "^4.0",
+        "drupal/chosen": "^2.8",
         "drupal/computed_field": "2.x-dev",
         "drupal/config_devel": "^1.2",
         "drupal/config_direct_save": "^1.0",
@@ -80,6 +89,7 @@
         "drupal/redis": "^1.1",
         "drupal/rules": "^3.0",
         "drupal/search_autocomplete": "^1.1",
+        "drupal/select2": "1.x-dev",
         "drupal/sendgrid_integration": "^1.2",
         "drupal/shs": "^1.0",
         "drupal/simple_block": "^1.0@beta",
@@ -107,6 +117,8 @@
         "drupal/yearonly": "^1.3",
         "drush-ops/behat-drush-endpoint": "^0.0.5",
         "mikehaertl/phpwkhtmltopdf": "^2.4",
+        "npm-asset/select2": "^4.0",
+        "oomphinc/composer-installers-extender": "^1.1",
         "pantheon-systems/quicksilver-pushback": "~1",
         "rvtraveller/qs-composer-installer": "^1.1",
         "webflo/drupal-core-strict": "^8"
@@ -148,8 +160,14 @@
             "web/modules/contrib/{$name}": ["type:drupal-module"],
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/contrib/{$name}": ["type:drupal-drush"]
+            "drush/contrib/{$name}": ["type:drupal-drush"],
+            "web/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ]
         },
+    "installer-types": ["bower-asset", "npm-asset"],
     "merge-plugin": {
         "include": [
             "core/composer.json",
@@ -176,6 +194,9 @@
         "drupal/entityconnect": {
             "Issues when going too deep": "https://www.drupal.org/files/issues/2019-07-08/entity_connect_offset.patch"
         },
+        "drupal/autocomplete_deluxe": {
+            "Comma in string (non-delimiter) creates multiple terms": "https://www.drupal.org/files/issues/2019-07-17/autocomplete_comma-2903968-1.patch"
+        },
         "drupal/core": {
             "ManyToOneHelper ignores group configuration for some cases and forces INNER joins": "https://www.drupal.org/files/issues/2018-08-02/manytoonehelper_ignores-2559961-44-8.5.x.patch",
             "Impossible to update an entity revision if the field value you are updating matches the default revision.": "https://www.drupal.org/files/issues/2018-07-30/entity_original_revision-2859042-26.patch",
@@ -185,7 +206,6 @@
             "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch",
             "User can't reference unpublished content even when he has access to it": "https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch",
             "Hardcoded result size limit in the entity reference autocomplete widget": "https://www.drupal.org/files/issues/2018-11-08/2863188-66.patch"
-
         }
     },
     "build-env": {

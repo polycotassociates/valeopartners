@@ -4,7 +4,6 @@ namespace Drupal\views_data_export\Plugin\views\style;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RedirectDestinationTrait;
 use Drupal\Core\Url;
 use Drupal\rest\Plugin\views\style\Serializer;
 
@@ -22,7 +21,12 @@ use Drupal\rest\Plugin\views\style\Serializer;
  */
 class DataExport extends Serializer {
 
-  use RedirectDestinationTrait;
+  /**
+   * Field labels should be enabled by default for this Style.
+   *
+   * @var bool
+   */
+  protected $defaultFieldLabels = TRUE;
 
   /**
    * {@inheritdoc}
@@ -40,7 +44,6 @@ class DataExport extends Serializer {
       'trim' => ['default' => TRUE],
       'encoding' => ['default' => 'utf8'],
       'utf8_bom' => ['default' => FALSE],
-      'use_serializer_encode_only' => ['default' => FALSE],
     ];
 
     // XLS options.
@@ -48,9 +51,9 @@ class DataExport extends Serializer {
       'xls_format' => ['default' => 'Excel2007'],
     ];
     $options['xls_settings']['metadata']['contains'] = [
-        // The 'created' and 'modified' elements are not exposed here, as they
-        // default to the current time (that the spreadsheet is created), and
-        // would probably just confuse the UI.
+      // The 'created' and 'modified' elements are not exposed here, as they
+      // default to the current time (that the spreadsheet is created), and
+      // would probably just confuse the UI.
       'creator' => ['default' => ''],
       'last_modified_by' => ['default' => ''],
       'title' => ['default' => ''],
@@ -60,7 +63,7 @@ class DataExport extends Serializer {
       'category' => ['default' => ''],
       'manager' => ['default' => ''],
       'company' => ['default' => ''],
-        // @todo Expose a UI for custom properties.
+      // @todo Expose a UI for custom properties.
     ];
 
     return $options;
@@ -135,18 +138,10 @@ class DataExport extends Serializer {
             ],
             'utf8_bom' => [
               '#type' => 'checkbox',
-              '#title' => $this->t(
-                  'Include unicode signature (<a href="@bom" target="_blank">BOM</a>).', [
-                    '@bom' => 'https://www.w3.org/International/questions/qa-byte-order-mark',
-                  ]
-              ),
+              '#title' => $this->t('Include unicode signature (<a href="@bom" target="_blank">BOM</a>).', [
+                '@bom' => 'https://www.w3.org/International/questions/qa-byte-order-mark'
+              ]),
               '#default_value' => $csv_options['utf8_bom'],
-            ],
-            'use_serializer_encode_only' => [
-              '#type' => 'checkbox',
-              '#title' => $this->t('Only use Symfony serializer->encode method'),
-              '#description' => $this->t('Skips the symfony data normalize method when rendering data export to increase performance on large datasets. <strong>(Only use when not exporting nested data)</strong>'),
-              '#default_value' => $csv_options['use_serializer_encode_only'],
             ],
           ];
         }
@@ -172,13 +167,15 @@ class DataExport extends Serializer {
               '#type' => 'select',
               '#title' => $this->t('Format'),
               '#options' => [
-                  // @todo Add all PHPExcel supported formats.
+                // @todo Add all PHPExcel supported formats.
                 'Excel2007' => $this->t('Excel 2007'),
                 'Excel5' => $this->t('Excel 5'),
               ],
               '#default_value' => $xls_options['xls_format'],
             ],
           ];
+
+          $metadata = !empty($xls_options['metadata']) ? array_filter($xls_options['metadata']) : [];
 
           // XLS metadata.
           $form['xls_settings']['metadata'] = [
@@ -233,6 +230,7 @@ class DataExport extends Serializer {
    */
   public function attachTo(array &$build, $display_id, Url $url, $title) {
     // @todo This mostly hard-codes CSV handling. Figure out how to abstract.
+
     $url_options = [];
     $input = $this->view->getExposedInput();
     if ($input) {
@@ -299,42 +297,6 @@ class DataExport extends Serializer {
 
     // Tell the field to click sort.
     $this->view->field[$sort_field]->clickSort($sort_order);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function render() {
-    // This is pretty close to the parent implementation.
-    // Difference (noted below) stems from not being able to get anything other
-    // than json rendered even when the display was set to export csv or xml.
-    $rows = [];
-    foreach ($this->view->result as $row_index => $row) {
-      $this->view->row_index = $row_index;
-      $rows[] = $this->view->rowPlugin->render($row);
-    }
-
-    unset($this->view->row_index);
-
-    // Get the format configured in the display or fallback to json.
-    // We intentionally implement this different from the parent method because
-    // $this->displayHandler->getContentType() will always return json due to
-    // the request's header (i.e. "accept:application/json") and
-    // we want to be able to render csv or xml data as well in accordance with
-    // the data export format configured in the display.
-    $format = !empty($this->options['formats']) ? reset($this->options['formats']) : 'json';
-
-    // If data is being exported as a CSV we give the option to not use the
-    // Symfony normalize method which increases performance on large data sets.
-    // This option can be configured in the CSV Settings section of the data
-    // export.
-    if ($format === 'csv' && $this->options['csv_settings']['use_serializer_encode_only'] == 1) {
-      return $this->serializer->encode($rows, $format, ['views_style_plugin' => $this]);
-    }
-    else {
-      return $this->serializer->serialize($rows, $format, ['views_style_plugin' => $this]);
-    }
-
   }
 
 }
