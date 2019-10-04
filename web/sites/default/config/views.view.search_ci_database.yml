@@ -4,34 +4,17 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_vp_bar_date
-    - field.storage.node.field_vp_case_court
-    - field.storage.node.field_vp_case_date_filed
-    - field.storage.node.field_vp_case_name
-    - field.storage.node.field_vp_case_nature_of_suit
-    - field.storage.node.field_vp_case_number
     - field.storage.node.field_vp_company_industry
-    - field.storage.node.field_vp_filing_description
     - field.storage.node.field_vp_filing_fee_dates
-    - field.storage.node.field_vp_filing_number
-    - field.storage.node.field_vp_first_name
     - field.storage.node.field_vp_graduation
     - field.storage.node.field_vp_individual_location
-    - field.storage.node.field_vp_last_name
-    - field.storage.node.field_vp_middle_name
     - field.storage.node.field_vp_practice_area_1
     - field.storage.node.field_vp_practice_area_2
     - field.storage.node.field_vp_practice_area_3
     - field.storage.node.field_vp_rate_company
-    - field.storage.node.field_vp_rate_flat_fee
     - field.storage.node.field_vp_rate_hourly
-    - field.storage.node.field_vp_rate_hours
     - field.storage.node.field_vp_rate_position
-    - field.storage.node.field_vp_rate_retainer
     - field.storage.node.field_vp_rate_standard
-    - field.storage.node.field_vp_rate_total
-    - field.storage.node.field_vp_rate_transaction_amount
-    - field.storage.node.field_vp_rate_transaction_type
-    - field.storage.node.field_vp_rate_transactional_fee
     - field.storage.node.field_vp_state_bar
     - node.type.vp_type_rate
     - system.menu.rate-afa-searches
@@ -39,20 +22,17 @@ dependencies:
     - user.role.administrator
     - user.role.company_industry_add_on
     - user.role.data_entry
+    - user.role.rate_report_user
     - user.role.superuser
   module:
     - computed_field
     - datetime
     - datetime_range
     - node
-    - rest
-    - serialization
     - taxonomy
     - user
     - verf
-    - views_data_export
     - vp_views
-    - xls_serialization
     - yearonly
 id: search_ci_database
 label: 'Search CI Database'
@@ -74,6 +54,7 @@ display:
         options:
           role:
             administrator: administrator
+            rate_report_user: rate_report_user
             superuser: superuser
             data_entry: data_entry
             company_industry_add_on: company_industry_add_on

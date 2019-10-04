@@ -24,13 +24,9 @@ dependencies:
     - datetime
     - datetime_range
     - node
-    - rest
-    - serialization
     - taxonomy
     - user
-    - views_data_export
     - vp_views
-    - xls_serialization
     - yearonly
 id: search_rate_trending_analysis
 label: 'Search Rate Trending Analysis'

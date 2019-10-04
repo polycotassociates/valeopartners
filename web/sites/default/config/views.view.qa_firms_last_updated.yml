@@ -372,7 +372,7 @@ display:
         description: 'A list of RAs assigned to firms and when the firms were last updated.'
         expanded: false
         parent: ''
-        weight: -45
+        weight: -46
         context: '0'
         menu_name: qa-management
       display_description: ''

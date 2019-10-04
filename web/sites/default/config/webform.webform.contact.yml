@@ -17,7 +17,7 @@ id: contact
 title: Contact
 description: 'Basic email contact webform.'
 category: ''
-elements: "support_form:\n  '#type': label\n  '#title': 'Support Form'\nname:\n  '#title': 'Your Name'\n  '#type': textfield\n  '#required': true\n  '#default_value': '[current-user:display-name]'\nemail:\n  '#title': 'Your Email'\n  '#type': email\n  '#required': true\n  '#default_value': '[current-user:mail]'\nsubject:\n  '#title': Subject\n  '#type': textfield\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\nmessage:\n  '#title': Message\n  '#type': textarea\n  '#required': true\n  '#test': 'Please ignore this email.'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': 'Send message'"
+elements: "name:\n  '#title': 'Your Name'\n  '#type': textfield\n  '#required': true\n  '#default_value': '[current-user:display-name]'\nemail:\n  '#title': 'Your Email'\n  '#type': email\n  '#required': true\n  '#default_value': '[current-user:mail]'\nsubject:\n  '#title': Subject\n  '#type': textfield\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\nmessage:\n  '#title': Message\n  '#type': textarea\n  '#required': true\n  '#test': 'Please ignore this email.'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': 'Send message'\n"
 css: ''
 javascript: ''
 settings:
@@ -105,7 +105,7 @@ settings:
   draft_pending_multiple_message: ''
   confirmation_type: url_message
   confirmation_title: ''
-  confirmation_message: "Your message has been sent.<br />\r\nSomeone will get back to you as soon as possible."
+  confirmation_message: 'Your message has been sent.'
   confirmation_url: '<front>'
   confirmation_attributes: {  }
   confirmation_back: true
@@ -223,7 +223,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: aaron@polycotassociates.com
+      to_mail: _default
       to_options: {  }
       cc_mail: ''
       cc_options: {  }

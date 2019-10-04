@@ -31,6 +31,7 @@ dependencies:
     - taxonomy.vocabulary.practice_area
     - user.role.administrator
     - user.role.fee_search_add_on
+    - user.role.rate_report_user
     - user.role.superuser
   module:
     - computed_field
@@ -62,6 +63,7 @@ display:
         options:
           role:
             administrator: administrator
+            rate_report_user: rate_report_user
             superuser: superuser
             fee_search_add_on: fee_search_add_on
       cache:

@@ -1694,7 +1694,7 @@ display:
         description: 'View and download unpublished rates'
         expanded: false
         parent: ''
-        weight: -44
+        weight: -45
         context: '0'
         menu_name: qa-management
         enabled: true

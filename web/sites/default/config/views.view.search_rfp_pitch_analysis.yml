@@ -9,19 +9,16 @@ dependencies:
     - system.menu.rate-afa-searches
     - user.role.authenticated
     - user.role.data_entry
+    - user.role.rate_report_user
     - user.role.superuser
   module:
     - better_exposed_filters
     - computed_field
     - node
-    - rest
-    - serialization
     - taxonomy
     - user
     - verf
-    - views_data_export
     - vp_views
-    - xls_serialization
 id: search_rfp_pitch_analysis
 label: 'Search RFP / Pitch Analysis'
 module: views
@@ -42,6 +39,7 @@ display:
         options:
           role:
             authenticated: authenticated
+            rate_report_user: rate_report_user
             superuser: superuser
             data_entry: data_entry
       cache:

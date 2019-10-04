@@ -27,6 +27,10 @@ dependencies:
     - taxonomy.vocabulary.city
     - taxonomy.vocabulary.position
     - taxonomy.vocabulary.practice_area
+    - user.role.administrator
+    - user.role.data_entry
+    - user.role.rate_report_user
+    - user.role.superuser
   module:
     - computed_field
     - node
@@ -55,9 +59,13 @@ display:
     position: 0
     display_options:
       access:
-        type: perm
+        type: role
         options:
-          perm: 'access content'
+          role:
+            administrator: administrator
+            rate_report_user: rate_report_user
+            superuser: superuser
+            data_entry: data_entry
       cache:
         type: tag
         options: {  }
@@ -2022,7 +2030,7 @@ display:
         - url.query_args
         - user
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.node.field_2017_actual_rate'
         - 'config:field.storage.node.field_2017_standard_rate'
@@ -3242,7 +3250,7 @@ display:
         - url
         - user
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.node.field_2017_actual_rate'
         - 'config:field.storage.node.field_2017_standard_rate'
@@ -3290,7 +3298,7 @@ display:
         - url.query_args
         - user
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.node.field_2017_actual_rate'
         - 'config:field.storage.node.field_2017_standard_rate'

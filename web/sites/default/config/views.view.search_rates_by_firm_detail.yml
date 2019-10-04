@@ -25,6 +25,7 @@ dependencies:
     - user.role.administrator
     - user.role.company_industry_add_on
     - user.role.data_entry
+    - user.role.rate_report_user
     - user.role.superuser
   module:
     - computed_field
@@ -56,6 +57,7 @@ display:
         options:
           role:
             administrator: administrator
+            rate_report_user: rate_report_user
             superuser: superuser
             data_entry: data_entry
             company_industry_add_on: company_industry_add_on

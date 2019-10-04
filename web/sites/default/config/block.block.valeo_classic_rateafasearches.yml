@@ -28,6 +28,7 @@ visibility:
     id: user_role
     roles:
       administrator: administrator
+      rate_report_user: rate_report_user
       superuser: superuser
       data_entry: data_entry
       fee_search_add_on: fee_search_add_on
