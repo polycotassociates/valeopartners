@@ -5,3 +5,7 @@ vp_views_library:
   dependencies:
     - core/jquery
     - core/jquery.once
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.dialog

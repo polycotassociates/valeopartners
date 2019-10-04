@@ -5,6 +5,11 @@ vp_forms_library:
   dependencies:
     - core/jquery
     - core/jquery.once
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.dialog
   css:
     theme:
       libraries/css/vp_forms.css: {}
