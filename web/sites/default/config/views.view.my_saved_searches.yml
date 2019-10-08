@@ -50,7 +50,7 @@ display:
       pager:
         type: mini
         options:
-          items_per_page: 10
+          items_per_page: 20
           offset: 0
           id: 0
           total_pages: null
@@ -195,34 +195,8 @@ display:
             label: ''
           granularity: second
       title: 'My Saved Searches'
-      header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: true
-          tokenize: false
-          content:
-            value: '<a href="/node/add/vp_type_saved_search" title="Create a new Saved Search">Create a New Search...</a>'
-            format: full_html
-          plugin_id: text
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          tokenize: false
-          content:
-            value: ''
-            format: basic_html
-          plugin_id: text
+      header: {  }
+      footer: {  }
       empty: {  }
       relationships: {  }
       arguments:
@@ -263,6 +237,9 @@ display:
           entity_field: uid
           plugin_id: numeric
       display_extenders: {  }
+      use_more: true
+      use_more_always: true
+      use_more_text: more
     cache_metadata:
       max-age: -1
       contexts:
@@ -282,6 +259,62 @@ display:
     display_options:
       display_extenders: {  }
       display_description: 'A block showing the users saved searches'
+      use_more: true
+      defaults:
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+      use_more_always: false
+      use_more_text: more
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
+  my_saved_searches_page:
+    display_plugin: page
+    id: my_saved_searches_page
+    display_title: 'My Saved Searches Page'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      path: saved-searches
+      display_description: 'A page showing saved searches'
+      pager:
+        type: full
+        options:
+          items_per_page: 50
+          offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: true
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          quantity: 9
+      defaults:
+        pager: false
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+      use_more: false
+      use_more_always: true
+      use_more_text: more
     cache_metadata:
       max-age: -1
       contexts:
