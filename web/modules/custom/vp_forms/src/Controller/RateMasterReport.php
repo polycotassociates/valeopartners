@@ -86,7 +86,7 @@ class RateMasterReport extends ControllerBase {
     $worksheet->getCell('AD1')->setValue('Filing Name');
     $worksheet->getCell('AE1')->setValue('Filing Description');
     $worksheet->getCell('AF1')->setValue('Filing Number');
-    $worksheet->getCell('AG1')->setValue('Fee Date Range Begin');
+    $worksheet->getCell('AG1')->setValue('Fee Date Range Begin --');
     $worksheet->getCell('AH1')->setValue('Fee Date Range End');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
@@ -225,7 +225,7 @@ class RateMasterReport extends ControllerBase {
       $worksheet->setCellValue('AA' . $i, '' . $this->getCaseCourt($result->field_vp_filing_case_target_id));
       // Date Filed.
       $worksheet->setCellValue('AB' . $i, $this->getFilingDate($result->field_vp_filing_case_target_id));
-      $spreadsheet->getActiveSheet()->getStyle('AB' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+      $spreadsheet->getActiveSheet()->getStyle('AB' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
       // Nature of Suit.
       $worksheet->setCellValue('AC' . $i, '' . $this->getNatureOfSuit($result->field_vp_filing_case_target_id));
       // Filing Name.
@@ -236,10 +236,10 @@ class RateMasterReport extends ControllerBase {
       $worksheet->setCellValue('AF' . $i, '' . $this->getFilingNumber($result->field_vp_rate_filing_target_id));
       // Fee Date Range Begin.
       $worksheet->setCellValue('AG' . $i, $this->getFeeDateBegin($result->field_vp_rate_filing_target_id));
-      $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+      $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
       // Fee Date Range End.
       $worksheet->setCellValue('AH' . $i, $this->getFeeDateEnd($result->field_vp_rate_filing_target_id));
-      $spreadsheet->getActiveSheet()->getStyle('AH' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+      $spreadsheet->getActiveSheet()->getStyle('AH' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
 
       $i++;
 
@@ -502,7 +502,10 @@ class RateMasterReport extends ControllerBase {
     $query = db_select('node__field_vp_case_date_filed', 'date_filed');
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    $timestamp = strtotime($date);
+    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+    return $formatted_date;
   }
 
   /**
@@ -512,7 +515,10 @@ class RateMasterReport extends ControllerBase {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_begin');
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    $timestamp = strtotime($date);
+    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+    return $formatted_date;
   }
 
   /**
@@ -522,7 +528,10 @@ class RateMasterReport extends ControllerBase {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_end');
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    $timestamp = strtotime($date);
+    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+    return $formatted_date;
   }
 
   /**
