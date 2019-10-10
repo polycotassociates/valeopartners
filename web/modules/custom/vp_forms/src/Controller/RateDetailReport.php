@@ -31,9 +31,9 @@ class RateDetailReport extends ControllerBase {
   public function export() {
 
     if (class_exists('Redis')) {
-      $redis_host = 'cache'; // Redis name/ip here, e.g. 'localhost'.
+
       $client = new \Redis();
-      $client->connect($redis_host, 6379);
+      $client->connect($_ENV['CACHE_HOST'], $_ENV['CACHE_PORT']);
       $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
       $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
       \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
