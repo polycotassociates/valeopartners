@@ -30,6 +30,26 @@ class RateDetailReport extends ControllerBase {
    */
   public function export() {
 
+    if (class_exists('Redis')) {
+      $redis_host = 'cache'; // Redis name/ip here, e.g. 'localhost'.
+      $client = new \Redis();
+      $client->connect($redis_host, 6379);
+      $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
+      $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+      \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+      \Drupal::logger('vp_api')->notice('Redis initalized...');
+    }
+
+    elseif (class_exists('Memcache')) {
+      $memcache_host = '127.0.0.1'; // Memcache name/ip here, e.g. 'localhost'.
+      $client = new \Memcache();
+      $client->connect($memcache_host, 11211);
+      $pool = new \Cache\Adapter\Memcache\MemcacheCachePool($client);
+      $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+      \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+      \Drupal::logger('vp_api')->notice('Memcache initalized...');
+    }
+
     $title = $this->getPageTitle();
 
     $response = new Response();
