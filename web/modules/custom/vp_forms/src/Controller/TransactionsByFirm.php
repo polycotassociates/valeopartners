@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -40,6 +41,7 @@ class TransactionsByFirm extends ControllerBase {
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
     $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     // Set metadata.
@@ -252,7 +254,9 @@ class TransactionsByFirm extends ControllerBase {
     }
 
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -266,9 +270,12 @@ class TransactionsByFirm extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    vp_api_report_send($uid, $uri, $time);
+    //vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Transactions By Firm Report generated in $seconds seconds by user #$uid.");
     return $response;
   }
 
@@ -324,6 +331,8 @@ class TransactionsByFirm extends ControllerBase {
     $query->leftjoin('node__field_vp_rate_transaction_type', 'transaction_type', 'node.nid = transaction_type.entity_id');
     $query->leftjoin('node__field_vp_rate_success_fee', 'success_fee', 'node.nid = success_fee.entity_id');
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+
+
 
     // Filing, Case, Company, Individual, and Firm fields.
     $query->fields('firm', ['field_vp_rate_firm_target_id']);
@@ -391,6 +400,11 @@ class TransactionsByFirm extends ControllerBase {
     // Filter by Grad Date.
     if (isset($_GET['field_vp_graduation_value']['min']) && $_GET['field_vp_graduation_value']['min'] != '') {
       $query->condition('field_vp_graduation_value', [$_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['max']], 'BETWEEN');
+    }
+
+    // Filter by firm company.
+    if (isset($_GET['field_vp_rate_company_target_id_verf'])) {
+      $query->condition('field_vp_rate_company_target_id', $_GET['field_vp_rate_company_target_id_verf'], 'IN');
     }
 
     // Filter by location ids (by parent).
@@ -483,9 +497,12 @@ class TransactionsByFirm extends ControllerBase {
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -496,9 +513,12 @@ class TransactionsByFirm extends ControllerBase {
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -509,11 +529,12 @@ class TransactionsByFirm extends ControllerBase {
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
-
 
   /**
    * Get Node Title Query.

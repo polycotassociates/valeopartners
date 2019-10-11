@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -30,34 +31,41 @@ class RateDetailReport extends ControllerBase {
    */
   public function export() {
 
-    if (class_exists('Redis')) {
+    // if (class_exists('Redis')) {
 
-      $client = new \Redis();
-      $client->connect($_ENV['CACHE_HOST'], $_ENV['CACHE_PORT']);
-      $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
-      $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
-      \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
-      \Drupal::logger('vp_api')->notice('Redis initalized...');
-    }
+    //   $client = new \Redis();
+    //   $client->connect($_ENV['CACHE_HOST'], $_ENV['CACHE_PORT']);
+    //   $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
+    //   $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+    //   \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+    //   \Drupal::logger('vp_api')->notice('Generating spreadsheet using Redis cache...');
+    // }
 
-    elseif (class_exists('Memcache')) {
-      $memcache_host = '127.0.0.1'; // Memcache name/ip here, e.g. 'localhost'.
-      $client = new \Memcache();
-      $client->connect($memcache_host, 11211);
-      $pool = new \Cache\Adapter\Memcache\MemcacheCachePool($client);
-      $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
-      \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
-      \Drupal::logger('vp_api')->notice('Memcache initalized...');
-    }
+    // elseif (class_exists('Memcache')) {
+    //   $memcache_host = '127.0.0.1'; // Memcache name/ip here, e.g. 'localhost'.
+    //   $client = new \Memcache();
+    //   $client->connect($memcache_host, 11211);
+    //   $pool = new \Cache\Adapter\Memcache\MemcacheCachePool($client);
+    //   $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+    //   \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+    //   \Drupal::logger('vp_api')->notice('Generating spreadsheet using Memcache...');
+    // }
 
-    $title = $this->getPageTitle();
+    // else {
+    //   \Drupal::logger('vp_api')->notice('Generating spreadsheet...');
+    // }
 
+    //$title = $this->getPageTitle();
+
+    $title = "Rates_by_firm_detail";
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
     $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
+
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     // Set metadata.
@@ -73,6 +81,7 @@ class RateDetailReport extends ControllerBase {
     // Get the active sheet.
     $spreadsheet->setActiveSheetIndex(0);
     $worksheet = $spreadsheet->getActiveSheet();
+
 
     //Rename sheet
     $worksheet->setTitle('Valeo Reports');
@@ -270,7 +279,9 @@ class RateDetailReport extends ControllerBase {
     }
 
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -284,9 +295,12 @@ class RateDetailReport extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    vp_api_report_send($uid, $uri, $time);
+    //vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Rate Detail Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
   }
 
@@ -560,9 +574,11 @@ class RateDetailReport extends ControllerBase {
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**
@@ -573,9 +589,12 @@ class RateDetailReport extends ControllerBase {
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -586,9 +605,11 @@ class RateDetailReport extends ControllerBase {
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**

@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -38,6 +39,7 @@ class RateSummaryReport extends ControllerBase {
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
     $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     // Set metadata.
@@ -169,8 +171,12 @@ class RateSummaryReport extends ControllerBase {
       $i++;
 
     }
+
+
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -184,10 +190,14 @@ class RateSummaryReport extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    vp_api_report_send($uid, $uri, $time);
+    //vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Rate Summary Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
+
   }
 
   /**

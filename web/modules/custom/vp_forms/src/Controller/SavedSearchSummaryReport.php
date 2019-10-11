@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -33,8 +34,9 @@ class SavedSearchSummaryReport extends ControllerBase {
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=Valeo Master Search.xlsx");
+    $response->headers->set('Content-Disposition', "attachment; filename=Saved_Search_Summary.xlsx");
 
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     //Set metadata.
@@ -168,7 +170,9 @@ class SavedSearchSummaryReport extends ControllerBase {
     }
 
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -182,9 +186,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    vp_api_report_send($uid, $uri, $time);
+    //vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Saved Search Summary Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
   }
 
@@ -442,7 +449,13 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query = db_select('node__field_vp_case_date_filed', 'date_filed');
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -452,7 +465,13 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_begin');
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -462,7 +481,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_end');
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**

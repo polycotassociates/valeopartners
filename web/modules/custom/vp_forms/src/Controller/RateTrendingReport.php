@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -41,6 +42,7 @@ class RateTrendingReport extends ControllerBase {
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
     $response->headers->set('Content-Disposition', "attachment; filename=Rate_Trending_Analysis.xlsx");
 
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     // Set metadata.
@@ -141,7 +143,9 @@ class RateTrendingReport extends ControllerBase {
     }
 
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -153,13 +157,16 @@ class RateTrendingReport extends ControllerBase {
     // Send a report to an administrator with the user ID, the
     // uri, and time of export.
     $uid = \Drupal::currentUser()->id();
-    //$uri = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    vp_api_report_send($uid, $uri, $time);
+    //vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Rate Trending Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
+
   }
 
   /**

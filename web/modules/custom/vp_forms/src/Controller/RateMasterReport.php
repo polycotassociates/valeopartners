@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -35,6 +36,7 @@ class RateMasterReport extends ControllerBase {
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
     $response->headers->set('Content-Disposition', "attachment; filename=Valeo Master Search.xlsx");
 
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     //Set metadata.
@@ -245,8 +247,11 @@ class RateMasterReport extends ControllerBase {
 
     }
 
+
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -260,10 +265,14 @@ class RateMasterReport extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    vp_api_report_send($uid, $uri, $time);
+    //vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Rate Master Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
+
   }
 
   /**
@@ -358,6 +367,9 @@ class RateMasterReport extends ControllerBase {
     // Only if there's an actual rate.
     //$query->condition('field_vp_rate_hourly_value', 0, '>');
 
+    $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
+    // $query->fields('individual_title', ['title']);
+
     // Filter by title.
     if (isset($_GET['title'])) {
       $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
@@ -415,6 +427,8 @@ class RateMasterReport extends ControllerBase {
       $query->condition('individual_title.title', '%' . db_like($_GET['title']) . '%', 'LIKE');
     }
 
+
+
     // Filter by practice area ids.
     if (isset($_GET['field_vp_practice_area_1_target_id']) || isset($_GET['field_vp_practice_area_2_target_id']) || isset($_GET['field_vp_practice_area_3_target_id'])) {
       $group = $query->orConditionGroup()
@@ -434,7 +448,7 @@ class RateMasterReport extends ControllerBase {
     }
 
     // Maximum 50,000 records.
-    $query->range(0, 50000);
+    $query->range(0, 10000);
 
     // Order by Transaction Amount Rate.
     $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
@@ -503,9 +517,12 @@ class RateMasterReport extends ControllerBase {
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -516,9 +533,12 @@ class RateMasterReport extends ControllerBase {
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -529,9 +549,11 @@ class RateMasterReport extends ControllerBase {
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
     $date = $query->execute()->fetchField();
-    $timestamp = strtotime($date);
-    $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-    return $formatted_date;
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**
