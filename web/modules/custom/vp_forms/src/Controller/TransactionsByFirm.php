@@ -284,6 +284,8 @@ class TransactionsByFirm extends ControllerBase {
    */
   public function generateDynamicQuery() {
 
+    $query_start_time = microtime(TRUE);
+
     // Connect to the database.
     $db = \Drupal::database();
     $db->query("SET SESSION sql_mode = ''")->execute();
@@ -399,6 +401,15 @@ class TransactionsByFirm extends ControllerBase {
 
     // Filter by Grad Date.
     if (isset($_GET['field_vp_graduation_value']['min']) && $_GET['field_vp_graduation_value']['min'] != '') {
+
+      if (isset($_GET['field_vp_graduation_value']['max'])) {
+        $range = range($_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['max']);
+      }
+      else {
+        $range = range($_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['min']);
+      }
+      //$query->condition('field_vp_graduation_value', $range, 'IN');
+
       $query->condition('field_vp_graduation_value', [$_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['max']], 'BETWEEN');
     }
 
@@ -433,7 +444,13 @@ class TransactionsByFirm extends ControllerBase {
     // Order by Transaction Amount Rate.
     $query->orderBy('actual.field_vp_rate_hourly_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Transactions by firm report query took $seconds.");
+
+    return $results;
 
   }
 

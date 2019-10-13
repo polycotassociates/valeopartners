@@ -199,6 +199,10 @@ class ViewsBulkOperationsViewData implements ViewsBulkOperationsViewDataInterfac
       // Execute the view without exposed input set.
       $view = Views::getView($this->view->id());
       $view->setDisplay($this->view->current_display);
+      // If there are any arguments, pass them through.
+      if (!empty($this->view->args)) {
+        $view->setArguments($this->view->args);
+      }
       $view->get_total_rows = TRUE;
 
       // We have to set exposed input to some value here, empty

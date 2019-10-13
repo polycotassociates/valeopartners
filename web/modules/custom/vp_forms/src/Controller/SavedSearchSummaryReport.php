@@ -200,6 +200,8 @@ class SavedSearchSummaryReport extends ControllerBase {
    */
   public function generateDynamicQuery() {
 
+    $query_start_time = microtime(TRUE);
+
     // Connect to the database.
     $db = \Drupal::database();
     $db->query("SET SESSION sql_mode = ''")->execute();
@@ -386,7 +388,13 @@ class SavedSearchSummaryReport extends ControllerBase {
     // Order by Transaction Amount Rate.
     $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Saved search report query took $seconds.");
+
+    return $results;
 
   }
 

@@ -57,13 +57,6 @@ class RateDetailReport extends ControllerBase {
 
     //$title = $this->getPageTitle();
 
-    $title = "Rates_by_firm_detail";
-    $response = new Response();
-    $response->headers->set('Pragma', 'no-cache');
-    $response->headers->set('Expires', '0');
-    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
-
 
     $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
@@ -278,6 +271,15 @@ class RateDetailReport extends ControllerBase {
 
     }
 
+
+
+    $title = "Rates_by_firm_detail";
+    $response = new Response();
+    $response->headers->set('Pragma', 'no-cache');
+    $response->headers->set('Expires', '0');
+    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
+
     // Get the writer and export in memory.
     // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer = new Xlsx($spreadsheet);
@@ -308,6 +310,8 @@ class RateDetailReport extends ControllerBase {
    * Generate the Dyamic Query based on GET variables.
    */
   public function generateDynamicQuery() {
+
+    $query_start_time = microtime(TRUE);
 
     // Connect to the database.
     $db = \Drupal::database();
@@ -480,7 +484,13 @@ class RateDetailReport extends ControllerBase {
     // Order by Transaction Amount Rate.
     $query->orderBy('actual.field_vp_rate_hourly_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Detail report query took $seconds.");
+
+    return $results;
 
   }
 

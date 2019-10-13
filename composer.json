@@ -77,6 +77,7 @@
         "drupal/module_filter": "^3.1",
         "drupal/multiselect": "1.x-dev",
         "drupal/node_access_rebuild_progressive": "^1.0",
+        "drupal/page_load_progress": "^1.4",
         "drupal/pantheon_advanced_page_cache": "^1.0",
         "drupal/paragraphs": "^1.3",
         "drupal/paragraphs_clean": "^1.1",
@@ -188,8 +189,8 @@
         "drupal/devel": {
             "protected property issues": "https://www.drupal.org/files/issues/devel.ksm_.2857361.18.patch"
         },
-        "drupal/auto_entitylabel": {
-            "Title displayed as %AutoEntityLabel% after saving via Inline Entity Form": "https://www.drupal.org/files/issues/Title_displayed_as_AutoEntityLabel_after_saving_via_Inline_Entity_Form-2905230-6.patch"
+        "drupal/entity_usage": {
+            "100s to 1000s of revisions cause a timeout on batch update": "https://www.drupal.org/files/issues/2019-08-15/3075249-fix-for-many-revisions.patch"
         },
         "drupal/entityconnect": {
             "Issues when going too deep": "https://www.drupal.org/files/issues/2019-07-08/entity_connect_offset.patch"
@@ -204,9 +205,7 @@
             "Contextual filters: Taxonomy filter validation using multiple term names": "https://www.drupal.org/files/issues/2018-10-25/1248300-65.patch",
             "Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2019-05-04/drupal_2230909_138.patch",
             "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch",
-            "User can't reference unpublished content even when he has access to it": "https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch",
-            "Hardcoded result size limit in the entity reference autocomplete widget": "https://www.drupal.org/files/issues/2018-11-08/2863188-66.patch"
-        }
+            "User can't reference unpublished content even when he has access to it": "https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch"        }
     },
     "build-env": {
         "install-cms": [

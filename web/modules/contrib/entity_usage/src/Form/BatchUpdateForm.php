@@ -13,6 +13,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BatchUpdateForm extends FormBase {
 
   /**
+   * The size of the batch for the revision queries.
+   */
+  const REVISION_BATCH_SIZE = 15;
+
+  /**
    * The EntityTypeManager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -136,10 +141,21 @@ class BatchUpdateForm extends FormBase {
         ->accessCheck(FALSE)
         ->count()
         ->execute();
+      $context['sandbox']['batch_entity_revision'] = [
+          'status' => 0,
+          'current_vid' => 0,
+          'start' => 0,
+        ];
     }
 
+    if ($context['sandbox']['batch_entity_revision']['status']) {
+        $op = '=';
+    }
+    else {
+        $op = '>';
+    }
     $entity_ids = $entity_storage->getQuery()
-      ->condition($entity_type_key, $context['sandbox']['current_id'], '>')
+      ->condition($entity_type_key, $context['sandbox']['current_id'], $op)
       ->range(0, 1)
       ->accessCheck(FALSE)
       ->sort($entity_type_key)
@@ -149,13 +165,32 @@ class BatchUpdateForm extends FormBase {
     $entity = $entity_storage->load(reset($entity_ids));
     if ($entity) {
       if ($entity->getEntityType()->isRevisionable()) {
+        // We cannot query the revisions due to this bug
+        // https://www.drupal.org/project/drupal/issues/2766135
+        // so we will use offsets.
+        $start = $context['sandbox']['batch_entity_revision']['start'];
         // Track all revisions and translations of the source entity. Sources
         // are tracked as if they were new entities.
         $result = $entity_storage->getQuery()->allRevisions()
           ->condition($entity->getEntityType()->getKey('id'), $entity->id())
           ->sort($entity->getEntityType()->getKey('revision'), 'DESC')
+          ->range($start, static::REVISION_BATCH_SIZE)
           ->execute();
         $revision_ids = array_keys($result);
+        if (count($revision_ids) === static::REVISION_BATCH_SIZE) {
+          $context['sandbox']['batch_entity_revision'] = [
+            'status' => 1,
+            'current_vid' => min($revision_ids),
+            'start' => $start + static::REVISION_BATCH_SIZE,
+          ];
+        }
+        else {
+          $context['sandbox']['batch_entity_revision'] = [
+            'status' => 0,
+            'current_vid' => 0,
+            'start' => 0,
+          ];
+        }
 
         foreach ($revision_ids as $revision_id) {
           /** @var \Drupal\Core\Entity\EntityInterface $entity_revision */
@@ -171,7 +206,12 @@ class BatchUpdateForm extends FormBase {
         \Drupal::service('entity_usage.entity_update_manager')->trackUpdateOnCreation($entity);
       }
 
-      $context['sandbox']['progress']++;
+      if (
+        $context['sandbox']['batch_entity_revision']['status'] === 0 ||
+        intval($context['sandbox']['progress']) === 0
+      ) {
+        $context['sandbox']['progress']++;
+      }
       $context['sandbox']['current_id'] = $entity->id();
       $context['results'][] = $entity_type_id . ':' . $entity->id();
     }

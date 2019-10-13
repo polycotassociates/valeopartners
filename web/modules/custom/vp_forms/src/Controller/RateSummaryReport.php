@@ -205,6 +205,8 @@ class RateSummaryReport extends ControllerBase {
    */
   public function generateDynamicQuery() {
 
+    $query_start_time = microtime(TRUE);
+
     // Connect to the database.
     $db = \Drupal::database();
 
@@ -329,7 +331,14 @@ class RateSummaryReport extends ControllerBase {
     // Order by Actual Rate.
     $query->orderBy('2019_actual_rate.field_2019_actual_rate_value', 'DESC');
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Summary report query took $seconds.");
+
+    return $results;
+
 
   }
 

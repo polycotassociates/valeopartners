@@ -70,14 +70,11 @@ function auto_entitylabel_inline_entity_form_entity_form_alter(&$form, &$form_st
  * Implements hook_inline_entity_form_table_fields_alter().
  */
 function auto_entitylabel_inline_entity_form_table_fields_alter(&$fields, $context) {
-  // Provide new label field to render.
-  $fields['auto_entitylabel'] = [
-    'label' => $fields['label']['label'],
-    'type' => 'callback',
-    'callback' => 'auto_entitylabel_inline_entity_label_callback',
-  ];
-  // Remove the original label field.
-  unset($fields['label']);
+  // Replace label field behavior.
+  if (isset($fields['label'])) {
+    $fields['label']['type'] = 'callback';
+    $fields['label']['callback'] = 'auto_entitylabel_inline_entity_label_callback';
+  }
 }
 
 /**

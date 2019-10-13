@@ -1,0 +1,40 @@
+--- auto_entitylabel.module
++++ auto_entitylabel.module
+@@ -81,6 +81,37 @@ function auto_entitylabel_inline_entity_form_entity_form_alter(&$form, &$form_st
+   auto_entitylabel_prepare_entityform($form, $entity);
+ }
+ 
++/**
++ * Implements hook_inline_entity_form_table_fields_alter().
++ */
++function auto_entitylabel_inline_entity_form_table_fields_alter(&$fields, $context) {
++  // Provide new label field to render.
++  $fields['auto_entitylabel'] = [
++    'label' => $fields['label']['label'],
++    'type' => 'callback',
++    'callback' => 'auto_entitylabel_inline_entity_label_callback',
++  ];
++  // Remove the original label field.
++  unset($fields['label']);
++}
++
++/**
++ * A callback function to provide autoentitylabel for inline entity form.
++ */
++function auto_entitylabel_inline_entity_label_callback($entity, $variables) {
++  $autolabel = $entity->label();
++  if ($entity instanceof ContentEntityInterface) {
++    $decorator = \Drupal::service('auto_entitylabel.entity_decorator');
++    /** @var \Drupal\auto_entitylabel\AutoEntityLabelManager $decorated_entity */
++    $decorated_entity = $decorator->decorate($entity);
++    if ($decorated_entity->hasLabel() && $decorated_entity->autoLabelNeeded()) {
++      $autolabel = $decorated_entity->setLabel();
++    }
++
++  }
++  return $autolabel;
++}
++
+ /**
+  * Prepares the label replacement in the entity form.
+  *

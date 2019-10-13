@@ -218,7 +218,10 @@ class OverviewTerms extends FormBase {
       if ($page_entries == 1) {
         $form['#first_tid'] = $term->id();
       }
-
+      // Keep a variable to make sure at least 2 root elements are displayed.
+      if ($term->parents[0] == 0) {
+        $root_entries++;
+      }
       $current_page[$key] = $term;
     } while (isset($tree[++$tree_index]));
 
@@ -483,7 +486,7 @@ class OverviewTerms extends FormBase {
       ];
     }
 
-    // $form['pager_pager'] = ['#type' => 'pager'];
+    $form['pager_pager'] = ['#type' => 'pager'];
     return $form;
   }
 

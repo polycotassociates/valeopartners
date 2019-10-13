@@ -174,6 +174,8 @@ class RateTrendingReport extends ControllerBase {
    */
   public function generateDynamicQuery($id) {
 
+    $query_start_time = microtime(TRUE);
+
     // Connect to the database.
     $db = \Drupal::database();
     $db->query("SET SESSION sql_mode = ''")->execute();
@@ -248,7 +250,13 @@ class RateTrendingReport extends ControllerBase {
     // Maximum 50,000 records.
     $query->range(0, 50000);
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Trending report query took $seconds.");
+
+    return $results;
 
   }
 

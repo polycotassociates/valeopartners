@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Initialize class.
@@ -29,12 +30,6 @@ class RateMasterReport extends ControllerBase {
    * Export a report using phpSpreadsheet.
    */
   public function export() {
-
-    $response = new Response();
-    $response->headers->set('Pragma', 'no-cache');
-    $response->headers->set('Expires', '0');
-    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=Valeo Master Search.xlsx");
 
     $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
@@ -246,6 +241,12 @@ class RateMasterReport extends ControllerBase {
       $i++;
 
     }
+    $title = "Rates_by_firm_master";
+    $response = new Response();
+    $response->headers->set('Pragma', 'no-cache');
+    $response->headers->set('Expires', '0');
+    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
 
     // Get the writer and export in memory.
@@ -270,7 +271,7 @@ class RateMasterReport extends ControllerBase {
     $response->setContent($content);
     $spreadsheet_end_time = microtime(TRUE);
     $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
-    \Drupal::logger('vp_api')->notice("Rate Master Report Spreadsheet generated in $seconds seconds by user #$uid.");
+    \Drupal::logger('vp_api')->notice("Rate Detail Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
 
   }
@@ -279,6 +280,8 @@ class RateMasterReport extends ControllerBase {
    * Generate the Dyamic Query based on GET variables.
    */
   public function generateDynamicQuery() {
+
+    $query_start_time = microtime(TRUE);
 
     // Connect to the database.
     $db = \Drupal::database();
@@ -448,12 +451,19 @@ class RateMasterReport extends ControllerBase {
     }
 
     // Maximum 50,000 records.
-    $query->range(0, 10000);
+    $query->range(0, 50000);
 
     // Order by Transaction Amount Rate.
     $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Master report query took $seconds.");
+
+    return $results;
+
 
   }
 
