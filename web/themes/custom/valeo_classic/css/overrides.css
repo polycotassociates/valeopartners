@@ -47,10 +47,11 @@ table caption {
   padding: 0px 14px 0px 14px;
   text-decoration: none;
   font-size: 110%;
-  font-weight: bold;
+  font-weight: normal;
   background: #0B3B6B;
   border: #0B3B6B;
   color: white;
+	text-transform: uppercase;
 
 }
 
