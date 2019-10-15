@@ -1,0 +1,103 @@
+#!/usr/local/bin/drush
+
+<?php
+
+ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
+
+/**
+ * @file
+ * remove paragraphs.
+ *
+ * see: https://stackoverflow.com/questions/50016160/drupal-8-orphan-paragraphs
+ *
+ * Removes paragraphs one at a time, instead of loading all 1M at once.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Database\Database;
+
+\Drupal::logger('vp_api')->notice('Begin Paragraph Clean Script for Individual...');
+
+
+Database::setActiveConnection('pantheon');
+$database = Database::getConnection();
+
+$query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_individual' ORDER BY 'created' DESC");
+
+$ids = $query->fetchCol();
+
+$x = 0;
+
+foreach ($ids as $nid) {
+
+  $entity = Node::load($nid);
+
+  // Only act on content entities.
+  if (!($entity instanceof FieldableEntityInterface)) {
+    return;
+  }
+
+  $fieldManager = \Drupal::service('entity_field.manager');
+  $parentEntities = $fieldManager->getFieldMapByFieldType('entity_reference_revisions');
+
+  if (!array_key_exists($entity->getEntityTypeId(), $parentEntities)) {
+    return;
+  }
+
+  $paragraph_definitions = [];
+
+  // loop through all paragraph types
+  foreach ($parentEntities[$entity->getEntityTypeId()] as $field_id => $settings) {
+    if ($configField = FieldConfig::loadByName($entity->getEntityTypeId(), $entity->bundle(), $field_id)) {
+      $paragraph_definitions[] = $configField;
+    }
+  }
+
+  if (empty($paragraph_definitions)) {
+    return;
+  }
+
+  foreach ($paragraph_definitions as $paragraph_definition) {
+
+    //get entity type name to make it work with any kind of parent entity (node, paragraph, etc.)
+    $entityTypeName = $entity->getEntityTypeId();
+
+    // Remove orphaned paragraphs.
+    $query = \Drupal::database()->select('paragraphs_item_field_data', 'pfd')
+      ->fields('pfd', ['id'])
+      ->condition('pfd.parent_type', $entityTypeName)
+      ->condition('pfd.parent_id', $entity->id())
+      ->condition('pfd.parent_field_name', $paragraph_definition->getName());
+
+    $query->addJoin('left', $entityTypeName.'__'.$paragraph_definition->getName(),'nt','pfd.id=nt.'.$paragraph_definition->getName().'_target_id');
+    $query->isNull('nt.'.$paragraph_definition->getName().'_target_id');
+    $query->distinct();
+
+    $paragraph_ids = $query->execute()->fetchCol();
+
+    if ($paragraph_ids) {
+      $para_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+      foreach ($paragraph_ids as $paragraph_id) {
+
+        if ($para = $para_storage->load($paragraph_id)) {
+          $para->delete();
+          // \Drupal::logger('vp_api')->notice('Paragraph of type "%type" has been deleted: %id', ['%id' => $paragraph_id, '%type' => $paragraph_definition->getName()]);
+
+          $x++;
+          if ($x % 10000 === 0) {
+            \Drupal::logger('vp_api')->notice("$x deleted...");
+          }
+
+        }
+
+      }
+    }
+  }
+
+}
+
+\Drupal::logger('vp_api')->notice("$x paragraphs deleted.");
