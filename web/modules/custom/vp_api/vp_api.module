@@ -198,10 +198,10 @@ $uri ";
  */
 function vp_api_cron() {
 
-  // Load the database export code.
-  module_load_include('inc', 'vp_api', 'cron/vp_cron_generate_xls_export');
-  // Run export.
-  vp_api_cron_export_xls();
+  // // Load the database export code.
+  // module_load_include('inc', 'vp_api', 'cron/vp_cron_generate_xls_export');
+  // // Run export.
+  // vp_api_cron_export_xls();
 }
 
 /**
