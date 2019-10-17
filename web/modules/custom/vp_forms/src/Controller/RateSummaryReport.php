@@ -130,25 +130,25 @@ class RateSummaryReport extends ControllerBase {
       // First Name.
       $worksheet->setCellValue('C' . $i, '' . $result->field_vp_first_name_value);
       // Firm.
-      $worksheet->setCellValue('D' . $i, '' . $this->getNodeTitle($result->field_firm_target_id));
+      $worksheet->setCellValue('D' . $i, '' . $result->firm_title);
       // Position.
-      $worksheet->setCellValue('E' . $i, '' . $this->getTermName($result->field_vp_rate_position_target_id));
+      $worksheet->setCellValue('E' . $i, '' . $result->position_name);
       // Client Name.
-      $worksheet->setCellValue('F' . $i, '' . $this->getNodeTitle($result->field_vp_rate_company_target_id));
+      $worksheet->setCellValue('F' . $i, '' . $result->company_title);
       // Industry.
-      $worksheet->setCellValue('G' . $i, '' . $this->getTermName($result->field_vp_company_industry_target_id));
+      $worksheet->setCellValue('G' . $i, '' . $result->industry_name);
       // Practice Area 1.
-      $worksheet->setCellValue('H' . $i, '' . $this->getTermName($result->field_vp_practice_area_1_target_id));
+      $worksheet->setCellValue('H' . $i, '' . $result->pa1_name);
       // Practice Area 2.
-      $worksheet->setCellValue('I' . $i, '' . $this->getTermName($result->field_vp_practice_area_2_target_id));
+      $worksheet->setCellValue('I' . $i, '' . $result->pa2_name);
       // Practice Area 3.
-      $worksheet->setCellValue('J' . $i, '' . $this->getTermName($result->field_vp_practice_area_3_target_id));
+      $worksheet->setCellValue('J' . $i, '' . $result->pa3_name);
       // Grad Year.
       $worksheet->setCellValue('K' . $i, $result->field_vp_graduation_value);
       // Bar Year.
       $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
       // Bar State.
-      $worksheet->setCellValue('M' . $i, '' . $this->getTermName($result->field_vp_state_bar_target_id));
+      $worksheet->setCellValue('M' . $i, '' . $result->state_bar);
       // 2019 Actual Rate.
       $worksheet->setCellValue('N' . $i, $result->field_2019_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('N' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
@@ -171,7 +171,6 @@ class RateSummaryReport extends ControllerBase {
       $i++;
 
     }
-
 
     // Get the writer and export in memory.
     // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -221,9 +220,9 @@ class RateSummaryReport extends ControllerBase {
     $query->condition('node.status', 1);
 
     // Join Firm, Filing, Individual, Case to Rate.
-    $query->join('node__field_vp_rate_individual', 'rate', 'node.nid = rate.field_vp_rate_individual_target_id');
-    $query->join('node__field_vp_rate_firm', 'firm', 'rate.entity_id = firm.entity_id');
-    $query->join('node__field_vp_rate_company', 'company', 'firm.entity_id = company.entity_id');
+    $query->leftjoin('node__field_vp_rate_individual', 'rate', 'node.nid = rate.field_vp_rate_individual_target_id');
+    $query->leftjoin('node__field_vp_rate_firm', 'firm', 'rate.entity_id = firm.entity_id');
+    $query->leftjoin('node__field_vp_rate_company', 'company', 'firm.entity_id = company.entity_id');
     $query->leftjoin('node__field_vp_company_industry', 'industry', 'industry.entity_id = company.field_vp_rate_company_target_id');
 
     // Rates from individual record.
@@ -249,6 +248,46 @@ class RateSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = node.nid');
     $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
 
+    // Company (client) node join.
+    $query->leftjoin('node_field_data', 'company_node', 'company_node.nid = field_vp_rate_company_target_id');
+
+    // Firm node join.
+    $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = firm.field_vp_rate_firm_target_id');
+
+    // State bar join.
+    $query->leftjoin('taxonomy_term_field_data', 'state_bar', 'state_bar.tid = field_vp_state_bar_target_id');
+
+    // Practice Area joins.
+    $query->leftjoin('taxonomy_term_field_data', 'pa1_term', 'pa1_term.tid = field_vp_practice_area_1_target_id');
+    $query->leftjoin('taxonomy_term_field_data', 'pa2_term', 'pa2_term.tid = field_vp_practice_area_2_target_id');
+    $query->leftjoin('taxonomy_term_field_data', 'pa3_term', 'pa3_term.tid = field_vp_practice_area_3_target_id');
+
+    // Industry term join.
+    $query->leftjoin('taxonomy_term_field_data', 'industry_term', 'industry_term.tid = field_vp_company_industry_target_id');
+
+    // Position term join.
+    $query->leftjoin('taxonomy_term_field_data', 'position_term', 'position_term.tid = field_vp_rate_position_target_id');
+
+    // Industry title.
+    $query->addField('industry_term', 'name', 'industry_name');
+
+    // Company (client) title.
+    $query->addField('company_node', 'title', 'company_title');
+
+    // Bar State.
+    $query->addField('state_bar', 'name', 'state_bar');
+
+    // Practice area titles.
+    $query->addField('pa1_term', 'name', 'pa1_name');
+    $query->addField('pa2_term', 'name', 'pa2_name');
+    $query->addField('pa3_term', 'name', 'pa3_name');
+
+    // Position title.
+    $query->addField('position_term', 'name', 'position_name');
+
+    // Firm title.
+    $query->addField('firm_node', 'title', 'firm_title');
+
     // Individual Fields.
     $query->fields('employment', ['field_firm_target_id']);
     $query->fields('fname', ['field_vp_first_name_value']);
@@ -256,14 +295,8 @@ class RateSummaryReport extends ControllerBase {
     $query->fields('lname', ['field_vp_last_name_value']);
     $query->fields('location', ['field_vp_individual_location_target_id']);
     $query->fields('company', ['field_vp_rate_company_target_id']);
-    $query->fields('pa1', ['field_vp_practice_area_1_target_id']);
-    $query->fields('pa2', ['field_vp_practice_area_2_target_id']);
-    $query->fields('pa3', ['field_vp_practice_area_3_target_id']);
-    $query->fields('position', ['field_vp_rate_position_target_id']);
     $query->fields('bar_year', ['field_vp_bar_date_value']);
-    $query->fields('bar_state', ['field_vp_state_bar_target_id']);
     $query->fields('grad_year', ['field_vp_graduation_value']);
-    $query->fields('industry', ['field_vp_company_industry_target_id']);
     $query->fields('2017_actual_rate', ['field_2017_actual_rate_value']);
     $query->fields('2017_standard_rate', ['field_2017_standard_rate_value']);
     $query->fields('2018_actual_rate', ['field_2018_actual_rate_value']);
@@ -292,9 +325,10 @@ class RateSummaryReport extends ControllerBase {
       $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
     }
 
-    // Filter by position ids.
+    // Filter by position ids (by parent).
     if (isset($_GET['term_node_tid_depth_position'])) {
-      $query->condition('field_vp_rate_position_target_id', $_GET['term_node_tid_depth_position'], 'IN');
+      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_position']);
+      $query->condition('field_vp_rate_position_target_id', $nodes, 'IN');
     }
 
     // Filter by practice area ids.
@@ -342,25 +376,6 @@ class RateSummaryReport extends ControllerBase {
 
   }
 
-  /**
-   * Get Node Title Query.
-   */
-  private function getNodeTitle($id) {
-    $query = db_select('node_field_data', 'node');
-    $query->condition('node.nid', $id, '=');
-    $query->fields('node', ['title']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Term Name Query.
-   */
-  private function getTermName($id) {
-    $query = db_select('taxonomy_term_field_data', 'term');
-    $query->condition('term.tid', $id, '=');
-    $query->fields('term', ['name']);
-    return $query->execute()->fetchField();
-  }
 
   /**
    * Get the title of the current page.

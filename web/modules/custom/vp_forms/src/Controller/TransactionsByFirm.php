@@ -171,82 +171,82 @@ class TransactionsByFirm extends ControllerBase {
     // Query loop.
     foreach ($this->generateDynamicQuery() as $result) {
       // Last Name.
-      $worksheet->setCellValue('A' . $i,  $result->field_vp_last_name_value);
+      $worksheet->setCellValue('A' . $i, $result->last_name);
       // Middle Name.
-      $worksheet->setCellValue('B' . $i, '' . $result->field_vp_middle_name_value);
+      $worksheet->setCellValue('B' . $i, '' . $result->middle_name);
       // First Name.
-      $worksheet->setCellValue('C' . $i, '' . $result->field_vp_first_name_value);
+      $worksheet->setCellValue('C' . $i, '' . $result->first_name);
       // Firm.
-      $worksheet->setCellValue('D' . $i, '' . $this->getNodeTitle($result->field_vp_rate_firm_target_id));
+      $worksheet->setCellValue('D' . $i, '' . $result->firm_title);
       // Position.
-      $worksheet->setCellValue('E' . $i, '' . $this->getTermName($result->field_vp_rate_position_target_id));
+      $worksheet->setCellValue('E' . $i, '' . $result->position_name);
       // Client Name.
-      $worksheet->setCellValue('F' . $i, '' . $this->getNodeTitle($result->field_vp_rate_company_target_id));
+      $worksheet->setCellValue('F' . $i, '' . $result->company_title);
       // Industry.
-      $worksheet->setCellValue('G' . $i, '' . $this->getTermName($result->field_vp_company_industry_target_id));
+      $worksheet->setCellValue('G' . $i, '' . $result->industry_name);
       // Practice Area 1.
-      $worksheet->setCellValue('H' . $i, '' . $this->getTermName($result->field_vp_practice_area_1_target_id));
+      $worksheet->setCellValue('H' . $i, '' . $result->pa1_name);
       // Practice Area 2.
-      $worksheet->setCellValue('I' . $i, '' . $this->getTermName($result->field_vp_practice_area_2_target_id));
+      $worksheet->setCellValue('I' . $i, '' . $result->pa2_name);
       // Practice Area 3.
-      $worksheet->setCellValue('J' . $i, '' . $this->getTermName($result->field_vp_practice_area_3_target_id));
+      $worksheet->setCellValue('J' . $i, '' . $result->pa3_name);
       // Grad Year.
-      $worksheet->setCellValue('K' . $i, $result->field_vp_graduation_value);
+      $worksheet->setCellValue('K' . $i, $result->grad_year);
       // Bar Year.
-      $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
+      $worksheet->setCellValue('L' . $i, $result->bar_year);
       // Bar State.
-      $worksheet->setCellValue('M' . $i, '' . $this->getTermName($result->field_vp_state_bar_target_id));
+      $worksheet->setCellValue('M' . $i, '' . $result->state_bar);
       // City.
-      $worksheet->setCellValue('N' . $i, '' . $this->getTermName($result->field_vp_individual_location_target_id));
+      $worksheet->setCellValue('N' . $i, '' . $result->location_name);
       // Actual Rate.
-      $worksheet->setCellValue('O' . $i, $result->field_vp_rate_hourly_value);
+      $worksheet->setCellValue('O' . $i, $result->actual_rate);
       $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Standard Rate.
-      $worksheet->setCellValue('P' . $i, $result->field_vp_rate_standard_value);
+      $worksheet->setCellValue('P' . $i, $result->standard_rate);
       $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Filing Year.
-      $worksheet->setCellValue('Q' . $i, $result->field_vp_filing_year_value);
+      $worksheet->setCellValue('Q' . $i, $result->filing_year);
       // Hours.
-      $worksheet->setCellValue('R' . $i, $result->field_vp_rate_hours_value);
+      $worksheet->setCellValue('R' . $i, $result->hours_total);
       // Total.
-      $worksheet->setCellValue('S' . $i, $result->field_vp_rate_total_value);
+      $worksheet->setCellValue('S' . $i, $result->total_rate);
       $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Flat Fee.
-      $worksheet->setCellValue('T' . $i, $result->field_vp_rate_flat_fee_value);
+      $worksheet->setCellValue('T' . $i, $result->flat_fee);
       $spreadsheet->getActiveSheet()->getStyle('T' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Retainer Fee.
-      $worksheet->setCellValue('U' . $i, $result->field_vp_rate_retainer_value);
+      $worksheet->setCellValue('U' . $i, $result->retainer_fee);
       $spreadsheet->getActiveSheet()->getStyle('U' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transaction Amount.
-      $worksheet->setCellValue('V' . $i, $result->field_vp_rate_primaryfee_calc_value);
+      $worksheet->setCellValue('V' . $i, $result->transaction_amount);
       $spreadsheet->getActiveSheet()->getStyle('V' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transactional Fee.
-      $worksheet->setCellValue('W' . $i, $result->field_vp_rate_transactional_fee_value);
+      $worksheet->setCellValue('W' . $i, $result->transaction_fee);
       $spreadsheet->getActiveSheet()->getStyle('W' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // Transaction Type.
-      $worksheet->setCellValue('X' . $i, '' . $this->getTermName($result->field_vp_rate_transaction_type_target_id));
+      $worksheet->setCellValue('X' . $i, '' . $result->transaction_type);
       // Case Name.
-      $worksheet->setCellValue('Y' . $i, '' . $this->getNodeTitle($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('Y' . $i, '' . $result->case_title);
       // Case Number.
-      $worksheet->setCellValue('Z' . $i, '' . $this->getCaseNumber($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('Z' . $i, '' . $result->case_number);
       // Court.
-      $worksheet->setCellValue('AA' . $i, '' . $this->getCaseCourt($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('AA' . $i, '' . $result->case_court);
       // Date Filed.
-      $worksheet->setCellValue('AB' . $i, $this->getFilingDate($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('AB' . $i, $this->getFormattedDate($result->date_filed));
       $spreadsheet->getActiveSheet()->getStyle('AB' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
       // Nature of Suit.
-      $worksheet->setCellValue('AC' . $i, '' . $this->getNatureOfSuit($result->field_vp_filing_case_target_id));
+      $worksheet->setCellValue('AC' . $i, '' . $result->nature_of_suit);
       // Filing Name.
-      $worksheet->setCellValue('AD' . $i, '' . $this->getNodeTitle($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AD' . $i, '' . $result->filing_name);
       // Filing Description.
-      $worksheet->setCellValue('AE' . $i, '' . $this->getFilingDescription($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AE' . $i, '' . $result->filing_description);
       // Filing Number.
-      $worksheet->setCellValue('AF' . $i, '' . $this->getFilingNumber($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AF' . $i, '' . $result->filing_number);
       // Fee Date Range Begin.
-      $worksheet->setCellValue('AG' . $i, $this->getFeeDateBegin($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AG' . $i, $this->getFormattedDate($result->fee_date_begin));
       $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
       // Fee Date Range End.
-      $worksheet->setCellValue('AH' . $i, $this->getFeeDateEnd($result->field_vp_rate_filing_target_id));
+      $worksheet->setCellValue('AH' . $i, $this->getFormattedDate($result->fee_date_end));
       $spreadsheet->getActiveSheet()->getStyle('AH' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
 
       $i++;
@@ -303,7 +303,7 @@ class TransactionsByFirm extends ControllerBase {
     $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
     $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
-    // Joins for fields to query upon.
+    // Position ID, nature of suit ID, company_industry ID.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
     $query->leftjoin('node__field_vp_case_nature_of_suit', 'nature_of_suit', 'nature_of_suit.entity_id = filing_case.field_vp_filing_case_target_id');
     $query->leftjoin('node__field_vp_company_industry', 'industry', 'industry.entity_id = company.field_vp_rate_company_target_id');
@@ -321,7 +321,7 @@ class TransactionsByFirm extends ControllerBase {
     $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = individual.field_vp_rate_individual_target_id');
 
     // Rate values.
-    $query->leftjoin('node__field_vp_rate_standard', 'standard', 'node.nid = standard.entity_id');
+ $query->leftjoin('node__field_vp_rate_standard', 'standard', 'node.nid = standard.entity_id');
     $query->leftjoin('node__field_vp_rate_hourly', 'actual', 'node.nid = actual.entity_id');
     $query->leftjoin('node__field_vp_rate_total', 'rate_total', 'node.nid = rate_total.entity_id');
     $query->leftjoin('node__field_vp_rate_flat_fee', 'flat_fee', 'node.nid = flat_fee.entity_id');
@@ -334,45 +334,131 @@ class TransactionsByFirm extends ControllerBase {
     $query->leftjoin('node__field_vp_rate_success_fee', 'success_fee', 'node.nid = success_fee.entity_id');
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
 
+    // Firm node join.
+    $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = firm.field_vp_rate_firm_target_id');
 
+    // Company (client) node join.
+    $query->leftjoin('node_field_data', 'company_node', 'company_node.nid = field_vp_rate_company_target_id');
 
-    // Filing, Case, Company, Individual, and Firm fields.
-    $query->fields('firm', ['field_vp_rate_firm_target_id']);
-    $query->fields('filing', ['field_vp_rate_filing_target_id']);
-    $query->fields('filing_case', ['field_vp_filing_case_target_id']);
-    $query->fields('company', ['field_vp_rate_company_target_id']);
-    $query->fields('individual', ['field_vp_rate_individual_target_id']);
+    // Case node join.
+    $query->leftjoin('node_field_data', 'case_node', 'case_node.nid = field_vp_filing_case_target_id');
 
-    // Individual Fields.
-    $query->fields('fname', ['field_vp_first_name_value']);
-    $query->fields('mname', ['field_vp_middle_name_value']);
-    $query->fields('lname', ['field_vp_last_name_value']);
-    $query->fields('location', ['field_vp_individual_location_target_id']);
-    $query->fields('pa1', ['field_vp_practice_area_1_target_id']);
-    $query->fields('pa2', ['field_vp_practice_area_2_target_id']);
-    $query->fields('pa3', ['field_vp_practice_area_3_target_id']);
-    $query->fields('position', ['field_vp_rate_position_target_id']);
-    $query->fields('bar_year', ['field_vp_bar_date_value']);
-    $query->fields('bar_state', ['field_vp_state_bar_target_id']);
-    $query->fields('grad_year', ['field_vp_graduation_value']);
+    // Case number join.
+    $query->leftjoin('node__field_vp_case_number', 'case_number', 'case_number.entity_id = field_vp_filing_case_target_id');
+
+    // Case court joins.
+    $query->leftjoin('node__field_vp_case_court', 'case_court', 'case_court.entity_id = field_vp_filing_case_target_id');
+    $query->leftjoin('taxonomy_term_field_data', 'case_court_term', 'case_court_term.tid = case_court.field_vp_case_court_target_id');
+
+    // Filing joins.
+    $query->leftjoin('node_field_data', 'filing_node', 'filing_node.nid = field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_filing_description', 'filing_description', 'filing_description.entity_id = field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_filing_number', 'filing_number', 'filing_number.entity_id = field_vp_rate_filing_target_id');
+
+    // Industry term join.
+    $query->leftjoin('taxonomy_term_field_data', 'industry_term', 'industry_term.tid = field_vp_company_industry_target_id');
+
+    // Position term join.
+    $query->leftjoin('taxonomy_term_field_data', 'position_term', 'position_term.tid = field_vp_rate_position_target_id');
+
+    // Practice Area joins.
+    $query->leftjoin('taxonomy_term_field_data', 'pa1_term', 'pa1_term.tid = field_vp_practice_area_1_target_id');
+    $query->leftjoin('taxonomy_term_field_data', 'pa2_term', 'pa2_term.tid = field_vp_practice_area_2_target_id');
+    $query->leftjoin('taxonomy_term_field_data', 'pa3_term', 'pa3_term.tid = field_vp_practice_area_3_target_id');
+
+    // Transaction type join.
+    $query->leftjoin('taxonomy_term_field_data', 'transaction_type_term', 'transaction_type_term.tid = field_vp_rate_transaction_type_target_id');
+
+    // State bar join.
+    $query->leftjoin('taxonomy_term_field_data', 'state_bar', 'state_bar.tid = field_vp_state_bar_target_id');
+
+    // Location join.
+    $query->leftjoin('taxonomy_term_field_data', 'location_term', 'location_term.tid = field_vp_individual_location_target_id');
+
+    // Nature of suit join.
+    $query->leftjoin('taxonomy_term_field_data', 'suit_type_term', 'suit_type_term.tid = field_vp_case_nature_of_suit_target_id');
+
+    // Date filed join.
+    $query->leftjoin('node__field_vp_case_date_filed', 'date_filed', 'date_filed.entity_id = field_vp_filing_case_target_id');
+
+    // Fee date range join.
+    $query->leftjoin('node__field_vp_filing_fee_dates', 'fee_date', 'fee_date.entity_id = field_vp_rate_filing_target_id');
+
+    /* Fields */
+
+    // Individual values.
+    $query->addField('lname', 'field_vp_last_name_value', 'last_name');
+    $query->addField('fname', 'field_vp_first_name_value', 'first_name');
+    $query->addField('mname', 'field_vp_middle_name_value', 'middle_name');
+
+    // Position title.
+    $query->addField('position_term', 'name', 'position_name');
+
+    // Company (client) title.
+    $query->addField('company_node', 'title', 'company_title');
+
+    // Industry title.
+    $query->addField('industry_term', 'name', 'industry_name');
+
+    // Practice area titles.
+    $query->addField('pa1_term', 'name', 'pa1_name');
+    $query->addField('pa2_term', 'name', 'pa2_name');
+    $query->addField('pa3_term', 'name', 'pa3_name');
+
+    // Grad date.
+    $query->addField('bar_year', 'field_vp_bar_date_value', 'bar_year');
+    // Bar date.
+    $query->addField('grad_year', 'field_vp_graduation_value', 'grad_year');
+
+    // Bar State.
+    $query->addField('state_bar', 'name', 'state_bar');
+
+    // City.
+    $query->addField('location_term', 'name', 'location_name');
+
+    // Fee date range.
+    $query->addField('fee_date', 'field_vp_filing_fee_dates_value', 'fee_date_begin');
+    $query->addField('fee_date', 'field_vp_filing_fee_dates_end_value', 'fee_date_end');
 
     // Fee fields.
-    $query->fields('standard', ['field_vp_rate_standard_value']);
-    $query->fields('actual', ['field_vp_rate_hourly_value']);
-    $query->fields('rate_total', ['field_vp_rate_total_value']);
-    $query->fields('flat_fee', ['field_vp_rate_flat_fee_value']);
-    $query->fields('primary_fee', ['field_vp_rate_primaryfee_calc_value']);
-    $query->fields('retainer', ['field_vp_rate_retainer_value']);
-    $query->fields('hours', ['field_vp_rate_hours_value']);
-    $query->fields('transaction_amount', ['field_vp_rate_transaction_amount_value']);
-    $query->fields('transaction_fee', ['field_vp_rate_transactional_fee_value']);
-    $query->fields('transaction_type', ['field_vp_rate_transaction_type_target_id']);
-    $query->fields('success_fee', ['field_vp_rate_success_fee_value']);
-    $query->fields('year', ['field_vp_filing_year_value']);
+    $query->addField('actual', 'field_vp_rate_hourly_value', 'actual_rate');
+    $query->addField('standard', 'field_vp_rate_standard_value', 'standard_rate');
+    $query->addField('year', 'field_vp_filing_year_value', 'filing_year');
+    $query->addField('hours', 'field_vp_rate_hours_value', 'hours_total');
+    $query->addField('rate_total', 'field_vp_rate_total_value', 'total_rate');
+    $query->addField('flat_fee', 'field_vp_rate_flat_fee_value', 'flat_fee');
+    $query->addField('retainer', 'field_vp_rate_retainer_value', 'retainer_fee');
+    $query->addField('transaction_amount', 'field_vp_rate_transaction_amount_value', 'transaction_amount');
+    $query->addField('transaction_fee', 'field_vp_rate_transactional_fee_value', 'transaction_fee');
+    $query->addField('primary_fee', 'field_vp_rate_primaryfee_calc_value', 'primary_fee');
+    $query->addField('transaction_type_term', 'name', 'transaction_type');
 
-    // Case/Filing Fields.
-    $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
-    $query->fields('industry', ['field_vp_company_industry_target_id']);
+    // Filing fields.
+    $query->addField('filing_node', 'title', 'filing_name');
+
+    $query->addField('filing_description', 'field_vp_filing_description_value', 'filing_description');
+
+    $query->addField('filing_number', 'field_vp_filing_number_value', 'filing_number');
+
+    // Date filed value.
+    $query->addField('date_filed', 'field_vp_case_date_filed_value', 'date_filed');
+
+    // Firm title.
+    $query->addField('firm_node', 'title', 'firm_title');
+
+    // Case fields.
+    $query->addField('case_node', 'title', 'case_title');
+    $query->addField('case_court_term', 'name', 'case_court');
+    $query->addField('case_number', 'field_vp_case_number_value', 'case_number');
+
+    // Nature of suit title.
+    $query->addField('suit_type_term', 'name', 'nature_of_suit');
+
+    //
+    $query->fields('transaction_fee', ['field_vp_rate_transactional_fee_value']);
+    $query->fields('success_fee', ['field_vp_rate_success_fee_value']);
+    $query->fields('flat_fee', ['field_vp_rate_flat_fee_value']);
+    $query->fields('retainer', ['field_vp_rate_retainer_value']);
 
     $fee_group = $query->orConditionGroup()
       ->condition('field_vp_rate_transactional_fee_value', 0, '>')
@@ -571,6 +657,18 @@ class TransactionsByFirm extends ControllerBase {
     $query->condition('term.tid', $id, '=');
     $query->fields('term', ['name']);
     return $query->execute()->fetchField();
+  }
+
+
+  /**
+   * Format date M-D-Y.
+   */
+  private function getFormattedDate($date) {
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**
