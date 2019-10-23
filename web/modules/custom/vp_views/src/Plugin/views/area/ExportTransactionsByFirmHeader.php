@@ -3,7 +3,6 @@
 namespace Drupal\vp_views\Plugin\views\area;
 
 use Drupal\views\Plugin\views\area\AreaPluginBase;
-use Drupal\node\Entity\Node;
 
 /**
  * Defines a views area plugin.
@@ -40,6 +39,8 @@ class ExportTransactionsByFirmHeader extends AreaPluginBase {
     $user = \Drupal::currentUser();
     if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
+      // Use the view description as the title for the XLS spreadsheet.
+      $report_title = $this->view->storage->get('description');
       // Get the query from the url.
       $q = $_GET;
       // Build the query from the query variables.
@@ -47,7 +48,7 @@ class ExportTransactionsByFirmHeader extends AreaPluginBase {
       // Get the current path.
       $path = \Drupal::request()->getpathInfo();
       // Put them together with /export added to the path and format=xls at the end.
-      $export_xls = "/reports/export/transactions-by-firm?$query";
+      $export_xls = "/reports/export/transactions-by-firm?report_title=$report_title&$query";
       //$export_xls = "$path/export?$query&_format=xls";
       // Create the html for the link.
       $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";

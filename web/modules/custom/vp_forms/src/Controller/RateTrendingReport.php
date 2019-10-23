@@ -36,11 +36,12 @@ class RateTrendingReport extends ControllerBase {
       $nids[] = $reference->id();
     }
 
+    $title = $_GET['report_title'] ? $_GET['report_title'] : 'Rate Tranding Search';
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=Rate_Trending_Analysis.xlsx");
+    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
     $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
@@ -187,10 +188,10 @@ class RateTrendingReport extends ControllerBase {
     $query->condition('node.status', 1);
 
     // Join Firm, Filing, Individual, Case to Rate.
-    $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
-    $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
-    $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
-    $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
+    $query->leftjoin('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+    $query->leftjoin('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+    $query->leftjoin('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Joins for fields to query upon.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');

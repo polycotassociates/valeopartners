@@ -54,15 +54,14 @@ class ExportSummaryHeader extends AreaPluginBase {
     $user = \Drupal::currentUser();
     if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
+      // Use the view description as the title for the XLS spreadsheet.
+      $report_title = $this->view->storage->get('description');
       // Get the query from the url.
       $q = $_GET;
       // Build the query from the query variables.
       $query = http_build_query($q);
-      // Get the current path.
-      $path = \Drupal::request()->getpathInfo();
       // Put them together with /export added to the path and format=xls at the end.
-      $export_xls = "/reports/export/summary?$query";
-      //$export_xls = "$path/export?$query&_format=xls";
+      $export_xls = "/reports/export/summary?report_title=$report_title&$query";
       // Create the html for the link.
       $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
       // Get the modal text.
@@ -82,10 +81,14 @@ class ExportSummaryHeader extends AreaPluginBase {
     $user = \Drupal::currentUser();
     if (in_array("download_add_on", $user->getRoles()) || in_array("administrator", $user->getRoles()) || in_array("superuser", $user->getRoles())) {
 
+      // Get the title from the saved search node.
+      $request = \Drupal::request();
+      $route_match = \Drupal::routeMatch();
+      $report_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
       // Build the query from the saved search items for the node $nid.
       $query = $this->generateQueryFromNode($nid);
       // Put them together with /export added to the path and format=xls at the end.
-      $export_xls = "/reports/export/summary-block?$query";
+      $export_xls = "/reports/export/summary-block?report_title=$report_title&$query";
       // Create the html for the link.
       $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
       // Get the modal text.

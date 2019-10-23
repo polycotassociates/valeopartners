@@ -270,7 +270,7 @@ class RateDetailReport extends ControllerBase {
 
     }
 
-    $title = "Rates_by_firm_detail";
+    $title = $_GET['report_title'] ? $_GET['report_title'] : 'Detail Report';
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
@@ -321,11 +321,11 @@ class RateDetailReport extends ControllerBase {
     $query->condition('node.status', 1);
 
     // Join Firm, Filing, Individual, Case to Rate.
-    $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
-    $query->join('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
-    $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
-    $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
-    $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
+    $query->leftjoin('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
+    $query->leftjoin('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+    $query->leftjoin('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+    $query->leftjoin('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Position ID, nature of suit ID, company_industry ID.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
@@ -612,18 +612,6 @@ class RateDetailReport extends ControllerBase {
       return $term->get('tid')->value;
     }
     return $childTerms;
-  }
-
-  /**
-   * Get the title of the current page.
-   */
-  private function getPageTitle() {
-    $request = \Drupal::request();
-    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
-      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
-    }
-    //return $title;
-    return "Rates By Firm - Detail";
   }
 
 }

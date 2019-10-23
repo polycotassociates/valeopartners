@@ -31,7 +31,7 @@ class RateSummaryReport extends ControllerBase {
    */
   public function export() {
 
-    $title = $this->getPageTitle();
+    $title = $_GET['report_title'] ? $_GET['report_title'] : 'Summary Report';
 
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
