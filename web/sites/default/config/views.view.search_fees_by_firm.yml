@@ -38,7 +38,7 @@ dependencies:
 id: search_fees_by_firm
 label: 'Search Fees By Firm'
 module: views
-description: 'Fees by firm'
+description: 'Transactions by Firm'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -59,8 +59,12 @@ display:
             superuser: superuser
             fee_search_add_on: fee_search_add_on
       cache:
-        type: tag
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 3600
+          results_lifespan_custom: 0
+          output_lifespan: 3600
+          output_lifespan_custom: 0
       query:
         type: views_query
         options:
@@ -2172,12 +2176,9 @@ display:
           plugin_id: export_transactions_by_firm
       defaults:
         header: false
-        cache: false
+        cache: true
         filters: false
         filter_groups: false
-      cache:
-        type: tag
-        options: {  }
       filters:
         status:
           value: '1'

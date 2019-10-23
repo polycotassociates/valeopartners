@@ -46,7 +46,7 @@ dependencies:
 id: rates_by_firm_summary_individual
 label: 'Search Rates By Firm - Summary'
 module: views
-description: 'Search Rates By Firm, Summary View'
+description: 'Rates By Firm - Summary'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -67,8 +67,12 @@ display:
             superuser: superuser
             data_entry: data_entry
       cache:
-        type: tag
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 3600
+          results_lifespan_custom: 0
+          output_lifespan: 3600
+          output_lifespan_custom: 0
       query:
         type: views_query
         options:

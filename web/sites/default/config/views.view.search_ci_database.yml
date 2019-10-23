@@ -37,7 +37,7 @@ dependencies:
 id: search_ci_database
 label: 'Search CI Database'
 module: views
-description: 'Competitive Intelligence (CI) Database'
+description: 'Corporate Counsel - CI Database'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -59,12 +59,16 @@ display:
             data_entry: data_entry
             company_industry_add_on: company_industry_add_on
       cache:
-        type: tag
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 3600
+          results_lifespan_custom: 0
+          output_lifespan: 3600
+          output_lifespan_custom: 0
       query:
         type: views_query
         options:
-          disable_sql_rewrite: false
+          disable_sql_rewrite: true
           distinct: false
           replica: false
           query_comment: ''

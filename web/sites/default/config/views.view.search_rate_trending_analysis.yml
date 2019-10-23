@@ -31,7 +31,7 @@ dependencies:
 id: search_rate_trending_analysis
 label: 'Search Rate Trending Analysis'
 module: views
-description: 'Search Rate Trending Analysis'
+description: 'Rate Trending Analysis'
 tag: ''
 base_table: node_field_data
 base_field: nid

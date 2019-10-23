@@ -29,7 +29,7 @@ third_party_settings:
         - field_user_email_alert_addresses
         - field_user_2_week_alert
       parent_name: ''
-      weight: 3
+      weight: 1
       format_type: fieldset
       format_settings:
         id: ''
@@ -42,12 +42,9 @@ third_party_settings:
       children:
         - field_user_first_name
         - field_user_last_name
-        - account
         - field_user_organization
-        - contact
+        - account
         - user_picture
-        - language
-        - timezone
       parent_name: ''
       weight: 0
       format_type: fieldset
@@ -66,12 +63,7 @@ bundle: user
 mode: default
 content:
   account:
-    weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  contact:
-    weight: 5
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -116,7 +108,7 @@ content:
     third_party_settings: {  }
   field_user_organization:
     type: string_textfield
-    weight: 4
+    weight: 3
     region: content
     settings:
       size: 60
@@ -129,12 +121,12 @@ content:
     type: multiselect
     region: content
   language:
-    weight: 7
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 8
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -147,6 +139,7 @@ content:
     weight: 6
     region: content
 hidden:
+  contact: true
   path: true
   profile_firstname: true
   profile_lastname: true

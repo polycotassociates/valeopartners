@@ -46,7 +46,7 @@ dependencies:
 id: search_fees_by_company
 label: 'Search Fees By Company'
 module: views
-description: 'Fees by company'
+description: 'Transactions by Company'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -67,8 +67,12 @@ display:
             superuser: superuser
             fee_search_add_on: fee_search_add_on
       cache:
-        type: tag
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 3600
+          results_lifespan_custom: 0
+          output_lifespan: 3600
+          output_lifespan_custom: 0
       query:
         type: views_query
         options:

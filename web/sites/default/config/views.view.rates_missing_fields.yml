@@ -752,7 +752,7 @@ display:
         description: 'A list of rates missing the "case/filing" field.'
         expanded: false
         parent: ''
-        weight: 0
+        weight: -48
         context: '0'
         menu_name: admin-rates
     cache_metadata:
@@ -886,7 +886,7 @@ display:
         description: 'A list of rates missing the "firm" field.'
         expanded: false
         parent: ''
-        weight: 0
+        weight: -46
         context: '0'
         menu_name: admin-rates
     cache_metadata:
@@ -1020,7 +1020,7 @@ display:
         description: 'A list of rates missing the "individual" field.'
         expanded: false
         parent: ''
-        weight: 0
+        weight: -45
         context: '0'
         menu_name: admin-rates
     cache_metadata:
@@ -1154,7 +1154,7 @@ display:
         description: 'A list of rates missing the "company" field.'
         expanded: false
         parent: ''
-        weight: 0
+        weight: -47
         context: '0'
         menu_name: admin-rates
     cache_metadata:
