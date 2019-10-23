@@ -319,7 +319,7 @@ class TransactionsByFirm extends ControllerBase {
     $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = individual.field_vp_rate_individual_target_id');
 
     // Rate values.
- $query->leftjoin('node__field_vp_rate_standard', 'standard', 'node.nid = standard.entity_id');
+    $query->leftjoin('node__field_vp_rate_standard', 'standard', 'node.nid = standard.entity_id');
     $query->leftjoin('node__field_vp_rate_hourly', 'actual', 'node.nid = actual.entity_id');
     $query->leftjoin('node__field_vp_rate_total', 'rate_total', 'node.nid = rate_total.entity_id');
     $query->leftjoin('node__field_vp_rate_flat_fee', 'flat_fee', 'node.nid = flat_fee.entity_id');
@@ -495,6 +495,11 @@ class TransactionsByFirm extends ControllerBase {
       //$query->condition('field_vp_graduation_value', $range, 'IN');
 
       $query->condition('field_vp_graduation_value', [$_GET['field_vp_graduation_value']['min'], $_GET['field_vp_graduation_value']['max']], 'BETWEEN');
+    }
+
+    // Filter by firm company.
+    if (isset($_GET['field_vp_company_industry_target_id'])) {
+      $query->condition('field_vp_company_industry_target_id', $_GET['field_vp_company_industry_target_id'], 'IN');
     }
 
     // Filter by firm company.
