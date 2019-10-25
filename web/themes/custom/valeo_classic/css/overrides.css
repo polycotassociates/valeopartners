@@ -70,4 +70,16 @@ table caption {
 }
 #views-exposed-form-search-by-firm-master-search-by-firm-page  .form-item{
 	max-width: 20%;
+	padding: .5em;
+   box-sizing: border-box;
+	margin: 0;
+	clear: none;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page div#edit-actions {
+	clear: none;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page #edit-actions input {
+    margin-right: 0.6em;
+    margin-top: 3.2em;
+    margin-left: 20px;
 }
