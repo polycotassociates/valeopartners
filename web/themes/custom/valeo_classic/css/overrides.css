@@ -65,6 +65,9 @@ table caption {
 #views-exposed-form-search-by-firm-master-search-by-firm-page select.form-select{
 	max-width: 100%;
 }
-#views-exposed-form-search-by-firm-master-search-by-firm-page .form-item-field-vp-rate-firm-target-id-verf{
+#views-exposed-form-search-by-firm-master-search-by-firm-page .js-form-item.form-item.js-form-type-select.form-type-select.js-form-item-field-vp-rate-firm-target-id-verf.form-item-field-vp-rate-firm-target-id-verf{
 	max-width: 40%;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page  .form-item{
+	max-width: 20%;
 }
