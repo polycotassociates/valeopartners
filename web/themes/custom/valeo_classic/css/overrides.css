@@ -83,3 +83,7 @@ table caption {
     margin-top: 3.2em;
     margin-left: 20px;
 }
+
+#views-exposed-form-search-by-firm-master-search-by-firm-page select#edit-field-vp-rate-firm-target-id-verf {
+    height: 183px;
+}
