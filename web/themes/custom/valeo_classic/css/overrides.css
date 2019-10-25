@@ -61,3 +61,10 @@ table caption {
   border: #0B3B6B;
   color: white;
 }
+
+#views-exposed-form-search-by-firm-master-search-by-firm-page select.form-select{
+	max-width: 100%;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page .form-item-field-vp-rate-firm-target-id-verf{
+	max-width: 40%;
+}
