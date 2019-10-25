@@ -31,6 +31,10 @@ class RateDetailReport extends ControllerBase {
    */
   public function export() {
 
+
+    // kint($this->generateDynamicQuery());
+    // die();
+
     // if (class_exists('Redis')) {
 
     //   $client = new \Redis();
@@ -294,7 +298,7 @@ class RateDetailReport extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    //vp_api_report_send($uid, $uri, $time);
+    vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
     $spreadsheet_end_time = microtime(TRUE);
@@ -510,7 +514,8 @@ class RateDetailReport extends ControllerBase {
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
       $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
-      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      $location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      $query->condition($location_group);
     }
 
     // Filter by position ids (by parent).
@@ -594,22 +599,22 @@ class RateDetailReport extends ControllerBase {
     // Create an array for the child term ids.
     $childTerms = [];
 
-    // For each term_node_tid_depth get the children and
-    // add them to the child terms array.
     foreach ($ids as $tid) {
+
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
-      foreach ($terms as $term) {
-        $childTerms[] = $term->get('tid')->value;
-        // Loop through again to get any children of children.
-        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+      if (count($terms) === 0) {
+        $childTerms[] = $tid;
+      }
+      else {
         foreach ($terms as $term) {
           $childTerms[] = $term->get('tid')->value;
+          // Loop through again to get any children of children.
+          $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+          foreach ($terms as $term) {
+            $childTerms[] = $term->get('tid')->value;
+          }
         }
       }
-    }
-    if (count($childTerms) == 0) {
-      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-      return $term->get('tid')->value;
     }
     return $childTerms;
   }

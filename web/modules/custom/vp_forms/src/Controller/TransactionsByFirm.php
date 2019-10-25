@@ -268,7 +268,7 @@ class TransactionsByFirm extends ControllerBase {
     $uid = \Drupal::currentUser()->id();
     $uri = "$_SERVER[HTTP_REFERER]";
     $time = \Drupal::time()->getCurrentTime();
-    //vp_api_report_send($uid, $uri, $time);
+    vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
     $spreadsheet_end_time = microtime(TRUE);
