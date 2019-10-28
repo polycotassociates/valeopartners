@@ -21,7 +21,7 @@ field_name: field_vp_rate_company
 entity_type: node
 bundle: vp_type_rate
 label: Company
-description: "To locate a company, start typing the company's name. If the company isn't already in the database, click the plus sign to add it.\r\n"
+description: "To locate a company, type a word in the company's name and select from the list. If the company isn't already in the database, click the plus sign to add it.\r\n"
 required: false
 translatable: false
 default_value: {  }

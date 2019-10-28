@@ -1,0 +1,26 @@
+uuid: f72608cb-c317-41d7-999c-d59e082485c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2022_standard_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2022_standard_rate
+field_name: field_2022_standard_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2022 Standard Rate'
+description: '2022 Standard Rate (Computed)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

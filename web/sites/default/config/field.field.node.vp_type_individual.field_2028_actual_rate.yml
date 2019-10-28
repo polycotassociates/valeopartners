@@ -1,0 +1,26 @@
+uuid: 6d348716-a3af-4a36-8bbe-ee3e2de53808
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2028_actual_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2028_actual_rate
+field_name: field_2028_actual_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2028 Actual Rate'
+description: '2028 Actual Rate (Computed)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

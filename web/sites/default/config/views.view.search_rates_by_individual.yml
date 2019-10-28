@@ -22,7 +22,6 @@ dependencies:
     - user.role.administrator
     - user.role.data_entry
     - user.role.pilot_account
-    - user.role.rate_report_user
     - user.role.superuser
   module:
     - computed_field
@@ -52,7 +51,6 @@ display:
         options:
           role:
             administrator: administrator
-            rate_report_user: rate_report_user
             superuser: superuser
             pilot_account: pilot_account
             data_entry: data_entry

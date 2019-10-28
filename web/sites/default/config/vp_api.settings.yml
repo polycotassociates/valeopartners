@@ -1,3 +1,4 @@
 vp_api:
   report_email:
     emails: ace808@gmail.com
+    email_list_enable: 1

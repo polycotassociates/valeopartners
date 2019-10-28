@@ -1,0 +1,26 @@
+uuid: d2e340a3-6488-494d-8597-5e96ac94e87e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2025_standard_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2025_standard_rate
+field_name: field_2025_standard_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2025 Standard Rate'
+description: '2025 Standard Rate (Computed)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

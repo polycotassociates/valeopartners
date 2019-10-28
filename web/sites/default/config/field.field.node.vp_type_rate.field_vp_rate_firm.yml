@@ -21,7 +21,7 @@ field_name: field_vp_rate_firm
 entity_type: node
 bundle: vp_type_rate
 label: Firm
-description: "To locate a firm, start typing the firm name. If the firm isn't already in the database, click the plus sign to add it.\r\n"
+description: "To locate a firm, type a word in the firm's name and select from the list. If the firm isn't already in the database, click the plus sign to add it.\r\n"
 required: false
 translatable: false
 default_value: {  }

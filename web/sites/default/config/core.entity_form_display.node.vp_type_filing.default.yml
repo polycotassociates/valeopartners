@@ -20,8 +20,7 @@ content:
   field_vp_filing_case:
     weight: 1
     settings:
-      match_operator: STARTS_WITH
-      match_limit: 0
+      match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
