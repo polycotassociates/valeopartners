@@ -587,19 +587,4 @@ class RateMasterReport extends ControllerBase {
     return $childTerms;
   }
 
-  /**
-   * Get the title of the current page from the route defined in vp_forms.routing.yml.
-   */
-  private function getPageTitle() {
-    $request = \Drupal::request();
-    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
-      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
-      return $title;
-    }
-
-    return "Report";
-
-
-  }
-
 }

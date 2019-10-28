@@ -510,7 +510,8 @@ class TransactionsByFirm extends ControllerBase {
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
       $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
-      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      $location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      $query->condition($location_group);
     }
 
     // Filter by position ids.
@@ -544,126 +545,6 @@ class TransactionsByFirm extends ControllerBase {
   }
 
   /**
-   * Get Filing Number Query.
-   */
-  private function getFilingNumber($id) {
-    $query = db_select('node__field_vp_filing_number', 'number');
-    $query->condition('number.entity_id', $id, '=');
-    $query->fields('number', ['field_vp_filing_number_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Fiiling Description Query.
-   */
-  private function getFilingDescription($id) {
-    $query = db_select('node__field_vp_filing_description', 'description');
-    $query->condition('description.entity_id', $id, '=');
-    $query->fields('description', ['field_vp_filing_description_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Case Number Query.
-   */
-  private function getCaseNumber($id) {
-    $query = db_select('node__field_vp_case_number', 'case_number');
-    $query->condition('case_number.entity_id', $id, '=');
-    $query->fields('case_number', ['field_vp_case_number_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Case Court Query.
-   */
-  private function getCaseCourt($id) {
-    $query = db_select('node__field_vp_case_court', 'case_court');
-    $query->join('taxonomy_term_field_data', 'term', 'case_court.field_vp_case_court_target_id = term.tid');
-    $query->condition('case_court.entity_id', $id, '=');
-    $query->fields('term', ['name']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Nature Of Suit Query.
-   */
-  private function getNatureOfSuit($id) {
-    $query = db_select('node__field_vp_case_nature_of_suit', 'suit');
-    $query->join('taxonomy_term_field_data', 'term', 'suit.field_vp_case_nature_of_suit_target_id = term.tid');
-    $query->condition('suit.entity_id', $id, '=');
-    $query->fields('term', ['name']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Date Filed Query.
-   */
-  private function getFilingDate($id) {
-    $query = db_select('node__field_vp_case_date_filed', 'date_filed');
-    $query->condition('date_filed.entity_id', $id, '=');
-    $query->fields('date_filed', ['field_vp_case_date_filed_value']);
-    $date = $query->execute()->fetchField();
-    if ($date) {
-      $timestamp = strtotime($date);
-      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-      return $formatted_date;
-    }
-
-  }
-
-  /**
-   * Get Fee Date Begin Query.
-   */
-  private function getFeeDateBegin($id) {
-    $query = db_select('node__field_vp_filing_fee_dates', 'date_begin');
-    $query->condition('date_begin.entity_id', $id, '=');
-    $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
-    $date = $query->execute()->fetchField();
-    if ($date) {
-      $timestamp = strtotime($date);
-      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-      return $formatted_date;
-    }
-
-  }
-
-  /**
-   * Get Fee Date End Query.
-   */
-  private function getFeeDateEnd($id) {
-    $query = db_select('node__field_vp_filing_fee_dates', 'date_end');
-    $query->condition('date_end.entity_id', $id, '=');
-    $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
-    $date = $query->execute()->fetchField();
-    if ($date) {
-      $timestamp = strtotime($date);
-      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
-      return $formatted_date;
-    }
-  }
-
-  /**
-   * Get Node Title Query.
-   */
-  private function getNodeTitle($id) {
-    $query = db_select('node_field_data', 'node');
-    $query->condition('node.nid', $id, '=');
-    $query->fields('node', ['title']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Term Name Query.
-   */
-  private function getTermName($id) {
-    $query = db_select('taxonomy_term_field_data', 'term');
-    $query->condition('term.tid', $id, '=');
-    $query->fields('term', ['name']);
-    return $query->execute()->fetchField();
-  }
-
-
-  /**
    * Format date M-D-Y.
    */
   private function getFormattedDate($date) {
@@ -681,36 +562,24 @@ class TransactionsByFirm extends ControllerBase {
     // Create an array for the child term ids.
     $childTerms = [];
 
-    // For each term_node_tid_depth get the children and
-    // add them to the child terms array.
     foreach ($ids as $tid) {
+
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
-      foreach ($terms as $term) {
-        $childTerms[] = $term->get('tid')->value;
-        // Loop through again to get any children of children.
-        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+      if (count($terms) === 0) {
+        $childTerms[] = $tid;
+      }
+      else {
         foreach ($terms as $term) {
           $childTerms[] = $term->get('tid')->value;
+          // Loop through again to get any children of children.
+          $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+          foreach ($terms as $term) {
+            $childTerms[] = $term->get('tid')->value;
+          }
         }
       }
     }
-    if (count($childTerms) == 0) {
-      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-      return $term->get('tid')->value;
-    }
     return $childTerms;
-  }
-
-  /**
-   * Get the title of the current page.
-   */
-  private function getPageTitle() {
-    $request = \Drupal::request();
-    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
-      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
-    }
-    //return $title;
-    return "Rates By Firm - Detail";
   }
 
 }

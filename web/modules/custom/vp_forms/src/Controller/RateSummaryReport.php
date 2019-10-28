@@ -322,7 +322,8 @@ class RateSummaryReport extends ControllerBase {
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
       $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
-      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      $location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      $query->condition($location_group);
     }
 
     // Filter by position ids (by parent).
@@ -373,19 +374,6 @@ class RateSummaryReport extends ControllerBase {
 
     return $results;
 
-
-  }
-
-
-  /**
-   * Get the title of the current page.
-   */
-  private function getPageTitle() {
-    $request = \Drupal::request();
-    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
-      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
-    }
-    return $title;
   }
 
   /**
@@ -395,22 +383,22 @@ class RateSummaryReport extends ControllerBase {
     // Create an array for the child term ids.
     $childTerms = [];
 
-    // For each term_node_tid_depth get the children and
-    // add them to the child terms array.
     foreach ($ids as $tid) {
+
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
-      foreach ($terms as $term) {
-        $childTerms[] = $term->get('tid')->value;
-        // Loop through again to get any children of children.
-        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+      if (count($terms) === 0) {
+        $childTerms[] = $tid;
+      }
+      else {
         foreach ($terms as $term) {
           $childTerms[] = $term->get('tid')->value;
+          // Loop through again to get any children of children.
+          $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+          foreach ($terms as $term) {
+            $childTerms[] = $term->get('tid')->value;
+          }
         }
       }
-    }
-    if (count($childTerms) == 0) {
-      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-      return $term->get('tid')->value;
     }
     return $childTerms;
   }
