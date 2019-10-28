@@ -429,6 +429,160 @@ function computed_field_field_most_recent_position_compute($entity_type_manager,
 }
 
 /**
+ * Get the highest HOURLY rate from an attorney for 2030.
+ */
+function computed_field_field_2030_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2030);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2030.
+ */
+function computed_field_field_2030_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2030);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2029.
+ */
+function computed_field_field_2029_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2029);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2029.
+ */
+function computed_field_field_2029_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2029);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2028.
+ */
+function computed_field_field_2028_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2028);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2028.
+ */
+function computed_field_field_2028_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2028);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2027.
+ */
+function computed_field_field_2027_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2027);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2027.
+ */
+function computed_field_field_2027_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2027);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2026.
+ */
+function computed_field_field_2026_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2026);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2026.
+ */
+function computed_field_field_2026_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2026);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2025.
+ */
+function computed_field_field_2025_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2025);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2025.
+ */
+function computed_field_field_2025_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2025);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2024.
+ */
+function computed_field_field_2024_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2024);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2024.
+ */
+function computed_field_field_2024_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2024);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2023.
+ */
+function computed_field_field_2023_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2023);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2023.
+ */
+function computed_field_field_2023_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2023);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2022.
+ */
+function computed_field_field_2022_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2022);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2022.
+ */
+function computed_field_field_2022_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2022);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2021.
+ */
+function computed_field_field_2021_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2021);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2021.
+ */
+function computed_field_field_2021_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2021);
+}
+
+/**
+ * Get the highest HOURLY rate from an attorney for 2020.
+ */
+function computed_field_field_2020_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_hourly_rate($entity->id(), 2020);
+}
+
+/**
+ * Get the highest STANDARD rate from an attorney for 2020.
+ */
+function computed_field_field_2020_standard_rate_compute($entity_type_manager, $entity, $fields, $delta) {
+  return get_highest_standard_rate($entity->id(), 2020);
+}
+
+/**
  * Get the highest HOURLY rate from an attorney for 2019.
  */
 function computed_field_field_2019_actual_rate_compute($entity_type_manager, $entity, $fields, $delta) {
