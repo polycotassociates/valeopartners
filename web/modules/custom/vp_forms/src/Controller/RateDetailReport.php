@@ -565,6 +565,9 @@ class RateDetailReport extends ControllerBase {
       $query->condition($group);
     }
 
+
+    $query->isNotNull('field_vp_rate_hourly_value');
+
     // Maximum 50,000 records.
     $query->range(0, 50000);
 
