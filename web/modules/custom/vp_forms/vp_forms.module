@@ -220,6 +220,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
  */
 function vp_forms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
+  $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
   /* @var Drupal\Core\Entity\FieldableEntityInterface $entity */
   $formObject = $form_state->getFormObject();
   if ($formObject instanceof \Drupal\Core\Entity\EntityFormInterface) {
