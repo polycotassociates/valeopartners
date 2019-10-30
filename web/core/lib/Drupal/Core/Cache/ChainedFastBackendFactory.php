@@ -66,6 +66,17 @@ class ChainedFastBackendFactory implements CacheFactoryInterface {
   }
 
   /**
+   * Getter for the consistent service name.
+   *
+   * @return string
+   *   The service name of the consistent backend factory.
+   */
+  public function getConsistentServiceName() {
+    return ($this->consistentServiceName && $this->container->has($this->consistentServiceName)) ?
+      $this->consistentServiceName : 'cache.backend.database';
+  }
+
+  /**
    * Instantiates a chained, fast cache backend class for a given cache bin.
    *
    * @param string $bin
@@ -79,13 +90,13 @@ class ChainedFastBackendFactory implements CacheFactoryInterface {
     // otherwise, just return the consistent backend directly.
     if (isset($this->fastServiceName)) {
       return new ChainedFastBackend(
-        $this->container->get($this->consistentServiceName)->get($bin),
+        $this->container->get($this->getConsistentServiceName())->get($bin),
         $this->container->get($this->fastServiceName)->get($bin),
         $bin
       );
     }
     else {
-      return $this->container->get($this->consistentServiceName)->get($bin);
+      return $this->container->get($this->getConsistentServiceName())->get($bin);
     }
   }
 

@@ -101,30 +101,6 @@ class EntityReferenceAutocompleteWidgetTest extends WebDriverTestBase {
     $this->assertCount(1, $results);
     $assert_session->pageTextContains('Test page');
     $assert_session->pageTextNotContains('Page test');
-
-    // Change the size of the result set.
-    entity_get_form_display('node', 'page', 'default')
-      ->setComponent($field_name, [
-        'type' => 'entity_reference_autocomplete',
-        'settings' => [
-          'match_limit' => 1,
-        ],
-      ])
-      ->save();
-
-    $this->drupalGet('node/add/page');
-    $page = $this->getSession()->getPage();
-
-    $autocomplete_field = $page->findField($field_name . '[0][target_id]');
-    $autocomplete_field->setValue('Test');
-    $this->getSession()->getDriver()->keyDown($autocomplete_field->getXpath(), ' ');
-    $assert_session->waitOnAutocomplete();
-
-    $results = $page->findAll('css', '.ui-autocomplete li');
-
-    $this->assertCount(1, $results);
-    $assert_session->pageTextContains('Test page');
-    $assert_session->pageTextNotContains('Page test');
   }
 
 }

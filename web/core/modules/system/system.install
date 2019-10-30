@@ -24,6 +24,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\StreamWrapper\PrivateStream;
 use Drupal\Core\StreamWrapper\PublicStream;
+use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -290,6 +291,33 @@ function system_requirements($phase) {
       $requirements['php_opcache']['value'] = t('Enabled');
     }
     $requirements['php_opcache']['title'] = t('PHP OPcode caching');
+  }
+
+  if ($phase == 'install' || $phase == 'runtime') {
+    // Check that the required cache backends exist.
+    $cache_settings = Settings::get('cache');
+    $missing_cache_backends = [];
+    if (isset($cache_settings['bins'])) {
+      foreach ($cache_settings['bins'] as $bin => $backend) {
+        if (!Drupal::getContainer()->has($cache_settings['bins'][$bin])) {
+          $missing_cache_backends[] = $cache_settings['bins'][$bin];
+        }
+      }
+    }
+    if (isset($cache_settings['default']) && !Drupal::getContainer()->has($cache_settings['default'])) {
+      $missing_cache_backends[] = $cache_settings['default'];
+    }
+    if ($missing_cache_backends) {
+      $requirements['cache_backend'] = [
+        'title' => t('Cache Backend'),
+        'value' => t('Missing'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => new PluralTranslatableMarkup(count($missing_cache_backends),
+          'The configured Cache Backend %backend is not available.',
+          'The configured Cache Backends %backend are not available.',
+          ['%backend' => implode(', ', $missing_cache_backends)]),
+      ];
+    }
   }
 
   if ($phase != 'update') {
