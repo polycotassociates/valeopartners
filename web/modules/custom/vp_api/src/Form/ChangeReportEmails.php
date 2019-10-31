@@ -59,10 +59,12 @@ class ChangeReportEmails extends FormBase {
       ],
     ];
 
+
     $form['new_record_report'] = [
       '#type' => 'fieldset',
       '#title' => $this
         ->t('Daily report of new records'),
+      '#access' => FALSE,
     ];
 
     $form['new_record_report']['new_report_enable'] = [
