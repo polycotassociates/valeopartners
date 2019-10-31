@@ -215,9 +215,10 @@ class RateSummaryReport extends ControllerBase {
     // Query node data.
     $query = $db->select('node_field_data', 'node');
 
-    $query->fields('node', ['nid', 'type', 'status']);
+    $query->fields('node', ['nid', 'type', 'status', 'title']);
     $query->condition('node.type', 'vp_type_individual', '=');
     $query->condition('node.status', 1);
+    $query->isNotNull('node.title');
 
     // Join Firm, Filing, Individual, Case to Rate.
     $query->leftjoin('node__field_vp_rate_individual', 'rate', 'node.nid = rate.field_vp_rate_individual_target_id');
@@ -352,9 +353,9 @@ class RateSummaryReport extends ControllerBase {
 
     // Ensure the results have an actual rate.
     $hasRategroup = $query->orConditionGroup()
-      ->condition('field_2019_actual_rate_value', 0, '>')
-      ->condition('field_2018_actual_rate_value', 0, '>')
-      ->condition('field_2017_actual_rate_value', 0, '>');
+      ->condition('field_2019_actual_rate_value', 0.01, '>')
+      ->condition('field_2018_actual_rate_value', 0.01, '>')
+      ->condition('field_2017_actual_rate_value', 0.01, '>');
     $query->condition($hasRategroup);
 
     // Group By Node ID.
@@ -364,7 +365,7 @@ class RateSummaryReport extends ControllerBase {
     $query->range(0, 50000);
 
     // Order by Actual Rate.
-    $query->orderBy('2019_actual_rate.field_2019_actual_rate_value', 'DESC');
+    $query->orderBy('2019_actual_rate.field_2019_actual_rate_value', 'DESC')->orderBy('title', 'ASC');
 
     $results = $query->execute()->fetchAll();
 

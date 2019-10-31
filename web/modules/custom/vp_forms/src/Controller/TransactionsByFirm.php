@@ -332,6 +332,9 @@ class TransactionsByFirm extends ControllerBase {
     $query->leftjoin('node__field_vp_rate_success_fee', 'success_fee', 'node.nid = success_fee.entity_id');
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
 
+    // Individual Node.
+    $query->leftjoin('node_field_data', 'individual_node', 'individual_node.nid = individual.entity_id');
+
     // Firm node join.
     $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = firm.field_vp_rate_firm_target_id');
 
@@ -527,6 +530,8 @@ class TransactionsByFirm extends ControllerBase {
         ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_3_target_id'], 'IN');
       $query->condition($group);
     }
+
+    $query->isNotNull('individual_node.title');
 
     // Maximum 50,000 records.
     $query->range(0, 50000);

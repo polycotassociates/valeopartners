@@ -75,8 +75,8 @@ class RateTrendingReport extends ControllerBase {
       $worksheet->getCell('F1')->setValue('Practice Area 3');
       $worksheet->getCell('G1')->setValue('City');
       $worksheet->getCell('H1')->setValue('Grad Year');
-      $worksheet->getCell('I1')->setValue('Former Rate');
-      $worksheet->getCell('J1')->setValue('New Rate');
+      $worksheet->getCell('I1')->setValue('2018 Rate');
+      $worksheet->getCell('J1')->setValue('2019 Rate');
       $worksheet->getCell('K1')->setValue('Percent Change');
 
       $spreadsheet->getActiveSheet()->freezePane('A2');
@@ -183,7 +183,7 @@ class RateTrendingReport extends ControllerBase {
 
     // Query node data.
     $query = $db->select('node_field_data', 'node');
-    $query->fields('node', ['nid', 'type', 'status', 'nid']);
+    $query->fields('node', ['nid', 'type', 'status', 'nid', 'title']);
     $query->condition('node.type', 'vp_type_rate', '=');
     $query->condition('node.status', 1);
 
@@ -195,6 +195,12 @@ class RateTrendingReport extends ControllerBase {
 
     // Joins for fields to query upon.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
+
+    // Individual Node.
+    $query->leftjoin('node_field_data', 'individual_node', 'individual_node.nid = individual.entity_id');
+
+    // Firm Node.
+    $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = firm.entity_id');
 
     // Individual Joins.
     $query->leftjoin('node__field_vp_individual_location', 'location', 'location.entity_id = individual.field_vp_rate_individual_target_id');
@@ -208,6 +214,7 @@ class RateTrendingReport extends ControllerBase {
 
     // Rate values.
     $query->join('node__field_vp_rate_hourly', 'actual', 'node.nid = actual.entity_id');
+    $query->join('node__field_vp_rate_previous', 'previous', 'node.nid = previous.entity_id');
     $query->join('node__field_2018_actual_rate', 'rate_2018', 'individual.field_vp_rate_individual_target_id = rate_2018.entity_id');
     $query->join('node__field_2019_actual_rate', 'rate_2019', 'individual.field_vp_rate_individual_target_id = rate_2019.entity_id');
 
@@ -216,8 +223,11 @@ class RateTrendingReport extends ControllerBase {
     $query->fields('filing', ['field_vp_rate_filing_target_id']);
     $query->fields('filing_case', ['field_vp_filing_case_target_id']);
     $query->fields('individual', ['field_vp_rate_individual_target_id']);
+    $query->addField('firm_node', 'title', 'firm_title');
+
 
     // Individual Fields.
+    $query->addField('individual_node', 'title', 'individual_title');
     $query->fields('fname', ['field_vp_first_name_value']);
     $query->fields('mname', ['field_vp_middle_name_value']);
     $query->fields('lname', ['field_vp_last_name_value']);
@@ -232,6 +242,7 @@ class RateTrendingReport extends ControllerBase {
     $query->fields('rate_2018', ['field_2018_actual_rate_value']);
     $query->fields('rate_2019', ['field_2019_actual_rate_value']);
     $query->fields('actual', ['field_vp_rate_hourly_value']);
+    $query->fields('previous', ['field_vp_rate_previous_value']);
 
     // Group by individual.
     $query->groupBy('individual.field_vp_rate_individual_target_id');
@@ -247,6 +258,12 @@ class RateTrendingReport extends ControllerBase {
     $query->orderBy('lname.field_vp_last_name_value', 'ASC');
     $query->orderBy('actual.field_vp_rate_hourly_value', 'ASC');
     $query->orderBy('firm.entity_id', 'ASC');
+
+
+    $query->condition('field_vp_rate_previous_value', 0, '>');
+    $query->isNotNull('field_vp_rate_hourly_value');
+    $query->isNotNull('individual_node.title');
+    $query->isNotNull('firm_node.title');
 
     // Maximum 50,000 records.
     $query->range(0, 50000);
