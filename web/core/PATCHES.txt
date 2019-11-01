@@ -33,3 +33,7 @@ Verify that the configured service exists before calling it in CacheFactory
 Source: https://www.drupal.org/files/issues/2019-05-06/2429321-cache-factory-service-check-43.patch
 
 
+Hardcoded result size limit in the entity reference autocomplete widget
+Source: https://www.drupal.org/files/issues/2019-01-09/2863188-74.patch
+
+

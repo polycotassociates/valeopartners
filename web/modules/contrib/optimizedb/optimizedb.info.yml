@@ -1,0 +1,12 @@
+name: 'Database Optimization'
+type: module
+description: 'Optimizing the site database.'
+# core: 8.x
+package: Development
+configure: optimizedb.admin_page
+
+# Information added by Drupal.org packaging script on 2015-10-30
+version: '8.x-1.0-rc2'
+core: '8.x'
+project: 'optimizedb'
+datestamp: 1446243540

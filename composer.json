@@ -209,7 +209,8 @@
             "Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2019-05-04/drupal_2230909_138.patch",
             "Going to page 2 on list terms page doesn't display additional terms": "https://www.drupal.org/files/issues/2019-06-21/vocabulary_terms_list_not_working_with_pager-242324-119_0.patch",
             "User can't reference unpublished content even when he has access to it": "https://www.drupal.org/files/issues/2019-03-26/user_cant_reference_unpublished_content-2845144-24.patch",
-            "Verify that the configured service exists before calling it in CacheFactory": "https://www.drupal.org/files/issues/2019-05-06/2429321-cache-factory-service-check-43.patch"
+            "Verify that the configured service exists before calling it in CacheFactory": "https://www.drupal.org/files/issues/2019-05-06/2429321-cache-factory-service-check-43.patch",
+            "Hardcoded result size limit in the entity reference autocomplete widget": "https://www.drupal.org/files/issues/2019-01-09/2863188-74.patch"
         }
     },
     "build-env": {

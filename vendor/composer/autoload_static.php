@@ -5245,6 +5245,7 @@ class ComposerStaticInitea9285ba826865e5b2219ed64c325ef8
         'Robo\\State\\Data' => __DIR__ . '/..' . '/consolidation/robo/src/State/Data.php',
         'Robo\\State\\StateAwareInterface' => __DIR__ . '/..' . '/consolidation/robo/src/State/StateAwareInterface.php',
         'Robo\\State\\StateAwareTrait' => __DIR__ . '/..' . '/consolidation/robo/src/State/StateAwareTrait.php',
+        'Robo\\Symfony\\SymfonyStyleInjector' => __DIR__ . '/..' . '/consolidation/robo/src/Symfony/SymfonyStyleInjector.php',
         'Robo\\TaskAccessor' => __DIR__ . '/..' . '/consolidation/robo/src/TaskAccessor.php',
         'Robo\\TaskInfo' => __DIR__ . '/..' . '/consolidation/robo/src/TaskInfo.php',
         'Robo\\Task\\ApiGen\\ApiGen' => __DIR__ . '/..' . '/consolidation/robo/src/Task/ApiGen/ApiGen.php',

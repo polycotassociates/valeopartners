@@ -4447,6 +4447,7 @@ return array(
     'Robo\\State\\Data' => $vendorDir . '/consolidation/robo/src/State/Data.php',
     'Robo\\State\\StateAwareInterface' => $vendorDir . '/consolidation/robo/src/State/StateAwareInterface.php',
     'Robo\\State\\StateAwareTrait' => $vendorDir . '/consolidation/robo/src/State/StateAwareTrait.php',
+    'Robo\\Symfony\\SymfonyStyleInjector' => $vendorDir . '/consolidation/robo/src/Symfony/SymfonyStyleInjector.php',
     'Robo\\TaskAccessor' => $vendorDir . '/consolidation/robo/src/TaskAccessor.php',
     'Robo\\TaskInfo' => $vendorDir . '/consolidation/robo/src/TaskInfo.php',
     'Robo\\Task\\ApiGen\\ApiGen' => $vendorDir . '/consolidation/robo/src/Task/ApiGen/ApiGen.php',
