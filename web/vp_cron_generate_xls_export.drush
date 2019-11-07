@@ -40,7 +40,7 @@ function _vp_api_generate_xls_query() {
 
   // Query node data.
   $query = $db->select('node_field_data', 'node');
-  $query->fields('node', ['nid', 'type', 'status']);
+  $query->fields('node', ['nid', 'type', 'status', 'created']);
   $query->condition('node.type', 'vp_type_rate', '=');
 
   // Join Firm, Filing, Individual, Case to Rate.
@@ -207,7 +207,7 @@ function _vp_api_generate_xls_query() {
   $query->addField('suit_type_term', 'name', 'nature_of_suit');
 
   // No limit for full download.
-  //  $number = 500;
+  //  $number = 10;
   //  $query->range(0, $number);
 
   // Order by Transaction Amount Rate.
@@ -216,7 +216,7 @@ function _vp_api_generate_xls_query() {
   $results = $query->execute()->fetchAll();
   $query_end_time = microtime(true);
   $seconds = round($query_end_time - $query_start_time, 2);
-  \Drupal::logger('vp_api_drush')->notice("Query completed in $seconds seconds");
+  \Drupal::logger('vp_api_drush')->notice("All records query completed in $seconds seconds");
 
   return $results;
 
@@ -227,7 +227,7 @@ function _vp_api_generate_xls_query() {
  */
 function _vp_api_generate_xls_sheet() {
 
-  \Drupal::logger('vp_api_drush')->notice('Preparing Spreadsheet...');
+  \Drupal::logger('vp_api_drush')->notice('Preparing all records spreadsheet...');
 
   // Check to see if there's a cache, if so, use it.
 
@@ -487,8 +487,8 @@ function _vp_api_generate_xls_sheet() {
     // Author.
     $worksheet->setCellValue('AJ' . $i, $result->username);
     // Created date.
-    $worksheet->setCellValue('AK' . $i, $result->created, 'custom', 'm-d-Y');
-    //$spreadsheet->getActiveSheet()->getStyle('AK' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
+    $worksheet->setCellValue('AK' . $i, \Drupal::service('date.formatter')->format($result->created, 'custom', 'm-d-Y'));
+    // $spreadsheet->getActiveSheet()->getStyle('AK' . $i)->getNumberFormat()->setFormatCode('MM-DD-YYYY');
 
     $i++;
 
@@ -524,9 +524,22 @@ function _vp_api_generate_xls_sheet() {
   // Notice.
   \Drupal::logger('vp_api')->notice('Spreadsheet saved to '. $private . '/reports/Valeo_Full_Report.xlsx');
   \Drupal::logger('vp_api')->notice("Spreadsheet completed in $seconds seconds.");
+
+  $time = \Drupal::time()->getCurrentTime();
+  setLatestDate($time);
   // $response->setContent($content);
   // return $response;
 }
+
+  /**
+   * Set the latest date of creation token.
+   */
+  function setLatestDate($time) {
+    $date = format_date($time, 'custom', 'm/j/Y g:i a');
+    $config = \Drupal::service('config.factory')->getEditable('vp_api.settings');
+    $config->set('vp_api.full_report_time.date', $date);
+    $config->save();
+  }
 
   /**
    * Format date M-D-Y.
