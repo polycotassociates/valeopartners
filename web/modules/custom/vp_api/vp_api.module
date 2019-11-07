@@ -8,6 +8,7 @@
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
+use Drupal\Core\Render\BubbleableMetadata;
 
 /**
  * Implements hook_node_update().
@@ -238,4 +239,37 @@ function vp_api_get_most_recent_employer($id) {
     $firm = $result[0]->field_vp_rate_firm_target_id;
     return $firm;
   }
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ * Create a token group and token for last updated master spreadsheet.
+ */
+function vp_api_token_info() {
+  $info = [];
+  $info['types']['vp_tokens'] = ['name' => t('VP Tokens'), 'description' => t('Tokens for Valeo Partners')];
+  $info['tokens']['vp_tokens']['vp_token_last_updated_sheet'][] = 'A token to that returns the last created date for the drush generated master sheet.';
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function vp_api_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $replacements = [];
+  if ($type == 'vp_tokens') {
+
+    foreach ($tokens as $name => $original) {
+      // Find the desired token by name.
+      switch ($name) {
+        case 'vp_token_last_updated_sheet':
+          // Get the configuration settings.
+          $config = \Drupal::service('config.factory')->getEditable('vp_api.settings');
+          $replacements[$original] = $config->get('vp_api.full_report_time.date') ? $config->get('vp_api.full_report_time.date') : '--/--/----';
+          break;
+      }
+    }
+  }
+  return $replacements;
 }
