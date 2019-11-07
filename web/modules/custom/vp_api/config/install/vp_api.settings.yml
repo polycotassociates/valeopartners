@@ -6,3 +6,5 @@ vp_api.report_email:
   new_report_enable: FALSE
   new_report_cron_interval: 86400
   new_report_cron_interval_next: 0
+vp_api.full_report_time:
+  date: 'Never'
