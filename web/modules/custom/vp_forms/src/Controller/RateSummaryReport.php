@@ -72,12 +72,13 @@ class RateSummaryReport extends ControllerBase {
     $worksheet->getCell('K1')->setValue('Grad Year');
     $worksheet->getCell('L1')->setValue('Bar Year');
     $worksheet->getCell('M1')->setValue('Bar State');
-    $worksheet->getCell('N1')->setValue('2019 Actual Rate');
-    $worksheet->getCell('O1')->setValue('2019 Standard Rate');
-    $worksheet->getCell('P1')->setValue('2018 Actual Rate');
-    $worksheet->getCell('Q1')->setValue('2018 Standard Rate');
-    $worksheet->getCell('R1')->setValue('2017 Actual Rate');
-    $worksheet->getCell('S1')->setValue('2017 Standard Rate');
+    $worksheet->getCell('N1')->setValue('City');
+    $worksheet->getCell('O1')->setValue('2019 Actual Rate');
+    $worksheet->getCell('P1')->setValue('2019 Standard Rate');
+    $worksheet->getCell('Q1')->setValue('2018 Actual Rate');
+    $worksheet->getCell('R1')->setValue('2018 Standard Rate');
+    $worksheet->getCell('S1')->setValue('2017 Actual Rate');
+    $worksheet->getCell('T1')->setValue('2017 Standard Rate');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
     // Last name.
@@ -106,18 +107,20 @@ class RateSummaryReport extends ControllerBase {
     $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
     // Bar State.
     $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(25);
-    // 2019 Actual Rate.
+    // City.
     $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(25);
-    // 2019 Standard Rate.
+    // 2019 Actual Rate.
     $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(25);
-    // 2018 Actual Rate.
+    // 2019 Standard Rate.
     $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
-    // 2018 Standard Rate.
+    // 2018 Actual Rate.
     $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(25);
-    // 2017 Actual Rate.
+    // 2018 Standard Rate.
     $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(25);
-    // 2017 Standard Rate.
+    // 2017 Actual Rate.
     $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(25);
+    // 2017 Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('T')->setWidth(25);
 
     // Query loop.
     $i = 2;
@@ -149,23 +152,25 @@ class RateSummaryReport extends ControllerBase {
       $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
       // Bar State.
       $worksheet->setCellValue('M' . $i, '' . $result->state_bar);
+      // City.
+      $worksheet->setCellValue('N' . $i, '' . $result->location_name);
       // 2019 Actual Rate.
-      $worksheet->setCellValue('N' . $i, $result->field_2019_actual_rate_value);
+      $worksheet->setCellValue('O' . $i, $result->field_2019_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('N' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // 2019 Standard Rate.
-      $worksheet->setCellValue('O' . $i, $result->field_2019_standard_rate_value);
+      $worksheet->setCellValue('P' . $i, $result->field_2019_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // 2018 Actual Rate.
-      $worksheet->setCellValue('P' . $i, $result->field_2018_actual_rate_value);
+      $worksheet->setCellValue('Q' . $i, $result->field_2018_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // 2018 Standard Rate.
-      $worksheet->setCellValue('Q' . $i, $result->field_2018_standard_rate_value);
+      $worksheet->setCellValue('R' . $i, $result->field_2018_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('Q' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // 2017 Actual Rate.
-      $worksheet->setCellValue('R' . $i, $result->field_2017_actual_rate_value);
+      $worksheet->setCellValue('S' . $i, $result->field_2017_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
       // 2017 Standard Rate.
-      $worksheet->setCellValue('S' . $i, $result->field_2017_standard_rate_value);
+      $worksheet->setCellValue('T' . $i, $result->field_2017_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
       $i++;
@@ -269,6 +274,9 @@ class RateSummaryReport extends ControllerBase {
     // Position term join.
     $query->leftjoin('taxonomy_term_field_data', 'position_term', 'position_term.tid = field_vp_rate_position_target_id');
 
+    // Location join.
+    $query->leftjoin('taxonomy_term_field_data', 'location_term', 'location_term.tid = field_vp_individual_location_target_id');
+
     // Industry title.
     $query->addField('industry_term', 'name', 'industry_name');
 
@@ -288,6 +296,9 @@ class RateSummaryReport extends ControllerBase {
 
     // Firm title.
     $query->addField('firm_node', 'title', 'firm_title');
+
+    // City.
+    $query->addField('location_term', 'name', 'location_name');
 
     // Individual Fields.
     $query->fields('employment', ['field_firm_target_id']);
