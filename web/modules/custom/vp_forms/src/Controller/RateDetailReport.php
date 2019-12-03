@@ -510,15 +510,10 @@ class RateDetailReport extends ControllerBase {
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
       $nodes = $this->getTermParentLocationIds($_GET['term_node_tid_depth_location']);
-
-      //kint($nodes);
-      //die();
+      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
       //$location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
       //$query->condition($location_group);
-
-      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
     }
-
     // Filter by position ids (by parent).
     if (isset($_GET['term_node_tid_depth_position'])) {
       $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_position']);
