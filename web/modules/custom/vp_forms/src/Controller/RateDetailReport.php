@@ -31,10 +31,6 @@ class RateDetailReport extends ControllerBase {
    */
   public function export() {
 
-
-    // kint($this->generateDynamicQuery());
-    // die();
-
     // if (class_exists('Redis')) {
 
     //   $client = new \Redis();
@@ -513,9 +509,14 @@ class RateDetailReport extends ControllerBase {
 
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
-      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
-      $location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
-      $query->condition($location_group);
+      $nodes = $this->getTermParentLocationIds($_GET['term_node_tid_depth_location']);
+
+      //kint($nodes);
+      //die();
+      //$location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      //$query->condition($location_group);
+
+      $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
     }
 
     // Filter by position ids (by parent).
@@ -620,6 +621,38 @@ class RateDetailReport extends ControllerBase {
       }
     }
     return $childTerms;
+  }
+
+  /**
+   * Get Term Parent location tree IDs.
+   */
+  private function getTermParentLocationIds($ids) {
+    // Create an array for the child term ids.
+    $childTerms = [];
+    $all_terms = [];
+    // Loop through the array of terms.
+    foreach ($ids as $tid) {
+      $childTerms[] = $tid;
+      $child_ids = $this->getLocationChildTermIds($tid);
+      $all_terms[] = array_merge($childTerms, $child_ids);
+    }
+    return array_unique($all_terms[0]);
+  }
+
+  /**
+   * Get Location Term Children Ids.
+   */
+  private function getLocationChildTermIds($id) {
+    $vid = 'city';
+    $parent_tid = $id; // the parent term id
+    $depth = NULL; // 1 to get only immediate children, NULL to load entire tree
+    $load_entities = FALSE; // True will return loaded entities rather than ids
+    $child_tids = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent_tid, $depth, $load_entities);
+    $ids = [];
+    foreach ($child_tids as $tid) {
+      $ids[] = $tid->tid;
+    }
+    return $ids;
   }
 
 }
