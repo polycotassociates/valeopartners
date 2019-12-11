@@ -12,6 +12,9 @@
  */
 function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
 
+  $year = format_date(time(), 'custom', 'Y');
+  $end_date = $year + 10 . '-12-31';
+
   // Attach javascript library to all forms.
   $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
 
@@ -51,6 +54,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       $form['field_vp_filing_fee_dates_value']['max']['#type'] = "select";
       $form['field_vp_filing_fee_dates_value']['max']['#multiple'] = FALSE;
       $form['field_vp_filing_fee_dates_value']['max']['#empty_option'] = '-All-';
+      $form['field_vp_filing_fee_dates_value']['max']['#empty_value'] = $end_date;
       $form['field_vp_filing_fee_dates_value']['max']['#options'] = vp_api_year_options_max();
       unset($form['field_vp_filing_fee_dates_value']['max']['#size']);
 
@@ -174,6 +178,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       $form['field_vp_filing_fee_dates_value']['max']['#type'] = "select";
       $form['field_vp_filing_fee_dates_value']['max']['#multiple'] = FALSE;
       $form['field_vp_filing_fee_dates_value']['max']['#empty_option'] = '-All-';
+      $form['field_vp_filing_fee_dates_value']['max']['#empty_value'] = $end_date;
       $form['field_vp_filing_fee_dates_value']['max']['#options'] = vp_api_year_options_max();
       unset($form['field_vp_filing_fee_dates_value']['max']['#size']);
 
@@ -206,6 +211,7 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
       $form['field_vp_filing_fee_dates_value']['max']['#type'] = "select";
       $form['field_vp_filing_fee_dates_value']['max']['#multiple'] = FALSE;
       $form['field_vp_filing_fee_dates_value']['max']['#empty_option'] = '-All-';
+      $form['field_vp_filing_fee_dates_value']['max']['#empty_value'] = $end_date;
       $form['field_vp_filing_fee_dates_value']['max']['#options'] = vp_api_year_options_max();
       unset($form['field_vp_filing_fee_dates_value']['max']['#size']);
 
