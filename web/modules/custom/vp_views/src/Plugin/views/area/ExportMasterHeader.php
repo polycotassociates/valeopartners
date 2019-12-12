@@ -3,7 +3,6 @@
 namespace Drupal\vp_views\Plugin\views\area;
 
 use Drupal\views\Plugin\views\area\AreaPluginBase;
-use Drupal\node\Entity\Node;
 
 /**
  * Defines a views area plugin.
@@ -46,11 +45,8 @@ class ExportMasterHeader extends AreaPluginBase {
       $q = $_GET;
       // Build the query from the query variables.
       $query = http_build_query($q);
-      // Get the current path.
-      $path = \Drupal::request()->getpathInfo();
-      // Put them together with /export added to the path and format=xls at the end.
+      // Create report title.
       $export_xls = "/reports/export/master?report_title=$report_title&$query";
-      //$export_xls = "$path/export?$query&_format=xls";
       // Create the html for the link.
       $export_xls_link = "<span id='export-xls-link'><span class='xls-icon'>&nbsp;</span><a href='$export_xls'><img src='/themes/custom/valeo_classic/images/xls-24.png' />Export Results as XLS</a></span>";
       // Get the modal text.
