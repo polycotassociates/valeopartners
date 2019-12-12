@@ -489,15 +489,13 @@ class RateMasterReport extends ControllerBase {
 
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
-      $nodes = $this->getTermParentLocationIds($_GET['term_node_tid_depth_location']);
+      $nodes = $this->getTermTreeIds($_GET['term_node_tid_depth_location'], 'city');
       $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
-      //$location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
-      //$query->condition($location_group);
     }
 
     // Filter by position ids (by parent).
     if (isset($_GET['term_node_tid_depth_position'])) {
-      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_position']);
+      $nodes = $this->getTermTreeIds($_GET['term_node_tid_depth_position'], 'position');
       $query->condition('field_vp_rate_position_target_id', $nodes, 'IN');
     }
 
@@ -562,63 +560,35 @@ class RateMasterReport extends ControllerBase {
   }
 
   /**
-   * Get Term Parent IDs.
-   */
-  private function getTermParentIds($ids) {
-    // Create an array for the child term ids.
-    $childTerms = [];
-
-    foreach ($ids as $tid) {
-
-      $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
-      if (count($terms) === 0) {
-        $childTerms[] = $tid;
-      }
-      else {
-        foreach ($terms as $term) {
-          $childTerms[] = $term->get('tid')->value;
-          // Loop through again to get any children of children.
-          $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
-          foreach ($terms as $term) {
-            $childTerms[] = $term->get('tid')->value;
-          }
-        }
-      }
-    }
-    return $childTerms;
-  }
-
-  /**
    * Get Term Parent location tree IDs.
    */
-  private function getTermParentLocationIds($ids) {
+  private function getTermTreeIds($ids, $vid) {
     // Create an array for the child term ids.
     $childTerms = [];
     $all_terms = [];
     // Loop through the array of terms.
     foreach ($ids as $tid) {
       $childTerms[] = $tid;
-      $child_ids = $this->getLocationChildTermIds($tid);
+      $child_ids = $this->getChildIds($tid, $vid);
       $all_terms[] = array_merge($childTerms, $child_ids);
     }
     return array_unique($all_terms[0]);
   }
 
   /**
-   * Get Location Term Children Ids.
+   * Get Term Children Ids.
    */
-  private function getLocationChildTermIds($id) {
-    $vid = 'city';
+  private function getChildIds($id, $vid) {
+    $vocabulary_id = $vid;
     $parent_tid = $id; // the parent term id
     $depth = NULL; // 1 to get only immediate children, NULL to load entire tree
     $load_entities = FALSE; // True will return loaded entities rather than ids
-    $child_tids = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent_tid, $depth, $load_entities);
+    $child_tids = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vocabulary_id, $parent_tid, $depth, $load_entities);
     $ids = [];
     foreach ($child_tids as $tid) {
       $ids[] = $tid->tid;
     }
     return $ids;
   }
-
 
 }
