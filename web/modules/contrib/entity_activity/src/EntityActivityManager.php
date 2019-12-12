@@ -4,6 +4,7 @@ namespace Drupal\entity_activity;
 
 use Drupal\Component\Datetime\Time;
 use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -18,11 +19,13 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\entity_activity\Entity\SubscriptionInterface;
 use Drupal\entity_activity\Event\EntityActivityEvent;
 use Drupal\entity_activity\Event\EntityActivityEvents;
 use Drupal\entity_activity\Event\EntityActivitySupportEntityTypeEvent;
 use Drupal\entity_activity\Plugin\LogGeneratorInterface;
 use Drupal\entity_activity\Plugin\LogGeneratorManagerInterface;
+use Drupal\user\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -295,6 +298,26 @@ class EntityActivityManager implements EntityActivityManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function deleteUserSubscriptions(UserInterface $user) {
+    $subscriptions = $this->subscriptionStorage->loadMultipleByOwner($user);
+    foreach ($subscriptions as $subscription) {
+      $subscription->delete();
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function deleteUserLogs(UserInterface $user) {
+    $logs = $this->logStorage->loadMultipleByOwner($user);
+    foreach ($logs as $log) {
+      $log->delete();
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getEntityLangcode(ContentEntityInterface $entity) {
     if ($entity->isTranslatable()) {
       $langcode = $entity->language()->getId();
@@ -375,6 +398,15 @@ class EntityActivityManager implements EntityActivityManagerInterface {
           }
         }
       }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function invalidateCache(ContentEntityInterface $entity) {
+    if ($entity instanceof SubscriptionInterface) {
+      Cache::invalidateTags(['entity_activity_subscription:' . $entity->getEntityTypeId() . ':' . $entity->id()]);
     }
   }
 

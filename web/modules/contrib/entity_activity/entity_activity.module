@@ -20,6 +20,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\cache\CachePluginBase;
 use Drupal\entity_activity\Entity\LogInterface;
 use Drupal\Core\Cache\Cache;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -45,6 +46,7 @@ function entity_activity_entity_insert(EntityInterface $entity) {
     /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
     $entityActivityManager = \Drupal::service('entity_activity.manager');
     $entityActivityManager->dispatch(EntityActivityEvents::ENTITY_ACTIVITY_INSERT, $entity);
+    $entityActivityManager->invalidateCache($entity);
   }
 }
 
@@ -72,6 +74,18 @@ function entity_activity_entity_delete(EntityInterface $entity) {
       // @TODO should we handle translations deletion with
       // hook_entity_translation_delete() also ?
     }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function entity_activity_user_delete(EntityInterface $entity) {
+  if ($entity instanceof UserInterface) {
+    /** @var \Drupal\entity_activity\EntityActivityManagerInterface $entityActivityManager */
+    $entityActivityManager = \Drupal::service('entity_activity.manager');
+    $entityActivityManager->deleteUserSubscriptions($entity);
+    $entityActivityManager->deleteUserLogs($entity);
   }
 }
 
@@ -140,6 +154,15 @@ function entity_activity_theme() {
       'has_icon' => FALSE,
       'logs' => NULL,
       'logs_user_page_url' => NULL,
+    ],
+  ];
+
+  $theme['list_subscribers'] = [
+    'variables' => [
+      'subscriptions' => [],
+      'content' => [],
+      'entity' => NULL,
+      'attributes' => NULL,
     ],
   ];
 

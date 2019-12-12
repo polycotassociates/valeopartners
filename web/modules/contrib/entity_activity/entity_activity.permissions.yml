@@ -36,3 +36,10 @@ view any logs:
 
 remove own logs:
   title: 'Remove own logs'
+
+view entities subscribers:
+  title: 'View entities subscribers'
+
+view entities subscribers on editable entities:
+  title: 'View entities subscribers on editable entities'
+

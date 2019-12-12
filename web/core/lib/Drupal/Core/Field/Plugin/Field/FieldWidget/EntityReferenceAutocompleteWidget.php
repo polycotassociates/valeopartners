@@ -28,6 +28,7 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
   public static function defaultSettings() {
     return [
       'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
       'size' => 60,
       'placeholder' => '',
     ] + parent::defaultSettings();
@@ -46,10 +47,10 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
     ];
     $element['match_limit'] = [
       '#type' => 'number',
-      '#title' => t('Number of results'),
+      '#title' => $this->t('Number of results'),
       '#default_value' => $this->getSetting('match_limit'),
       '#min' => 0,
-      '#description' => t('The number of suggestions that will be listed. Use <em>0</em> to remove the limit.'),
+      '#description' => $this->t('The number of suggestions that will be listed. Use <em>0</em> to remove the limit.'),
     ];
     $element['size'] = [
       '#type' => 'number',
@@ -75,7 +76,8 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
 
     $operators = $this->getMatchOperatorOptions();
     $summary[] = t('Autocomplete matching: @match_operator', ['@match_operator' => $operators[$this->getSetting('match_operator')]]);
-    $summary[] = t('Autocomplete suggestion list size: @size', ['@size' => $this->getSetting('match_limit') ?: 'unlimited']);
+    $size = $this->getSetting('match_limit') ?: $this->t('unlimited');
+    $summary[] = $this->t('Autocomplete suggestion list size: @size', ['@size' => $size]);
     $summary[] = t('Textfield size: @size', ['@size' => $this->getSetting('size')]);
     $placeholder = $this->getSetting('placeholder');
     if (!empty($placeholder)) {

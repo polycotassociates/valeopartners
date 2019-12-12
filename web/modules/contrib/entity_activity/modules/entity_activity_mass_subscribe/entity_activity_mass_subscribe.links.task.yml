@@ -1,0 +1,3 @@
+entity_activity_mass_subscribe.mass_subscribe:
+  deriver: 'Drupal\entity_activity_mass_subscribe\Plugin\Derivative\MassSubscribeLocalTasks'
+  weight: 210

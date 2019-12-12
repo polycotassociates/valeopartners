@@ -15,12 +15,22 @@ entity_activity_mail.settings:
         only_unread:
           type: boolean
           label: 'Send only unread logs'
+        mark_read:
+          type: boolean
+          label: 'Mark as read logs sent by mail'
         cron_time:
           type: string
           label: 'Cron time'
         log_report:
           type: boolean
           label: 'Log report'
+    user:
+      type: mapping
+      label: 'User settings'
+      mapping:
+        default_frequency:
+          type: string
+          label: 'Mail frequency'
     mail:
       type: mapping
       label: 'Mail settings'

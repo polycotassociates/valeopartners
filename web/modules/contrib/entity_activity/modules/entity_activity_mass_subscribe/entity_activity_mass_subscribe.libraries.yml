@@ -1,0 +1,11 @@
+mass_subscribe:
+  version: VERSION
+  css:
+    theme:
+      css/mass_subscribe.css: {}
+  js:
+    js/mass_subscribe.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal

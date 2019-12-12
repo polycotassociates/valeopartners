@@ -209,7 +209,14 @@ function system_post_update_clear_menu_cache() {
 }
 
 /**
- * Populate the new 'match_limit' setting for entity reference autocomplete widget.
+ * Clear the schema cache.
+ */
+function system_post_update_layout_plugin_schema_change() {
+  // Empty post-update hook.
+}
+
+/**
+ * Populate the new 'match_limit' setting for the ER autocomplete widget.
  */
 function system_post_update_entity_reference_autocomplete_match_limit(&$sandbox = NULL) {
   $config_entity_updater = \Drupal::classResolver(ConfigEntityUpdater::class);
@@ -217,7 +224,6 @@ function system_post_update_entity_reference_autocomplete_match_limit(&$sandbox 
   $field_widget_manager = \Drupal::service('plugin.manager.field.widget');
 
   $callback = function (EntityDisplayInterface $display) use ($field_widget_manager) {
-    $needs_save = FALSE;
     foreach ($display->getComponents() as $field_name => $component) {
       if (empty($component['type'])) {
         continue;
@@ -225,13 +231,11 @@ function system_post_update_entity_reference_autocomplete_match_limit(&$sandbox 
 
       $plugin_definition = $field_widget_manager->getDefinition($component['type'], FALSE);
       if (is_a($plugin_definition['class'], EntityReferenceAutocompleteWidget::class, TRUE)) {
-        $component['settings']['match_limit'] = 10;
-        $display->setComponent($field_name, $component);
-        $needs_save = TRUE;
+        return TRUE;
       }
     }
 
-    return $needs_save;
+    return FALSE;
   };
 
   $config_entity_updater->update($sandbox, 'entity_form_display', $callback);

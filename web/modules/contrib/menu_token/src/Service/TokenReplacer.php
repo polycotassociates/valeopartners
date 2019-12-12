@@ -81,7 +81,6 @@ class TokenReplacer {
    *   Returns replaced token.
    */
   public function replaceContext($token, $key, BubbleableMetadata $b) {
-
     $token_type = $this->getTokenType($token);
     $entity_type = $this->tokenEntityMapper->getEntityTypeForTokenType($token_type);
 
@@ -97,6 +96,9 @@ class TokenReplacer {
     $real_context = $this->contextRepository->getRuntimeContexts(array_keys($contexts_def));
 
     foreach ($real_context as $key_i => $real_ci) {
+      if (!$real_ci->hasContextValue()) {
+        continue;
+      }
       $context_data_definition_type = $real_ci->getContextData()->getPluginDefinition();
       $value = $real_ci->getContextData()->getValue();
 
@@ -117,7 +119,7 @@ class TokenReplacer {
             break;
 
           default:
-            continue;
+            break;
         }
       }
 

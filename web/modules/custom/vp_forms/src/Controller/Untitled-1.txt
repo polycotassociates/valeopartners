@@ -1,0 +1,71 @@
+Title (title) Automatic label
+Individual	(field_vp_rate_individual)
+Position	(field_vp_rate_position)	
+Firm	(field_vp_rate_firm)	
+Case / Filing	(field_vp_rate_filing)
+Company	(field_vp_rate_company)
+Referenced Attorneys	(field_vp_rate_attorneys)	
+Referenced Company	(field_vp_rate_referenced_company) revisions
+Actual Rate (field_vp_rate_hourly)
+Hours	(field_vp_rate_hours)		
+Discount	(field_vp_rate_discount)	
+Flat Fee	(field_vp_rate_flat_fee)	
+Retainer	(field_vp_rate_retainer)	
+Transactional Fee	(field_vp_rate_transactional_fee)
+Success Fee	(field_vp_rate_success_fee)	
+Total Fees	(field_vp_rate_total_fees)
+SEC Filing	(field_vp_rate_sec_filing)	Text (plain)	
+Transaction Amount	(field_vp_rate_transaction_amount)	
+Transaction Type	(field_vp_rate_transaction_type)
+Notes	(field_vp_rate_notes)	Text (plain, long)	
+Fees Listed (Calculated)	field_vp_rate_fees_listed_calc	Computed (text)	
+Total Fees (Calculated)	(field_vp_rate_total_fees_calc)	
+Total	(field_vp_rate_total)
+Record Type	(field_vp_rate_record_type)	Computed (text)
+Primary Fee	(field_vp_rate_primaryfee_calc)	
+Primary Fee Type	(field_vp_rate_primaryfeetypecalc)	Computed (text)	
+Previous Rate	(field_vp_rate_previous)	
+Standard Rate	(field_vp_rate_standard)	
+Standard Rate Tmp  (field_standard_rate_tmp) Number (decimal)
+
+
+
+
+Title (title)
+Individual	(field_vp_rate_individual)
+Position	(field_vp_rate_position)
+Firm	(field_vp_rate_firm)
+Case / Filing	(field_vp_rate_filing)
+Company	(field_vp_rate_company)
+Referenced Attorneys	(field_vp_rate_attorneys)
+Referenced Company	(field_vp_rate_referenced_company)
+Actual Rate (field_vp_rate_hourly)
+Hours	(field_vp_rate_hours)
+Discount	(field_vp_rate_discount)
+Flat Fee	(field_vp_rate_flat_fee)
+Retainer	(field_vp_rate_retainer)
+Transactional Fee	(field_vp_rate_transactional_fee)
+Success Fee	(field_vp_rate_success_fee)
+Total Fees	(field_vp_rate_total_fees)
+SEC Filing	(field_vp_rate_sec_filing)
+Transaction Amount	(field_vp_rate_transaction_amount)
+Transaction Type	(field_vp_rate_transaction_type)
+Notes	(field_vp_rate_notes)	Text (plain, long)
+Fees Listed (Calculated)	(field_vp_rate_fees_listed_calc)
+Total Fees (Calculated)	(field_vp_rate_total_fees_calc)
+Total	(field_vp_rate_total)
+Record Type	(field_vp_rate_record_type)
+Primary Fee	(field_vp_rate_primaryfee_calc)
+Primary Fee Type	(field_vp_rate_primaryfeetypecalc)
+Previous Rate	(field_vp_rate_previous)
+Standard Rate	(field_vp_rate_standard)
+Standard Rate Tmp  (field_standard_rate_tmp)
+
+
+Published
+Authored by
+Authored on
+Promoted to front page
+Sticky at top of lists
+Url alias
+Published on

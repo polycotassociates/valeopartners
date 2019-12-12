@@ -95,3 +95,6 @@ entity_activity.api.log.remove:
   methods: [POST]
   requirements:
     _entity_activity_log: 'TRUE'
+
+route_callbacks:
+  - '\Drupal\entity_activity\Routing\EntityActivityRoutes::routes'

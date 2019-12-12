@@ -10,3 +10,37 @@
        'placeholder' => '',
      ] + parent::defaultSettings();
    }
+@@ -44,6 +45,13 @@ public function settingsForm(array $form, FormStateInterface $form_state) {
+       '#options' => $this->getMatchOperatorOptions(),
+       '#description' => t('Select the method used to collect autocomplete suggestions. Note that <em>Contains</em> can cause performance issues on sites with thousands of entities.'),
+     ];
++    $element['match_limit'] = [
++      '#type' => 'number',
++      '#title' => t('Number of results'),
++      '#default_value' => $this->getSetting('match_limit'),
++      '#min' => 0,
++      '#description' => t('The number of suggestions that will be listed. Use <em>0</em> to remove the limit.'),
++    ];
+     $element['size'] = [
+       '#type' => 'number',
+       '#title' => t('Size of textfield'),
+@@ -68,6 +76,7 @@ public function settingsSummary() {
+ 
+     $operators = $this->getMatchOperatorOptions();
+     $summary[] = t('Autocomplete matching: @match_operator', ['@match_operator' => $operators[$this->getSetting('match_operator')]]);
++    $summary[] = t('Autocomplete suggestion list size: @size', ['@size' => $this->getSetting('match_limit') ?: 'unlimited']);
+     $summary[] = t('Textfield size: @size', ['@size' => $this->getSetting('size')]);
+     $placeholder = $this->getSetting('placeholder');
+     if (!empty($placeholder)) {
+@@ -88,7 +97,10 @@ public function formElement(FieldItemListInterface $items, $delta, array $elemen
+     $referenced_entities = $items->referencedEntities();
+ 
+     // Append the match operation to the selection settings.
+-    $selection_settings = $this->getFieldSetting('handler_settings') + ['match_operator' => $this->getSetting('match_operator')];
++    $selection_settings = $this->getFieldSetting('handler_settings') + [
++      'match_operator' => $this->getSetting('match_operator'),
++      'match_limit' => $this->getSetting('match_limit'),
++    ];
+ 
+     $element += [
+       '#type' => 'entity_autocomplete',

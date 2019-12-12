@@ -86,6 +86,35 @@ class EntityActivityBrowserTest extends EntityActivityBrowserTestBase {
   }
 
   /**
+   * Test List Subscribers access.
+   *
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   * @throws \Behat\Mink\Exception\ExpectationException
+   * @throws \Drupal\Core\Entity\EntityMalformedException
+   */
+  public function testListSubscribers() {
+
+    $this->drupalLogin($this->advancedUser);
+    $this->drupalGet('taxonomy/term/' . $this->term1->id() . '/list-subscribers');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertText($this->user1->getDisplayName());
+
+    $this->drupalLogout();
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('taxonomy/term/' . $this->term1->id() . '/list-subscribers');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertText($this->user1->getDisplayName());
+
+    $this->drupalLogout();
+    $this->drupalLogin($this->user1);
+    $this->drupalGet($this->term1->toUrl());
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertNoText('Subscribers');
+    $this->drupalGet('taxonomy/term/' . $this->term1->id() . '/list-subscribers');
+    $this->assertSession()->statusCodeEquals(403);
+  }
+
+  /**
    * Test generation of logs from a reference field and with(out) a cron.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
@@ -103,6 +132,7 @@ class EntityActivityBrowserTest extends EntityActivityBrowserTestBase {
         'uid' => $this->user2,
         'title' => 'New Article',
         'body' => ['value' => 'The body of the new article'],
+        'langcode' => $this->langcode,
       ]
     );
     $new_article->save();
@@ -119,6 +149,7 @@ class EntityActivityBrowserTest extends EntityActivityBrowserTestBase {
     $this->drupalLogin($this->user2);
     $this->article1->set('field_term', $this->term1)->save();
 
+//    $this->logStorage->resetCache();
     $logs = $this->logStorage->loadMultipleByOwner($this->user1);
     $this->assertEqual(2, count($logs));
 
@@ -150,6 +181,7 @@ class EntityActivityBrowserTest extends EntityActivityBrowserTestBase {
         'uid' => $this->user2,
         'title' => 'Another Article',
         'body' => ['value' => 'The body of the another article'],
+        'langcode' => $this->langcode,
       ]
     );
     $another_article->save();
@@ -167,6 +199,38 @@ class EntityActivityBrowserTest extends EntityActivityBrowserTestBase {
     $this->drupalLogin($this->user1);
     $this->drupalGet('user/' . $this->user1->id() . '/logs');
     $this->assertText('The content Another Article has been created by ' . $this->user2->getDisplayName() . '. Log with the generator test_insert.');
+    $this->drupalLogout();
+
+    // Delete user 1.
+    $config = \Drupal::configFactory()->getEditable('entity_activity.generator.test_insert');
+    $config->set('generators.node.use_cron', FALSE);
+    $config->save(TRUE);
+
+    $user1_id = $this->user1->id();
+    $this->user1->delete();
+
+    $this->drupalLogin($this->user2);
+    $title_key = 'title[0][value]';
+    $body_key = 'body[0][value]';
+    $edit = [];
+    $edit[$title_key] = 'Another Article';
+    $edit[$body_key] = 'The body of the another article';
+    $this->drupalPostForm('node/add/article', $edit, t('Save'));
+    $this->assertText('Another Article');
+    $this->assertSession()->statusCodeEquals(200);
+
+    // Check that the node exists in the database.
+    $another_article = $this->drupalGetNodeByTitle('Another Article');
+    $this->assertTrue($another_article, 'Node found in database.');
+
+    $subscriptions = $this->subscriptionStorage->loadByProperties([
+      'uid' => $user1_id,
+    ]);
+    $this->assertCount(0, $subscriptions);
+    $logs = $this->logStorage->loadByProperties([
+      'uid' => $user1_id,
+    ]);
+    $this->assertCount(0, $logs);
   }
 
   /**
@@ -218,9 +282,6 @@ class EntityActivityBrowserTest extends EntityActivityBrowserTestBase {
     $this->container->get('cron')->run();
     $logs = $this->logStorage->loadMultipleByOwner($this->user1);
     $this->assertEqual(3, count($logs));
-
   }
-
-
 
 }

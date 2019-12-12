@@ -184,10 +184,15 @@ class ReportWorker extends QueueWorkerBase implements ContainerFactoryPluginInte
         try {
           $user->set('entity_activity_mail_last', $current_timestamp);
           $user->save();
+          // Should we mark as read logs sent ?
+          $mark_read = $this->configFactory->get('entity_activity_mail.settings')->get('general.mark_read');
           // Mark all logs as sent.
           /** @var \Drupal\entity_activity\Entity\LogInterface $log */
           foreach ($logs as $log) {
             $log->set('sent', TRUE);
+            if ($mark_read) {
+              $log->set('read', TRUE);
+            }
             $log->save();
           }
         }

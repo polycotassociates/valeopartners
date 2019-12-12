@@ -4,6 +4,7 @@ namespace Drupal\entity_activity_mail\Form;
 
 use Drupal\Component\Utility\EmailValidatorInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
@@ -46,6 +47,13 @@ class SettingsForm extends ConfigFormBase {
   protected $moduleHandler;
 
   /**
+   * Drupal\Core\Entity\EntityFieldManagerInterface definition.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
    * SettingsForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -58,13 +66,16 @@ class SettingsForm extends ConfigFormBase {
    *   The email validator service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ReportServiceInterface $report, EntityTypeManagerInterface $entity_type_manager, EmailValidatorInterface $email_validator, ModuleHandlerInterface $module_handler) {
+  public function __construct(ConfigFactoryInterface $config_factory, ReportServiceInterface $report, EntityTypeManagerInterface $entity_type_manager, EmailValidatorInterface $email_validator, ModuleHandlerInterface $module_handler, EntityFieldManagerInterface $entity_field_manager) {
     parent::__construct($config_factory);
     $this->report = $report;
     $this->entityTypeManager = $entity_type_manager;
     $this->emailValidator = $email_validator;
     $this->moduleHandler = $module_handler;
+    $this->entityFieldManager = $entity_field_manager;
   }
 
   /**
@@ -76,7 +87,8 @@ class SettingsForm extends ConfigFormBase {
       $container->get('entity_activity_mail.report'),
       $container->get('entity_type.manager'),
       $container->get('email.validator'),
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('entity_field.manager')
     );
   }
 
@@ -130,6 +142,13 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('general.only_unread'),
     ];
 
+    $form['general']['mark_read'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Mark as read logs sent by mail'),
+      '#description' => $this->t('Check this option to mark as <strong>read</strong> the logs sent by mail.'),
+      '#default_value' => $config->get('general.mark_read'),
+    ];
+
     $time = $config->get('general.cron_time') ?: '01:00:00';
     $time = strtotime($time);
     $form['general']['cron_time'] = [
@@ -164,6 +183,21 @@ class SettingsForm extends ConfigFormBase {
         '#wrapper_attributes' => ['class' => ['messages', 'messages--warning']],
       ];
     }
+
+    $form['user'] = [
+      '#type' => 'details',
+      '#title' => $this->t('User settings'),
+      '#tree' => TRUE,
+      '#open' => TRUE,
+    ];
+
+    $form['user']['default_frequency'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Default frequency'),
+      '#options' => ['' => $this->t('None')] + $this->getFrequencies(),
+      '#description' => $this->t('Select the default frequency to apply when a new user is created. This can always be changed by the user.'),
+      '#default_value' => $config->get('user.default_frequency'),
+    ];
 
     $form['mail'] = [
       '#type' => 'details',
@@ -231,10 +265,26 @@ class SettingsForm extends ConfigFormBase {
     $values['general']['cron_time'] = $time;
     $this->config('entity_activity_mail.settings')
       ->set('general', $values['general'])
+      ->set('user', $values['user'])
       ->set('mail', $values['mail'])
       ->save();
     $this->report->updateNextCronTimestamp($time);
     parent::submitForm($form, $form_state);
+  }
+
+  /**
+   * Get the allowed values from the user frequency field.
+   *
+   * @return array
+   *   The allowed values.
+   */
+  protected function getFrequencies() {
+    $allowed_values = [];
+    $fields = $this->entityFieldManager->getFieldStorageDefinitions('user');
+    if (isset($fields['entity_activity_mail_frequency'])) {
+      $allowed_values = $fields['entity_activity_mail_frequency']->getSetting('allowed_values');
+    }
+    return $allowed_values;
   }
 
 }

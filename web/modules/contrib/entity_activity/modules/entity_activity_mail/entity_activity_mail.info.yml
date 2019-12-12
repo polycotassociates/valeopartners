@@ -8,7 +8,7 @@ dependencies:
   - entity_activity:entity_activity
   - drupal:options
 
-# Information added by Drupal.org packaging script on 2019-09-10
-version: '8.x-1.0-beta9'
+# Information added by Drupal.org packaging script on 2019-11-20
+version: '8.x-1.0-beta13'
 project: 'entity_activity'
-datestamp: 1568152099
+datestamp: 1574287090

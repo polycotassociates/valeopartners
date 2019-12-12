@@ -1,0 +1,26 @@
+
+Title (title) Text (plain)
+Address	(field_vp_company_address)	Address	
+Company Contact	(field_vp_company_contact)	Entity reference	
+Email	(field_vp_company_email)	Email	
+First Name	(field_vp_company_firstname)	Text (plain)	
+Industry	(field_vp_company_industry)	Entity reference	
+Last Name	(field_vp_company_lastname)	Text (plain)	
+Middle Initial	(field_vp_company_middleinitial)	Text (plain)	
+Phone	(field_vp_company_phone)	Telephone number	
+Phone Extension	(field_vp_company_phone_extension)	Text (plain)	
+Position (Title)	(field_vp_company_title)
+
+Company (vp_type_company)
+
+Name (title)
+Industry	(field_vp_company_industry)
+First Name	(field_vp_company_firstname)
+Middle Initial	(field_vp_company_middleinitial)
+Last Name	(field_vp_company_lastname)	
+Position (Title)	(field_vp_company_title)
+Address	(field_vp_company_address)
+Phone	(field_vp_company_phone)	Telephone number	
+Phone Extension	(field_vp_company_phone_extension)	
+Email	(field_vp_company_email)
+Company Contact	(field_vp_company_contact)
