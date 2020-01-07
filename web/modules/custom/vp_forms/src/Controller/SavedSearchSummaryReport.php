@@ -551,16 +551,16 @@ class SavedSearchSummaryReport extends ControllerBase {
   /**
    * Get Term Parent location tree IDs.
    */
-  private function getTermParentLocationIds($ids) {
+  private function getTermTreeIds($ids, $vid) {
     // Create an array for the child term ids.
     $childTerms = [];
     $all_terms = [];
     // Loop through the array of terms.
     foreach ($ids as $tid) {
       $childTerms[] = $tid;
-      $child_ids = $this->getLocationChildTermIds($tid);
-      $all_terms[] = array_merge($childTerms, $child_ids);
+      $child_ids = $this->getChildIds($tid, $vid);
     }
+    $all_terms[] = array_merge($childTerms, $child_ids);
     return array_unique($all_terms[0]);
   }
 

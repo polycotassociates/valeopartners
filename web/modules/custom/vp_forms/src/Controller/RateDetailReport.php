@@ -629,8 +629,8 @@ class RateDetailReport extends ControllerBase {
     foreach ($ids as $tid) {
       $childTerms[] = $tid;
       $child_ids = $this->getChildIds($tid, $vid);
-      $all_terms[] = array_merge($childTerms, $child_ids);
     }
+    $all_terms[] = array_merge($childTerms, $child_ids);
     return array_unique($all_terms[0]);
   }
 
