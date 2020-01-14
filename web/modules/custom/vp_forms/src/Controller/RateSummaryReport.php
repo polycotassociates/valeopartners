@@ -251,14 +251,16 @@ class RateSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_vp_practice_area_3', 'pa3', 'pa3.entity_id = node.nid');
     $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = node.nid');
     $query->leftjoin('node__field_vp_individual_location', 'location', 'location.entity_id = node.nid');
-    $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = node.nid');
-    $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
+    $query->leftjoin('node__field_most_recent_firm', 'employment', 'employment.entity_id = node.nid');
+
+    // $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = node.nid');
+    // $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
 
     // Company (client) node join.
     $query->leftjoin('node_field_data', 'company_node', 'company_node.nid = field_vp_rate_company_target_id');
 
-    // Firm node join.
-    $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = firm.field_vp_rate_firm_target_id');
+    // Most recent Firm node join.
+    $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = field_most_recent_firm_target_id');
 
     // State bar join.
     $query->leftjoin('taxonomy_term_field_data', 'state_bar', 'state_bar.tid = field_vp_state_bar_target_id');
@@ -301,7 +303,7 @@ class RateSummaryReport extends ControllerBase {
     $query->addField('location_term', 'name', 'location_name');
 
     // Individual Fields.
-    $query->fields('employment', ['field_firm_target_id']);
+    $query->fields('employment', ['field_most_recent_firm_target_id']);
     $query->fields('fname', ['field_vp_first_name_value']);
     $query->fields('mname', ['field_vp_middle_name_value']);
     $query->fields('lname', ['field_vp_last_name_value']);
@@ -327,8 +329,10 @@ class RateSummaryReport extends ControllerBase {
     }
 
     // Filter by firm ids.
-    if (isset($_GET['field_firm_target_id_verf'])) {
-      $query->condition('employment.field_firm_target_id', $_GET['field_firm_target_id_verf'], 'IN');
+    if (isset($_GET['field_most_recent_firm_target_id'])) {
+      $query->condition('field_most_recent_firm_target_id', $_GET['field_most_recent_firm_target_id'], 'IN');
+      // kint($_GET['field_firm_target_id_verf']);
+      // die();
     }
 
     // Filter by location ids (by parent).
@@ -385,65 +389,6 @@ class RateSummaryReport extends ControllerBase {
 
     return $results;
 
-  }
-
-  /**
-   * Get Term Parent IDs.
-   */
-  private function getTermParentIds($ids) {
-    // Create an array for the child term ids.
-    $childTerms = [];
-
-    foreach ($ids as $tid) {
-
-      $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
-      if (count($terms) === 0) {
-        $childTerms[] = $tid;
-      }
-      else {
-        foreach ($terms as $term) {
-          $childTerms[] = $term->get('tid')->value;
-          // Loop through again to get any children of children.
-          $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
-          foreach ($terms as $term) {
-            $childTerms[] = $term->get('tid')->value;
-          }
-        }
-      }
-    }
-    return $childTerms;
-  }
-
-  /**
-   * Get Term Parent location tree IDs.
-   */
-  private function getTermParentLocationIds($ids) {
-    // Create an array for the child term ids.
-    $childTerms = [];
-    $all_terms = [];
-    // Loop through the array of terms.
-    foreach ($ids as $tid) {
-      $childTerms[] = $tid;
-      $child_ids = $this->getLocationChildTermIds($tid);
-      $all_terms[] = array_merge($childTerms, $child_ids);
-    }
-    return array_unique($all_terms[0]);
-  }
-
-  /**
-   * Get Location Term Children Ids.
-   */
-  private function getLocationChildTermIds($id) {
-    $vid = 'city';
-    $parent_tid = $id; // the parent term id
-    $depth = NULL; // 1 to get only immediate children, NULL to load entire tree
-    $load_entities = FALSE; // True will return loaded entities rather than ids
-    $child_tids = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent_tid, $depth, $load_entities);
-    $ids = [];
-    foreach ($child_tids as $tid) {
-      $ids[] = $tid->tid;
-    }
-    return $ids;
   }
 
   /**
