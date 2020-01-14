@@ -5,6 +5,14 @@ dependencies:
   config:
     - field.storage.node.field_vp_case_number
     - node.type.vp_type_case
+  module:
+    - unique_field_ajax
+third_party_settings:
+  unique_field_ajax:
+    unique: 1
+    per_lang: 0
+    use_ajax: 1
+    message: ''
 id: node.vp_type_case.field_vp_case_number
 field_name: field_vp_case_number
 entity_type: node

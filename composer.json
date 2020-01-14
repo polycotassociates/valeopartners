@@ -104,6 +104,7 @@
         "drupal/token_filter": "^1.1",
         "drupal/twig_tweak": "^2.1",
         "drupal/ultimate_cron": "^2.0",
+        "drupal/unique_field_ajax": "^1.2",
         "drupal/vbo_export": "^3.0",
         "drupal/vefl": "^2.0",
         "drupal/verf": "^1.0",
