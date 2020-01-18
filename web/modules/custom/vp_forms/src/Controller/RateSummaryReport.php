@@ -348,8 +348,8 @@ class RateSummaryReport extends ControllerBase {
 
     // Filter by position ids (by parent).
     if (isset($_GET['term_node_tid_depth_position'])) {
-      $nodes = $this->getTermTreeIds($_GET['term_node_tid_depth_position'], 'position');
-      $query->condition('field_vp_rate_position_target_id', $nodes, 'IN');
+      $nodes = $this->getTermTreeIds($_GET['term_node_tid_depth_position'], 'current_position');
+      $query->condition('field_vp_position_target_id', $nodes, 'IN');
     }
 
     // Filter by practice area ids.
