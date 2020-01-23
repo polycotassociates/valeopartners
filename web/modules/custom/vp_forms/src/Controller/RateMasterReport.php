@@ -450,8 +450,9 @@ class RateMasterReport extends ControllerBase {
 
     // Nature of suit title.
     $query->addField('suit_type_term', 'name', 'nature_of_suit');
+
     // Only if there's an actual rate.
-    //$query->condition('field_vp_rate_hourly_value', 0, '>');
+    $query->condition('field_vp_rate_hourly_value', 0, '>');
 
     $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
     // $query->fields('individual_title', ['title']);
