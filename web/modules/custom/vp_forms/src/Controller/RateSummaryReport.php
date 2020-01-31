@@ -240,7 +240,7 @@ class RateSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_2020_standard_rate', '2020_standard_rate', '2020_standard_rate.entity_id = node.nid');
 
     // Individual Joins.
-    $query->leftjoin('node__field_vp_rate_position', 'position', 'rate.entity_id = position.entity_id');
+    // $query->leftjoin('node__field_vp_position', 'position', 'position.entity_id = node.nid');
     $query->leftjoin('node__field_vp_first_name', 'fname', 'fname.entity_id = node.nid');
     $query->leftjoin('node__field_vp_middle_name', 'mname', 'mname.entity_id = node.nid');
     $query->leftjoin('node__field_vp_last_name', 'lname', 'lname.entity_id = node.nid');
@@ -252,12 +252,14 @@ class RateSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_vp_graduation', 'grad_year', 'grad_year.entity_id = node.nid');
     $query->leftjoin('node__field_vp_individual_location', 'location', 'location.entity_id = node.nid');
     $query->leftjoin('node__field_most_recent_firm', 'employment', 'employment.entity_id = node.nid');
+    $query->leftjoin('node__field_vp_position', 'current_position', 'current_position.entity_id = node.nid');
+    $query->leftjoin('node__field_most_recent_client', 'current_client', 'current_client.entity_id = node.nid');
 
     // $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = node.nid');
     // $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
 
     // Company (client) node join.
-    $query->leftjoin('node_field_data', 'company_node', 'company_node.nid = field_vp_rate_company_target_id');
+    $query->leftjoin('node_field_data', 'company_node', 'company_node.nid = field_most_recent_client_target_id');
 
     // Most recent Firm node join.
     $query->leftjoin('node_field_data', 'firm_node', 'firm_node.nid = field_most_recent_firm_target_id');
@@ -274,7 +276,7 @@ class RateSummaryReport extends ControllerBase {
     $query->leftjoin('taxonomy_term_field_data', 'industry_term', 'industry_term.tid = field_vp_company_industry_target_id');
 
     // Position term join.
-    $query->leftjoin('taxonomy_term_field_data', 'position_term', 'position_term.tid = field_vp_rate_position_target_id');
+    $query->leftjoin('taxonomy_term_field_data', 'position_term', 'position_term.tid = field_vp_position_target_id');
 
     // Location join.
     $query->leftjoin('taxonomy_term_field_data', 'location_term', 'location_term.tid = field_vp_individual_location_target_id');
@@ -304,6 +306,9 @@ class RateSummaryReport extends ControllerBase {
 
     // Individual Fields.
     $query->fields('employment', ['field_most_recent_firm_target_id']);
+    // $query->fields('position', ['field_vp_position_target_id']);
+    $query->fields('current_client', ['field_most_recent_client_target_id']);
+    $query->fields('current_position', ['field_vp_position_target_id']);
     $query->fields('fname', ['field_vp_first_name_value']);
     $query->fields('mname', ['field_vp_middle_name_value']);
     $query->fields('lname', ['field_vp_last_name_value']);
@@ -343,8 +348,8 @@ class RateSummaryReport extends ControllerBase {
 
     // Filter by position ids (by parent).
     if (isset($_GET['term_node_tid_depth_position'])) {
-      $nodes = $this->getTermTreeIds($_GET['term_node_tid_depth_position'], 'position');
-      $query->condition('field_vp_rate_position_target_id', $nodes, 'IN');
+      $nodes = $this->getTermTreeIds($_GET['term_node_tid_depth_position'], 'current_position');
+      $query->condition('field_vp_position_target_id', $nodes, 'IN');
     }
 
     // Filter by practice area ids.

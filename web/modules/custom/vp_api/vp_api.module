@@ -71,6 +71,18 @@ function vp_api_entity_presave(EntityInterface $entity) {
       if ($employer_id) {
         $entity->set('field_most_recent_firm', $employer_id);
       }
+      // Get the most recent client id.
+      $client_id = vp_api_get_most_recent_client($id);
+      // Set the new client value.
+      if ($client_id) {
+        $entity->set('field_most_recent_client', $client_id);
+      }
+      // Get the most recent position id.
+      $position_id = vp_api_get_most_recent_position($id);
+      // Set the new position value.
+      if ($position_id) {
+        $entity->set('field_vp_position', $position_id);
+      }
       break;
   }
 }
@@ -219,7 +231,9 @@ function vp_api_cron() {
  */
 function vp_api_get_most_recent_employer($id) {
 
-  // Do a database query for the most recent rate for an individual.
+  // Do a database query for the most recent rate
+  // for an individual with firm.
+  // Order by most recent filing.
   $db = \Drupal::database();
 
   $query = $db->select('node_field_data', 'node');
@@ -227,13 +241,13 @@ function vp_api_get_most_recent_employer($id) {
   $query->condition('node.type', 'vp_type_rate', '=');
   $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
   $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
-  $query->join('node__field_vp_filing_year_end', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->join('node__field_vp_filing_fee_dates', 'dates', 'dates.entity_id = filing.field_vp_rate_filing_target_id');
   $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
   $query->fields('individual', ['field_vp_rate_individual_target_id']);
   $query->fields('node', ['nid']);
-  $query->fields('year', ['field_vp_filing_year_end_value']);
+  $query->fields('dates', ['field_vp_filing_fee_dates_end_value']);
   $query->fields('firm', ['field_vp_rate_firm_target_id']);
-  $query->orderBy('field_vp_filing_year_end_value', 'DESC');
+  $query->orderBy('field_vp_filing_fee_dates_end_value', 'DESC');
   $query->condition('field_vp_rate_individual_target_id', $id, '=');
   $query->range(0, 1);
   $result = $query->execute()->fetchAll();
@@ -241,6 +255,70 @@ function vp_api_get_most_recent_employer($id) {
   if ($result) {
     $firm = $result[0]->field_vp_rate_firm_target_id;
     return $firm;
+  }
+}
+
+/**
+ * Get the latest client ID for a person from their most recent rate.
+ */
+function vp_api_get_most_recent_client($id) {
+
+  // Do a database query for the most recent rate
+  // for an individual with company.
+  // Order by most recent filing.
+  $db = \Drupal::database();
+
+  $query = $db->select('node_field_data', 'node');
+  $query->fields('node', ['nid', 'type', 'status']);
+  $query->condition('node.type', 'vp_type_rate', '=');
+  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+  $query->join('node__field_vp_filing_fee_dates', 'dates', 'dates.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->join('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
+  $query->fields('individual', ['field_vp_rate_individual_target_id']);
+  $query->fields('node', ['nid']);
+  $query->fields('dates', ['field_vp_filing_fee_dates_end_value']);
+  $query->fields('company', ['field_vp_rate_company_target_id']);
+  $query->orderBy('field_vp_filing_fee_dates_end_value', 'DESC');
+  $query->condition('field_vp_rate_individual_target_id', $id, '=');
+  $query->range(0, 1);
+  $result = $query->execute()->fetchAll();
+
+  if ($result) {
+    $company = $result[0]->field_vp_rate_company_target_id;
+    return $company;
+  }
+}
+
+/**
+ * Get the latest client ID for a person from their most recent position.
+ */
+function vp_api_get_most_recent_position($id) {
+
+  // Do a database query for the most recent rate for an
+  // individual with position.
+  // Order by most recent filing.
+  $db = \Drupal::database();
+
+  $query = $db->select('node_field_data', 'node');
+  $query->fields('node', ['nid', 'type', 'status']);
+  $query->condition('node.type', 'vp_type_rate', '=');
+  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+  $query->join('node__field_vp_filing_fee_dates', 'dates', 'dates.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->join('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
+  $query->fields('individual', ['field_vp_rate_individual_target_id']);
+  $query->fields('node', ['nid']);
+  $query->fields('dates', ['field_vp_filing_fee_dates_end_value']);
+  $query->fields('position', ['field_vp_rate_position_target_id']);
+  $query->orderBy('field_vp_filing_fee_dates_end_value', 'DESC');
+  $query->condition('field_vp_rate_individual_target_id', $id, '=');
+  $query->range(0, 1);
+  $result = $query->execute()->fetchAll();
+
+  if ($result) {
+    $position = $result[0]->field_vp_rate_position_target_id;
+    return $position;
   }
 }
 
