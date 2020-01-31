@@ -71,52 +71,52 @@ class SavedSearchSummaryReport extends ControllerBase {
     $worksheet->getCell('K1')->setValue('Grad Year');
     $worksheet->getCell('L1')->setValue('Bar Year');
     $worksheet->getCell('M1')->setValue('Bar State');
-    $worksheet->getCell('N1')->setValue('2019 Actual Rate');
-    $worksheet->getCell('O1')->setValue('2019 Standard Rate');
-    $worksheet->getCell('P1')->setValue('2018 Actual Rate');
-    $worksheet->getCell('Q1')->setValue('2018 Standard Rate');
-    $worksheet->getCell('R1')->setValue('2017 Actual Rate');
-    $worksheet->getCell('S1')->setValue('2017 Standard Rate');
+    $worksheet->getCell('N1')->setValue('2020 Actual Rate');
+    $worksheet->getCell('O1')->setValue('2020 Standard Rate');
+    $worksheet->getCell('P1')->setValue('2019 Actual Rate');
+    $worksheet->getCell('Q1')->setValue('2019 Standard Rate');
+    $worksheet->getCell('R1')->setValue('2018 Actual Rate');
+    $worksheet->getCell('S1')->setValue('2018 Standard Rate');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
     // Last name.
-    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
     // Middle Name.
-    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
     // First Name.
-    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
     // Firm.
-    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
     // Position.
-    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
     // Client Represented.
-    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
     // Industry.
-    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
     // Practice Area 1.
-    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
     // Practice Area 2.
-    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
     // Practice Area 3.
-    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
     // Grad Year.
-    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
     // Bar Year.
-    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
     // Bar State.
-    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(true);
+    // 2020 Actual Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(true);
+    // 2020 Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(true);
     // 2019 Actual Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(true);
     // 2019 Standard Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(true);
     // 2018 Actual Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(true);
     // 2018 Standard Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(25);
-    // 2017 Actual Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(25);
-    // 2017 Standard Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(true);
 
     // Query loop.
     $i = 2;
@@ -148,23 +148,23 @@ class SavedSearchSummaryReport extends ControllerBase {
       $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
       // Bar State.
       $worksheet->setCellValue('M' . $i, '' . $this->getTermName($result->field_vp_state_bar_target_id));
-      // 2019 Actual Rate.
-      $worksheet->setCellValue('N' . $i, $result->field_2019_actual_rate_value);
+      // 2020 Actual Rate.
+      $worksheet->setCellValue('N' . $i, $result->field_2020_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('N' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2019 Standard Rate.
-      $worksheet->setCellValue('O' . $i, $result->field_2019_standard_rate_value);
+      // 2020 Standard Rate.
+      $worksheet->setCellValue('O' . $i, $result->field_2020_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2018 Actual Rate.
-      $worksheet->setCellValue('P' . $i, $result->field_2018_actual_rate_value);
+      // 2019 Actual Rate.
+      $worksheet->setCellValue('P' . $i, $result->field_2019_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2018 Standard Rate.
-      $worksheet->setCellValue('Q' . $i, $result->field_2018_standard_rate_value);
+      // 2019 Standard Rate.
+      $worksheet->setCellValue('Q' . $i, $result->field_2019_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('Q' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2017 Actual Rate.
-      $worksheet->setCellValue('R' . $i, $result->field_2017_actual_rate_value);
+      // 2018 Actual Rate.
+      $worksheet->setCellValue('R' . $i, $result->field_2018_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2017 Standard Rate.
-      $worksheet->setCellValue('S' . $i, $result->field_2017_standard_rate_value);
+      // 2018 Standard Rate.
+      $worksheet->setCellValue('S' . $i, $result->field_2018_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
       $i++;
@@ -252,12 +252,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Rates from individual record.
-    $query->leftjoin('node__field_2017_actual_rate', '2017_actual_rate', '2017_actual_rate.entity_id = individual.entity_id');
-    $query->leftjoin('node__field_2017_standard_rate', '2017_standard_rate', '2017_standard_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2018_actual_rate', '2018_actual_rate', '2018_actual_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2018_standard_rate', '2018_standard_rate', '2018_standard_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2019_actual_rate', '2019_actual_rate', '2019_actual_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2019_standard_rate', '2019_standard_rate', '2019_standard_rate.entity_id = individual.entity_id');
+    $query->leftjoin('node__field_2020_actual_rate', '2020_actual_rate', '2020_actual_rate.entity_id = individual.entity_id');
+    $query->leftjoin('node__field_2020_standard_rate', '2020_standard_rate', '2020_standard_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = individual.entity_id');
     $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
 
@@ -299,12 +299,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
     $query->fields('industry', ['field_vp_company_industry_target_id']);
 
-    $query->fields('2017_actual_rate', ['field_2017_actual_rate_value']);
-    $query->fields('2017_standard_rate', ['field_2017_standard_rate_value']);
     $query->fields('2018_actual_rate', ['field_2018_actual_rate_value']);
     $query->fields('2018_standard_rate', ['field_2018_standard_rate_value']);
     $query->fields('2019_actual_rate', ['field_2019_actual_rate_value']);
     $query->fields('2019_standard_rate', ['field_2019_standard_rate_value']);
+    $query->fields('2020_actual_rate', ['field_2020_actual_rate_value']);
+    $query->fields('2020_standard_rate', ['field_2020_standard_rate_value']);
 
     // Only if there's an actual rate.
     //$query->condition('field_vp_rate_hourly_value', 0, '>');
