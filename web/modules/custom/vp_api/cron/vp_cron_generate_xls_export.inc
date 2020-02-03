@@ -221,79 +221,79 @@ function _vp_api_generate_xls_sheet() {
   // $spreadsheet->getDefaultStyle()->getAlignment()->setWrapText(true);
 
   // First name.
-  $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
   // Middle Name.
-  $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
   // Last Name.
-  $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
   // Firm.
-  $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
   // Position.
-  $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
   // Client Represented.
-  $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
   // Industry.
-  $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
   // Practice Area 1.
-  $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
   // Practice Area 2.
-  $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
   // Practice Area 3.
-  $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
   // Grad Year.
-  $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
   // Bar Year.
-  $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
   // Bar State.
-  $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(true);
   // City.
-  $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(true);
   // Actual Rate.
-  $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(true);
   // Standard Rate.
-  $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(true);
   // Rate or Fee Year.
-  $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(true);
   // Hours.
-  $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(true);
   // Total.
-  $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(true);
   // Flat Fee.
-  $spreadsheet->getActiveSheet()->getColumnDimension('T')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(true);
   // Retainer Fee.
-  $spreadsheet->getActiveSheet()->getColumnDimension('U')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('U')->setAutoSize(true);
   // Transaction Amount.
-  $spreadsheet->getActiveSheet()->getColumnDimension('V')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('V')->setAutoSize(true);
   // Transactional Fee.
-  $spreadsheet->getActiveSheet()->getColumnDimension('W')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('W')->setAutoSize(true);
   // Transaction Type.
-  $spreadsheet->getActiveSheet()->getColumnDimension('X')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('X')->setAutoSize(true);
   // Case Name.
-  $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setAutoSize(true);
   // Case Number.
-  $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setAutoSize(true);
   // Court
-  $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setAutoSize(true);
   // Date Filed.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setAutoSize(true);
   // Nature of Suit.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setAutoSize(true);
   // Filing Name.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setAutoSize(true);
   // Filing Description.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setAutoSize(true);
   // Filing Number.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(true);
   // Fee Date Range Begin.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(true);
   // Fee Date Range End.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AH')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AH')->setAutoSize(true);
   // Publication Status.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AI')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AI')->setAutoSize(true);
   // Created By.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AJ')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AJ')->setAutoSize(true);
   // Created On.
-  $spreadsheet->getActiveSheet()->getColumnDimension('AK')->setWidth(25);
+  $spreadsheet->getActiveSheet()->getColumnDimension('AK')->setAutoSize(true);
 
   $i = 2;
   // Query loop.

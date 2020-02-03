@@ -82,27 +82,27 @@ class RateTrendingReport extends ControllerBase {
       $spreadsheet->getActiveSheet()->freezePane('A2');
 
       // Firm
-      $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
       // Individual.
-      $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
       // Position.
-      $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
       // Practice Area 1.
-      $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
       // Practice Area 2.
-      $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
       // Practice Area 3.
-      $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
       // City.
-      $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
       // Grad Year.
-      $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
       // Former Rate.
-      $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
       // New Rate.
-      $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
       // Percent Change.
-      $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+      $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
 
       // Query loop.
       $i = 2;
