@@ -167,8 +167,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           $args[5] = $grad_date_from ? implode(",", $grad_range) : 'all';
           $args[6] = $partner_date_from ? implode(",", $partner_range) : 'all';
           $args[7] = $bar_date_from ? implode(",", $bar_range) : 'all';
-          $args[8] = $rate_date_from ? $rate_date_from : 'all';
-          $args[9] = $rate_date_to ? $rate_date_to : 'all';
+          $args[8] = $rate_range ? "$rate_date_from--$rate_date_to" : 'all';
         }
       }
 
