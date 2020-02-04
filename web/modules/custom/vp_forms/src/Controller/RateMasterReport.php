@@ -451,17 +451,10 @@ class RateMasterReport extends ControllerBase {
     // Nature of suit title.
     $query->addField('suit_type_term', 'name', 'nature_of_suit');
 
-    // Only if there's an actual rate.
-    $query->condition('field_vp_rate_hourly_value', 0, '>');
-
     $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
-    // $query->fields('individual_title', ['title']);
 
-    // Filter by title.
-    if (isset($_GET['title'])) {
-      $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
-      $query->addField('individual_title', 'title', 'individual_title');
-    }
+    $query->addField('individual_title', 'title', 'individual_title');
+
 
     // Filter by Rate Year.
     if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
@@ -532,6 +525,12 @@ class RateMasterReport extends ControllerBase {
         ->condition('field_vp_practice_area_3_target_id', $_GET['field_vp_practice_area_range'], 'IN');
       $query->condition($group);
     }
+
+    // Only if there's an actual rate.
+    $query->isNotNull('field_vp_rate_hourly_value');
+
+    // Individual title is not null.
+    $query->isNotNull('individual_title.title');
 
     // Maximum 50,000 records.
     $query->range(0, 50000);
