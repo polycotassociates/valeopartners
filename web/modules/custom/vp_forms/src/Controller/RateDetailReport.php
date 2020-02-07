@@ -568,7 +568,7 @@ class RateDetailReport extends ControllerBase {
     $query->isNotNull('field_vp_rate_hourly_value');
 
     // Individual title is not null.
-    $query->isNotNull('individual_title');
+    $query->isNotNull('individual_title.title');
 
     // Maximum 50,000 records.
     $query->range(0, 50000);
