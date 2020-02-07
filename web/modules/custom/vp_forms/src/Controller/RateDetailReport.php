@@ -481,6 +481,9 @@ class RateDetailReport extends ControllerBase {
     // Only if there's an actual rate.
     //$query->condition('field_vp_rate_hourly_value', 0, '>');
 
+    $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
+    $query->addField('individual_title', 'title', 'individual_title');
+
     // Filter by title.
     if (isset($_GET['title'])) {
       $query->join('node_field_data', 'individual_title', 'individual_title.nid = individual.field_vp_rate_individual_target_id');
@@ -561,8 +564,11 @@ class RateDetailReport extends ControllerBase {
       $query->condition($group);
     }
 
-
+    // Hourly rate not null.
     $query->isNotNull('field_vp_rate_hourly_value');
+
+    // Individual title is not null.
+    $query->isNotNull('individual_title');
 
     // Maximum 50,000 records.
     $query->range(0, 50000);
