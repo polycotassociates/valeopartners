@@ -331,6 +331,8 @@ class TransactionsByFirm extends ControllerBase {
     $query->leftjoin('node__field_vp_rate_transaction_type', 'transaction_type', 'node.nid = transaction_type.entity_id');
     $query->leftjoin('node__field_vp_rate_success_fee', 'success_fee', 'node.nid = success_fee.entity_id');
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_filing_year_end', 'year_end', 'year_end.entity_id = filing.field_vp_rate_filing_target_id');
+
 
     // Individual Node.
     $query->leftjoin('node_field_data', 'individual_node', 'individual_node.nid = individual.entity_id');
@@ -425,6 +427,7 @@ class TransactionsByFirm extends ControllerBase {
     $query->addField('actual', 'field_vp_rate_hourly_value', 'actual_rate');
     $query->addField('standard', 'field_vp_rate_standard_value', 'standard_rate');
     $query->addField('year', 'field_vp_filing_year_value', 'filing_year');
+    $query->addField('year_end', 'field_vp_filing_year_end_value', 'filing_year_end');
     $query->addField('hours', 'field_vp_rate_hours_value', 'hours_total');
     $query->addField('rate_total', 'field_vp_rate_total_value', 'total_rate');
     $query->addField('flat_fee', 'field_vp_rate_flat_fee_value', 'flat_fee');
@@ -471,6 +474,11 @@ class TransactionsByFirm extends ControllerBase {
     // Filter by firm ids.
     if (isset($_GET['field_vp_rate_firm_target_id_verf'])) {
       $query->condition('field_vp_rate_firm_target_id', $_GET['field_vp_rate_firm_target_id_verf'], 'IN');
+    }
+
+    // Filter by Rate Year.
+    if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
+      $query->condition('field_vp_filing_year_end_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
     }
 
     // Search by individual name.
