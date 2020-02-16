@@ -87,6 +87,24 @@ function vp_api_entity_presave(EntityInterface $entity) {
   }
 }
 
+
+/**
+ * Function to Generate rate year only field dropdown values.
+ */
+function vp_api_year_options_year_only() {
+
+  $options = [];
+  // Get the current year.
+  $year = format_date(time(), 'custom', 'Y');
+
+  // Loop through years from 2000 to this year + 10.
+  for ($x = 2000; $x <= $year + 10; $x++) {
+    $options[$x] = $x;
+  }
+
+  return $options;
+}
+
 /**
  * Function to Generate minimum year dropdowns.
  */
