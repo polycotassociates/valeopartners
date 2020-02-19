@@ -235,14 +235,13 @@ class SavedSearchSummaryHeader extends AreaPluginBase {
     }
 
     if ($rate_date_from) {
-      $query .= "field_vp_filing_fee_dates_value[min]=$rate_date_from&";
-      $query .= "field_vp_filing_fee_dates_value[max]=$rate_date_to&";
+      $query .= "field_vp_filing_fee_dates_value_min=$rate_date_from&";
+      $query .= "field_vp_filing_fee_dates_value_max=$rate_date_to&";
     }
 
     return $query;
 
   }
-
 
   /**
    * Return html text for modal box.
