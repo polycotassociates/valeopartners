@@ -315,9 +315,15 @@ class SavedSearchSummaryReport extends ControllerBase {
       $query->addField('individual_title', 'title', 'individual_title');
     }
 
+    // // Filter by Rate Year.
+    // if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
+    //   $query->condition('field_vp_filing_year_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
+    // }
+
     // Filter by Rate Year.
-    if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
-      $query->condition('field_vp_filing_year_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
+    if (isset($_GET['field_vp_filing_fee_dates_value_min']) && $_GET['field_vp_filing_fee_dates_value_min'] != '') {
+      $query->condition('field_vp_filing_year_value', $_GET['field_vp_filing_fee_dates_value_min'], '>=');
+      $query->condition('field_vp_filing_year_end_value', $_GET['field_vp_filing_fee_dates_value_max'], '<=');
     }
 
     // Filter by Bar Date.
