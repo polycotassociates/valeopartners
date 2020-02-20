@@ -107,7 +107,7 @@
 
 {% if node.field_vp_search_type.value == 0  %}
   {# Call the view with the arguments using Twig Tweaks drupal_view() #}
-  {{ drupal_view('saved_search_detail_block', 'saved_search_detail_block') }}
+  {{ drupal_view('saved_search_detail_page', 'saved_search_detail_page') }}
 {% endif %}
 
 {% if node.field_vp_search_type.value == 1  %}
