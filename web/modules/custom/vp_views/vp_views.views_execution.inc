@@ -120,6 +120,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           }
 
           $grad_date_from = [];
+          $grad_date_to = [];
           $grad_range = [];
           if ($grad_date_from = $node->get('field_vp_search_grad_date')->getValue()) {
             $grad_date_from = $node->get('field_vp_search_grad_date')->getValue()[0]['from'];
@@ -143,6 +144,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           }
 
           $bar_date_from = [];
+          $bar_date_to = [];
           $bar_range = [];
           if ($node->get('field_vp_search_bar_year')->getValue()) {
             $bar_date_from = $node->get('field_vp_search_bar_year')->getValue()[0]['from'];
@@ -175,6 +177,9 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           $args[6] = $partner_date_from ? implode(",", $partner_range) : 'all';
           $args[7] = $bar_date_from ? implode(",", $bar_range) : 'all';
           $args[8] = $rate_range ? "$rate_date_from--$rate_date_to" : 'all';
+
+
+
 
           $exposed_filters['field_vp_rate_firm_target_id_verf'] = $firms;
           $exposed_filters['term_node_tid_depth_location'] = $cities;
