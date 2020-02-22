@@ -26,6 +26,7 @@ function vp_views_preprocess_views_view_table(&$variables) {
   switch ($view->current_display) {
 
     case 'saved_search_detail_block':
+    case 'saved_search_detail_page':
 
       // Get this node.
       $node = \Drupal::routeMatch()->getParameter('node');
