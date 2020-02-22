@@ -270,9 +270,71 @@ function vp_forms_form_views_exposed_form_alter(array &$form, FormStateInterface
  */
 function vp_forms_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
+  $year = format_date(time(), 'custom', 'Y');
+  $end_date = $year + 10 . '-12-31';
+  $end_year = $year + 10;
+
   $form['#attached']['library'][] = 'vp_forms/vp_forms_library';
 
   switch ($form_id) {
+
+    case "node_vp_type_saved_search_edit_form":
+
+      // Change the form from a text field to a dropdown.
+      $form['field_vp_search_rate_year']['widget'][0]['from']['#type'] = "select";
+      $form['field_vp_search_rate_year']['widget'][0]['from']['#multiple'] = FALSE;
+      $form['field_vp_search_rate_year']['widget'][0]['from']['#empty_option'] = '-All-';
+      $form['field_vp_search_rate_year']['widget'][0]['from']['#options'] = vp_api_year_options_year_only();
+      unset($form['field_vp_search_rate_year']['widget'][0]['from']['#size']);
+
+      $form['field_vp_search_rate_year']['widget'][0]['to']['#type'] = "select";
+      $form['field_vp_search_rate_year']['widget'][0]['to']['#multiple'] = FALSE;
+      $form['field_vp_search_rate_year']['widget'][0]['to']['#empty_option'] = '-All-';
+      $form['field_vp_search_rate_year']['widget'][0]['to']['#empty_value'] = $end_year;
+      $form['field_vp_search_rate_year']['widget'][0]['to']['#options'] = vp_api_year_options_year_only();
+      unset($form['field_vp_search_rate_year']['widget'][0]['to']['#size']);
+
+      $form['field_vp_search_bar_year']['widget'][0]['from']['#type'] = "select";
+      $form['field_vp_search_bar_year']['widget'][0]['from']['#multiple'] = FALSE;
+      $form['field_vp_search_bar_year']['widget'][0]['from']['#empty_option'] = '-All-';
+      $form['field_vp_search_bar_year']['widget'][0]['from']['#options'] = vp_api_year_options_year_only();
+      unset($form['field_vp_search_bar_year']['widget'][0]['from']['#size']);
+
+      $form['field_vp_search_bar_year']['widget'][0]['to']['#type'] = "select";
+      $form['field_vp_search_bar_year']['widget'][0]['to']['#multiple'] = FALSE;
+      $form['field_vp_search_bar_year']['widget'][0]['to']['#empty_option'] = '-All-';
+      $form['field_vp_search_bar_year']['widget'][0]['to']['#empty_value'] = $end_year;
+      $form['field_vp_search_bar_year']['widget'][0]['to']['#options'] = vp_api_year_options_year_only();
+      unset($form['field_vp_search_bar_year']['widget'][0]['to']['#size']);
+
+      $form['field_vp_search_grad_date']['widget'][0]['from']['#type'] = "select";
+      $form['field_vp_search_grad_date']['widget'][0]['from']['#multiple'] = FALSE;
+      $form['field_vp_search_grad_date']['widget'][0]['from']['#empty_option'] = '-All-';
+      $form['field_vp_search_grad_date']['widget'][0]['from']['#options'] = vp_api_year_options_year_only();
+      unset($form['field_vp_search_grad_date']['widget'][0]['from']['#size']);
+
+      $form['field_vp_search_grad_date']['widget'][0]['to']['#type'] = "select";
+      $form['field_vp_search_grad_date']['widget'][0]['to']['#multiple'] = FALSE;
+      $form['field_vp_search_grad_date']['widget'][0]['to']['#empty_option'] = '-All-';
+      $form['field_vp_search_grad_date']['widget'][0]['to']['#empty_value'] = $end_year;
+      $form['field_vp_search_grad_date']['widget'][0]['to']['#options'] = vp_api_year_options_year_only();
+      unset($form['field_vp_search_grad_date']['widget'][0]['to']['#size']);
+
+      // $form['field_vp_search_partner_year']['widget'][0]['from']['#type'] = "select";
+      // $form['field_vp_search_partner_year']['widget'][0]['from']['#multiple'] = FALSE;
+      // $form['field_vp_search_partner_year']['widget'][0]['from']['#empty_option'] = '-All-';
+      // $form['field_vp_search_partner_year']['widget'][0]['from']['#options'] = vp_api_year_options_year_only();
+      // unset($form['field_vp_search_partner_year']['widget'][0]['from']['#size']);
+
+      // $form['field_vp_search_partner_year']['widget'][0]['to']['#type'] = "select";
+      // $form['field_vp_search_partner_year']['widget'][0]['to']['#multiple'] = FALSE;
+      // $form['field_vp_search_partner_year']['widget'][0]['to']['#empty_option'] = '-All-';
+      // $form['field_vp_search_partner_year']['widget'][0]['to']['#empty_value'] = $end_year;
+      // $form['field_vp_search_partner_year']['widget'][0]['to']['#options'] = vp_api_year_options_year_only();
+      // unset($form['field_vp_search_partner_year']['widget'][0]['to']['#size']);
+
+      break;
+
     case "node_vp_type_rate_form":
       // $form['field_vp_rate_individual'] = array(
       //   '#type' => 'select2',
