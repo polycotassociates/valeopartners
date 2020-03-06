@@ -1,3 +1,10 @@
 interval: 36
 vp_api.report_email:
-  emails: 'aaron@polycotassociates.com'
+  email_list_enable: FALSE
+  emails: ''
+  new_record_emails: ''
+  new_report_enable: FALSE
+  new_report_cron_interval: 86400
+  new_report_cron_interval_next: 0
+vp_api.full_report_time:
+  date: 'Never'

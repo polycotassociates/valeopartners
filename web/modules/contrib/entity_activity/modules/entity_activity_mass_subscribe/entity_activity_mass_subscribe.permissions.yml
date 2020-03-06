@@ -1,0 +1,18 @@
+mass subscribe users:
+  title: 'Mass subscribe users'
+  restrict access: true
+mass subscribe users on editable entities:
+  title: 'Mass subscribe users on editable entities'
+  restrict access: true
+mass subscribe per role:
+  title: 'Mass subscribe per role'
+  restrict access: true
+mass subscribe per user:
+  title: 'Mass subscribe per user'
+  restrict access: true
+mass subscribe per list:
+  title: 'Mass subscribe per list'
+  restrict access: true
+mass unsubscribe users:
+  title: 'Mass <b>unsubscribe</b> users'
+  restrict access: true

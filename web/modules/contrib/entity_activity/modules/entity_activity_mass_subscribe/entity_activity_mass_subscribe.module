@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains entity_activity_mass_subscribe.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function entity_activity_mass_subscribe_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the entity_activity_mass_subscribe module.
+    case 'help.page.entity_activity_mass_subscribe':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Entity Activity Mass Subscribe allow users with relevant permission to mass subscribe users to an entity.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

@@ -1,0 +1,12 @@
+--- modules/migrate/src/Plugin/Migration.php
++++ modules/migrate/src/Plugin/Migration.php
+@@ -615,6 +615,9 @@ public function setTrackLastImported($track_last_imported) {
+    */
+   public function getMigrationDependencies() {
+     $this->migration_dependencies = ($this->migration_dependencies ?: []) + ['required' => [], 'optional' => []];
++    if (count($this->migration_dependencies) !== 2 || !is_array($this->migration_dependencies['optional']) || !is_array($this->migration_dependencies['optional'])) {
++      throw new MigrateException("Invalid migration dependencies configuration for migration {$this->id()}");
++    }
+     $this->migration_dependencies['optional'] = array_unique(array_merge($this->migration_dependencies['optional'], $this->findMigrationDependencies($this->process)));
+     return $this->migration_dependencies;
+   }

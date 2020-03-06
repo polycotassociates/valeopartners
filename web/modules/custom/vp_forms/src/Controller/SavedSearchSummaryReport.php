@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Initialize class.
@@ -29,12 +30,15 @@ class SavedSearchSummaryReport extends ControllerBase {
    */
   public function export() {
 
+    $title = $_GET['report_title'] ? $_GET['report_title'] : 'Saved Search Summary';
+
     $response = new Response();
     $response->headers->set('Pragma', 'no-cache');
     $response->headers->set('Expires', '0');
     $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-    $response->headers->set('Content-Disposition', "attachment; filename=Valeo Master Search.xlsx");
+    $response->headers->set('Content-Disposition', "attachment; filename=$title.xlsx");
 
+    $spreadsheet_start_time = microtime(TRUE);
     $spreadsheet = new Spreadsheet();
 
     //Set metadata.
@@ -67,52 +71,52 @@ class SavedSearchSummaryReport extends ControllerBase {
     $worksheet->getCell('K1')->setValue('Grad Year');
     $worksheet->getCell('L1')->setValue('Bar Year');
     $worksheet->getCell('M1')->setValue('Bar State');
-    $worksheet->getCell('N1')->setValue('2019 Actual Rate');
-    $worksheet->getCell('O1')->setValue('2019 Standard Rate');
-    $worksheet->getCell('P1')->setValue('2018 Actual Rate');
-    $worksheet->getCell('Q1')->setValue('2018 Standard Rate');
-    $worksheet->getCell('R1')->setValue('2017 Actual Rate');
-    $worksheet->getCell('S1')->setValue('2017 Standard Rate');
+    $worksheet->getCell('N1')->setValue('2020 Actual Rate');
+    $worksheet->getCell('O1')->setValue('2020 Standard Rate');
+    $worksheet->getCell('P1')->setValue('2019 Actual Rate');
+    $worksheet->getCell('Q1')->setValue('2019 Standard Rate');
+    $worksheet->getCell('R1')->setValue('2018 Actual Rate');
+    $worksheet->getCell('S1')->setValue('2018 Standard Rate');
     $spreadsheet->getActiveSheet()->freezePane('A2');
 
     // Last name.
-    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
     // Middle Name.
-    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
     // First Name.
-    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
     // Firm.
-    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
     // Position.
-    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
     // Client Represented.
-    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
     // Industry.
-    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
     // Practice Area 1.
-    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
     // Practice Area 2.
-    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
     // Practice Area 3.
-    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
     // Grad Year.
-    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
     // Bar Year.
-    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
     // Bar State.
-    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(true);
+    // 2020 Actual Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(true);
+    // 2020 Standard Rate.
+    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(true);
     // 2019 Actual Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(true);
     // 2019 Standard Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(true);
     // 2018 Actual Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(true);
     // 2018 Standard Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(25);
-    // 2017 Actual Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(25);
-    // 2017 Standard Rate.
-    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(true);
 
     // Query loop.
     $i = 2;
@@ -144,23 +148,23 @@ class SavedSearchSummaryReport extends ControllerBase {
       $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
       // Bar State.
       $worksheet->setCellValue('M' . $i, '' . $this->getTermName($result->field_vp_state_bar_target_id));
-      // 2019 Actual Rate.
-      $worksheet->setCellValue('N' . $i, $result->field_2019_actual_rate_value);
+      // 2020 Actual Rate.
+      $worksheet->setCellValue('N' . $i, $result->field_2020_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('N' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2019 Standard Rate.
-      $worksheet->setCellValue('O' . $i, $result->field_2019_standard_rate_value);
+      // 2020 Standard Rate.
+      $worksheet->setCellValue('O' . $i, $result->field_2020_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2018 Actual Rate.
-      $worksheet->setCellValue('P' . $i, $result->field_2018_actual_rate_value);
+      // 2019 Actual Rate.
+      $worksheet->setCellValue('P' . $i, $result->field_2019_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('P' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2018 Standard Rate.
-      $worksheet->setCellValue('Q' . $i, $result->field_2018_standard_rate_value);
+      // 2019 Standard Rate.
+      $worksheet->setCellValue('Q' . $i, $result->field_2019_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('Q' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2017 Actual Rate.
-      $worksheet->setCellValue('R' . $i, $result->field_2017_actual_rate_value);
+      // 2018 Actual Rate.
+      $worksheet->setCellValue('R' . $i, $result->field_2018_actual_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('R' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-      // 2017 Standard Rate.
-      $worksheet->setCellValue('S' . $i, $result->field_2017_standard_rate_value);
+      // 2018 Standard Rate.
+      $worksheet->setCellValue('S' . $i, $result->field_2018_standard_rate_value);
       $spreadsheet->getActiveSheet()->getStyle('S' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
       $i++;
@@ -168,7 +172,9 @@ class SavedSearchSummaryReport extends ControllerBase {
     }
 
     // Get the writer and export in memory.
-    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer = new Xlsx($spreadsheet);
+    $writer->setPreCalculateFormulas(FALSE);
     ob_start();
     $writer->save('php://output');
     $content = ob_get_clean();
@@ -185,6 +191,9 @@ class SavedSearchSummaryReport extends ControllerBase {
     vp_api_report_send($uid, $uri, $time);
 
     $response->setContent($content);
+    $spreadsheet_end_time = microtime(TRUE);
+    $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Saved Search Summary Report Spreadsheet generated in $seconds seconds by user #$uid.");
     return $response;
   }
 
@@ -192,6 +201,8 @@ class SavedSearchSummaryReport extends ControllerBase {
    * Generate the Dyamic Query based on GET variables.
    */
   public function generateDynamicQuery() {
+
+    $query_start_time = microtime(TRUE);
 
     // Connect to the database.
     $db = \Drupal::database();
@@ -204,11 +215,11 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query->condition('node.status', 1);
 
     // Join Firm, Filing, Individual, Case to Rate.
-    $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
-    $query->join('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
-    $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
-    $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
-    $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
+    $query->leftjoin('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
+    $query->leftjoin('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
+    $query->leftjoin('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+    $query->leftjoin('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+    $query->leftjoin('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Joins for fields to query upon.
     $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
@@ -241,12 +252,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query->leftjoin('node__field_vp_filing_year', 'year', 'year.entity_id = filing.field_vp_rate_filing_target_id');
 
     // Rates from individual record.
-    $query->leftjoin('node__field_2017_actual_rate', '2017_actual_rate', '2017_actual_rate.entity_id = individual.entity_id');
-    $query->leftjoin('node__field_2017_standard_rate', '2017_standard_rate', '2017_standard_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2018_actual_rate', '2018_actual_rate', '2018_actual_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2018_standard_rate', '2018_standard_rate', '2018_standard_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2019_actual_rate', '2019_actual_rate', '2019_actual_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_2019_standard_rate', '2019_standard_rate', '2019_standard_rate.entity_id = individual.entity_id');
+    $query->leftjoin('node__field_2020_actual_rate', '2020_actual_rate', '2020_actual_rate.entity_id = individual.entity_id');
+    $query->leftjoin('node__field_2020_standard_rate', '2020_standard_rate', '2020_standard_rate.entity_id = individual.entity_id');
     $query->leftjoin('node__field_vp_employment_history', 'history', 'history.entity_id = individual.entity_id');
     $query->leftjoin('paragraph__field_firm', 'employment', 'employment.entity_id = history.field_vp_employment_history_target_id');
 
@@ -288,12 +299,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
     $query->fields('industry', ['field_vp_company_industry_target_id']);
 
-    $query->fields('2017_actual_rate', ['field_2017_actual_rate_value']);
-    $query->fields('2017_standard_rate', ['field_2017_standard_rate_value']);
     $query->fields('2018_actual_rate', ['field_2018_actual_rate_value']);
     $query->fields('2018_standard_rate', ['field_2018_standard_rate_value']);
     $query->fields('2019_actual_rate', ['field_2019_actual_rate_value']);
     $query->fields('2019_standard_rate', ['field_2019_standard_rate_value']);
+    $query->fields('2020_actual_rate', ['field_2020_actual_rate_value']);
+    $query->fields('2020_standard_rate', ['field_2020_standard_rate_value']);
 
     // Only if there's an actual rate.
     //$query->condition('field_vp_rate_hourly_value', 0, '>');
@@ -304,9 +315,15 @@ class SavedSearchSummaryReport extends ControllerBase {
       $query->addField('individual_title', 'title', 'individual_title');
     }
 
+    // // Filter by Rate Year.
+    // if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
+    //   $query->condition('field_vp_filing_year_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
+    // }
+
     // Filter by Rate Year.
-    if (isset($_GET['field_vp_filing_fee_dates_value']['min']) && $_GET['field_vp_filing_fee_dates_value']['min'] != '') {
-      $query->condition('field_vp_filing_year_value', [$_GET['field_vp_filing_fee_dates_value']['min'], $_GET['field_vp_filing_fee_dates_value']['max']], 'BETWEEN');
+    if (isset($_GET['field_vp_filing_fee_dates_value_min']) && $_GET['field_vp_filing_fee_dates_value_min'] != '') {
+      $query->condition('field_vp_filing_year_value', $_GET['field_vp_filing_fee_dates_value_min'], '>=');
+      $query->condition('field_vp_filing_year_end_value', $_GET['field_vp_filing_fee_dates_value_max'], '<=');
     }
 
     // Filter by Bar Date.
@@ -331,8 +348,10 @@ class SavedSearchSummaryReport extends ControllerBase {
 
     // Filter by location ids (by parent).
     if (isset($_GET['term_node_tid_depth_location'])) {
-      $nodes = $this->getTermParentIds($_GET['term_node_tid_depth_location']);
+      $nodes = $this->getTermParentLocationIds($_GET['term_node_tid_depth_location']);
       $query->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      // $location_group = $query->orConditionGroup()->condition('location.field_vp_individual_location_target_id', $nodes, 'IN');
+      // $query->condition($location_group);
     }
 
     // Filter by position ids.
@@ -379,7 +398,13 @@ class SavedSearchSummaryReport extends ControllerBase {
     // Order by Transaction Amount Rate.
     $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
-    return $query->execute()->fetchAll();
+    $results = $query->execute()->fetchAll();
+
+    $query_end_time = microtime(TRUE);
+    $seconds = round($query_end_time - $query_start_time, 2);
+    \Drupal::logger('vp_api')->notice("Saved search report query took $seconds.");
+
+    return $results;
 
   }
 
@@ -442,7 +467,13 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query = db_select('node__field_vp_case_date_filed', 'date_filed');
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -452,7 +483,13 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_begin');
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -462,7 +499,12 @@ class SavedSearchSummaryReport extends ControllerBase {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_end');
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**
@@ -492,24 +534,56 @@ class SavedSearchSummaryReport extends ControllerBase {
     // Create an array for the child term ids.
     $childTerms = [];
 
-    // For each term_node_tid_depth get the children and
-    // add them to the child terms array.
     foreach ($ids as $tid) {
+
       $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($tid);
-      foreach ($terms as $term) {
-        $childTerms[] = $term->get('tid')->value;
-        // Loop through again to get any children of children.
-        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+      if (count($terms) === 0) {
+        $childTerms[] = $tid;
+      }
+      else {
         foreach ($terms as $term) {
           $childTerms[] = $term->get('tid')->value;
+          // Loop through again to get any children of children.
+          $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($term->get('tid')->value);
+          foreach ($terms as $term) {
+            $childTerms[] = $term->get('tid')->value;
+          }
         }
       }
     }
-    if (count($childTerms) == 0) {
-      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-      return $term->get('tid')->value;
-    }
     return $childTerms;
+  }
+
+  /**
+   * Get Term Parent location tree IDs.
+   */
+  private function getTermTreeIds($ids, $vid) {
+    // Create an array for the child term ids.
+    $childTerms = [];
+    $all_terms = [];
+    // Loop through the array of terms.
+    foreach ($ids as $tid) {
+      $childTerms[] = $tid;
+      $child_ids = $this->getChildIds($tid, $vid);
+    }
+    $all_terms[] = array_merge($childTerms, $child_ids);
+    return array_unique($all_terms[0]);
+  }
+
+  /**
+   * Get Location Term Children Ids.
+   */
+  private function getLocationChildTermIds($id) {
+    $vid = 'city';
+    $parent_tid = $id; // the parent term id
+    $depth = NULL; // 1 to get only immediate children, NULL to load entire tree
+    $load_entities = FALSE; // True will return loaded entities rather than ids
+    $child_tids = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent_tid, $depth, $load_entities);
+    $ids = [];
+    foreach ($child_tids as $tid) {
+      $ids[] = $tid->tid;
+    }
+    return $ids;
   }
 
 }

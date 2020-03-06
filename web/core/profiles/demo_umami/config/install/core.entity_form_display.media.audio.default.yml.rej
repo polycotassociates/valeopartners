@@ -1,0 +1,10 @@
+--- profiles/demo_umami/config/install/core.entity_form_display.media.audio.default.yml
++++ profiles/demo_umami/config/install/core.entity_form_display.media.audio.default.yml
+@@ -43,6 +43,7 @@ content:
+     weight: 5
+     settings:
+       match_operator: CONTAINS
++      match_limit: 10
+       size: 60
+       placeholder: ''
+     region: content

@@ -1,0 +1,26 @@
+uuid: efba631f-36aa-428a-a422-3d557c8dd36d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2020_standard_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2020_standard_rate
+field_name: field_2020_standard_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2020 Standard Rate'
+description: '2020 Standard Rate (Computed)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

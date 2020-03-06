@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\user\UserInterface;
 
 /**
  * @file
@@ -63,3 +64,90 @@ function entity_activity_update_8102(&$sandbox) {
   $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
   return t('@count Subscriptions processed with a cumulative total of @items_deleted subscriptions deleted.', ['@count' => $sandbox['current'], '@items_deleted' => $sandbox['items_deleted']]);
 }
+
+/**
+ * Delete all subscriptions for which the owner has been deleted.
+ */
+function entity_activity_update_8103(&$sandbox) {
+  /** @var \Drupal\entity_activity\SubscriptionStorageInterface $subscriptions_storage */
+  $subscription_storage = \Drupal::entityTypeManager()->getStorage('entity_activity_subscription');
+  // Initialize some variables during the first pass through.
+  if (!isset($sandbox['total'])) {
+    $query = $subscription_storage->getQuery();
+    $query->count();
+    $total = $query->execute();
+    $sandbox['total'] = $total;
+    $sandbox['current'] = 0;
+    $sandbox['items_deleted'] = 0;
+  }
+  // Do not continue if no subscriptions are found.
+  if (empty($sandbox['total'])) {
+    $sandbox['#finished'] = 1;
+    return t('No Subscriptions to be processed.');
+  }
+
+  $subscriptions_per_batch = 50;
+  $query = $subscription_storage->getQuery();
+  $query->range($sandbox['current'] - $sandbox['items_deleted'], $subscriptions_per_batch);
+  $query->sort('id', 'DESC');
+  $result = $query->execute();
+  foreach ($result as $id) {
+    /** @var \Drupal\entity_activity\Entity\SubscriptionInterface $subscription */
+    $subscription = $subscription_storage->load($id);
+    $owner = $subscription->getOwner();
+    if (!$owner instanceof UserInterface) {
+      $subscription->delete();
+      $sandbox['items_deleted']++;
+      $sandbox['current']++;
+    }
+    else {
+      $sandbox['current']++;
+    }
+  }
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  return t('@count Subscriptions processed with a cumulative total of @items_deleted subscriptions deleted.', ['@count' => $sandbox['current'], '@items_deleted' => $sandbox['items_deleted']]);
+}
+
+/**
+ * Delete all logs for which the owner has been deleted.
+ */
+function entity_activity_update_8104(&$sandbox) {
+  /** @var \Drupal\entity_activity\LogStorageInterface $log_storage */
+  $log_storage = \Drupal::entityTypeManager()->getStorage('entity_activity_log');
+  // Initialize some variables during the first pass through.
+  if (!isset($sandbox['total'])) {
+    $query = $log_storage->getQuery();
+    $query->count();
+    $total = $query->execute();
+    $sandbox['total'] = $total;
+    $sandbox['current'] = 0;
+    $sandbox['items_deleted'] = 0;
+  }
+  // Do not continue if no logs are found.
+  if (empty($sandbox['total'])) {
+    $sandbox['#finished'] = 1;
+    return t('No Logs to be processed.');
+  }
+
+  $logs_per_batch = 50;
+  $query = $log_storage->getQuery();
+  $query->range($sandbox['current'] - $sandbox['items_deleted'], $logs_per_batch);
+  $query->sort('id', 'DESC');
+  $result = $query->execute();
+  foreach ($result as $id) {
+    /** @var \Drupal\entity_activity\Entity\LogInterface $log */
+    $log = $log_storage->load($id);
+    $owner = $log->getOwner();
+    if (!$owner instanceof UserInterface) {
+      $log->delete();
+      $sandbox['items_deleted']++;
+      $sandbox['current']++;
+    }
+    else {
+      $sandbox['current']++;
+    }
+  }
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  return t('@count Logs processed with a cumulative total of @items_deleted logs deleted.', ['@count' => $sandbox['current'], '@items_deleted' => $sandbox['items_deleted']]);
+}
+

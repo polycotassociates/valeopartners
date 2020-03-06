@@ -4,7 +4,8 @@ vp_api_libraries:
     libraries/js/valeo_common.js: {}
   dependencies:
     - core/jquery
+    - core/jquery.once
     - core/drupal.ajax
     - core/drupal
     - core/drupalSettings
-    - core/jquery.once
+    - core/drupal.dialog

@@ -1,0 +1,21 @@
+uuid: 14396372-f739-43a3-b7ae-909357ea2a4e
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - node
+id: node.field_2025_actual_rate
+field_name: field_2025_actual_rate
+entity_type: node
+type: computed_decimal
+settings:
+  precision: '10'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

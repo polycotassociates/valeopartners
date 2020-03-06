@@ -22,17 +22,70 @@ class ChangeReportEmails extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    // Get the configuration settings.
     $config = \Drupal::service('config.factory')->getEditable('vp_api.settings');
 
+    // Set the configuration settings to variables.
     $email = $config->get('vp_api.report_email.emails');
+    $email_list_enable = $config->get('vp_api.report_email.email_list_enable');
+    $new_report_enable = $config->get('vp_api.report_email.new_report_enable');
 
-    $form['#prefix'] = "Comma separated email list of those users to get a notification when a spreadsheet is generated.";
 
-    $form['email_list'] = [
+    // Create form.
+    $form['spreadsheet_emails'] = [
+      '#type' => 'fieldset',
+      '#title' => $this
+        ->t('Emails when reports are generated'),
+    ];
+
+    $form['spreadsheet_emails']['email_list_enable'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $email_list_enable,
+      '#title' => $this
+        ->t('Enable email spreadsheet reports:'),
+    ];
+
+    $form['spreadsheet_emails']['email_list'] = [
       '#type' => 'textfield',
       '#default_value' => $email,
       '#title' => $this
-        ->t('Email:'),
+        ->t('Email List:'),
+      '#description' => $this
+        ->t('Comma separated email list of those users to get a notification when a spreadsheet is generated'),
+      '#states' => [
+        'visible' => [
+          ':input[name="email_list_enable"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+
+    $form['new_record_report'] = [
+      '#type' => 'fieldset',
+      '#title' => $this
+        ->t('Daily report of new records'),
+      '#access' => FALSE,
+    ];
+
+    $form['new_record_report']['new_report_enable'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $new_report_enable,
+      '#title' => $this
+        ->t('Enable daily new record email:'),
+    ];
+
+    $form['new_record_report']['new_record_emails'] = [
+      '#type' => 'textfield',
+      '#default_value' => $new_report_enable,
+      '#title' => $this
+        ->t('Email List:'),
+      '#description' => $this
+        ->t('Comma separated email list of those users to get a daily notification of new records'),
+      '#states' => [
+        'visible' => [
+          ':input[name="new_report_enable"]' => ['checked' => TRUE],
+        ],
+      ],
     ];
 
     $form['actions']['save'] = [
@@ -40,6 +93,7 @@ class ChangeReportEmails extends FormBase {
       '#value' => t('Save'),
       '#submit' => ['::saveReportEmails'],
     ];
+
 
     return $form;
   }
@@ -60,15 +114,20 @@ class ChangeReportEmails extends FormBase {
   public function saveReportEmails(array &$form, FormStateInterface $form_state) {
 
     // Get the form values.
-    $email = $form['email_list']['#value'];
+    $email = $form['spreadsheet_emails']['email_list']['#value'];
+    $email_list_enable = $form['spreadsheet_emails']['email_list_enable']['#value'];
+
+    // Get the editable configuration settings.
     $config = \Drupal::service('config.factory')->getEditable('vp_api.settings');
 
+    // Set the config settings based on the form values.
+    $config->set('vp_api.report_email.email_list_enable', $email_list_enable);
     $config->set('vp_api.report_email.emails', $email);
 
-    // Save your data to the database.
+    // Save data to the database.
     $config->save();
 
-    drupal_set_message("Email address updated.");
+    drupal_set_message("Email address info updated.");
 
   }
 

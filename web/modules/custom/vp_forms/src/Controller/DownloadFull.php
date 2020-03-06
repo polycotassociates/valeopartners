@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-
 /**
  * Initialize class.
  */
@@ -35,7 +34,7 @@ class DownloadFull extends ControllerBase {
       // Get real path to private directory.
       $private = \Drupal::service('file_system')->realpath("private://");
 
-      // Delete the previous xlsx export.
+      // If file exists...
       if (file_exists($uri)) {
         $headers = [
           'Content-Type' => 'application/vnd.ms-excel',

@@ -9,6 +9,8 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\entity_activity_mail\ReportServiceInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -127,4 +129,18 @@ function entity_activity_mail_mail($key, &$message, $params) {
   }
   $message['subject'] = $params['subject'];
   $message['body'][] = $renderer->render($params['body']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function entity_activity_mail_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (isset($form['entity_activity_mail_frequency'])) {
+    $entity = $form_state->getFormObject()->getEntity();
+    if ($entity instanceof UserInterface && $entity->isNew()) {
+      $config = \Drupal::configFactory()->get('entity_activity_mail.settings');
+      $default_frequency = $config->get('user.default_frequency');
+      $form['entity_activity_mail_frequency']['widget']['#default_value'] = $default_frequency;
+    }
+  }
 }

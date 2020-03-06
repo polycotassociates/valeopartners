@@ -1,0 +1,26 @@
+uuid: 2d071ff3-4c96-4416-b9ad-6f1530ebb1f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_2023_actual_rate
+    - node.type.vp_type_individual
+  module:
+    - computed_field
+id: node.vp_type_individual.field_2023_actual_rate
+field_name: field_2023_actual_rate
+entity_type: node
+bundle: vp_type_individual
+label: '2023 Actual Rate'
+description: '2023 Actual Rate (Computed)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = 0;'
+  prefix: $
+  suffix: ''
+field_type: computed_decimal

@@ -6,6 +6,7 @@
  */
 
 ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -18,30 +19,32 @@ use Drupal\user\Entity\User;
  */
 function vp_api_cron_export_xls() {
 
-  // We access our configuration.
-  $cron_config = \Drupal::configFactory()
-    ->getEditable('vp_api.settings');
+  _vp_api_generate_xls_sheet();
 
-  // Default to an 24 Hour interval.
-  $interval = $cron_config->get('interval');
-  $interval = !empty($interval) ? $interval : 86400;
+  // // We access our configuration.
+  // $cron_config = \Drupal::configFactory()
+  //   ->getEditable('vp_api.settings');
 
-  // We usually don't want to act every time cron runs (which could be every
-  // minute) so keep a time for the next run in the site state.
-  $next_execution = \Drupal::state()->get('vp_api.next_execution', 0);
-  if (REQUEST_TIME >= $next_execution) {
+  // // Default to an 24 Hour interval.
+  // $interval = $cron_config->get('interval');
+  // $interval = !empty($interval) ? $interval : 86400;
 
-    // Generate the spreadsheet if 24 hours has passed.
-    _vp_api_generate_xls_sheet();
-    \Drupal::logger('vp_api')->notice('vp_api cron ran');
+  // // We usually don't want to act every time cron runs (which could be every
+  // // minute) so keep a time for the next run in the site state.
+  // $next_execution = \Drupal::state()->get('vp_api.next_execution', 0);
+  // if (REQUEST_TIME >= $next_execution) {
 
-    if (\Drupal::state()->get('vp_api_cron_show_status_message')) {
-      \Drupal::messenger()->addMessage(t('vp_api cron executed at %time', ['%time' => date('c'),]));
-      \Drupal::state()->set('vp_api_cron_show_status_message', FALSE);
-    }
+  //   // Generate the spreadsheet if 24 hours has passed.
+  //   _vp_api_generate_xls_sheet();
+  //   \Drupal::logger('vp_api')->notice('vp_api cron ran');
 
-    \Drupal::state()->set('vp_api.next_execution', REQUEST_TIME + $interval);
-  }
+  //   if (\Drupal::state()->get('vp_api_cron_show_status_message')) {
+  //     \Drupal::messenger()->addMessage(t('vp_api cron executed at %time', ['%time' => date('c'),]));
+  //     \Drupal::state()->set('vp_api_cron_show_status_message', FALSE);
+  //   }
+
+  //   \Drupal::state()->set('vp_api.next_execution', REQUEST_TIME + $interval);
+  // }
 
 }
 
@@ -133,8 +136,8 @@ function _vp_api_generate_xls_query() {
   $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
   $query->fields('industry', ['field_vp_company_industry_target_id']);
 
-  // Maximum 50,000 records.
-  $query->range(0, 50000);
+  // No limit for full download.
+  $query->range(0, 10000);
 
   // Order by Transaction Amount Rate.
   $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
@@ -152,7 +155,7 @@ function _vp_api_generate_xls_sheet() {
   $response->headers->set('Pragma', 'no-cache');
   $response->headers->set('Expires', '0');
   $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-  $response->headers->set('Content-Disposition', "attachment; filename=Valeo_Full_Report.xlsx");
+  $response->headers->set('Content-Disposition', "attachment; filename=Valeo_Full_Report_cron_test.xlsx");
 
   $spreadsheet = new Spreadsheet();
 
@@ -212,43 +215,85 @@ function _vp_api_generate_xls_sheet() {
   $worksheet->getCell('AK1')->setValue('On');
   $spreadsheet->getActiveSheet()->freezePane('A2');
 
-  // $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('U')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('V')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('W')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('X')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AH')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AI')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AJ')->setAutoSize(TRUE);
-  // $spreadsheet->getActiveSheet()->getColumnDimension('AK')->setAutoSize(TRUE);
+  // Set default column width.
+  // $spreadsheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(12);
+
+  // $spreadsheet->getDefaultStyle()->getAlignment()->setWrapText(true);
+
+  // First name.
+  $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+  // Middle Name.
+  $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+  // Last Name.
+  $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+  // Firm.
+  $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+  // Position.
+  $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+  // Client Represented.
+  $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+  // Industry.
+  $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+  // Practice Area 1.
+  $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+  // Practice Area 2.
+  $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+  // Practice Area 3.
+  $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+  // Grad Year.
+  $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
+  // Bar Year.
+  $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
+  // Bar State.
+  $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(true);
+  // City.
+  $spreadsheet->getActiveSheet()->getColumnDimension('N')->setAutoSize(true);
+  // Actual Rate.
+  $spreadsheet->getActiveSheet()->getColumnDimension('O')->setAutoSize(true);
+  // Standard Rate.
+  $spreadsheet->getActiveSheet()->getColumnDimension('P')->setAutoSize(true);
+  // Rate or Fee Year.
+  $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setAutoSize(true);
+  // Hours.
+  $spreadsheet->getActiveSheet()->getColumnDimension('R')->setAutoSize(true);
+  // Total.
+  $spreadsheet->getActiveSheet()->getColumnDimension('S')->setAutoSize(true);
+  // Flat Fee.
+  $spreadsheet->getActiveSheet()->getColumnDimension('T')->setAutoSize(true);
+  // Retainer Fee.
+  $spreadsheet->getActiveSheet()->getColumnDimension('U')->setAutoSize(true);
+  // Transaction Amount.
+  $spreadsheet->getActiveSheet()->getColumnDimension('V')->setAutoSize(true);
+  // Transactional Fee.
+  $spreadsheet->getActiveSheet()->getColumnDimension('W')->setAutoSize(true);
+  // Transaction Type.
+  $spreadsheet->getActiveSheet()->getColumnDimension('X')->setAutoSize(true);
+  // Case Name.
+  $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setAutoSize(true);
+  // Case Number.
+  $spreadsheet->getActiveSheet()->getColumnDimension('Z')->setAutoSize(true);
+  // Court
+  $spreadsheet->getActiveSheet()->getColumnDimension('AA')->setAutoSize(true);
+  // Date Filed.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AB')->setAutoSize(true);
+  // Nature of Suit.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AC')->setAutoSize(true);
+  // Filing Name.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AD')->setAutoSize(true);
+  // Filing Description.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AE')->setAutoSize(true);
+  // Filing Number.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AF')->setAutoSize(true);
+  // Fee Date Range Begin.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AG')->setAutoSize(true);
+  // Fee Date Range End.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AH')->setAutoSize(true);
+  // Publication Status.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AI')->setAutoSize(true);
+  // Created By.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AJ')->setAutoSize(true);
+  // Created On.
+  $spreadsheet->getActiveSheet()->getColumnDimension('AK')->setAutoSize(true);
 
   $i = 2;
   // Query loop.
@@ -375,36 +420,6 @@ function _vp_api_generate_xls_sheet() {
   $response->setContent($content);
   return $response;
 }
-
-  /**
-   * Get First Name Query.
-   */
-  function getFirstName($id) {
-    $query = db_select('node__field_vp_first_name', 'first_name');
-    $query->condition('first_name.entity_id', $id, '=');
-    $query->fields('first_name', ['field_vp_first_name_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Middle Name Query.
-   */
-  function getMiddleName($id) {
-    $query = db_select('node__field_vp_middle_name', 'middle_name');
-    $query->condition('middle_name.entity_id', $id, '=');
-    $query->fields('middle_name', ['field_vp_middle_name_value']);
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Get Last Name Query.
-   */
-  function getLastName($id) {
-    $query = db_select('node__field_vp_last_name', 'last_name');
-    $query->condition('last_name.entity_id', $id, '=');
-    $query->fields('last_name', ['field_vp_last_name_value']);
-    return $query->execute()->fetchField();
-  }
 
   /**
    * Get Fiiling Number Query.
@@ -538,7 +553,7 @@ function _vp_api_generate_xls_sheet() {
     return "Valeo Rates Report";
   }
 
-    /**
+  /**
    * Get the username of the id.
    */
   function getUserName($uid) {

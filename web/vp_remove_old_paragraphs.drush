@@ -1,0 +1,33 @@
+#!/usr/local/bin/drush
+
+<?php
+
+ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
+
+/**
+ * @file
+ * remove paragraphs.
+ *
+ * see: https://stackoverflow.com/questions/50016160/drupal-8-orphan-paragraphs
+ *
+ * Removes paragraphs one at a time, instead of loading all 1M at once.
+ */
+
+\Drupal::logger('vp_api')->notice("Removing paragraph entirely");
+
+// $paragraph_id = 'standard_rate_by_year';
+// $entity = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph_id);
+// if ($entity){
+//   $entity->delete();
+// }
+
+$paragraphs = \Drupal::entityTypeManager()
+    ->getStorage('paragraph')
+    ->loadByProperties(array('type' => 'standard_rate_by_year')); // System name
+
+drush_print("Paragraphs: " . count($paragraphs));
+
+foreach ($paragraphs as $paragraph) {
+    $paragraph->delete();
+}

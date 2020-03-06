@@ -1,5 +1,20 @@
 (function ($, Drupal) {
 
+
+  var myVar;
+
+  function myFunction() {
+    myVar = setTimeout(showPage, 3000);
+  }
+
+  function showPage() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("myDiv").style.display = "block";
+  }
+
+  //Overrides the default extractLastTerm found in core/misc/autocomplete.js
+  // Drupal.autocomplete.options.splitValues = [];
+
   // Allow a check all behavor for the Display Column checkbox selection
   // for the saved search type.
   //

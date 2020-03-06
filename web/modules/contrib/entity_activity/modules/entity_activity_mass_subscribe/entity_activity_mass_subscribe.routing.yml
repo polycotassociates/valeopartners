@@ -1,0 +1,2 @@
+route_callbacks:
+  - '\Drupal\entity_activity_mass_subscribe\Routing\MassSubscribeRoutes::routes'

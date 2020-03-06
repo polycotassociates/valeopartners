@@ -2,6 +2,7 @@
 
 namespace Drupal\Core\Cache;
 
+use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -60,9 +61,20 @@ class ChainedFastBackendFactory implements CacheFactoryInterface {
     // Do not use the fast chained backend during installation. In those cases,
     // we expect many cache invalidations and writes, the fast chained cache
     // backend performs badly in such a scenario.
-    if (!drupal_installation_attempted()) {
+    if (!InstallerKernel::installationAttempted()) {
       $this->fastServiceName = $fast_service_name;
     }
+  }
+
+  /**
+   * Getter for the consistent service name.
+   *
+   * @return string
+   *   The service name of the consistent backend factory.
+   */
+  public function getConsistentServiceName() {
+    return ($this->consistentServiceName && $this->container->has($this->consistentServiceName)) ?
+      $this->consistentServiceName : 'cache.backend.database';
   }
 
   /**
@@ -79,13 +91,13 @@ class ChainedFastBackendFactory implements CacheFactoryInterface {
     // otherwise, just return the consistent backend directly.
     if (isset($this->fastServiceName)) {
       return new ChainedFastBackend(
-        $this->container->get($this->consistentServiceName)->get($bin),
+        $this->container->get($this->getConsistentServiceName())->get($bin),
         $this->container->get($this->fastServiceName)->get($bin),
         $bin
       );
     }
     else {
-      return $this->container->get($this->consistentServiceName)->get($bin);
+      return $this->container->get($this->getConsistentServiceName())->get($bin);
     }
   }
 

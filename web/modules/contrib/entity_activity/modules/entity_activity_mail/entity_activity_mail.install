@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Entity Activity Mail module.
+ */
+
+/**
+ * Set a default value for the new settings "Mark as read log sent by mail".
+ */
+function entity_activity_mail_update_8101(&$sandbox) {
+  $config_factory = \Drupal::configFactory();
+  $settings = $config_factory->getEditable('entity_activity_mail.settings');
+  $settings->set('general.mark_read', FALSE);
+  $settings->save(TRUE);
+}

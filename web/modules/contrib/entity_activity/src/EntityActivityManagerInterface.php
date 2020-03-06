@@ -3,6 +3,7 @@
 namespace Drupal\entity_activity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\user\UserInterface;
 
 /**
  * Interface EntityActivityManagerInterface.
@@ -76,6 +77,22 @@ interface EntityActivityManagerInterface {
   public function deleteSubscriptions(ContentEntityInterface $entity);
 
   /**
+   * Delete the user subscriptions.
+   *
+   * @param \Drupal\user\UserInterface $user
+   *   The user entity.
+   */
+  public function deleteUserSubscriptions(UserInterface $user);
+
+  /**
+   * Delete the user logs.
+   *
+   * @param \Drupal\user\UserInterface $user
+   *   The user entity.
+   */
+  public function deleteUserLogs(UserInterface $user);
+
+  /**
    * Get the entity's langcode or the default langcode as fallback.
    *
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
@@ -89,5 +106,13 @@ interface EntityActivityManagerInterface {
    * Purge log given the global settings.
    */
   public function purgeLog();
+
+  /**
+   * Invalidate cache tags given an content entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The content entity.
+   */
+  public function invalidateCache(ContentEntityInterface $entity);
 
 }

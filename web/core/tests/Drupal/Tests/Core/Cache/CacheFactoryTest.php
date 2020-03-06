@@ -26,10 +26,10 @@ class CacheFactoryTest extends UnitTestCase {
     $container = new ContainerBuilder();
     $cache_factory->setContainer($container);
 
-    $builtin_default_backend_factory = $this->getMock('\Drupal\Core\Cache\CacheFactoryInterface');
+    $builtin_default_backend_factory = $this->createMock('\Drupal\Core\Cache\CacheFactoryInterface');
     $container->set('cache.backend.database', $builtin_default_backend_factory);
 
-    $render_bin = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $render_bin = $this->createMock('\Drupal\Core\Cache\CacheBackendInterface');
     $builtin_default_backend_factory->expects($this->once())
       ->method('get')
       ->with('render')
@@ -56,10 +56,10 @@ class CacheFactoryTest extends UnitTestCase {
     $container = new ContainerBuilder();
     $cache_factory->setContainer($container);
 
-    $custom_default_backend_factory = $this->getMock('\Drupal\Core\Cache\CacheFactoryInterface');
+    $custom_default_backend_factory = $this->createMock('\Drupal\Core\Cache\CacheFactoryInterface');
     $container->set('cache.backend.custom', $custom_default_backend_factory);
 
-    $render_bin = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $render_bin = $this->createMock('\Drupal\Core\Cache\CacheBackendInterface');
     $custom_default_backend_factory->expects($this->once())
       ->method('get')
       ->with('render')
@@ -92,10 +92,10 @@ class CacheFactoryTest extends UnitTestCase {
     $container = new ContainerBuilder();
     $cache_factory->setContainer($container);
 
-    $custom_default_backend_factory = $this->getMock('\Drupal\Core\Cache\CacheFactoryInterface');
+    $custom_default_backend_factory = $this->createMock('\Drupal\Core\Cache\CacheFactoryInterface');
     $container->set('cache.backend.custom', $custom_default_backend_factory);
 
-    $render_bin = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $render_bin = $this->createMock('\Drupal\Core\Cache\CacheBackendInterface');
     $custom_default_backend_factory->expects($this->once())
       ->method('get')
       ->with('render')
@@ -132,11 +132,73 @@ class CacheFactoryTest extends UnitTestCase {
     $container = new ContainerBuilder();
     $cache_factory->setContainer($container);
 
-    $custom_render_backend_factory = $this->getMock('\Drupal\Core\Cache\CacheFactoryInterface');
+    $custom_render_backend_factory = $this->createMock('\Drupal\Core\Cache\CacheFactoryInterface');
     $container->set('cache.backend.custom', $custom_render_backend_factory);
 
-    $render_bin = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $render_bin = $this->createMock('\Drupal\Core\Cache\CacheBackendInterface');
     $custom_render_backend_factory->expects($this->once())
+      ->method('get')
+      ->with('render')
+      ->will($this->returnValue($render_bin));
+
+    $actual_bin = $cache_factory->get('render');
+    $this->assertSame($render_bin, $actual_bin);
+  }
+
+  /**
+   * Test that the cache factory falls back to the built-in default service if specified bin service does not exist.
+   *
+   * @covers ::__construct
+   * @covers ::get
+   */
+  public function testCacheFactoryBinBackendServiceExist() {
+    $settings = new Settings(array(
+      'cache' => array(
+        'bins' => array(
+          'render' => 'cache.backend.custom',
+        ),
+      ),
+    ));
+    $cache_factory = new CacheFactory($settings);
+
+    $container = new ContainerBuilder();
+    $cache_factory->setContainer($container);
+
+    $builtin_default_backend_factory = $this->getMock('\Drupal\Core\Cache\CacheFactoryInterface');
+    $container->set('cache.backend.database', $builtin_default_backend_factory);
+
+    $render_bin = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $builtin_default_backend_factory->expects($this->once())
+      ->method('get')
+      ->with('render')
+      ->will($this->returnValue($render_bin));
+
+    $actual_bin = $cache_factory->get('render');
+    $this->assertSame($render_bin, $actual_bin);
+  }
+
+  /**
+   * Test that the cache factory falls back to the built-in default service if specified default bin service does not exist.
+   *
+   * @covers ::__construct
+   * @covers ::get
+   */
+  public function testCacheFactoryBinBackendDefaultServiceExist() {
+    $settings = new Settings(array(
+      'cache' => array(
+        'default' => 'cache.backend.custom',
+      ),
+    ));
+    $cache_factory = new CacheFactory($settings);
+
+    $container = new ContainerBuilder();
+    $cache_factory->setContainer($container);
+
+    $builtin_default_backend_factory = $this->getMock('\Drupal\Core\Cache\CacheFactoryInterface');
+    $container->set('cache.backend.database', $builtin_default_backend_factory);
+
+    $render_bin = $this->getMock('\Drupal\Core\Cache\CacheBackendInterface');
+    $builtin_default_backend_factory->expects($this->once())
       ->method('get')
       ->with('render')
       ->will($this->returnValue($render_bin));

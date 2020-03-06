@@ -1,0 +1,30 @@
+details.inline-children > .details-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+details.inline-children > .details-wrapper > * {
+  padding: 0.5rem;
+}
+details.inline-children > .details-wrapper > * input.filter-element,
+details.inline-children > .details-wrapper > * select.filter-element {
+  min-height: 30px;
+  margin: 0;
+  padding: 6px;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+details.inline-children > .details-wrapper > .form-actions {
+  -ms-flex: 1 1 100%;
+  flex: 1 1 100%;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}

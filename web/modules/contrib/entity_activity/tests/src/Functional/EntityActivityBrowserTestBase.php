@@ -5,6 +5,8 @@ namespace Drupal\Tests\entity_activity\Functional;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Queue\RequeueException;
+use Drupal\Core\Queue\SuspendQueueException;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Tests\block\Traits\BlockCreationTrait;
 use Drupal\Tests\BrowserTestBase;
@@ -47,6 +49,9 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
     'text',
     'views',
     'entity_activity_test',
+    'language',
+    'locale',
+    'content_translation'
   ];
 
   /**
@@ -141,6 +146,13 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
   protected $logStorage;
 
   /**
+   * The default langcode.
+   *
+   * @var string
+   */
+  protected $langcode;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -148,6 +160,7 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
     $this->entityTypeManager = $this->container->get('entity_type.manager');
     $this->subscriptionStorage = $this->entityTypeManager->getStorage('entity_activity_subscription');
     $this->logStorage = $this->entityTypeManager->getStorage('entity_activity_log');
+    $this->langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
 
     $this->placeBlock('local_tasks_block');
     $this->placeBlock('local_actions_block');
@@ -155,16 +168,16 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
 //    $this->placeBlock('entity_activity_user_log_block');
     $this->installEntityViewDisplayMode();
 
-    $this->adminUser = $this->drupalCreateUser($this->getAdministratorPermissions());
-    $this->advancedUser = $this->drupalCreateUser($this->getAdvancedPermissions());
-    $this->user1 = $this->drupalCreateUser($this->getNormalPermissions());
-    $this->user2 = $this->drupalCreateUser($this->getNormalPermissions());
-
     // Create Basic page and Article node types.
     if ($this->profile != 'standard') {
       $this->drupalCreateContentType(['type' => 'article', 'name' => 'Article']);
       $this->drupalCreateContentType(['type' => 'page', 'name' => 'Page']);
     }
+
+    $this->adminUser = $this->drupalCreateUser($this->getAdministratorPermissions());
+    $this->advancedUser = $this->drupalCreateUser($this->getAdvancedPermissions());
+    $this->user1 = $this->drupalCreateUser($this->getNormalPermissions());
+    $this->user2 = $this->drupalCreateUser($this->getNormalPermissions());
 
     $view_modes = [
       'default',
@@ -189,8 +202,8 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
     }
 
     $this->vocabulary = $this->createVocabulary();
-    $this->term1 = $this->createTerm($this->vocabulary, ['name' => 'Tag term1']);
-    $this->term2 = $this->createTerm($this->vocabulary, ['name' => 'Tag term2']);
+    $this->term1 = $this->createTerm($this->vocabulary, ['name' => 'Tag term1', 'langcode' => $this->langcode]);
+    $this->term2 = $this->createTerm($this->vocabulary, ['name' => 'Tag term2', 'langcode' => $this->langcode]);
 
     $handler_settings = [
       'target_bundles' => [
@@ -223,6 +236,7 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'type' => 'article',
       'title' => 'Article 1',
       'uid' => $this->user1->id(),
+      'langcode' => $this->langcode,
     ];
     $this->article1 = $this->createNode($settings);
 
@@ -230,6 +244,7 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'type' => 'article',
       'title' => 'Article 2',
       'uid' => $this->user2->id(),
+      'langcode' => $this->langcode,
     ];
     $this->article2 = $this->createNode($settings);
 
@@ -237,6 +252,7 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'type' => 'page',
       'title' => 'Page 1',
       'uid' => $this->advancedUser->id(),
+      'langcode' => $this->langcode,
     ];
     $this->page1 = $this->createNode($settings);
   }
@@ -264,6 +280,7 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'view own logs',
       'view any logs',
       'remove own logs',
+      'view entities subscribers',
     ];
   }
 
@@ -285,6 +302,8 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'view own logs',
       'view any logs',
       'remove own logs',
+      'view entities subscribers on editable entities',
+      'administer taxonomy',
     ];
   }
 
@@ -302,6 +321,9 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'remove own subscriptions',
       'view own logs',
       'remove own logs',
+      'view entities subscribers on editable entities',
+      'access content',
+      'create article content',
     ];
   }
 
@@ -377,6 +399,7 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
       'status' => TRUE,
       'source_entity_type' => $entity->getEntityTypeId(),
       'source_entity_id' => $entity->id(),
+      'langcode' => $this->langcode,
     ];
     /** @var \Drupal\entity_activity\Entity\SubscriptionInterface $subscription */
     $subscription = $this->subscriptionStorage->create($values);
@@ -384,4 +407,56 @@ abstract class EntityActivityBrowserTestBase extends BrowserTestBase {
     return $subscription;
   }
 
+  /**
+   * Processes a cron queue.
+   *
+   * @param string $queue_name
+   *   The queue name.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   */
+  protected function processQueue($queue_name) {
+    // Grab the defined cron queues.
+    /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
+    $queue_factory = \Drupal::service('queue');
+    /** @var \Drupal\Core\Queue\QueueWorkerManagerInterface $queue_manager */
+    $queue_manager = \Drupal::service('plugin.manager.queue_worker');
+    $queues = $queue_manager->getDefinitions();
+    if (!isset($queues[$queue_name])) {
+      return;
+    }
+    $info = $queues[$queue_name];
+    if (isset($info['cron'])) {
+      // Make sure every queue exists. There is no harm in trying to recreate
+      // an existing queue.
+      $queue_factory->get($queue_name)->createQueue();
+
+      $queue_worker = $queue_manager->createInstance($queue_name);
+      $end = time() + (isset($info['cron']['time']) ? $info['cron']['time'] : 15);
+      $queue = $queue_factory->get($queue_name);
+      $lease_time = isset($info['cron']['time']) ?: NULL;
+      while (time() < $end && ($item = $queue->claimItem($lease_time))) {
+        try {
+          $queue_worker->processItem($item->data);
+          $queue->deleteItem($item);
+        }
+        catch (RequeueException $e) {
+          // The worker requested the task be immediately requeued.
+          $queue->releaseItem($item);
+        }
+        catch (SuspendQueueException $e) {
+          // If the worker indicates there is a problem with the whole queue,
+          // release the item and skip to the next queue.
+          $queue->releaseItem($item);
+
+          watchdog_exception('cron', $e);
+        }
+        catch (\Exception $e) {
+          // In case of any other kind of exception, log it and leave the item
+          // in the queue to be processed again later.
+          watchdog_exception('cron', $e);
+        }
+      }
+    }
+  }
 }

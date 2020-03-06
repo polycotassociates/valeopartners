@@ -47,10 +47,11 @@ table caption {
   padding: 0px 14px 0px 14px;
   text-decoration: none;
   font-size: 110%;
-  font-weight: bold;
+  font-weight: normal;
   background: #0B3B6B;
   border: #0B3B6B;
   color: white;
+	text-transform: uppercase;
 
 }
 
@@ -59,4 +60,30 @@ table caption {
   background: #0B3B6B;
   border: #0B3B6B;
   color: white;
+}
+
+#views-exposed-form-search-by-firm-master-search-by-firm-page select.form-select{
+	max-width: 100%;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page .js-form-item.form-item.js-form-type-select.form-type-select.js-form-item-field-vp-rate-firm-target-id-verf.form-item-field-vp-rate-firm-target-id-verf{
+	max-width: 40%;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page  .form-item{
+	max-width: 20%;
+	padding: .5em;
+   box-sizing: border-box;
+	margin: 0;
+	clear: none;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page div#edit-actions {
+	clear: none;
+}
+#views-exposed-form-search-by-firm-master-search-by-firm-page #edit-actions input {
+    margin-right: 0.6em;
+    margin-top: 3.2em;
+    margin-left: 20px;
+}
+
+#views-exposed-form-search-by-firm-master-search-by-firm-page select#edit-field-vp-rate-firm-target-id-verf {
+    height: 183px;
 }

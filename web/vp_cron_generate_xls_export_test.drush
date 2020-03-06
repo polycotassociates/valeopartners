@@ -17,13 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Drupal\user\Entity\User;
 
 
-$client = new \Memcache();
-$client->connect('localhost', 11211);
-$pool = new \Cache\Adapter\Memcache\MemcacheCachePool($client);
-$simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
-
-\PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
-
 // Announce what we're doing.
 \Drupal::logger('vp_api')->notice('Begin Export Script...');
 
@@ -35,6 +28,11 @@ _vp_api_generate_xls_sheet();
  */
 function _vp_api_generate_xls_query() {
 
+
+  $query_start_time = microtime(true);
+
+  \Drupal::logger('vp_api')->notice("Query begin...");
+
   // Connect to the database.
   $db = \Drupal::database();
   $db->query("SET SESSION sql_mode = ''")->execute();
@@ -45,11 +43,11 @@ function _vp_api_generate_xls_query() {
   $query->condition('node.type', 'vp_type_rate', '=');
 
   // Join Firm, Filing, Individual, Case to Rate.
-  $query->join('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
-  $query->join('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
-  $query->join('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
-  $query->join('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
-  $query->join('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
+  $query->leftjoin('node__field_vp_rate_firm', 'firm', 'node.nid = firm.entity_id');
+  $query->leftjoin('node__field_vp_rate_company', 'company', 'node.nid = company.entity_id');
+  $query->leftjoin('node__field_vp_rate_individual', 'individual', 'node.nid = individual.entity_id');
+  $query->leftjoin('node__field_vp_rate_filing', 'filing', 'node.nid = filing.entity_id');
+  $query->leftjoin('node__field_vp_filing_case', 'filing_case', 'filing_case.entity_id = filing.field_vp_rate_filing_target_id');
 
   // Joins for fields to query upon.
   $query->leftjoin('node__field_vp_rate_position', 'position', 'node.nid = position.entity_id');
@@ -118,13 +116,21 @@ function _vp_api_generate_xls_query() {
   $query->fields('nature_of_suit', ['field_vp_case_nature_of_suit_target_id']);
   $query->fields('industry', ['field_vp_company_industry_target_id']);
 
+
   // No limit for full download.
-  $query->range(0, 1000);
+  // $number = 10000;
+  // $query->range(0, $number);
 
   // Order by Transaction Amount Rate.
   $query->orderBy('primary_fee.field_vp_rate_primaryfee_calc_value', 'DESC')->orderBy('lname.field_vp_last_name_value', 'ASC');
 
-  return $query->execute()->fetchAll();
+  $results = $query->execute()->fetchAll();
+  $query_end_time = microtime(true);
+  $seconds = round($query_end_time - $query_start_time, 2);
+  $total = count($results);
+  \Drupal::logger('vp_api')->notice("Query of $total records completed in $seconds seconds");
+
+  return $results;
 
 }
 
@@ -133,11 +139,41 @@ function _vp_api_generate_xls_query() {
  */
 function _vp_api_generate_xls_sheet() {
 
-  $response = new Response();
-  $response->headers->set('Pragma', 'no-cache');
-  $response->headers->set('Expires', '0');
-  $response->headers->set('Content-Type', 'application/vnd.ms-excel');
-  $response->headers->set('Content-Disposition', "attachment; filename=Valeo_Full_Report.xlsx");
+  \Drupal::logger('vp_api')->notice('Preparing Spreadsheet...');
+
+  $spreadsheet_start_time = microtime(true);
+
+  // Check to see if there's a cache, if so, use it.
+
+  // if (class_exists('Redis')) {
+  //   $redis_host = 'cache'; // Redis name/ip here, e.g. 'localhost'.
+  //   $client = new \Redis();
+  //   $client->connect($redis_host, 6379);
+  //   $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
+  //   $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+  //   \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+  //   \Drupal::logger('vp_api')->notice('Redis initalized...');
+  // }
+
+  // else if (class_exists('Memcache')) {
+  //   $memcache_host = '127.0.0.1'; // Memcache name/ip here, e.g. 'localhost'.
+  //   $client = new \Memcache();
+  //   $client->connect($memcache_host, 11211);
+  //   $pool = new \Cache\Adapter\Memcache\MemcacheCachePool($client);
+  //   $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+  //   \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+  //   \Drupal::logger('vp_api')->notice('Memcache initalized...');
+  // }
+
+  // else {
+  //   \Drupal::logger('vp_api')->notice('Generating sheet with no cache...');
+  // }
+
+  // $response = new Response();
+  // $response->headers->set('Pragma', 'no-cache');
+  // $response->headers->set('Expires', '0');
+  // $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+  // $response->headers->set('Content-Disposition', "attachment; filename=Valeo_Full_Report_test.xlsx");
 
   $spreadsheet = new Spreadsheet();
 
@@ -280,6 +316,7 @@ function _vp_api_generate_xls_sheet() {
   $i = 2;
   // Query loop.
   $query = _vp_api_generate_xls_query();
+
   $total = count($query);
   \Drupal::logger('vp_api')->notice( $total . ' total records in export. Generating spreadsheet.');
 
@@ -291,27 +328,27 @@ function _vp_api_generate_xls_sheet() {
     // First Name.
     $worksheet->setCellValue('C' . $i, '' . $result->field_vp_first_name_value);
     // Firm.
-    $worksheet->setCellValue('D' . $i, '' . getNodeTitle($result->field_vp_rate_firm_target_id));
+    $worksheet->setCellValue('D' . $i, '' . $result->field_vp_rate_firm_target_id);
     // Position.
-    $worksheet->setCellValue('E' . $i, '' . getTermName($result->field_vp_rate_position_target_id));
+    $worksheet->setCellValue('E' . $i, '' . $result->field_vp_rate_position_target_id);
     // Client Name.
-    $worksheet->setCellValue('F' . $i, '' . getNodeTitle($result->field_vp_rate_company_target_id));
+    $worksheet->setCellValue('F' . $i, '' . $result->field_vp_rate_company_target_id);
     // Industry.
-    $worksheet->setCellValue('G' . $i, '' . getTermName($result->field_vp_company_industry_target_id));
+    $worksheet->setCellValue('G' . $i, '' . $result->field_vp_company_industry_target_id);
     // Practice Area 1.
-    $worksheet->setCellValue('H' . $i, '' . getTermName($result->field_vp_practice_area_1_target_id));
+    $worksheet->setCellValue('H' . $i, '' . $result->field_vp_practice_area_1_target_id);
     // Practice Area 2.
-    $worksheet->setCellValue('I' . $i, '' . getTermName($result->field_vp_practice_area_2_target_id));
+    $worksheet->setCellValue('I' . $i, '' . $result->field_vp_practice_area_2_target_id);
     // Practice Area 3.
-    $worksheet->setCellValue('J' . $i, '' . getTermName($result->field_vp_practice_area_3_target_id));
+    $worksheet->setCellValue('J' . $i, '' . $result->field_vp_practice_area_3_target_id);
     // Grad Year.
     $worksheet->setCellValue('K' . $i, $result->field_vp_graduation_value);
     // Bar Year.
     $worksheet->setCellValue('L' . $i, $result->field_vp_bar_date_value);
     // Bar State.
-    $worksheet->setCellValue('M' . $i, '' . getTermName($result->field_vp_state_bar_target_id));
+    $worksheet->setCellValue('M' . $i, '' . $result->field_vp_state_bar_target_id);
     // City.
-    $worksheet->setCellValue('N' . $i, '' . getTermName($result->field_vp_individual_location_target_id));
+    $worksheet->setCellValue('N' . $i, '' . $result->field_vp_individual_location_target_id);
     // Actual Rate.
     $worksheet->setCellValue('O' . $i, $result->field_vp_rate_hourly_value);
     $spreadsheet->getActiveSheet()->getStyle('O' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
@@ -338,26 +375,26 @@ function _vp_api_generate_xls_sheet() {
     $worksheet->setCellValue('W' . $i, $result->field_vp_rate_transactional_fee_value);
     $spreadsheet->getActiveSheet()->getStyle('W' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
     // Transaction Type.
-    $worksheet->setCellValue('X' . $i, '' . getTermName($result->field_vp_rate_transaction_type_target_id));
+    $worksheet->setCellValue('X' . $i, '' . $result->field_vp_rate_transaction_type_target_id);
     // Case Name.
-    $worksheet->setCellValue('Y' . $i, '' . getNodeTitle($result->field_vp_filing_case_target_id));
+    $worksheet->setCellValue('Y' . $i, '' . $result->field_vp_filing_case_target_id);
     // Case Number.
-    $worksheet->setCellValue('Z' . $i, '' . getCaseNumber($result->field_vp_filing_case_target_id));
+    $worksheet->setCellValue('Z' . $i, '' . $result->field_vp_filing_case_target_id);
     // Court.
-    $worksheet->setCellValue('AA' . $i, '' . getCaseCourt($result->field_vp_filing_case_target_id));
+    $worksheet->setCellValue('AA' . $i, '' . $result->field_vp_filing_case_target_id);
     // Date Filed.
-    $worksheet->setCellValue('AB' . $i, getFilingDate($result->field_vp_filing_case_target_id));
+    $worksheet->setCellValue('AB' . $i, $result->field_vp_filing_case_target_id);
     $spreadsheet->getActiveSheet()->getStyle('AB' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
     // Nature of Suit.
-    $worksheet->setCellValue('AC' . $i, '' . getNatureOfSuit($result->field_vp_filing_case_target_id));
+    $worksheet->setCellValue('AC' . $i, '' . $result->field_vp_filing_case_target_id);
     // Filing Name.
-    $worksheet->setCellValue('AD' . $i, '' . getNodeTitle($result->field_vp_rate_filing_target_id));
+    $worksheet->setCellValue('AD' . $i, '' . $result->field_vp_rate_filing_target_id);
     // Filing Description.
-    $worksheet->setCellValue('AE' . $i, '' . getFilingDescription($result->field_vp_rate_filing_target_id));
+    $worksheet->setCellValue('AE' . $i, '' . $result->field_vp_rate_filing_target_id);
     // Filing Number.
-    $worksheet->setCellValue('AF' . $i, '' . getFilingNumber($result->field_vp_rate_filing_target_id));
+    $worksheet->setCellValue('AF' . $i, '' . $result->field_vp_rate_filing_target_id);
     // Fee Date Range Begin.
-    $worksheet->setCellValue('AG' . $i, getFeeDateBegin($result->field_vp_rate_filing_target_id));
+    $worksheet->setCellValue('AG' . $i, $result->field_vp_rate_filing_target_id);
     $spreadsheet->getActiveSheet()->getStyle('AG' . $i)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
     // Fee Date Range End.
     $worksheet->setCellValue('AH' . $i, getFeeDateEnd($result->field_vp_rate_filing_target_id));
@@ -365,11 +402,15 @@ function _vp_api_generate_xls_sheet() {
     // Publication status.
     $worksheet->setCellValue('AI' . $i, $result->status ? 'Published' : 'Unpublished');
     // Author.
-    $worksheet->setCellValue('AJ' . $i, getUserName($result->uid));
+    $worksheet->setCellValue('AJ' . $i, $result->uid);
     // Created date.
-    $worksheet->setCellValue('AK' . $i, format_date($result->created, 'custom', 'Y-m-d'));
+    $worksheet->setCellValue('AK' . $i, format_date($result->created, 'custom', 'd-m-Y'));
 
     $i++;
+
+    // if ($i % 10000 === 0) {
+    //   ping_pantheon_heartbeat();
+    // }
 
   }
 
@@ -385,22 +426,26 @@ function _vp_api_generate_xls_sheet() {
   $private = \Drupal::service('file_system')->realpath("private://");
 
   // Delete the previous xlsx export.
-  if (file_exists($private . '/reports/Valeo_Full_Report.xlsx')) {
-    file_unmanaged_delete($private . '/reports/Valeo_Full_Report.xlsx');
+  if (file_exists($private . '/reports/Valeo_Full_Report_test.xlsx')) {
+    file_unmanaged_delete($private . '/reports/Valeo_Full_Report_test.xlsx');
   }
 
   // Save to private directory.
-  $writer->save($private . '/reports/Valeo_Full_Report.xlsx');
+  $writer->save($private . '/reports/Valeo_Full_Report_test.xlsx');
+  $spreadsheet_end_time = microtime(true);
   $content = ob_get_clean();
 
   // Memory cleanup.
   $spreadsheet->disconnectWorksheets();
   unset($spreadsheet);
 
+  $seconds = round($spreadsheet_end_time - $spreadsheet_start_time, 2);
+
   // Notice.
-  \Drupal::logger('vp_api')->notice('Spreadsheet saved to '. $private . '/reports/Valeo_Full_Report.xlsx');
-  $response->setContent($content);
-  return $response;
+  \Drupal::logger('vp_api')->notice('Spreadsheet saved to '. $private . '/reports/Valeo_Full_Report_test.xlsx');
+  \Drupal::logger('vp_api')->notice("Spreadsheet completed in $seconds seconds.");
+  // $response->setContent($content);
+  // return $response;
 }
 
   /**
@@ -462,7 +507,13 @@ function _vp_api_generate_xls_sheet() {
     $query = db_select('node__field_vp_case_date_filed', 'date_filed');
     $query->condition('date_filed.entity_id', $id, '=');
     $query->fields('date_filed', ['field_vp_case_date_filed_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -472,7 +523,13 @@ function _vp_api_generate_xls_sheet() {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_begin');
     $query->condition('date_begin.entity_id', $id, '=');
     $query->fields('date_begin', ['field_vp_filing_fee_dates_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
+
   }
 
   /**
@@ -482,7 +539,12 @@ function _vp_api_generate_xls_sheet() {
     $query = db_select('node__field_vp_filing_fee_dates', 'date_end');
     $query->condition('date_end.entity_id', $id, '=');
     $query->fields('date_end', ['field_vp_filing_fee_dates_end_value']);
-    return $query->execute()->fetchField();
+    $date = $query->execute()->fetchField();
+    if ($date) {
+      $timestamp = strtotime($date);
+      $formatted_date = \Drupal::service('date.formatter')->format($timestamp, 'custom', 'm-d-Y');
+      return $formatted_date;
+    }
   }
 
   /**
@@ -543,3 +605,15 @@ function _vp_api_generate_xls_sheet() {
     $name = $account->getUsername();
     return $name;
   }
+
+  /**
+   * Get Term Name Query.
+   */
+  function ping_pantheon_heartbeat() {
+    $query = db_select('_pantheon_heartbeat', 'heartbeat');
+    $query->fields('heartbeat', ['time']);
+    $time = $query->execute()->fetchField();
+    return $time;
+  }
+
+

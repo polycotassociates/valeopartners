@@ -21,7 +21,8 @@ delete.
 REQUIREMENTS
 ------------
 
-Entity Activity requires the Token module, and the Core module Text.
+Entity Activity requires the Token module, and the Core modules Text and
+Serialization.
 
 SIMILAR MODULES
 -------------------
@@ -115,6 +116,110 @@ This module ship with some useful widgets :
       Log entity type.
   * A Views area Plugin which provide a button which allow to mark all the
       unread logs as read. Only on views based on the Log entity type of course.
+
+List subscriptions per entity
+  On each content entity enable for Entity Activity, this module a Local Task
+  named "Subscribers" on their canonical route. This allows users with relevant
+  permissions ("view entities subscribers" or "view entities subscribers on
+  editable entities") to see per entity all the subscriptions related.
+
+  The default list use the view mode "default" to render subscriptions. You can
+  change this default view mode by another with a setting in the settings.php
+  file.
+
+  @code
+  $settings['entity_activity']['list_subscribers_view_mode'] = 'VIEW_MODE_ID';
+  @endcode
+
+  You can of course override the twig template in your theme and customize the
+  listing as you need. All subscriptions entities are available as variable.
+
+
+MAIL DIGEST FEATURE
+
+Since the beta8 version, the module ships a new sub module Entity Activity Mail.
+A blog post introduces this feature.
+
+Entity activity Mail allow to configure, generate and send by mail a report of
+logs according a frequency a user can configure from its profile. In others
+words, this module provide a Mail Digest Feature for the Entity Activity module.
+
+All the configuration happens under
+/admin/config/content/entity-activity/mail-settings.
+
+
+General settings:
+  * You can enable / disable sending logs report by mail.
+  * You can configure to only send by mail the unread logs. Otherwise all logs
+  not already sent will be included into the report.
+  * You can configure to mark as read the logs sent by mail.
+  * Configure the time the cron will run every day. Because cron jobs can be
+  costly in performance, tt is highly recommended to configure the site cron at
+  least every hour, and to run the cron from your server.
+  * You can log any report sent with the corresponding option.
+
+Mail settings
+ You can configure the following options for the emails sent.
+  * The mail from used (default to site mail if empty)
+  * A body (token supported for the user entity) displayed above the logs
+  included into the report
+  * A footer (token supported for the user entity) displayed below the logs
+  included into the report
+
+  This settings can be translated. The user's preferred language will be used to
+  render the mail.
+
+  You should consider to install the Swiftmailer module to send logs report with
+  HTML mail. Otherwise logs report mails will be sent as plain text.
+
+Theming
+
+  You can override the template used to render the logs template. An array of
+  all the log entities included in the report is available in the template,
+  giving you the possibility to fully customize the report rendering.
+  A renderable array of the log entities (rendered in the view mode mail, added
+  by this module) is also included in the template (used as the default).
+
+
+Permissions
+
+  Configure the permissions provided by the module to allow users to configure Entity Activity Mail
+  Usage
+
+Frequency
+
+  Users must select a frequency from their profile. If none frequency is
+  selected, the user will not receive any logs report by mail. The user can
+  choose as frequency :
+
+    *Immediately : An email is sent for each log created for the user
+    *Daily : A daily report will be sent to the user.
+    *Weekly : A weekly report will be sent to the user.
+    *Monthly : A monthly report will be sent to the user.
+
+
+MASS SUBSCRIBE FEATURE
+
+Since the beta12 version, the module ships a new sub module Entity Activity Mass
+Subscribe.
+
+This module allow users with relevant permissions ("mass subscribe users" or "mass
+subscribe users on editable entities") to access for each content entity, on
+their canonical page, to a local task named "Mass subscribe".
+
+This local task permit to mass subscribe users to this related entity following
+three methods :
+
+  * per role
+  * per user (selecting one or more users with an entity reference field)
+  * per list (selecting users in a table select filterable)
+
+Each method has it own permission, so you can give access to mass subscribe per
+role and per method.
+
+Also, as you can mass subscribe users on an entity, a reverse option is
+available on the form, allowing you to mass *unsubscribe* users from the entity.
+
 
 TROUBLESHOOTING
 ---------------

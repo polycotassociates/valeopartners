@@ -66,6 +66,7 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
 
     case 'saved_search_detail_block':
     case 'saved_search_summary_block':
+    case 'saved_search_detail_page':
       /*
        * Set arguments to the view equal to
        * whatever is selected in the saved search node
@@ -119,6 +120,8 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           }
 
           $grad_date_from = [];
+          $grad_date_to = [];
+          $grad_range = [];
           if ($grad_date_from = $node->get('field_vp_search_grad_date')->getValue()) {
             $grad_date_from = $node->get('field_vp_search_grad_date')->getValue()[0]['from'];
             $grad_date_to = $node->get('field_vp_search_grad_date')->getValue()[0]['to'];
@@ -128,7 +131,9 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
             $grad_range = range($grad_date_from, $grad_date_to);
           }
 
-          $partner_date_from = [];
+          $partner_date_from = FALSE;
+          $partner_date_to = FALSE;
+          $partner_range = [];
           if ($node->get('field_vp_search_partner_year')->getValue()) {
             $partner_date_from = $node->get('field_vp_search_partner_year')->getValue()[0]['from'];
             $partner_date_to = $node->get('field_vp_search_partner_year')->getValue()[0]['to'];
@@ -139,6 +144,8 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           }
 
           $bar_date_from = [];
+          $bar_date_to = [];
+          $bar_range = [];
           if ($node->get('field_vp_search_bar_year')->getValue()) {
             $bar_date_from = $node->get('field_vp_search_bar_year')->getValue()[0]['from'];
             $bar_date_to = $node->get('field_vp_search_bar_year')->getValue()[0]['to'];
@@ -150,6 +157,8 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
 
           $rate_date_from = [];
           $rate_range = [];
+          $rate_date_from = FALSE;
+          $rate_date_to = FALSE;
           if ($node->get('field_vp_search_rate_year')->getValue()) {
             $rate_date_from = $node->get('field_vp_search_rate_year')->getValue()[0]['from'];
             $rate_date_to = $node->get('field_vp_search_rate_year')->getValue()[0]['to'];
@@ -167,9 +176,31 @@ function vp_views_views_pre_view(ViewExecutable $view, $display_id, array &$args
           $args[5] = $grad_date_from ? implode(",", $grad_range) : 'all';
           $args[6] = $partner_date_from ? implode(",", $partner_range) : 'all';
           $args[7] = $bar_date_from ? implode(",", $bar_range) : 'all';
-          $args[8] = $rate_range ? implode("+", $rate_range) : 'all';
+          $args[8] = $rate_range ? "$rate_date_from--$rate_date_to" : 'all';
+
+
+
+
+          $exposed_filters['field_vp_rate_firm_target_id_verf'] = $firms;
+          $exposed_filters['term_node_tid_depth_location'] = $cities;
+          $exposed_filters['term_node_tid_depth_position'] = $positions;
+          $exposed_filters['field_partner_date_value']['min'] = $partner_date_from;
+          $exposed_filters['field_partner_date_value']['max'] = $partner_date_to;
+          $exposed_filters['field_vp_graduation_value']['min'] = $grad_date_from;
+          $exposed_filters['field_vp_graduation_value']['max'] = $grad_date_to;
+          $exposed_filters['field_vp_bar_date_value']['min'] = $bar_date_from;
+          $exposed_filters['field_vp_bar_date_value']['max'] = $bar_date_to;
+          $exposed_filters['field_vp_filing_fee_dates_value_min'] = $rate_date_from;
+          $exposed_filters['field_vp_filing_fee_dates_value_max'] = $rate_date_to;
+          $exposed_filters['field_vp_practice_area_1_target_id'] = $practice_areas;
+          $exposed_filters['field_vp_practice_area_2_target_id'] = $practice_areas;
+          $exposed_filters['field_vp_practice_area_3_target_id'] = $practice_areas;
+          $exposed_filters['field_vp_company_industry_target_id'] = $industries;
+
+          $view->setExposedInput($exposed_filters);
 
         }
+
       }
 
       break;

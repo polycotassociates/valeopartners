@@ -1,45 +1,23 @@
 <?php
 
 /**
- * Update the database.
+ * Increase the precision of "field_vp_rate_discount_value" to 4.
+ *
+ * Increase the number of decimals in fees to 14.
  */
-// function vp_api_update_8006() {
+function vp_api_update_8007() {
 
-//   /*
-//    * Increase the precision of "field_vp_rate_discount_value" to 4.
-//    *
-//    * Increase the number of decimals in fees to 14.
-//    */
+  module_load_include('inc', 'vp_api', 'inc/update_field_discount_to_10_4');
+  module_load_include('inc', 'vp_api', 'inc/update_field_fees_to_14_2');
+  module_load_include('inc', 'vp_api', 'inc/update_field_transaction_amount_14_2');
 
-//   module_load_include('inc', 'vp_api', 'inc/update_field_discount_to_10_4');
-//   module_load_include('inc', 'vp_api', 'inc/update_field_fees_to_14_2');
-//   module_load_include('inc', 'vp_api', 'inc/update_field_transaction_amount_14_2');
+}
 
-// }
+/**
+ * Drop unused migration tables.
+ */
+function vp_api_update_8008() {
 
-// /**
-//  * Drop completed migrate_% db tables
-//  */
-// function vp_api_update_8007(&$sandbox) {
-//   // Get table list
-//   $result = db_query("SHOW TABLES LIKE :table", [':table' => 'migrate_%']);
-//   // Init drop counter
-//   $count = 0;
-//   // Iterate and drop matched table
-//   foreach ($result as $row) {
-//     // Get table name from row data
-//     $data = array_values((array)$row);
-//     $table_name = $data[0];
-//     // Validate table name again
-//     if (strpos($table_name, 'migrate_') === 0) {
-//       // Drop the table
-//       db_drop_table($table_name);
-//       // Increment drop counter
-//       $count++;
-//       // Log dropped table
-//       \Drupal::logger('my_module')->info('Dropped table: @table', ['@table' => $table_name]);
-//     }
-//   }
-//   // Log total dropped table count
-//   \Drupal::logger('my_module')->info('Dropped @count tables', ['@count' => $count]);
+  module_load_include('inc', 'vp_api', 'inc/drop_unused_migration_tables');
+
 }

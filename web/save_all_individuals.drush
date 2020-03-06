@@ -1,0 +1,34 @@
+#!/usr/local/bin/drush
+
+<?php
+ini_set('max_execution_time', 9999999);
+use Drupal\node\Entity\Node;
+use Drupal\Core\Database\Database;
+
+Database::setActiveConnection('pantheon');
+$database = Database::getConnection();
+
+$query = $database->query("SELECT nid FROM node_field_data WHERE type='vp_type_individual' ORDER BY 'created' DESC");
+
+$ids = $query->fetchCol();
+$total = count($ids);
+
+foreach ($ids as $nid) {
+
+    $node = Node::load($nid);
+    $node->set('field_most_recent_position', '');
+    $node->save();
+    drush_print("Node $nid saved, $total to go");
+    $total--;
+}
+
+// /**
+//  * Get the node ids for a particular type.
+//  */
+//  function getEntityIds($type) {
+//     $bundle = $type;
+//     $query = \Drupal::entityQuery('node');
+//     $query->condition('type', $bundle);
+//     $entity_ids = $query->execute();
+//     return $entity_ids;
+// }

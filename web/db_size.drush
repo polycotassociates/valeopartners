@@ -1,0 +1,25 @@
+#!/usr/local/bin/drush
+
+<?php
+
+ini_set('max_execution_time', 9999999);
+ini_set('memory_limit', '16384M');
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Database\Database;
+
+
+//SELECT table_name AS "Table",  ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"  FROM information_schema.TABLES  WHERE table_schema = "pantheon"  ORDER BY (data_length + index_length) DESC;
+
+$query = $database->query('SELECT table_name AS "Table",
+                           ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"
+                           FROM information_schema.TABLES
+                           WHERE table_schema = "pantheon"
+                           ORDER BY (data_length + index_length) DESC');
+
+
+$results = $query->fetchAll();
+

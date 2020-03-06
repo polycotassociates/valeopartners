@@ -41,7 +41,7 @@ dependencies:
 id: search_by_firm
 label: 'Search By Firm'
 module: views
-description: 'Master Search (Rates and Fees) by Firm'
+description: 'Master Search by Firm'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -63,8 +63,12 @@ display:
             pilot_account: pilot_account
             fee_search_add_on: fee_search_add_on
       cache:
-        type: tag
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 3600
+          results_lifespan_custom: 0
+          output_lifespan: 3600
+          output_lifespan_custom: 0
       query:
         type: views_query
         options:

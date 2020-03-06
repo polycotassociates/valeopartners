@@ -1,0 +1,10 @@
+--- profiles/demo_umami/config/install/core.entity_form_display.node.page.default.yml
++++ profiles/demo_umami/config/install/core.entity_form_display.node.page.default.yml
+@@ -76,6 +76,7 @@ content:
+     region: content
+     settings:
+       match_operator: CONTAINS
++      match_limit: 10
+       size: 60
+       placeholder: ''
+     third_party_settings: {  }
