@@ -20,6 +20,7 @@ module:
   content_access: 0
   content_moderation: 0
   contextual: 0
+  contextual_range_filter: 0
   csv_importer: 0
   csv_serialization: 0
   ctools: 0
@@ -52,8 +53,6 @@ module:
   layout_discovery: 0
   link: 0
   mailsystem: 0
-  memcache: 0
-  memcache_admin: 0
   menu_token: 0
   menu_ui: 0
   migrate: 0
@@ -68,6 +67,7 @@ module:
   paragraphs_library: 0
   paragraphs_type_permissions: 0
   path: 0
+  path_alias: 0
   printfriendly: 0
   quickedit: 0
   range: 0
@@ -93,6 +93,7 @@ module:
   twig_tweak: 0
   typed_data: 0
   ultimate_cron: 0
+  unique_field_ajax: 0
   update: 0
   user: 0
   vefl_bef: 0

@@ -32,6 +32,7 @@ dependencies:
     - field.field.node.vp_type_individual.field_2030_actual_rate
     - field.field.node.vp_type_individual.field_2030_standard_rate
     - field.field.node.vp_type_individual.field_actual_rate_by_year
+    - field.field.node.vp_type_individual.field_most_recent_client
     - field.field.node.vp_type_individual.field_most_recent_firm
     - field.field.node.vp_type_individual.field_most_recent_position
     - field.field.node.vp_type_individual.field_standard_rate_by_year
@@ -51,7 +52,6 @@ dependencies:
     - field.field.node.vp_type_individual.field_vp_state_bar
     - node.type.vp_type_individual
   module:
-    - computed_field
     - entity_reference_revisions
     - field_group
     - user
@@ -62,7 +62,7 @@ third_party_settings:
       children:
         - field_vp_employment_history
       parent_name: ''
-      weight: 13
+      weight: 15
       format_type: fieldset
       format_settings:
         description: ''
@@ -75,295 +75,17 @@ targetEntityType: node
 bundle: vp_type_individual
 mode: default
 content:
-  field_2020_actual_rate:
-    weight: 15
-    label: above
+  field_most_recent_client:
+    weight: 14
+    label: inline
     settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
+      link: true
     third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2020_standard_rate:
-    weight: 26
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2021_actual_rate:
-    weight: 16
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2021_standard_rate:
-    weight: 27
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2022_actual_rate:
-    weight: 17
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2022_standard_rate:
-    weight: 28
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2023_actual_rate:
-    weight: 18
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2023_standard_rate:
-    weight: 29
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2024_actual_rate:
-    weight: 19
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2024_standard_rate:
-    weight: 30
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2025_actual_rate:
-    weight: 20
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2025_standard_rate:
-    weight: 31
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2026_actual_rate:
-    weight: 21
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2026_standard_rate:
-    weight: 32
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2027_actual_rate:
-    weight: 22
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2027_standard_rate:
-    weight: 33
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2028_actual_rate:
-    weight: 23
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2028_standard_rate:
-    weight: 34
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2029_actual_rate:
-    weight: 24
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2029_standard_rate:
-    weight: 35
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2030_actual_rate:
-    weight: 25
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
-    region: content
-  field_2030_standard_rate:
-    weight: 36
-    label: above
-    settings:
-      cache_unit: -1
-      cache_duration: 1
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: computed_decimal
+    type: entity_reference_label
     region: content
   field_most_recent_firm:
     type: entity_reference_label
-    weight: 12
+    weight: 13
     region: content
     label: inline
     settings:
@@ -439,6 +161,14 @@ content:
     third_party_settings: {  }
     type: string
     region: content
+  field_vp_position:
+    type: entity_reference_label
+    weight: 12
+    region: content
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
   field_vp_practice_area_1:
     weight: 5
     label: inline
@@ -481,9 +211,30 @@ hidden:
   field_2018_standard_rate: true
   field_2019_actual_rate: true
   field_2019_standard_rate: true
+  field_2020_actual_rate: true
+  field_2020_standard_rate: true
+  field_2021_actual_rate: true
+  field_2021_standard_rate: true
+  field_2022_actual_rate: true
+  field_2022_standard_rate: true
+  field_2023_actual_rate: true
+  field_2023_standard_rate: true
+  field_2024_actual_rate: true
+  field_2024_standard_rate: true
+  field_2025_actual_rate: true
+  field_2025_standard_rate: true
+  field_2026_actual_rate: true
+  field_2026_standard_rate: true
+  field_2027_actual_rate: true
+  field_2027_standard_rate: true
+  field_2028_actual_rate: true
+  field_2028_standard_rate: true
+  field_2029_actual_rate: true
+  field_2029_standard_rate: true
+  field_2030_actual_rate: true
+  field_2030_standard_rate: true
   field_actual_rate_by_year: true
   field_most_recent_position: true
   field_standard_rate_by_year: true
-  field_vp_position: true
   links: true
   published_at: true

@@ -1,0 +1,4 @@
+date_field_names:
+  'node__field_vp_filing_fee_dates:field_vp_filing_fee_dates_end_value_year': 'node__field_vp_filing_fee_dates:field_vp_filing_fee_dates_end_value_year'
+numeric_field_names:
+  'node__field_vp_filing_year_end:field_vp_filing_year_end_value': 'node__field_vp_filing_year_end:field_vp_filing_year_end_value'

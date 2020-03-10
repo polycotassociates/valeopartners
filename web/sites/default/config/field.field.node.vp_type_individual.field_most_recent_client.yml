@@ -1,11 +1,11 @@
-uuid: edc49e7e-f1d9-4be2-85b8-30fd2e791cef
+uuid: 1f7a9675-ac33-4114-955b-29bb60c82f3b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_vp_law_school
+    - field.storage.node.field_most_recent_client
+    - node.type.vp_type_company
     - node.type.vp_type_individual
-    - taxonomy.vocabulary.law_school
   module:
     - entityconnect
     - unique_field_ajax
@@ -22,24 +22,23 @@ third_party_settings:
     per_lang: 0
     use_ajax: 0
     message: ''
-id: node.vp_type_individual.field_vp_law_school
-field_name: field_vp_law_school
+id: node.vp_type_individual.field_most_recent_client
+field_name: field_most_recent_client
 entity_type: node
 bundle: vp_type_individual
-label: 'Law School'
+label: 'Most Recent Client'
 description: ''
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: 'default:node'
   handler_settings:
     target_bundles:
-      law_school: law_school
+      vp_type_company: vp_type_company
     sort:
-      field: name
-      direction: asc
+      field: _none
     auto_create: false
     auto_create_bundle: ''
 field_type: entity_reference

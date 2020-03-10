@@ -4,6 +4,39 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.vp_type_individual.field_2017_actual_rate
+    - field.field.node.vp_type_individual.field_2017_standard_rate
+    - field.field.node.vp_type_individual.field_2018_actual_rate
+    - field.field.node.vp_type_individual.field_2018_standard_rate
+    - field.field.node.vp_type_individual.field_2019_actual_rate
+    - field.field.node.vp_type_individual.field_2019_standard_rate
+    - field.field.node.vp_type_individual.field_2020_actual_rate
+    - field.field.node.vp_type_individual.field_2020_standard_rate
+    - field.field.node.vp_type_individual.field_2021_actual_rate
+    - field.field.node.vp_type_individual.field_2021_standard_rate
+    - field.field.node.vp_type_individual.field_2022_actual_rate
+    - field.field.node.vp_type_individual.field_2022_standard_rate
+    - field.field.node.vp_type_individual.field_2023_actual_rate
+    - field.field.node.vp_type_individual.field_2023_standard_rate
+    - field.field.node.vp_type_individual.field_2024_actual_rate
+    - field.field.node.vp_type_individual.field_2024_standard_rate
+    - field.field.node.vp_type_individual.field_2025_actual_rate
+    - field.field.node.vp_type_individual.field_2025_standard_rate
+    - field.field.node.vp_type_individual.field_2026_actual_rate
+    - field.field.node.vp_type_individual.field_2026_standard_rate
+    - field.field.node.vp_type_individual.field_2027_actual_rate
+    - field.field.node.vp_type_individual.field_2027_standard_rate
+    - field.field.node.vp_type_individual.field_2028_actual_rate
+    - field.field.node.vp_type_individual.field_2028_standard_rate
+    - field.field.node.vp_type_individual.field_2029_actual_rate
+    - field.field.node.vp_type_individual.field_2029_standard_rate
+    - field.field.node.vp_type_individual.field_2030_actual_rate
+    - field.field.node.vp_type_individual.field_2030_standard_rate
+    - field.field.node.vp_type_individual.field_actual_rate_by_year
+    - field.field.node.vp_type_individual.field_most_recent_client
+    - field.field.node.vp_type_individual.field_most_recent_firm
+    - field.field.node.vp_type_individual.field_most_recent_position
+    - field.field.node.vp_type_individual.field_standard_rate_by_year
     - field.field.node.vp_type_individual.field_vp_bar_date
     - field.field.node.vp_type_individual.field_vp_email
     - field.field.node.vp_type_individual.field_vp_employment_history
@@ -32,7 +65,38 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_2017_actual_rate: true
+  field_2017_standard_rate: true
+  field_2018_actual_rate: true
+  field_2018_standard_rate: true
+  field_2019_actual_rate: true
+  field_2019_standard_rate: true
+  field_2020_actual_rate: true
+  field_2020_standard_rate: true
+  field_2021_actual_rate: true
+  field_2021_standard_rate: true
+  field_2022_actual_rate: true
+  field_2022_standard_rate: true
+  field_2023_actual_rate: true
+  field_2023_standard_rate: true
+  field_2024_actual_rate: true
+  field_2024_standard_rate: true
+  field_2025_actual_rate: true
+  field_2025_standard_rate: true
+  field_2026_actual_rate: true
+  field_2026_standard_rate: true
+  field_2027_actual_rate: true
+  field_2027_standard_rate: true
+  field_2028_actual_rate: true
+  field_2028_standard_rate: true
+  field_2029_actual_rate: true
+  field_2029_standard_rate: true
+  field_2030_actual_rate: true
+  field_2030_standard_rate: true
   field_actual_rate_by_year: true
+  field_most_recent_client: true
+  field_most_recent_firm: true
+  field_most_recent_position: true
   field_standard_rate_by_year: true
   field_vp_bar_date: true
   field_vp_email: true

@@ -32,6 +32,7 @@ dependencies:
     - field.field.node.vp_type_individual.field_2030_actual_rate
     - field.field.node.vp_type_individual.field_2030_standard_rate
     - field.field.node.vp_type_individual.field_actual_rate_by_year
+    - field.field.node.vp_type_individual.field_most_recent_client
     - field.field.node.vp_type_individual.field_most_recent_firm
     - field.field.node.vp_type_individual.field_most_recent_position
     - field.field.node.vp_type_individual.field_standard_rate_by_year
@@ -97,142 +98,136 @@ content:
     type: computed_number_widget
     region: content
   field_2020_actual_rate:
-    weight: 26
+    weight: 21
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
   field_2020_standard_rate:
-    weight: 37
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2021_actual_rate:
-    weight: 27
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2021_standard_rate:
-    weight: 38
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2022_actual_rate:
-    weight: 28
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2022_standard_rate:
-    weight: 39
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2023_actual_rate:
-    weight: 29
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2023_standard_rate:
-    weight: 40
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2024_actual_rate:
-    weight: 30
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2024_standard_rate:
-    weight: 41
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2025_actual_rate:
-    weight: 31
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2025_standard_rate:
-    weight: 42
-    settings: {  }
-    third_party_settings: {  }
-    type: computed_number_widget
-    region: content
-  field_2026_actual_rate:
     weight: 32
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2026_standard_rate:
-    weight: 43
+  field_2021_actual_rate:
+    weight: 22
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2027_actual_rate:
+  field_2021_standard_rate:
     weight: 33
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2027_standard_rate:
-    weight: 44
+  field_2022_actual_rate:
+    weight: 23
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2028_actual_rate:
+  field_2022_standard_rate:
     weight: 34
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2028_standard_rate:
-    weight: 45
+  field_2023_actual_rate:
+    weight: 24
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2029_actual_rate:
+  field_2023_standard_rate:
     weight: 35
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2029_standard_rate:
-    weight: 46
+  field_2024_actual_rate:
+    weight: 25
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2030_actual_rate:
+  field_2024_standard_rate:
     weight: 36
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_2030_standard_rate:
-    weight: 47
+  field_2025_actual_rate:
+    weight: 26
     settings: {  }
     third_party_settings: {  }
     type: computed_number_widget
     region: content
-  field_most_recent_position:
-    weight: 21
+  field_2025_standard_rate:
+    weight: 37
     settings: {  }
     third_party_settings: {  }
-    type: computed_string_widget
+    type: computed_number_widget
+    region: content
+  field_2026_actual_rate:
+    weight: 27
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2026_standard_rate:
+    weight: 38
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2027_actual_rate:
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2027_standard_rate:
+    weight: 39
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2028_actual_rate:
+    weight: 29
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2028_standard_rate:
+    weight: 40
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2029_actual_rate:
+    weight: 30
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2029_standard_rate:
+    weight: 41
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2030_actual_rate:
+    weight: 31
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  field_2030_standard_rate:
+    weight: 42
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
     region: content
   field_vp_bar_date:
     weight: 12
@@ -352,7 +347,9 @@ content:
 hidden:
   created: true
   field_actual_rate_by_year: true
+  field_most_recent_client: true
   field_most_recent_firm: true
+  field_most_recent_position: true
   field_standard_rate_by_year: true
   field_vp_position: true
   path: true

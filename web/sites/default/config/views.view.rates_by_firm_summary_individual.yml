@@ -9,6 +9,9 @@ dependencies:
     - field.storage.node.field_2018_standard_rate
     - field.storage.node.field_2019_actual_rate
     - field.storage.node.field_2019_standard_rate
+    - field.storage.node.field_2020_actual_rate
+    - field.storage.node.field_2020_standard_rate
+    - field.storage.node.field_most_recent_firm
     - field.storage.node.field_most_recent_position
     - field.storage.node.field_vp_bar_date
     - field.storage.node.field_vp_first_name
@@ -16,12 +19,11 @@ dependencies:
     - field.storage.node.field_vp_individual_location
     - field.storage.node.field_vp_last_name
     - field.storage.node.field_vp_middle_name
+    - field.storage.node.field_vp_position
     - field.storage.node.field_vp_practice_area_1
     - field.storage.node.field_vp_practice_area_2
     - field.storage.node.field_vp_practice_area_3
-    - field.storage.node.field_vp_rate_position
     - field.storage.node.field_vp_state_bar
-    - field.storage.paragraph.field_firm
     - node.type.vp_type_individual
     - system.menu.rate-afa-searches
     - taxonomy.vocabulary.city
@@ -50,7 +52,6 @@ description: 'Rates By Firm - Summary'
 tag: ''
 base_table: node_field_data
 base_field: nid
-core: 8.x
 display:
   default:
     display_plugin: default
@@ -67,12 +68,8 @@ display:
             superuser: superuser
             data_entry: data_entry
       cache:
-        type: time
-        options:
-          results_lifespan: 3600
-          results_lifespan_custom: 0
-          output_lifespan: 3600
-          output_lifespan_custom: 0
+        type: none
+        options: {  }
       query:
         type: views_query
         options:
@@ -124,9 +121,10 @@ display:
           summary: ''
           description: ''
           columns:
+            view_node: view_node
             title: title
-            title_1: title_1
-            field_most_recent_position: field_most_recent_position
+            field_most_recent_firm: field_most_recent_firm
+            field_vp_position: field_vp_position
             field_vp_individual_location: field_vp_individual_location
             field_vp_practice_area_1: field_vp_practice_area_1
             field_vp_practice_area_2: field_vp_practice_area_2
@@ -134,13 +132,20 @@ display:
             field_vp_graduation: field_vp_graduation
             field_vp_state_bar: field_vp_state_bar
             field_vp_bar_date: field_vp_bar_date
+            field_2020_actual_rate: field_2020_actual_rate
+            field_2020_standard_rate: field_2020_standard_rate
             field_2019_actual_rate: field_2019_actual_rate
             field_2019_standard_rate: field_2019_standard_rate
             field_2018_actual_rate: field_2018_actual_rate
             field_2018_standard_rate: field_2018_standard_rate
-            field_2017_actual_rate: field_2017_actual_rate
-            field_2017_standard_rate: field_2017_standard_rate
           info:
+            view_node:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             title:
               sortable: true
               default_sort_order: asc
@@ -148,15 +153,15 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            title_1:
-              sortable: true
+            field_most_recent_firm:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_most_recent_position:
-              sortable: true
+            field_vp_position:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
@@ -211,6 +216,20 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            field_2020_actual_rate:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_2020_standard_rate:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             field_2019_actual_rate:
               sortable: true
               default_sort_order: desc
@@ -233,20 +252,6 @@ display:
               empty_column: false
               responsive: ''
             field_2018_standard_rate:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_2017_actual_rate:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_2017_standard_rate:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -323,11 +328,11 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-        field_firm:
-          id: field_firm
-          table: paragraph__field_firm
-          field: field_firm
-          relationship: field_vp_employment_history
+        field_most_recent_firm:
+          id: field_most_recent_firm
+          table: node__field_most_recent_firm
+          field: field_most_recent_firm
+          relationship: none
           group_type: group
           admin_label: ''
           label: Firm
@@ -386,11 +391,11 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_vp_rate_position:
-          id: field_vp_rate_position
-          table: node__field_vp_rate_position
-          field: field_vp_rate_position
-          relationship: reverse__node__field_vp_rate_individual
+        field_vp_position:
+          id: field_vp_position
+          table: node__field_vp_position
+          field: field_vp_position
+          relationship: none
           group_type: group
           admin_label: ''
           label: Position
@@ -888,6 +893,142 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_2020_actual_rate:
+          id: field_2020_actual_rate
+          table: node__field_2020_actual_rate
+          field: field_2020_actual_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2020 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2020_standard_rate:
+          id: field_2020_standard_rate
+          table: node__field_2020_standard_rate
+          field: field_2020_standard_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2020 Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         field_2019_actual_rate:
           id: field_2019_actual_rate
           table: node__field_2019_actual_rate
@@ -1160,142 +1301,6 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_2017_actual_rate:
-          id: field_2017_actual_rate
-          table: node__field_2017_actual_rate
-          field: field_2017_actual_rate
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: '2017 Actual Rate'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: computed_decimal
-          settings:
-            cache_unit: '-1'
-            cache_duration: '1'
-            thousand_separator: ''
-            prefix_suffix: 1
-            decimal_separator: .
-            scale: '2'
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_2017_standard_rate:
-          id: field_2017_standard_rate
-          table: node__field_2017_standard_rate
-          field: field_2017_standard_rate
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: '2017 Standard Rate'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: computed_decimal
-          settings:
-            cache_unit: '-1'
-            cache_duration: '1'
-            thousand_separator: ''
-            prefix_suffix: 1
-            decimal_separator: .
-            scale: '2'
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
       filters:
         status:
           value: '1'
@@ -1307,6 +1312,8 @@ display:
           id: status
           expose:
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
           group: 1
         type:
           id: type
@@ -1318,6 +1325,9 @@ display:
           entity_field: type
           plugin_id: bundle
           group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
         title:
           id: title
           table: node_field_data
@@ -1342,6 +1352,8 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1357,11 +1369,11 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: string
-        field_firm_target_id_verf:
-          id: field_firm_target_id_verf
-          table: paragraph__field_firm
-          field: field_firm_target_id_verf
-          relationship: field_vp_employment_history
+        field_most_recent_firm_target_id_verf:
+          id: field_most_recent_firm_target_id_verf
+          table: node__field_most_recent_firm
+          field: field_most_recent_firm_target_id_verf
+          relationship: none
           group_type: group
           admin_label: ''
           operator: in
@@ -1369,12 +1381,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_firm_target_id_verf_op
+            operator_id: field_most_recent_firm_target_id_verf_op
             label: Firm
             description: ''
             use_operator: false
-            operator: field_firm_target_id_verf_op
-            identifier: field_firm_target_id_verf
+            operator: field_most_recent_firm_target_id_verf_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_most_recent_firm_target_id
             required: false
             remember: false
             multiple: true
@@ -1455,6 +1469,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1480,7 +1496,7 @@ display:
           id: term_node_tid_depth_1
           table: node_field_data
           field: term_node_tid_depth
-          relationship: reverse__node__field_vp_rate_individual
+          relationship: none
           group_type: group
           admin_label: ''
           operator: or
@@ -1493,6 +1509,8 @@ display:
             description: ''
             use_operator: false
             operator: term_node_tid_depth_1_op
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: term_node_tid_depth_position
             required: false
             remember: false
@@ -1576,6 +1594,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1631,6 +1651,52 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
+        field_2020_actual_rate_value:
+          id: field_2020_actual_rate_value
+          table: node__field_2020_actual_rate
+          field: field_2020_actual_rate_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '>='
+          value:
+            min: ''
+            max: ''
+            value: '0.01'
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -1673,6 +1739,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1715,48 +1783,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: numeric
-        field_2017_actual_rate_value:
-          id: field_2017_actual_rate_value
-          table: node__field_2017_actual_rate
-          field: field_2017_actual_rate_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: '>='
-          value:
-            min: ''
-            max: ''
-            value: '0.01'
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            placeholder: ''
-            min_placeholder: ''
-            max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1807,6 +1835,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1863,6 +1893,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1919,6 +1951,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -2036,21 +2070,21 @@ display:
         - 'user.node_grants:view'
         - user.roles
       tags:
-        - 'config:field.storage.node.field_2017_actual_rate'
-        - 'config:field.storage.node.field_2017_standard_rate'
         - 'config:field.storage.node.field_2018_actual_rate'
         - 'config:field.storage.node.field_2018_standard_rate'
         - 'config:field.storage.node.field_2019_actual_rate'
         - 'config:field.storage.node.field_2019_standard_rate'
+        - 'config:field.storage.node.field_2020_actual_rate'
+        - 'config:field.storage.node.field_2020_standard_rate'
+        - 'config:field.storage.node.field_most_recent_firm'
         - 'config:field.storage.node.field_vp_bar_date'
         - 'config:field.storage.node.field_vp_graduation'
         - 'config:field.storage.node.field_vp_individual_location'
+        - 'config:field.storage.node.field_vp_position'
         - 'config:field.storage.node.field_vp_practice_area_1'
         - 'config:field.storage.node.field_vp_practice_area_2'
         - 'config:field.storage.node.field_vp_practice_area_3'
-        - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
-        - 'config:field.storage.paragraph.field_firm'
         - 'config:views.view.rates_by_firm_summary_individual'
         - node_list
   data_export_xls:
@@ -3293,6 +3327,1100 @@ display:
         weight: -49
         context: '0'
         menu_name: rate-afa-searches
+      fields:
+        view_node:
+          id: view_node
+          table: node
+          field: view_node
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Link to Content'
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: view
+          output_url_as_text: true
+          absolute: false
+          entity_type: node
+          plugin_id: entity_link
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Name
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: false
+            ellipsis: false
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+        field_most_recent_firm:
+          id: field_most_recent_firm
+          table: node__field_most_recent_firm
+          field: field_most_recent_firm
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Firm
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_position:
+          id: field_vp_position
+          table: node__field_vp_position
+          field: field_vp_position
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Position
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_individual_location:
+          id: field_vp_individual_location
+          table: node__field_vp_individual_location
+          field: field_vp_individual_location
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: City
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_practice_area_1:
+          id: field_vp_practice_area_1
+          table: node__field_vp_practice_area_1
+          field: field_vp_practice_area_1
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Practice Area 1'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_practice_area_2:
+          id: field_vp_practice_area_2
+          table: node__field_vp_practice_area_2
+          field: field_vp_practice_area_2
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Practice Area 2'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_practice_area_3:
+          id: field_vp_practice_area_3
+          table: node__field_vp_practice_area_3
+          field: field_vp_practice_area_3
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Practice Area 3'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_graduation:
+          id: field_vp_graduation
+          table: node__field_vp_graduation
+          field: field_vp_graduation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Grad Year'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: yearonly_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_state_bar:
+          id: field_vp_state_bar
+          table: node__field_vp_state_bar
+          field: field_vp_state_bar
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Bar State'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_vp_bar_date:
+          id: field_vp_bar_date
+          table: node__field_vp_bar_date
+          field: field_vp_bar_date
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Bar Year'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: yearonly_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2020_actual_rate:
+          id: field_2020_actual_rate
+          table: node__field_2020_actual_rate
+          field: field_2020_actual_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2020 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2020_standard_rate:
+          id: field_2020_standard_rate
+          table: node__field_2020_standard_rate
+          field: field_2020_standard_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2020 Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2019_actual_rate:
+          id: field_2019_actual_rate
+          table: node__field_2019_actual_rate
+          field: field_2019_actual_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2019 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2019_standard_rate:
+          id: field_2019_standard_rate
+          table: node__field_2019_standard_rate
+          field: field_2019_standard_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2019 Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2018_actual_rate:
+          id: field_2018_actual_rate
+          table: node__field_2018_actual_rate
+          field: field_2018_actual_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2018 Actual Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_2018_standard_rate:
+          id: field_2018_standard_rate
+          table: node__field_2018_standard_rate
+          field: field_2018_standard_rate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: '2018 Standard Rate'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: true
+            path: '{{ view_node }}'
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: computed_decimal
+          settings:
+            cache_unit: '-1'
+            cache_duration: '1'
+            thousand_separator: ''
+            prefix_suffix: 1
+            decimal_separator: .
+            scale: '2'
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+      defaults:
+        fields: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -3304,20 +4432,20 @@ display:
         - 'user.node_grants:view'
         - user.roles
       tags:
-        - 'config:field.storage.node.field_2017_actual_rate'
-        - 'config:field.storage.node.field_2017_standard_rate'
         - 'config:field.storage.node.field_2018_actual_rate'
         - 'config:field.storage.node.field_2018_standard_rate'
         - 'config:field.storage.node.field_2019_actual_rate'
         - 'config:field.storage.node.field_2019_standard_rate'
+        - 'config:field.storage.node.field_2020_actual_rate'
+        - 'config:field.storage.node.field_2020_standard_rate'
+        - 'config:field.storage.node.field_most_recent_firm'
         - 'config:field.storage.node.field_vp_bar_date'
         - 'config:field.storage.node.field_vp_graduation'
         - 'config:field.storage.node.field_vp_individual_location'
+        - 'config:field.storage.node.field_vp_position'
         - 'config:field.storage.node.field_vp_practice_area_1'
         - 'config:field.storage.node.field_vp_practice_area_2'
         - 'config:field.storage.node.field_vp_practice_area_3'
-        - 'config:field.storage.node.field_vp_rate_position'
         - 'config:field.storage.node.field_vp_state_bar'
-        - 'config:field.storage.paragraph.field_firm'
         - 'config:views.view.rates_by_firm_summary_individual'
         - node_list

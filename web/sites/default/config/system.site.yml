@@ -1,11 +1,11 @@
 uuid: 78ee98a4-2a0c-4b43-87f8-d6b35131f5b2
 name: 'Valeo Partners'
-mail: aaron@polycotassociates.com
+mail: info@valeopartners.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node/3
+  front: /node/516711
 admin_compact_mode: false
 weight_select_max: 100
 langcode: en

@@ -45,7 +45,6 @@ description: 'Master Search by Firm'
 tag: ''
 base_table: node_field_data
 base_field: nid
-core: 8.x
 display:
   default:
     display_plugin: default
@@ -1286,6 +1285,8 @@ display:
           id: status
           expose:
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
           group: 1
         type:
           id: type
@@ -1297,6 +1298,9 @@ display:
           entity_field: type
           plugin_id: bundle
           group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
         field_vp_rate_firm_target_id_verf:
           id: field_vp_rate_firm_target_id_verf
           table: node__field_vp_rate_firm
@@ -1334,6 +1338,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: 0
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1394,6 +1400,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1452,6 +1460,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1515,6 +1525,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1570,6 +1582,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1626,6 +1640,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1663,6 +1679,8 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1715,6 +1733,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: 'Practice Area 1 (field_vp_practice_area_1)'
@@ -1774,6 +1794,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1830,6 +1852,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1854,6 +1878,9 @@ display:
           table: views
           field: combine
           plugin_id: combine
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
       sorts:
         field_vp_rate_hourly_value:
           id: field_vp_rate_hourly_value
@@ -3088,6 +3115,8 @@ display:
           id: status
           expose:
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
           group: 1
         type:
           id: type
@@ -3099,6 +3128,9 @@ display:
           entity_field: type
           plugin_id: bundle
           group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
         field_vp_rate_firm_target_id_verf:
           id: field_vp_rate_firm_target_id_verf
           table: node__field_vp_rate_firm
@@ -3136,6 +3168,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: 0
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3196,6 +3230,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3254,6 +3290,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3317,6 +3355,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3372,6 +3412,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3385,62 +3427,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: numeric
-        field_vp_filing_fee_dates_value:
-          id: field_vp_filing_fee_dates_value
-          table: node__field_vp_filing_fee_dates
-          field: field_vp_filing_fee_dates_value
-          relationship: field_vp_rate_filing
-          group_type: group
-          admin_label: ''
-          operator: between
-          value:
-            min: ''
-            max: ''
-            value: ''
-            type: date
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_vp_filing_fee_dates_value_op
-            label: 'Fee Date Range From'
-            description: ''
-            use_operator: false
-            operator: field_vp_filing_fee_dates_value_op
-            identifier: field_vp_filing_fee_dates_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              rate_report_user: '0'
-              superuser: '0'
-              pilot_account: '0'
-              data_entry: '0'
-              alerts_add_on: '0'
-              company_industry_add_on: '0'
-              full_database_download_add_on: '0'
-              firm_rate_profile_add_on: '0'
-              fee_search_add_on: '0'
-              nos_add_on: '0'
-              download_add_on: '0'
-            placeholder: ''
-            min_placeholder: ''
-            max_placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: datetime
         title:
           id: title
           table: node_field_data
@@ -3465,6 +3451,8 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3480,6 +3468,50 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: string
+        field_vp_rate_hourly_value:
+          id: field_vp_rate_hourly_value
+          table: node__field_vp_rate_hourly
+          field: field_vp_rate_hourly_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
         field_vp_practice_area_1_target_id:
           id: field_vp_practice_area_1_target_id
           table: node__field_vp_practice_area_1
@@ -3517,6 +3549,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3573,6 +3607,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3629,6 +3665,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -3648,6 +3686,120 @@ display:
           hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
+        field_vp_filing_year_value:
+          id: field_vp_filing_year_value
+          table: node__field_vp_filing_year
+          field: field_vp_filing_year_value
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          operator: '>='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_filing_year_value_op
+            label: 'Rate Year:<br>From date:'
+            description: ''
+            use_operator: false
+            operator: field_vp_filing_year_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_vp_filing_fee_dates_value_min
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
+        field_vp_filing_year_end_value_1:
+          id: field_vp_filing_year_end_value_1
+          table: node__field_vp_filing_year_end
+          field: field_vp_filing_year_end_value
+          relationship: field_vp_rate_filing
+          group_type: group
+          admin_label: ''
+          operator: '<='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_vp_filing_year_end_value_1_op
+            label: '<br>To Date:'
+            description: ''
+            use_operator: false
+            operator: field_vp_filing_year_end_value_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_vp_filing_fee_dates_value_max
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              rate_report_user: '0'
+              superuser: '0'
+              pilot_account: '0'
+              data_entry: '0'
+              alerts_add_on: '0'
+              company_industry_add_on: '0'
+              full_database_download_add_on: '0'
+              firm_rate_profile_add_on: '0'
+              fee_search_add_on: '0'
+              nos_add_on: '0'
+              download_add_on: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
       filter_groups:
         operator: AND
         groups:

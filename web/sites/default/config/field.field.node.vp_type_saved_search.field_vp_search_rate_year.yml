@@ -12,7 +12,7 @@ field_name: field_vp_search_rate_year
 entity_type: node
 bundle: vp_type_saved_search
 label: 'Rate Year'
-description: 'Limit your search to rates recorded during the date range selected. Empty ''To date'' values will use the ''From date'' values. Note: this filter only applies to Detail search results; Summary results always display the 3 most recent years'' rate data. Empty ''To date'' values will use the ''From date'' values.'
+description: 'Limit your search to rates recorded during the date range selected.  Note: this filter only applies to Detail search results; Summary results always display the 3 most recent years'' rate data. Empty ''To date'' values will use the ''From date'' values.'
 required: false
 translatable: false
 default_value: {  }

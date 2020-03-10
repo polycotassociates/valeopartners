@@ -19,7 +19,6 @@ description: 'Manage all site user accounts'
 tag: ''
 base_table: users_field_data
 base_field: uid
-core: 8.x
 display:
   default:
     display_plugin: default
@@ -897,6 +896,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -947,6 +948,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -996,6 +999,8 @@ display:
               fee_search_add_on: '0'
               nos_add_on: '0'
               download_add_on: '0'
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1048,6 +1053,8 @@ display:
               nos_add_on: '0'
               download_add_on: '0'
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -1088,6 +1095,8 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''

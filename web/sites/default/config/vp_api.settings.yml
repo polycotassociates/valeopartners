@@ -1,4 +1,6 @@
 vp_api:
   report_email:
-    emails: ace808@gmail.com
-    email_list_enable: 1
+    emails: ''
+    email_list_enable: 0
+  full_report_time:
+    date: '03/10/2020 10:50 am'

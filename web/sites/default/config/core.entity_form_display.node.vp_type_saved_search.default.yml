@@ -69,12 +69,6 @@ content:
     third_party_settings: {  }
     type: multiselect
     region: content
-  field_vp_search_partner_year:
-    weight: 10
-    settings: {  }
-    third_party_settings: {  }
-    type: range
-    region: content
   field_vp_search_position:
     weight: 6
     settings:
@@ -92,7 +86,7 @@ content:
     type: multiselect
     region: content
   field_vp_search_rate_year:
-    weight: 11
+    weight: 10
     settings: {  }
     third_party_settings: {  }
     type: range
@@ -115,7 +109,7 @@ content:
     region: content
   status:
     type: boolean_checkbox
-    weight: 12
+    weight: 11
     region: content
     settings:
       display_label: true
@@ -130,7 +124,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 13
+    weight: 12
     region: content
     settings:
       match_operator: CONTAINS
@@ -140,6 +134,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_vp_search_partner_year: true
   path: true
   promote: true
   published_at: true
