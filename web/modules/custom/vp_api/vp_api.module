@@ -97,8 +97,8 @@ function vp_api_year_options_year_only() {
   // Get the current year.
   $year = format_date(time(), 'custom', 'Y');
 
-  // Loop through years from 2000 to this year + 10.
-  for ($x = 2000; $x <= $year + 10; $x++) {
+  // Loop through years from 1950 to this year + 10.
+  for ($x = 1950; $x <= $year + 10; $x++) {
     $options[$x] = $x;
   }
 
